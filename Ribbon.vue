@@ -121,7 +121,7 @@ export default {
     props: {},
     data() {
         return {
-            default_title: "ترمینال تبلیغات",
+            project_title: null,
             tab: null,
             dialog: false,
             tutorialExists: false,
@@ -162,11 +162,13 @@ export default {
                     this.$bvModal.show('modal-scrollable');
             }
 
-            this.tab = 0
-            this.tutorial = null
-            this.adminTutorial = null
-            this.hasQuestions = false
-            this.tutorialExists = this.tutorials.indexOf(to.path.substring(1)) > -1
+            this.tab = 0;
+            this.tutorial = null;
+            this.adminTutorial = null;
+            this.hasQuestions = false;
+            this.tutorialExists = this.tutorials.indexOf(to.path.substring(1)) > -1;
+
+            document.title = this.project_title + (this.title !== "" ? ` - ${this.title} ${this.subTitle}` : '');
         },
         goToCore() {
             this.$router.go(-1);
@@ -212,7 +214,7 @@ export default {
     computed: {
         ...mapGetters("ribbon", ["sub_title"]),
         title() {
-            return this.$route.meta.title ?? this.default_title;
+            return this.$route.meta.title ?? "";
         },
         subTitle() {
             return this.sub_title ?? "";
@@ -220,6 +222,8 @@ export default {
     },
     watch: {},
     mounted() {
+        this.project_title = document.title.split(" -")[0];
+
         this.allTutorials();
     }
 }

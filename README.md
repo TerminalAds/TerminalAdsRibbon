@@ -6,6 +6,7 @@
 2. Vue Router.
 3. Vuex.
 4. Axios.
+5. Vuetify.
 
 ### Usage.
 First clone this repository in your project or add as submodule.
