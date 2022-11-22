@@ -191,9 +191,7 @@ export default {
             Axios.post(`${this.core_url}/api/contentTutorial`, {
                 slug: this.$route.path.substring(1)
             }, {
-                headers: {
-                    "name": "reza"
-                }
+                headers: this.ribbon_header
             }).then(({data}) => {
                 for (let a of data) {
                     if (a.privilege_type === 'admin') {

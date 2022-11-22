@@ -1,4 +1,11 @@
 # Terminal Ads Ribbon Title.
+## Table Of Content.
+- [Dependency](#Dependency).
+- [Usage](#Usage).
+- [Update](#Update).
+- [Tips](#Tips).
+
+-----
 
 ### Dependency.
 
@@ -22,6 +29,10 @@ git submodule add git@github.com:RezaParsian/TerminalAdsRibbon.git path/where/yo
 
 #for example.
 git submodule add git@github.com:RezaParsian/TerminalAdsRibbon.git src/core/plugins/TitleRibbon
+
+#if module dosen`t clone successfuly try these 2 stpes.
+git submodule init
+git submodule update
 ```
 
 then import **install.js** in _main.js_.
@@ -53,8 +64,8 @@ find _<router-view/>_ and replace with
 ```html
 <div>
     <!--this is our plugin.-->
-    <terminal_title_ribbon></terminal_title_ribbon> 
-
+    <terminal_title_ribbon/>
+    
     <router-view/>
 </div>
 ```
@@ -84,6 +95,19 @@ this route doesn't show any **ribbon** to user if you want to show the **ribbon*
     component: () => import("path/to/vue")
 }
 ```
+### Update.
+
+```git
+git submodule update --remote
+```
+
+### Tips
+
+> **On each installation of your project you need to run these steps.**
+> ```git
+> git submodule init
+> git submodule update
+>```
 
 > if you need **subTitle** just call _setSubTitle_ method in your component.
 > ```js
