@@ -219,6 +219,10 @@ export default {
         }
     },
     watch: {},
+    beforeCreate() {
+        if (!localStorage.getItem('popup'))
+            localStorage.setItem('popup', "[]");
+    },
     mounted() {
         this.project_title = document.title.split(" -")[0];
 
