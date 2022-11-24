@@ -137,7 +137,10 @@ export default {
     methods: {
         allTutorials() {
             Axios.get(`${this.core_url}/api/allTutorials`, {
-                headers: this.ribbon_header
+                headers: this.ribbon_header,
+                params: {
+                    sid: this.server_id,
+                }
             }).then(response => {
                 this.tutorials = response.data.slugTutorials;
                 this.popupSlugs = response.data.slugPopups;
@@ -189,7 +192,8 @@ export default {
             this.$modal.showLoading();
 
             Axios.post(`${this.core_url}/api/contentTutorial`, {
-                slug: this.$route.path.substring(1)
+                slug: this.$route.path.substring(1),
+                sid: this.server_id,
             }, {
                 headers: this.ribbon_header
             }).then(({data}) => {

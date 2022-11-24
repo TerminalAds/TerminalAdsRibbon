@@ -53,7 +53,8 @@ Vue.use(TerminalTitleRibbon, {
         'Content-Type': 'application/json',
     },
     permissions: () => store.state.ability, // this plugin need user permission for check user access.
-    core_url: process.env.VUE_APP_CoreLandUrl
+    core_url: process.env.VUE_APP_CoreLandUrl,
+    server_id: 1 // this your service id, get one from core admin.
 });
 ```
 

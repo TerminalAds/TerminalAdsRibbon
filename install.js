@@ -12,7 +12,8 @@ export default {
             data() {
                 return {
                     ribbon_header: options.headers,
-                    core_url: options.core_url
+                    core_url: options.core_url,
+                    server_id:options.server_id
                 }
             },
             methods: {
