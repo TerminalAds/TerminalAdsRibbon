@@ -24,9 +24,9 @@
                     <v-card-title>
                         <v-tabs v-model="tab" align-with-title grow>
                             <v-tabs-slider/>
-                          <v-tab>
+                          <v-tab v-if="tutorial && tutorial?.features">
                             <v-icon class="m-2">mdi-subtitles</v-icon>
-                            ویژگی ها
+                            معرفی نامه
                           </v-tab>
                             <v-tab>
                                 <v-icon class="m-2">mdi-account</v-icon>
@@ -48,7 +48,7 @@
                     <v-card-text>
                         <v-tabs-items v-model="tab">
 
-                          <v-tab-item>
+                          <v-tab-item v-if="tutorial && tutorial?.features">
                             <v-card>
                               <v-card-text v-html="tutorial?.features"></v-card-text>
                             </v-card>
