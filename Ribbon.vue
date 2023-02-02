@@ -24,6 +24,10 @@
                     <v-card-title>
                         <v-tabs v-model="tab" align-with-title grow>
                             <v-tabs-slider/>
+                          <v-tab>
+                            <v-icon class="m-2">mdi-subtitles</v-icon>
+                            ویژگی ها
+                          </v-tab>
                             <v-tab>
                                 <v-icon class="m-2">mdi-account</v-icon>
                                 راهنما
@@ -43,6 +47,13 @@
 
                     <v-card-text>
                         <v-tabs-items v-model="tab">
+
+                          <v-tab-item>
+                            <v-card>
+                              <v-card-text v-html="tutorial?.features"></v-card-text>
+                            </v-card>
+                          </v-tab-item>
+
                             <v-tab-item>
                                 <v-card v-if="Object.keys(tutorial).length>0">
                                     <v-card-title class="justify-content-center">
@@ -190,7 +201,6 @@ export default {
         },
         getTutorial() {
             this.$modal.showLoading();
-
             Axios.post(`${this.core_url}/api/contentTutorial`, {
                 slug: this.$route.path.substring(1),
                 sid: this.server_id,
