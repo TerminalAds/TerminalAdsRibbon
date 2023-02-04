@@ -8,11 +8,11 @@
 
         <div class="col-md ml-auto">
             <div style="left: 3rem;z-index: 1;top: 1.8rem;" :style="{ 'min-width':tutorialExists ? '5rem' :'' }" class="float-right position-absolute justify-content-between d-flex">
-                <button v-if="tutorialExists" @click="getTutorial" v-b-tooltip.hover="'راهنما'">
+                <button class="p-2 jump" v-if="tutorialExists" @click="getTutorial" v-b-tooltip.hover="'راهنما'">
                     <i class="fa fa-question text-primary"></i>
                 </button>
 
-                <button v-b-tooltip.hover="'بازگشت به صفحه قبلی'" @click="$router.back()">
+                <button class="p-2" v-b-tooltip.hover="'بازگشت به صفحه قبلی'" @click="$router.back()">
                     <i class="fa fa-times text-danger"></i>
                 </button>
             </div>
@@ -24,10 +24,10 @@
                     <v-card-title>
                         <v-tabs v-model="tab" align-with-title grow>
                             <v-tabs-slider/>
-                          <v-tab v-if="tutorial && tutorial?.features">
-                            <v-icon class="m-2">mdi-subtitles</v-icon>
-                            معرفی نامه
-                          </v-tab>
+                            <v-tab v-if="tutorial && tutorial?.features">
+                                <v-icon class="m-2">mdi-subtitles</v-icon>
+                                معرفی نامه
+                            </v-tab>
                             <v-tab>
                                 <v-icon class="m-2">mdi-account</v-icon>
                                 راهنما
@@ -48,11 +48,11 @@
                     <v-card-text>
                         <v-tabs-items v-model="tab">
 
-                          <v-tab-item v-if="tutorial && tutorial?.features">
-                            <v-card>
-                              <v-card-text v-html="tutorial?.features"></v-card-text>
-                            </v-card>
-                          </v-tab-item>
+                            <v-tab-item v-if="tutorial && tutorial?.features">
+                                <v-card>
+                                    <v-card-text v-html="tutorial?.features"></v-card-text>
+                                </v-card>
+                            </v-tab-item>
 
                             <v-tab-item>
                                 <v-card v-if="Object.keys(tutorial).length>0">
@@ -246,6 +246,25 @@ export default {
 </script>
 
 <style scoped>
+@keyframes jump {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5)
+    }
+
+    100% {
+        transform: scale(1)
+    }
+}
+
+.jump {
+    animation: jump 2s linear infinite;
+}
+
+
 .ribbon {
     width: 100%;
     float: right;
