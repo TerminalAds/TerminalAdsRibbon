@@ -2,12 +2,13 @@
     <div v-if="$route.meta.has_ribbon" class="row position-relative">
         <div class="col-md-3 ribbon">
             <span class="ribbon3 text-center">
-              <span>{{ title }} {{ subTitle }}</span>
+                <span>{{ title }} {{ subTitle }}</span>
             </span>
         </div>
 
         <div class="col-md ml-auto">
-            <div style="left: 3rem;z-index: 1;top: 1.8rem;" :style="{ 'min-width':tutorialExists ? '5rem' :'' }" class="float-right position-absolute justify-content-between d-flex">
+            <div style="left: 3rem;z-index: 1;top: 1.8rem;" :style="{ 'min-width': tutorialExists ? '5rem' : '' }"
+                 class="float-right position-absolute justify-content-between d-flex">
                 <button class="p-2 jump" v-if="tutorialExists" @click="getTutorial" v-b-tooltip.hover="'راهنما'">
                     <i class="fa fa-question text-primary"></i>
                 </button>
@@ -24,22 +25,23 @@
                     <v-card-title>
                         <v-tabs v-model="tab" align-with-title grow>
                             <v-tabs-slider/>
-                            <v-tab v-if="tutorial && tutorial?.features">
-                                <v-icon class="m-2">mdi-subtitles</v-icon>
+                            <v-tab v-if="tutorial && haveFeature">
+                                <v-icon color="pink" class="m-2">mdi-subtitles</v-icon>
                                 معرفی نامه
                             </v-tab>
+
                             <v-tab>
-                                <v-icon class="m-2">mdi-account</v-icon>
+                                <v-icon color="green" class="m-2">mdi-account</v-icon>
                                 راهنما
                             </v-tab>
 
                             <v-tab v-if="hasQuestions">
-                                <v-icon>mdi-help-circle-outline</v-icon>
+                                <v-icon color="indigo" class="m-2">mdi-help-circle-outline</v-icon>
                                 سوالات متداول
                             </v-tab>
 
                             <v-tab v-if="ribbon_can('admin_access')">
-                                <v-icon>mdi-shield-account-outline</v-icon>
+                                <v-icon color="blue" class="m-2">mdi-shield-account-outline</v-icon>
                                 راهنمای ادمین
                             </v-tab>
                         </v-tabs>
@@ -48,14 +50,14 @@
                     <v-card-text>
                         <v-tabs-items v-model="tab">
 
-                            <v-tab-item v-if="tutorial && tutorial?.features">
+                            <v-tab-item v-if="tutorial && haveFeature">
                                 <v-card>
-                                    <v-card-text v-html="tutorial?.features"></v-card-text>
+                                    <v-card-text v-html="tutorial.features"></v-card-text>
                                 </v-card>
                             </v-tab-item>
 
                             <v-tab-item>
-                                <v-card v-if="Object.keys(tutorial).length>0">
+                                <v-card v-if="Object.keys(tutorial).length > 0">
                                     <v-card-title class="justify-content-center">
                                         {{ tutorial.title }}
                                     </v-card-title>
@@ -64,12 +66,12 @@
                                 </v-card>
                             </v-tab-item>
 
-                            <v-tab-item v-if="hasQuestions && tutorial!==null">
+                            <v-tab-item v-if="hasQuestions && tutorial !== null">
                                 <v-card>
                                     <v-card-title class="justify-content-center">سوالات متداول</v-card-title>
 
                                     <v-expansion-panels>
-                                        <v-expansion-panel v-for="(item,i) in tutorial.extras" :key="i">
+                                        <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i">
                                             <v-expansion-panel-header>
                                                 {{ item.question }}
                                             </v-expansion-panel-header>
@@ -108,15 +110,10 @@
         </div>
 
         <div v-if="totalPopup">
-            <b-modal id="modal-scrollable"
-                     ok-only
-                     ok-title="تایید"
-                     scrollable
-                     @ok="nextPopup"
-                     :title="totalPopup[0] ? totalPopup[0].title:'' ">
+            <b-modal id="modal-scrollable" ok-only ok-title="تایید" scrollable @ok="nextPopup"
+                     :title="totalPopup[0] ? totalPopup[0].title : ''">
 
-                <p class="my-4"
-                   v-html="totalPopup[0] ? totalPopup[0].description : ''"></p>
+                <p class="my-4" v-html="totalPopup[0] ? totalPopup[0].description : ''"></p>
             </b-modal>
         </div>
     </div>
@@ -230,7 +227,11 @@ export default {
         },
         subTitle() {
             return this.sub_title ?? "";
+        },
+        haveFeature() {
+            return this.tutorial?.features;
         }
+
     },
     watch: {},
     beforeCreate() {
@@ -300,7 +301,8 @@ export default {
     background: rgb(238, 49, 138);
 }
 
-.ribbon3:before, .ribbon3:after {
+.ribbon3:before,
+.ribbon3:after {
     content: "";
     position: absolute;
 }
