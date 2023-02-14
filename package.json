@@ -1,0 +1,16 @@
+{
+  "name": "terminaladsribbon",
+  "version": "1.0.0",
+  "description": "- [Dependency](#Dependency).\r - [Usage](#Usage).\r - [Update](#Update).\r - [Tips](#Tips).",
+  "main": "install.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "vuetify": "^2.4.9"
+  }
+}

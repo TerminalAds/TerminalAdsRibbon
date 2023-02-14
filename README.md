@@ -1,5 +1,7 @@
 # Terminal Ads Ribbon Title.
+
 ## Table Of Content.
+
 - [Dependency](#Dependency).
 - [Usage](#Usage).
 - [Update](#Update).
@@ -16,6 +18,7 @@
 5. Vuetify.
 
 ### Usage.
+
 First clone this repository in your project or add as submodule.
 
 ```bash
@@ -44,31 +47,74 @@ import TerminalTitleRibbon from "./core/plugins/TitleRibbon/install";
 after that you must use this as **plugin**.
 
 ```javascript
-Vue.use(TerminalTitleRibbon, {
-    store, // this is vuex instance.
+Vue.use(TerminalTitleRibbon, ({
+    store,
+    config: () => ({                                                        // global configs for layout & dashboard
+        dashboardConfig,                                                    // dashboard data
+        static_top_menu,                                                    // links in top of menu
+        header_logo: store.getters.headerLogo,                              // set a getter in config.getters store
+    }),
     headers: {
-        Authorization: "Bearer " + localStorage.getItem("id_token"), // send Authorization with Bearer anytime.
+        Authorization: "Bearer " + localStorage.getItem("id_token"),        // send Authorization with Bearer anytime.
         Accept: 'application/json',
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
     },
-    permissions: () => store.state.ability, // this plugin need user permission for check user access.
+    permissions: () => window.Vue.$ability.j[0].actions,                    // this plugin need user permission for check user access.
     core_url: process.env.VUE_APP_CoreLandUrl,
-    server_id: 1 // this your service id, get one from core admin.
-});
+    front_url: 'https://core.terminalads.com',
+    sid: 2                                                                  // send ID for each project
+}))
 ```
 
-> now It's ready for use in **Layout.vue**
+> **notice** *
+> ```bash
+> config field must have objects like this:
+> ```
+> ```javascript
+> let dashboardConfig = {
+>     announcement: {
+>         img: 'https://core-robot.terminalads.com/advertisement-billboard-6097659-5013090.png', // url
+>         data: '12', // any
+>         text: 'آگهی ثبت شده', // any
+>         url: router.resolve({name: 'send.sms.divar'}).href // page to go
+>     },
+>     numbers: {
+>         img: require('./assets/img/rp.png'), // require from local assets
+>         data: '13',
+>         text: 'شماره ها',
+>         url: router.resolve({name: 'divar.report'}).href
+>     }
+> }
+> 
+> let static_top_menu = [
+>    {name: 'تعرفه', slug: 'https://google.com'},
+> ]
 
-find _<router-view/>_ and replace with
+- --
 
-```html
-<div>
-    <!--this is our plugin.-->
-    <terminal_title_ribbon/>
-    
-    <router-view/>
-</div>
+> **now** It's ready for use in **router.js**
+
+find **redirect: "/dashboard"** and set this lines
+
+```javascript
+routes: [
+    {
+        path: "/",
+        redirect: "/dashboard",
+        component: () => import("./core/plugins/TitleRibbon/index"), // set Layoiut component from TerminalDashboard
+        children: [
+            {
+                path: "/dashboard",
+                name: "dashboard",
+                component: () => import("./core/plugins/TitleRibbon/Dashboard") // set Dashboard component from TerminalDashboard
+            },
+            ...{} // other children
+        ],
+    },
+    ...{} // other routes
+]
+// other file contents
 ```
 
 it's almost done, But before that let me explain how this plugin works.
@@ -96,6 +142,19 @@ this route doesn't show any **ribbon** to user if you want to show the **ribbon*
     component: () => import("path/to/vue")
 }
 ```
+
+**The last** important thing is to add the following settings to the routes:    
+if this route is main or like dashboard and most have not a white background
+
+```jsonpath
+{
+    path: "explain",
+    name: "explain",
+    meta: {main_page: true},
+    component: () => import("path/to/vue")
+}
+```
+
 ### Update.
 
 ```git
