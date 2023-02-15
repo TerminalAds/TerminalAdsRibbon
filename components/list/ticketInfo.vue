@@ -33,7 +33,7 @@
                :style="`height: 165px;background-image: url(${config.dashboardConfig.announcement.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
                 <div class="card-body">
                     <div class="text-dark font-weight-bolder font-size-h2 mt-20"
-                         v-text="config.dashboardConfig.announcement.data"/>
+                         v-text="typeof  config.dashboardConfig.announcement.data==='function' ? config.dashboardConfig.announcement.data() : config.dashboardConfig.announcement.data"/>
                     <p class="black--text">{{ config.dashboardConfig.announcement.text }}</p>
                 </div>
             </a>
@@ -44,7 +44,7 @@
                :style="`height: 165px;background-image: url(${config.dashboardConfig.numbers.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
                 <div class="card-body">
                     <div class="text-dark font-weight-bolder font-size-h2 mt-20"
-                         v-text="config.dashboardConfig.numbers.data"/>
+                         v-text="typeof config.dashboardConfig.numbers.data==='function' ? config.dashboardConfig.numbers.data() : config.dashboardConfig.numbers.data"/>
                     <p class="black--text" v-text="config.dashboardConfig.numbers.text"/>
                 </div>
             </a>
