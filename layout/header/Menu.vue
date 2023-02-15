@@ -4,7 +4,7 @@
 
             <li class="menu-item">
                 <a :href="homeLink()" class="menu-link" aria-haspopup="true" data-menu-toggle="hover">
-                    <span class="menu-text"> <i class="fas fa-home fa-2x home-icon-color"></i></span>
+                    <span class="menu-text"><i class="fas fa-home fa-2x home-icon-color"></i></span>
                 </a>
             </li>
 
@@ -19,7 +19,7 @@
 
             <li v-for="(menu, i) in topMenus" :key="i" v-if="!menu.parent_id"
                 aria-haspopup="true" :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'"
-                :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) }]">
+                :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) }]">
 
                 <router-link v-if="!menu.children" :to="`/${menu.slug}`"
                              v-slot="{ href, navigate, isActive, isExactActive }">

@@ -3,11 +3,9 @@
         <v-btn app dark text @click="onLogout">
             <v-icon size="25">mdi-power</v-icon>
         </v-btn>
-
     </div>
 </template>
 <script>
-import { LOGOUT } from "@/core/services/store/auth.module";
 
 export default {
     name: "KTExitButton",

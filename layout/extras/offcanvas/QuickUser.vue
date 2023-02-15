@@ -1,9 +1,9 @@
 <template>
     <div class="topbar-item">
-        <v-card flat :href="`${front_url}/#/profile/my-profile`" id="kt_quick_user_toggle"
-                class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto transparent">
+        <v-btn flat :href="`${front_url}/#/profile/my-profile`" id="kt_quick_user_toggle" large depressed text dark
+               class="px-2 mx-md-1">
             <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">سلام</span>
-            <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-2">
+            <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mx-2">
             {{ user.name }}
             </span>
             <span class="symbol symbol-35">
@@ -11,7 +11,7 @@
                 <!--              v-text="user.name.charAt(0).toUpperCase()"/>-->
                 <img src="http://api.terminalads.com/avatar/blank.jpg" alt="user-default">
             </span>
-        </v-card>
+        </v-btn>
     </div>
 </template>
 

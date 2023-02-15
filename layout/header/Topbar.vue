@@ -20,9 +20,7 @@
         <walletButton hide-in-mobile/>
 
         <KTQuickUser/>
-        <!--end: User Bar -->
     </div>
-    <!-- end:: Header Topbar -->
 </template>
 
 <script>
@@ -116,6 +114,10 @@ export default {
 </style>
 
 <style>
+body[data-header-scroll=on] .topbar.has-background .btn.btn-icon:hover {
+    background-color: rgba(255, 255, 255, .10) !important;
+}
+
 body[data-header-scroll=on] .topbar.has-background .btn.btn-icon i {
     color: #fff !important;
 }

@@ -1,7 +1,7 @@
 <template>
     <v-card :href="`${front_url}/#/user/transactions`" target="_blank"
             class="d-flex flex-nowrap price-wallet align-self-center" flat
-            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150" :min-width="$vuetify.breakpoint.mdAndUp ? 200 : 85"
+            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
             height="32" v-b-tooltip="'لیست تراکنش های شما'" v-if="walletInfo">
         <span>اعتبار</span>
 
