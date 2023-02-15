@@ -1,7 +1,7 @@
 <template>
     <div class="exit-button">
         <v-btn app dark text @click="onLogout">
-            <v-icon size="25" class="hover-logout">mdi-power</v-icon>
+            <v-icon size="25">mdi-power</v-icon>
         </v-btn>
 
     </div>

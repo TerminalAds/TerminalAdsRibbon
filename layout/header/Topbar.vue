@@ -1,6 +1,6 @@
 <template>
     <!-- begin:: Header Topbar -->
-    <div class="topbar">
+    <div class="topbar has-background">
 
         <b-dropdown size="sm" variant="link" toggle-class="topbar-item text-decoration-none" no-caret right no-flip>
             <template v-slot:button-content>
@@ -24,34 +24,6 @@
     </div>
     <!-- end:: Header Topbar -->
 </template>
-
-<style lang="scss">
-.topbar {
-  .dropdown-toggle {
-    padding: 0;
-
-    &:hover {
-      text-decoration: none;
-    }
-
-    &.dropdown-toggle-no-caret {
-      &:after {
-        content: none;
-      }
-    }
-  }
-
-  .dropdown-menu {
-    margin: 0;
-    padding: 0;
-    outline: none;
-
-    .b-dropdown-text {
-      padding: 0;
-    }
-  }
-}
-</style>
 
 <script>
 // import KTSearchDefault from "@/view/layout/extras/dropdown/SearchDefault.vue";
@@ -111,8 +83,40 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.topbar {
+  align-items: center;
+  height: fit-content;
+
+  .dropdown-toggle {
+    padding: 0;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.dropdown-toggle-no-caret {
+      &:after {
+        content: none;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    margin: 0;
+    padding: 0;
+    outline: none;
+
+    .b-dropdown-text {
+      padding: 0;
+    }
+  }
+}
+</style>
+
 <style>
-body[data-header-scroll=on] .topbar .btn.btn-icon i {
-    color: #4ba5de !important;
+body[data-header-scroll=on] .topbar.has-background .btn.btn-icon i {
+    color: #fff !important;
 }
 </style>

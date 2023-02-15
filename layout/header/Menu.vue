@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul class="menu-nav">
+        <ul class="menu-nav has-background">
 
             <li class="menu-item">
                 <a :href="homeLink()" class="menu-link" aria-haspopup="true" data-menu-toggle="hover">
@@ -18,8 +18,8 @@
             </router-link>
 
             <li v-for="(menu, i) in topMenus" :key="i" v-if="!menu.parent_id"
-                aria-haspopup="true" :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'" :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) }
-        ]">
+                aria-haspopup="true" :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'"
+                :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) }]">
 
                 <router-link v-if="!menu.children" :to="`/${menu.slug}`"
                              v-slot="{ href, navigate, isActive, isExactActive }">
@@ -100,6 +100,16 @@ export default {
 
 body[data-scrolltop='on'] .home-icon-color {
     color: #6cdb72;
+}
+
+body[data-scrolltop='on'] .has-background .menu-item:hover .menu-link,
+body[data-scrolltop='on'] .has-background .menu-item.menu-item-hover .menu-link,
+body[data-scrolltop='on'] .has-background .menu-item-active .menu-link {
+    background-color: hsla(0, 0%, 100%, 0.1) !important;
+}
+
+body[data-scrolltop='on'] .has-background .menu-text {
+    color: white !important;
 }
 </style>
 

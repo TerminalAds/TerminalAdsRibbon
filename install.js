@@ -27,8 +27,9 @@ export default {
                     store.state.sub_title = title;
                 },
                 ribbon_can(permission) {
-                    const abilities = options.permissions();
+                    if (options.permissions == null || options.permissions.length <= 0) return true;
 
+                    const abilities = options.permissions();
                     return abilities.indexOf(permission + ':active') >= 0 || abilities.indexOf(permission + ':show') >= 0;
                 },
                 persianNum(input) {
@@ -51,7 +52,7 @@ export default {
                     }
                 },
                 currency(x) {
-                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "-";
+                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "0";
                 }
             }
         });

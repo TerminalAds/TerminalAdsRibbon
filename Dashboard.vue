@@ -19,7 +19,7 @@
             </v-row>
         </v-col>
 
-        <!--    visible when less than 1264px     -->
+        <!--    visible when less than 1264px    -->
         <v-col cols="12" class="px-2" v-if="$vuetify.breakpoint.mdAndDown">
             <v-row no-gutters>
                 <v-col cols="12" lg="6">

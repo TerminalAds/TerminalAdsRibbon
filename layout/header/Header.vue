@@ -6,8 +6,7 @@
 
         <div class="d-flex align-items-center justify-content-between"
              v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }">
-            <v-btn dark class="hover-logout" text min-width="32" v-if="asideEnabled" id="kt_aside_mobile_toggle"
-                   @click="toggleNavigation()">
+            <v-btn dark text min-width="32" v-if="asideEnabled" id="kt_aside_mobile_toggle" @click="toggleNavigation()">
                 <v-icon>mdi-menu</v-icon>
                 منو
             </v-btn>
@@ -145,5 +144,11 @@ export default {
     .hiddenIn990 {
         display: none !important;
     }
+}
+
+.header {
+    background-image: url('/media/bg/bg-10.jpg');
+    background-position: top;
+    background-size: cover;
 }
 </style>
