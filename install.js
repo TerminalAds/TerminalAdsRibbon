@@ -55,7 +55,5 @@ export default {
                 }
             }
         });
-
-        // Vue.component("terminal_title_ribbon", require("./Ribbon").default);
     }
 };
