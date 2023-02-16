@@ -1,3 +1,4 @@
+import DashboardAxios from "axios";
 import Vuex from "vuex";
 import store from "./store";
 
