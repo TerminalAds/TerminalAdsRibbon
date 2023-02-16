@@ -83,22 +83,31 @@ export default {
 
         HtmlClass.init(this.layoutConfig());
     },
-    watch: {
-        $route(to, from) {
-            this.checkWallet();
-        }
-    },
+    // watch: {
+    //     $route(to, from) {
+    //         this.checkWallet();
+    //     }
+    // },
     mounted() {
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
         }, 2000);
 
+        this.fetch();
         this.setTutorials();
     },
     methods: {
         ...mapActions('tutorial', [
             'setTutorials',
         ]),
+        ...mapActions('ribbon', ['setCore']),
+        fetch() {
+            this.$DashboardAxios.get('/api/core')
+                .then(({data}) => {
+                    this.setCore(data.data)
+                })
+                .catch(() => this.$toast.error('خطا در دریافت اطلاعات!'))
+        }
     },
     computed: {
         ...mapGetters([

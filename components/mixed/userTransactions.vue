@@ -8,11 +8,11 @@
                         <div>
                             <h4>آخرین تراکنش ها</h4>
                             <span>موجودی شما:</span>
-                            <span class="float-left">{{ persianNum(currency(wallet.balance || 0)) }} ﷼ </span>
+                            <span class="float-left">{{ persianNum(currency(core.wallet.balance || 0)) }} ﷼ </span>
                         </div>
 
-                        <div v-if="userTransactions.length > 0">
-                            <div v-for="item in userTransactions"
+                        <div v-if="core.transactions.length > 0">
+                            <div v-for="item in core.transactions"
                                  class="d-flex align-items-center justify-content-between mb-2">
                                 <div class="d-flex align-items-center mr-2 pt-3">
                                     <i class="fa fa-2x"
@@ -135,7 +135,7 @@ export default {
     },
     computed: {
         // ...mapGetters(["layoutConfig"]),
-        ...mapGetters("ribbon", ["wallet"]),
+        ...mapGetters("ribbon", ["core"]),
     }
 };
 </script>

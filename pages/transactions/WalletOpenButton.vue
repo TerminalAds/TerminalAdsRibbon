@@ -7,7 +7,7 @@
         <v-spacer/>
 
         <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(walletInfo.balance)) }}
+            {{ persianNum(currency(core.wallet.balance)) }}
         </span>
 
         <v-spacer class="d-lg-none"/>
@@ -31,7 +31,7 @@
 
 <script>
 import Wallet from "./wallet";
-import {mapActions} from 'vuex'
+import {mapGetters} from 'vuex'
 
 const exhale = ms =>
     new Promise(resolve => setTimeout(resolve, ms))
@@ -59,6 +59,7 @@ export default {
 
     },
     computed: {
+        ...mapGetters('ribbon', ['core']),
         avg() {
             const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)
             const length = this.heartbeats.length
@@ -72,15 +73,14 @@ export default {
     created() {
         this.takePulse(false)
 
-        this.$DashboardAxios.get(`api/core/wallet`).then(({data}) => {
-            this.walletInfo = data.data;
-            if (data.data)
-                this.setWallet(data.data);
-        })
+        // this.$DashboardAxios.get(`api/core/wallet`).then(({data}) => {
+        //     this.walletInfo = data.data;
+        //     if (data.data)
+        //         this.setWallet(data.data);
+        // })
     },
 
     methods: {
-        ...mapActions("ribbon", ["setWallet"]),
         changeRoute() {
             let a = document.createElement('a');
             a.target = '_blank';

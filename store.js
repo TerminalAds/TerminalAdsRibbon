@@ -6,7 +6,8 @@ export default {
         menus: [],
         wallet: {balance: 0},
         pack: {},
-        user: {}
+        user: {},
+        core: {}
     },
 
     getters: {
@@ -14,7 +15,8 @@ export default {
         menus: state => state.menus,
         wallet: state => state.wallet,
         pack: state => state.pack,
-        user: state => state.user
+        user: state => state.user,
+        core: state => state.core
     },
 
     actions: {
@@ -32,6 +34,9 @@ export default {
         },
         setUser(context, obj) {
             context.commit('set_user', obj)
+        },
+        setCore(context, obj) {
+            context.commit('set_core', obj)
         }
     },
 
@@ -47,6 +52,9 @@ export default {
         },
         set_user(state, obj) {
             state.user = obj
+        },
+        set_core(state, obj) {
+            state.core = obj
         }
     }
 };
