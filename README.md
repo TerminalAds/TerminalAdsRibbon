@@ -1,7 +1,5 @@
 # Terminal Ads Ribbon Title.
-
 ## Table Of Content.
-
 - [Dependency](#Dependency).
 - [Usage](#Usage).
 - [Update](#Update).
@@ -18,7 +16,6 @@
 5. Vuetify.
 
 ### Usage.
-
 First clone this repository in your project or add as submodule.
 
 ```bash
@@ -75,16 +72,20 @@ Vue.use(TerminalTitleRibbon, ({
 > let dashboardConfig = {
 >     announcement: {
 >         img: 'https://core-robot.terminalads.com/advertisement-billboard-6097659-5013090.png', // url
->         data: '12', // any
 >         text: 'آگهی ثبت شده', // any
 >         url: router.resolve({name: 'send.sms.divar'}).href // page to go
 >     },
 >     numbers: {
 >         img: require('./assets/img/rp.png'), // require from local assets
->         data: '13',
 >         text: 'شماره ها',
 >         url: router.resolve({name: 'divar.report'}).href
->     }
+>     },
+>     counter: new Promise((resolve) => {
+>      resolve({
+>        announcement:0,
+>        numbers:0,
+>      });
+>    })
 > }
 > 
 > let static_top_menu = [
