@@ -31,7 +31,6 @@
         </div>
         <easy-modal/>
         <navigation/>
-        <wallet :show-button="false"/>
         <KTScrollTop/>
     </v-app>
 </template>
@@ -52,8 +51,6 @@ import navigation from "./layout/aside/Navigation";
 import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/htmlclass.module.js";
 
 import modal from "./components/modals/modal";
-// import easyModal from "./core/plugins/EasyModal/view";
-import wallet from "./pages/transactions/wallet";
 import CustomPage from "./pages/customPage"
 import easyModal from "@/core/plugins/EasyModal/view";
 
@@ -72,7 +69,6 @@ export default {
         modal,
         RailNavigation,
         navigation,
-        wallet,
         easyModal,
     },
     data() {

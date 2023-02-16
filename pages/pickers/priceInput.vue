@@ -1,7 +1,7 @@
 <template>
     <v-text-field outlined :messages="priceString"
-                  class="centered-input"
-                  v-model="input"
+                  class="centered-input" autofocus
+                  v-model="input" clearable
                   :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13"
                   :error-messages="error !== undefined ? error : []"
                   :dense="dense" @keypress="isNumberKey" @input="handleInput"
@@ -55,7 +55,7 @@ export default {
 
     computed: {
         priceString: function () {
-            return this.input == null ? "" : (this.value + "").num2persian() + " ریال";
+            return this.input == null ? "" : (this.value + "") + " ریال";
         }
     },
 

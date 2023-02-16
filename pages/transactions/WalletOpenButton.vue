@@ -19,26 +19,31 @@
         <v-icon class="d-none d-lg-block">mdi-currency-rial</v-icon>
 
         <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
-               height="32" dark depressed @click.stop="$store.dispatch('wallet/toggleOpen')">
+               height="32" dark depressed @click.stop="dialog = !dialog">
             <v-icon class="plus" small>
                 mdi-plus
             </v-icon>
         </v-btn>
+
+        <wallet v-model="dialog"/>
     </v-card>
 </template>
 
 <script>
+import Wallet from "./wallet";
+import {mapActions} from 'vuex'
+
 const exhale = ms =>
     new Promise(resolve => setTimeout(resolve, ms))
 
-import {mapActions} from 'vuex'
-
 export default {
     name: "WalletOpenButton",
+    components: {Wallet},
     data: () => ({
         checking: false,
         heartbeats: [],
-        walletInfo: null
+        walletInfo: null,
+        dialog: false
     }),
     props: {
         hideInMobile: {
