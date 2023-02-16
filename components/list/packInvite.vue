@@ -1,10 +1,9 @@
 <template>
     <v-row no-gutters>
-        <v-col cols="12" sm="5" class="pa-2">
-            <div
-                    class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg"
-                    style="height: 180px; background-position:center"
-                    :style="{backgroundImage: `url(${backgroundImage('media/bg/bg-10.jpg')})`}">
+        <v-col cols="12" sm="6" class="pa-2">
+            <div class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg"
+                 style="height: 180px; background-position:center"
+                 :style="{backgroundImage: `url('media/bg/bg-10.jpg')`}">
 
                 <div class="card-body d-flex flex-column">
                     <a href="#"
@@ -22,21 +21,21 @@
             </div>
         </v-col>
 
-        <v-col cols="12" sm="7" class="pa-2">
+        <v-col cols="12" sm="6" class="pa-2">
             <v-card flat color="#ddeaf6" class="d-flex justify-space-between overflow-hidden rounded-lg"
                     height="180">
                 <div class="pa-6 d-flex flex-column justify-center text-center flex-grow-1">
                     <h6 style="font-size: 10pt">سامانه را به دوستان خود معرفی کنید.
-                        <br/>
                         <span class="btn-link text-primary line-height-lg cursor-pointer"
                               @click.stop="giftDialog = true">هدیه</span>
                         دریافت کنید.
                     </h6>
-                    <input class="form-control" :maxlength="11" v-model="phoneNumber"
+                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber"
                            placeholder="شماره را وارد نمایید.">
-                    <v-btn class="py-1 mt-5 purple lighten-1 white--text" style="margin-right: auto;" depressed
-                           @click="invite" min-height="32"
-                           height="32" width="100">
+                    <v-btn class="py-1 mt-5 white--text rounded-lg" style="margin-right: auto;" depressed width="100"
+                           height="30"
+                           min-height="30"
+                           @click="invite" :loading="loading" color="#8950fc">
                         دعوت کن!
                     </v-btn>
                 </div>
@@ -70,6 +69,8 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
     name: "packInvite",
 
@@ -77,6 +78,8 @@ export default {
         pack: [],
         phoneNumber: '',
         giftDialog: false,
+        loading: false,
+        expire: 0,
     }),
 
     mounted() {
@@ -84,12 +87,14 @@ export default {
     },
 
     methods: {
+        ...mapActions("ribbon", ["setPack"]),
         fetch() {
             this.$DashboardAxios.get('/api/core/pack')
                 .then(({data}) => {
                     this.pack = data.data
+                    this.setPack(data.data)
                     let myDate = this.pack.expired_at;
-                    // this.fillExpire(myDate);
+                    this.fillExpire(myDate);
                 })
         },
         invite() {
@@ -97,19 +102,29 @@ export default {
                 this.$toast.error('لطفا شماره صحیح وارد نمایید.')
                 return false;
             }
+            this.loading = true
 
             this.$DashboardAxios.get(`/api/core/invite?phone=${this.phoneNumber}`)
                 .then(({data}) => {
                     this.$toast.success('پیام دعوت شما با موفقیت ارسال شد.')
-                }).catch(({response}) => {
-                if (response.data && response.data.message) {
-                    this.$toast.error(response.data.message)
-                }
-            })
+                })
+                .catch(({response}) => {
+                    if (response.data && response.data.message) {
+                        this.$toast.error(response.data.message)
+                    }
+                })
+                .finally(() => this.loading = false)
         },
-        backgroundImage(path) {
-            return process.env.BASE_URL + path;
-        },
+        fillExpire(expire_date) {
+            if (!expire_date) {
+                this.expire = "∞"
+                return;
+            }
+            var expireDate = new Date(expire_date).getTime();
+            let now = new Date().getTime();
+            let diff = this.datediff(now, expireDate);
+            this.expire = Math.max(Math.round(100 - (((this.pack.expire - diff) / this.pack.expire) * 100)), 0);
+        }
     }
 }
 </script>

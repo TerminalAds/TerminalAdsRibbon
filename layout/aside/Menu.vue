@@ -79,7 +79,6 @@ export default {
     }),
     computed: {
         ...mapGetters(["layoutConfig", "getClasses"]),
-        ...mapGetters("ribbon", ["menus"]),
     },
     mounted() {
         this.getMenus();

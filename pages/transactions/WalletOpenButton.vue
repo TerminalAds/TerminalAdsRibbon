@@ -6,9 +6,9 @@
 
         <v-spacer/>
 
-        <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">{{
-                persianNum(currency(walletInfo.balance))
-            }}</span>
+        <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
+            {{ persianNum(currency(walletInfo.balance)) }}
+        </span>
 
         <v-spacer class="d-lg-none"/>
 
@@ -30,6 +30,8 @@
 <script>
 const exhale = ms =>
     new Promise(resolve => setTimeout(resolve, ms))
+
+import {mapActions} from 'vuex'
 
 export default {
     name: "WalletOpenButton",
@@ -66,11 +68,14 @@ export default {
         this.takePulse(false)
 
         this.$DashboardAxios.get(`api/core/wallet`).then(({data}) => {
-            this.walletInfo = data.data
+            this.walletInfo = data.data;
+            if (data.data)
+                this.setWallet(data.data);
         })
     },
 
     methods: {
+        ...mapActions("ribbon", ["setWallet"]),
         changeRoute() {
             let a = document.createElement('a');
             a.target = '_blank';
