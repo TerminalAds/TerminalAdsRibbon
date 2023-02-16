@@ -1,39 +1,49 @@
 <template>
-    <div class="d-flex flex-nowrap align-center">
-        <v-card :href="`${front_url}/#/user/transactions`" target="_blank"
-                class="d-flex flex-nowrap price-wallet align-self-center" flat
-                :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150" :min-width="$vuetify.breakpoint.mdAndUp ? 150 : 85"
-                height="32" v-b-tooltip="'لیست تراکنش های شما'" v-if="walletInfo">
-            <span>اعتبار</span>
+    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center" flat
+            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
+            height="32" v-b-tooltip="'لیست تراکنش های شما'" v-if="walletInfo">
+        <span>اعتبار</span>
 
-            <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-                {{ persianNum(currency(walletInfo.balance)) }}
-            </span>
+        <v-spacer/>
 
-            <span class="d-lg-none">&nbsp ر</span>
+        <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
+            {{ persianNum(currency(core.wallet.balance)) }}
+        </span>
 
-            <v-icon class="d-none d-lg-block">mdi-currency-rial</v-icon>
-        </v-card>
+        <v-spacer class="d-lg-none"/>
 
-        <v-btn color="#6cdb72" class="price-walletButton px-0" min-width="32" min-height="32" height="32" dark
-               depressed @click="$store.dispatch('wallet/toggleOpen')">
+        <span class="d-lg-none">&nbsp ر</span>
+
+        <v-spacer class="d-none d-lg-block"/>
+
+        <v-icon class="d-none d-lg-block">mdi-currency-rial</v-icon>
+
+        <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
+               height="32" dark depressed @click.stop="dialog = !dialog">
             <v-icon class="plus" small>
                 mdi-plus
             </v-icon>
         </v-btn>
-    </div>
+
+        <wallet v-model="dialog"/>
+    </v-card>
 </template>
 
 <script>
+import Wallet from "./wallet";
+import {mapGetters} from 'vuex'
+
 const exhale = ms =>
     new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
     name: "WalletOpenButton",
+    components: {Wallet},
     data: () => ({
         checking: false,
         heartbeats: [],
-        walletInfo: null
+        walletInfo: null,
+        dialog: false
     }),
     props: {
         hideInMobile: {
@@ -49,6 +59,7 @@ export default {
 
     },
     computed: {
+        ...mapGetters('ribbon', ['core']),
         avg() {
             const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)
             const length = this.heartbeats.length
@@ -62,12 +73,21 @@ export default {
     created() {
         this.takePulse(false)
 
-        this.$DashboardAxios.get(`api/core/wallet`).then(({data}) => {
-            this.walletInfo = data.data
-        })
+        // this.$DashboardAxios.get(`api/core/wallet`).then(({data}) => {
+        //     this.walletInfo = data.data;
+        //     if (data.data)
+        //         this.setWallet(data.data);
+        // })
     },
 
     methods: {
+        changeRoute() {
+            let a = document.createElement('a');
+            a.target = '_blank';
+            a.href = `${this.front_url}/#/user/transactions`;
+            a.click()
+            document.removeChild(a);
+        },
         heartbeat() {
             return Math.ceil(Math.random() * (120 - 80) + 80)
         },
@@ -85,28 +105,17 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (min-width: 960px) {
-    .header-fixed[data-header-scroll=on] .price-wallet,
-    .header-fixed[data-header-scroll=on] .price-wallet i {
-        color: gray;
-    }
-
-    .header-fixed[data-header-scroll=on] .price-wallet {
-        background-color: rgba(0, 0, 0, .1);
-    }
-}
-
 .header-fixed .price-wallet,
 .header-fixed .price-wallet i {
     color: #fff;
 }
 
 .price-wallet {
-    justify-content: space-around;
+    padding-right: 12px;
     align-items: center;
-    border-radius: 0 6px 6px 0 !important;
+    border-radius: 6px !important;
     background-color: rgba(255, 255, 255, .2);
-    flex: 0 0 calc(100% - 32px)
+    flex: 1 0 0;
 }
 
 .price-walletButton {

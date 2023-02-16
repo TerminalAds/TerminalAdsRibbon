@@ -1,3 +1,4 @@
+
 export function reformatMenuResponse(items) {
     let menu = {};
     let pointerMap = {};

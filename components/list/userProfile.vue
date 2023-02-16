@@ -1,54 +1,44 @@
 <template>
-    <div class="card-custom card-stretch" v-if="userInfo">
-        <!--begin::Header-->
+    <div class="card-custom card-stretch">
         <div class="card card-body d-flex flex-column py-4 mt-0">
-            <!--begin::Chart-->
-            <!--begin::User-->
+
             <div class="d-flex align-items-center">
                 <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                     <div class="symbol-label"
-                         style="background-image: url('http://api.terminalads.com/avatar/blank.jpg')"/>
+                         :style="`background-image: url('http://api.terminalads.com/avatar/blank.jpg')`"/>
                     <i class="symbol-badge bg-success"></i>
                 </div>
                 <div>
                     <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                        {{ userInfo.name | isEmpty }}
+                        {{ core.user[0].name ?? 'بدون نام' }}
                     </a>
                     <div class="text-muted">
-                        {{ userInfo.username | isEmpty }}
+                        {{ core.user[0].username ?? 'نامشخص' }}
                     </div>
                 </div>
             </div>
-            <!--end::User-->
 
-            <!--begin::Contact-->
             <div class="pt-12 pb-5">
                 <div class="d-flex align-items-center justify-content-between mb-5">
                     <span class="font-weight-bold text-dark mr-2">ایمیل:</span>
-                    <span class="text-dark">
-                                    {{ userInfo.email ? userInfo.email : 'ندارد' }}
-                                </span>
+                    <span class="text-dark">{{ core.user[0].email ?? 'ندارد' }}</span>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-5">
                     <span class="font-weight-bold text-dark mr-2">شماره موبایل:</span>
-                    <span class="">{{ userInfo.phone | isEmpty }}</span>
-                </div>
-                <div class="d-flex align-items-center justify-content-between mb-5">
-                    <span class="font-weight-bold mr-2">نوع کاربر:</span>
-                    <span v-if="userInfo.type" class="">{{ userInfo.type ? 'حقوقی' : 'حقیقی' }}</span>
-                    <span v-else class="text-muted">هنوز اطلاعات خود راتکمیل نکرده است</span>
+                    <span class="">{{ core.user[0].phone ?? 'بدون شماره' }}</span>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-5">
                     <span class="font-weight-bold text-dark mr-2">نوع پنل:</span>
-                    <!--                            <span v-if="pack.title" class="text-hover-info">{{ pack.title }}</span>-->
-                    <span v-if="false" class="text-hover-info">{{ pack.title }}</span>
-                    <span v-else>اطلاعات پروفایل تکمیل نشده است</span>
+                    <span class="text-hover-info">{{ packTitle }}</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mb-5">
+                    <span class="font-weight-bold mr-2">نوع کاربر:</span>
+                    <span class="">{{ userType }}</span>
                 </div>
             </div>
-            <!--end::Contact-->
 
             <button @click="changeProfile"
-                    class="btn btn-info font-weight-bold py-3 px-6 text-center btn-block">
+                    class="btn btn-info font-weight-bold py-3 px-6 text-center btn-block rounded-lg">
                 مشاهده پروفایل
             </button>
         </div>
@@ -56,28 +46,58 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
     name: "userProfile",
-
     data: () => ({
-        userInfo: null,
+        userInfo: {},
     }),
-
     mounted() {
-        this.$DashboardAxios.get('/api/core/profile')
-            .then(({data}) => {
-                this.userInfo = data.data
-            })
+        // this.$DashboardAxios.get('/api/core/profile')
+        //     .then(({data}) => {
+        //         this.userInfo = data.data
+        //         this.setUser(data.data)
+        //     })
     },
-
     methods: {
+        ...mapActions('ribbon', ['setUser']),
         changeProfile() {
-            window.open(`${this.$sarveLandFront}/#/profile/my-profile`)
+            window.open(`${this.front_url}/#/profile/my-profile`)
         },
+    },
+    computed: {
+        ...mapGetters("ribbon", ["core"]),
+        userType() {
+            let type = 'نامشخص';
+
+            try {
+                switch (this.core.user[0].type) {
+                    case 'regular' :
+                        type = 'حقیقی';
+                        break;
+                    case 'legal' :
+                        type = ' حقوقی';
+                        break;
+                    default:
+                        type = 'نامشخص';
+                        break;
+                }
+            } catch (e) {
+
+            }
+            return type
+        },
+        packTitle() {
+            if (this.core.pack[0]) {
+                let title = this.core.pack[0].title
+                if (this.core.pack[0].expire) {
+                    title += ' ' + this.core.pack[0].expire + ' روزه'
+                }
+                return title
+            }
+            return 'اطلاعات پروفایل تکمیل نشده است'
+        }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

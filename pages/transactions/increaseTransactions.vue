@@ -1,31 +1,22 @@
 <template>
     <div class="container-fluid rounded" style="background-color: white">
-        <p class="mt-2 mb-0">{{ $t('WALLET.Price') }} :</p>
+        <p class="mt-2 mb-0">انتخاب مبلغ :</p>
 
-        <v-flex class="flex-column align-items-center">
-            <div class="text-center mt-2 justify-content-center">
+        <v-flex class="flex-column align-items-center mt-4">
+            <v-btn-toggle class="flex-wrap justify-space-around w-100" v-model="quickCharge" mandatory dense>
 
-                <v-btn-toggle class="flex-wrap justify-content-center" v-model="quickCharge" mandatory>
-                    <v-row class="justify-content-center text-center">
+                <v-btn v-for="(price, i) in costs" :key="price.val" style="margin: 8px 0 0 8px"
+                       :class="[price.class, {[price.classHover] : quickCharge === price.val}]"
+                       :value="price.val" :style="price.style">
+                    <span class="d-inline-block">{{ price.val | numericPersianNumber }} ریال</span>
+                </v-btn>
 
-                        <v-flex class="p-0" v-for="(price, i) in costs" style="margin-left:-6px; margin-right: -6px"
-                                :key="price.val">
-                            <v-btn :class="[price.class, {[price.classHover] : quickCharge === price.val}]"
-                                   :value="price.val" :style="price.style">
-                                <span class="d-inline-block h- mx-2">{{ price.val | numericPersianNumber }} ریال</span>
-                            </v-btn>
-                        </v-flex>
+                <v-btn :value="0" :class="['btn-charge-wallet', {'btn-charge-wallet-hover' : !quickCharge}]"
+                       style="border-color: rgb(2, 191, 180) !important;margin: 8px 0 0 8px ;">
+                    <span class="">{{ $t('WALLET.CustomCharge') }}</span>
+                </v-btn>
 
-                        <v-btn :value="false" class="mt-2"
-                               :class="['btn-charge-wallet', {'btn-charge-wallet-hover' : !quickCharge}]"
-                               style="border-color: rgb(2, 191, 180) !important">
-                            <span class="">{{ $t('WALLET.CustomCharge') }}</span>
-                        </v-btn>
-
-                    </v-row>
-                </v-btn-toggle>
-
-            </div>
+            </v-btn-toggle>
         </v-flex>
 
         <div>
@@ -33,7 +24,7 @@
                 <div class="card p-4 my-4" v-show="!quickCharge">
                     <h3 class="text-center my-4">{{ $t('WALLET.CustomCharge') }}</h3>
                     <div class="col-md-6 align-self-center">
-                        <price-input v-model="data.price" text-center="true"></price-input>
+                        <price-input v-model="data.price" text-center="true" label="مبلغ"/>
                         <p class="red--text" v-if="error" style="color: darkred">{{ error }}</p>
                         <v-row class="justify-content-center py-3 text-center">
                             <v-flex xs12 sm12 md6 xl6 lg6 class="p-2" v-for="(cost, index) in costsDefault"
@@ -55,7 +46,8 @@
                 </div>
             </v-expand-transition>
         </div>
-        <p class="mt-2">{{ $t('WALLET.GateWay') }} :</p>
+
+        <p class="mt-4">{{ $t('WALLET.GateWay') }} :</p>
 
         <div class=" d-flex justify-content-center rounded-lg pa-1 wallet-charge mt-3 py-3">
 
@@ -88,10 +80,9 @@
 
         </div>
 
-        <div class="m-3">
-            <p v-for="d in $t('WALLET.Details')">{{ d }}</p>
-
-        </div>
+        <!--        <div class="m-3">-->
+        <!--            <p v-for="d in $t('WALLET.Details')">{{ d }}</p>-->
+        <!--        </div>-->
 
         <div class="my-4 d-flex flex-row-reverse">
             <v-btn class="btn-payment" depressed @click="payment" block :disabled="!isValidData">
@@ -168,7 +159,7 @@ export default {
             radio: "giftCard",
             gateways: [],
             data: {
-                price: 0,
+                price: null,
                 gateway: {}
             },
             min: 500_000,
@@ -274,10 +265,8 @@ export default {
         }
     },
     watch: {
-        quickCharge() {
-            if (this.quickCharge) {
-                this.data.price = this.quickCharge;
-            }
+        quickCharge(val) {
+            if (val === 0) this.data.price = 0
         },
         'data.price'() {
             if (this.isValidPrice(this.min, this.max)) {
@@ -289,7 +278,7 @@ export default {
                 })
             }
         }
-    }
+    },
 }
 </script>
 
@@ -322,8 +311,6 @@ export default {
 .btn-1000000, .btn-2000000, .btn-3000000, .btn-5000000, .btn-10000000 {
     border-radius: 5px !important;
     display: block;
-    margin: 10px;
-    padding: 15px 60px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.7s !important;
