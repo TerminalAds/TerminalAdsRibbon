@@ -1,6 +1,5 @@
 <template>
-    <v-card :href="`${front_url}/#/user/transactions`" target="_blank"
-            class="d-flex flex-nowrap price-wallet align-self-center" flat
+    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center" flat
             :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
             height="32" v-b-tooltip="'لیست تراکنش های شما'" v-if="walletInfo">
         <span>اعتبار</span>
@@ -20,7 +19,7 @@
         <v-icon class="d-none d-lg-block">mdi-currency-rial</v-icon>
 
         <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
-               height="32" dark depressed @click="$store.dispatch('wallet/toggleOpen')">
+               height="32" dark depressed @click.stop="$store.dispatch('wallet/toggleOpen')">
             <v-icon class="plus" small>
                 mdi-plus
             </v-icon>
@@ -72,6 +71,13 @@ export default {
     },
 
     methods: {
+        changeRoute() {
+            let a = document.createElement('a');
+            a.target = '_blank';
+            a.href = `${this.front_url}/#/user/transactions`;
+            a.click()
+            document.removeChild(a);
+        },
         heartbeat() {
             return Math.ceil(Math.random() * (120 - 80) + 80)
         },

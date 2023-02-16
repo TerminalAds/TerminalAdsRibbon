@@ -29,10 +29,7 @@
                 <KTFooter/>
             </div>
         </div>
-        <!--        <KTStickyToolbar v-if="toolbarDisplay"></KTStickyToolbar>-->
-        <!--    <toast></toast>-->
-        <!--    <modal></modal>-->
-        <!--        <easy-modal/>-->
+        <easy-modal/>
         <navigation/>
         <wallet :show-button="false"/>
         <KTScrollTop/>
@@ -57,7 +54,8 @@ import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/h
 import modal from "./components/modals/modal";
 // import easyModal from "./core/plugins/EasyModal/view";
 import wallet from "./pages/transactions/wallet";
-import CustomPage from "./pages/customPage";
+import CustomPage from "./pages/customPage"
+import easyModal from "@/core/plugins/EasyModal/view";
 
 
 export default {
@@ -75,6 +73,7 @@ export default {
         RailNavigation,
         navigation,
         wallet,
+        easyModal,
     },
     data() {
         return {
