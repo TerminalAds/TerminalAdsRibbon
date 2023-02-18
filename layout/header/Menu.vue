@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         homeLink() {
-            return process.env.VUE_APP_HOME_URL;
+            return this.front_url;
         },
         hasActiveChildren(match) {
             if (!match || match.length <= 0) return false

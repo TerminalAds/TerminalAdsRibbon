@@ -99,7 +99,7 @@ export default {
           .catch(() => this.$toast.error('خطایی رخ داده است.'))
     },
     homeLink() {
-      return process.env.VUE_APP_HOME_URL || '/';
+      return this.front_url || '/';
     },
     getActive(item) {
       return item.children.map((a) => a.slug).includes(this.$route.path.substring(1))
