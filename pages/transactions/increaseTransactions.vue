@@ -211,8 +211,10 @@ export default {
         return;
       }
       this.$modal.showLoading();
-      this.requestApiGet('charge/' + this.data.price).then(({data}) => {
-        window.location.href = data;
+      this.$DashboardAxios.post('api/wallet/sharge/',{
+        balance:this.data.price
+      }).then(({data}) => {
+        window.location.href = data.action;
       }).catch((e) => {
         this.$modal.hideLoading()
         this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
