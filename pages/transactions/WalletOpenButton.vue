@@ -1,124 +1,120 @@
 <template>
-    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center" flat
-            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
-            height="32" v-b-tooltip="'لیست تراکنش های شما'" v-if="walletInfo">
-        <span>اعتبار</span>
+  <v-card @click="changeRoute"
+          class="d-flex flex-nowrap price-wallet align-self-center"
+          flat
+          :max-width="$vuetify.breakpoint.mdAndUp ? '' : 150"
+          :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
+          height="32" v-b-tooltip="'لیست تراکنش های شما'">
+    <span>اعتبار</span>
 
-        <v-spacer/>
+    <v-spacer/>
 
-        <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(core.wallet.balance)) }}
+    <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
+            {{ persianNum(currency(balance)) }}
         </span>
 
-        <v-spacer class="d-lg-none"/>
+    <v-spacer class="d-lg-none"/>
 
-        <span class="d-lg-none">&nbsp ر</span>
+    <span class="d-lg-none">&nbsp ر</span>
 
-        <v-spacer class="d-none d-lg-block"/>
+    <v-spacer class="d-none d-lg-block"/>
 
-        <v-icon class="d-none d-lg-block">mdi-currency-rial</v-icon>
+    <v-icon class="d-none d-lg-block">mdi-currency-rial</v-icon>
 
-        <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
-               height="32" dark depressed @click.stop="dialog = !dialog">
-            <v-icon class="plus" small>
-                mdi-plus
-            </v-icon>
-        </v-btn>
+    <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
+           height="32" dark depressed @click.stop="toggleWalletDialog">
+      <v-icon class="plus" small>
+        mdi-plus
+      </v-icon>
+    </v-btn>
 
-        <wallet v-model="dialog"/>
-    </v-card>
+    <wallet v-model="walletDialog"/>
+  </v-card>
 </template>
 
 <script>
 import Wallet from "./wallet";
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 const exhale = ms =>
     new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
-    name: "WalletOpenButton",
-    components: {Wallet},
-    data: () => ({
-        checking: false,
-        heartbeats: [],
-        walletInfo: null,
-        dialog: false
-    }),
-    props: {
-        hideInMobile: {
-            type: Boolean,
-            default: false
-        }
+  name: "WalletOpenButton",
+  components: {Wallet},
+  data: () => ({
+    checking: false,
+    heartbeats: []
+  }),
+  props: {
+    hideInMobile: {
+      type: Boolean,
+      default: false
+    }
+  },
+  mounted() {
+    let classes = window.document.querySelectorAll(".price-wallet .v-input__control .v-text-field__slot *");
+    for (let c of classes) {
+      c.classList.add('on-scroll-shoed');
+    }
+  },
+  computed: {
+    ...mapGetters('ribbon', ['core','walletDialog']),
+    avg() {
+      const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)
+      const length = this.heartbeats.length
+
+      if (!sum && !length) return 0
+
+      return Math.ceil(sum / length)
     },
-    mounted() {
-        let classes = window.document.querySelectorAll(".price-wallet .v-input__control .v-text-field__slot *");
-        for (let c of classes) {
-            c.classList.add('on-scroll-shoed');
-        }
-
+    balance(){
+      return this.core?.wallet?.balance || 0;
+    }
+  },
+  created() {
+    this.takePulse(false)
+  },
+  methods: {
+    ...mapActions('ribbon',['toggleWalletDialog']),
+    changeRoute() {
+      let a = document.createElement('a');
+      a.target = '_blank';
+      a.href = `${this.front_url}/#/user/transactions`;
+      a.click()
+      document.removeChild(a);
     },
-    computed: {
-        ...mapGetters('ribbon', ['core']),
-        avg() {
-            const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)
-            const length = this.heartbeats.length
-
-            if (!sum && !length) return 0
-
-            return Math.ceil(sum / length)
-        },
+    heartbeat() {
+      return Math.ceil(Math.random() * (120 - 80) + 80)
     },
+    async takePulse(inhale = true) {
+      this.checking = true
 
-    created() {
-        this.takePulse(false)
+      inhale && await exhale(1000)
 
-        // this.$DashboardAxios.get(`api/core/wallet`).then(({data}) => {
-        //     this.walletInfo = data.data;
-        //     if (data.data)
-        //         this.setWallet(data.data);
-        // })
+      this.heartbeats = Array.from({length: 20}, this.heartbeat)
+
+      this.checking = false
     },
-
-    methods: {
-        changeRoute() {
-            let a = document.createElement('a');
-            a.target = '_blank';
-            a.href = `${this.front_url}/#/user/transactions`;
-            a.click()
-            document.removeChild(a);
-        },
-        heartbeat() {
-            return Math.ceil(Math.random() * (120 - 80) + 80)
-        },
-        async takePulse(inhale = true) {
-            this.checking = true
-
-            inhale && await exhale(1000)
-
-            this.heartbeats = Array.from({length: 20}, this.heartbeat)
-
-            this.checking = false
-        },
-    },
+  },
 }
 </script>
 
 <style scoped>
 .header-fixed .price-wallet,
 .header-fixed .price-wallet i {
-    color: #fff;
+  color: #fff;
 }
 
 .price-wallet {
-    padding-right: 12px;
-    align-items: center;
-    border-radius: 6px !important;
-    background-color: rgba(255, 255, 255, .2);
-    flex: 1 0 0;
+  padding-right: 12px;
+  align-items: center;
+  border-radius: 6px !important;
+  background-color: rgba(255, 255, 255, .2);
+  flex: 1 0 0;
 }
 
 .price-walletButton {
-    border-radius: 6px 0 0 6px !important;
+  border-radius: 6px 0 0 6px !important;
 }
 </style>

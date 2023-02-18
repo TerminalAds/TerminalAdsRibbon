@@ -7,7 +7,8 @@ export default {
         wallet: {balance: 0},
         pack: {},
         user: {},
-        core: {}
+        core: {},
+        walletDialog: false,
     },
 
     getters: {
@@ -16,9 +17,9 @@ export default {
         wallet: state => state.wallet,
         pack: state => state.pack,
         user: state => state.user,
-        core: state => state.core
+        core: state => state.core,
+        walletDialog: state => state.walletDialog
     },
-
     actions: {
         setTitle(context, title) {
             context.commit('sub_title', title)
@@ -37,7 +38,10 @@ export default {
         },
         setCore(context, obj) {
             context.commit('set_core', obj)
-        }
+        },
+        toggleWalletDialog(context) {
+            context.commit('toggleWalletDialog')
+        },
     },
 
     mutations: {
@@ -55,6 +59,9 @@ export default {
         },
         set_core(state, obj) {
             state.core = obj
+        },
+        toggleWalletDialog(state) {
+            state.walletDialog = !state.walletDialog
         }
     }
 };

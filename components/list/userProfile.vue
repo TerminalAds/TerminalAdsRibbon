@@ -37,8 +37,7 @@
         </div>
       </div>
 
-      <button @click="changeProfile"
-              class="btn btn-info font-weight-bold py-3 px-6 text-center btn-block rounded-lg">
+      <button @click="changeProfile" class="btn btn-info font-weight-bold py-3 px-6 text-center btn-block rounded-lg">
         مشاهده پروفایل
       </button>
     </div>
@@ -82,14 +81,9 @@ export default {
       return type
     },
     packTitle() {
-      if (this.core.pack[0]) {
-        let title = this.core.pack[0].title
-        if (this.core.pack[0].expire) {
-          title += ' ' + this.core.pack[0].expire + ' روزه'
-        }
-        return title
-      }
-      return 'اطلاعات پروفایل تکمیل نشده است'
+      return this.core?.pack?.length > 0 && this.core.pack[0].title ?
+          this.core.pack[0].title += ' ' + this.core.pack[0].expire + ' روزه' :
+          'اطلاعات پروفایل تکمیل نشده است';
     },
     email() {
       return this.core?.user?.length > 0 && this.core?.user[0].email ? this.core?.user[0].email : 'ندارد';
