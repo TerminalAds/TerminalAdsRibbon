@@ -43,8 +43,7 @@
           <v-list-item-title>{{ item.name }}</v-list-item-title>
         </template>
 
-        <v-list-item link v-for="(sub, j) in item.children" :key="j" :to="sub.slug" style="padding-right: 32px"
-                     color="white">
+        <v-list-item link v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`" style="padding-right: 32px" color="white">
           <v-list-item-icon>
             <v-icon>{{  'mdi-menu-left' }}</v-icon>
           </v-list-item-icon>
