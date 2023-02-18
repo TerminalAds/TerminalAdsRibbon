@@ -58,6 +58,7 @@ export default {
             state.user = obj
         },
         set_core(state, obj) {
+            state.user = obj?.user.length > 0 && obj?.user[0] ? obj?.user[0] : null;
             state.core = obj
         },
         toggleWalletDialog(state) {

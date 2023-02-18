@@ -22,7 +22,7 @@
 
     <div>
       <v-expand-transition>
-        <div class="card p-4 my-4" v-show="!quickCharge">
+        <div class="card p-4 my-4" v-if="!quickCharge">
           <h3 class="text-center my-4">{{ $t('WALLET.CustomCharge') }}</h3>
           <div class="col-md-6 align-self-center">
             <price-input v-model="data.price" text-center="true" label="مبلغ"/>
@@ -155,7 +155,7 @@ export default {
       radio: "giftCard",
       gateways: [],
       data: {
-        price: null,
+        price: 10_000_000,
         gateway: {}
       },
       min: 500_000,
