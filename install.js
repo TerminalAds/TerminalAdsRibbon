@@ -51,7 +51,7 @@ export default {
                     }
                 },
                 currency(x) {
-                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "-";
+                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "0";
                 }
             }
         });

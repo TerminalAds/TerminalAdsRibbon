@@ -30,7 +30,7 @@
                               @click.stop="giftDialog = true">هدیه</span>
                         دریافت کنید.
                     </h6>
-                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber"
+                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber" type="number"
                            placeholder="شماره را وارد نمایید.">
                     <v-btn class="py-1 mt-5 white--text rounded-lg" style="margin-right: auto;" depressed width="100"
                            height="30"
@@ -52,10 +52,19 @@
             <v-card flat min-height="500" class="d-flex flex-column justify-center">
                 <v-card-title>دریافت هدیه</v-card-title>
                 <v-divider/>
-                <v-card-text>
+                <v-spacer/>
+                <v-card-text class="d-flex align-center justify-center">
                     <v-img width="100%" contain src="https://core-robot.terminalads.com/inviteFriends.jpeg"
-                           class="rounded"/>
+                           class="rounded">
+                        <template v-slot:placeholder>
+                            <v-card flat class="transparent d-flex justify-center align-center" width="100%"
+                                    height="100%">
+                                <v-progress-circular indeterminate color="primary" width="5" size="35"/>
+                            </v-card>
+                        </template>
+                    </v-img>
                 </v-card-text>
+                <v-spacer/>
                 <v-divider/>
                 <v-card-actions class="pa-4">
                     <v-spacer/>
@@ -130,5 +139,14 @@ export default {
 </script>
 
 <style scoped>
+input.form-control::-webkit-outer-spin-button,
+input.form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Firefox */
+input.form-control[type=number] {
+    -moz-appearance: textfield;
+}
 </style>
