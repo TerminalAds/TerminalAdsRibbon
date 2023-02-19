@@ -31,7 +31,6 @@
         </div>
         <easy-modal/>
         <navigation/>
-        <wallet :show-button="false"/>
         <KTScrollTop/>
     </v-app>
 </template>
@@ -52,11 +51,9 @@ import navigation from "./layout/aside/Navigation";
 import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/htmlclass.module.js";
 
 import modal from "./components/modals/modal";
-// import easyModal from "./core/plugins/EasyModal/view";
-import wallet from "./pages/transactions/wallet";
-import CustomPage from "./pages/customPage";
-
+import CustomPage from "./pages/customPage"
 import easyModal from "@/core/plugins/EasyModal/view";
+
 
 export default {
     name: "index",
@@ -72,8 +69,7 @@ export default {
         modal,
         RailNavigation,
         navigation,
-      easyModal,
-      wallet,
+        easyModal,
     },
     data() {
         return {
@@ -87,22 +83,31 @@ export default {
 
         HtmlClass.init(this.layoutConfig());
     },
-    watch: {
-        $route(to, from) {
-            this.checkWallet();
-        }
-    },
+    // watch: {
+    //     $route(to, from) {
+    //         this.checkWallet();
+    //     }
+    // },
     mounted() {
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
         }, 2000);
 
+        this.fetch();
         this.setTutorials();
     },
     methods: {
         ...mapActions('tutorial', [
             'setTutorials',
         ]),
+        ...mapActions('ribbon', ['setCore']),
+        fetch() {
+            this.$DashboardAxios.get('/api/core')
+                .then(({data}) => {
+                    this.setCore(data.data)
+                })
+                .catch(() => this.$toast.error('خطا در دریافت اطلاعات!'))
+        }
     },
     computed: {
         ...mapGetters([

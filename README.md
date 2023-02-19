@@ -1,7 +1,5 @@
 # Terminal Ads Ribbon Title.
-
 ## Table Of Content.
-
 - [Dependency](#Dependency).
 - [Usage](#Usage).
 - [Update](#Update).
@@ -18,7 +16,6 @@
 5. Vuetify.
 
 ### Usage.
-
 First clone this repository in your project or add as submodule.
 
 ```bash

@@ -2,7 +2,6 @@ export function reformatMenuResponse(items) {
     let menu = {};
     let pointerMap = {};
 
-
     //push object for each item
     for (let item of items) {
         menu[item.id] = item
@@ -16,10 +15,15 @@ export function reformatMenuResponse(items) {
                 pointerMap[menu[item].parent_id].children = [];
                 pointerMap[menu[item].parent_id].slug = ""
             }
-            pointerMap[menu[item].parent_id].children.push(menu[item])
+
+            if (ribbonCan(menu[item].gate) || menu[item].gate === null)
+                pointerMap[menu[item].parent_id].children.push(menu[item])
+
             delete menu[item];
         }
     }
 
-    return Object.values(menu);
+    return Object.values(menu).filter(item => {
+        return item.children === undefined ? true : item.children.length > 0
+    });
 }
