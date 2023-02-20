@@ -1,6 +1,7 @@
 import DashboardAxios from "axios";
-import Vuex from "vuex";
+import Vuex, {mapActions} from "vuex";
 import store from "./store";
+import money from './Mony.json';
 
 export default {
     install(Vue, options) {
@@ -23,6 +24,7 @@ export default {
                 sid: options.sid
             }),
             methods: {
+                ...mapActions("ribbon", ["setWallet"]),
                 setSubTitle(title) {
                     store.state.sub_title = title;
                 },
@@ -52,7 +54,18 @@ export default {
                 },
                 currency(x) {
                     return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "0";
-                }
+                },
+                checkWalletAsync(data) {
+                    let walletInfo = money.data[data.currency.toLowerCase()]
+
+                    let user_wallet = {
+                        'icon': walletInfo.icon,
+                        'color': walletInfo.color,
+                        'balance': data.balance
+                    }
+                    this.setWallet(user_wallet)
+                    localStorage.setItem('user_wallet', JSON.stringify(user_wallet));
+                },
             }
         });
 

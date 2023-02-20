@@ -1,7 +1,7 @@
 <template>
     <v-row no-gutters class="fill-height">
         <v-col cols="12" md="6" lg="12" class="pa-2">
-            <div class="card card-custom card-body fill-height">
+            <div class="card card-custom card-body fill-height pt-4 px-6">
                 <v-row no-gutters>
                     <v-col cols="7">
                         <h6 class="text-dark font-weight-bolder line-height-lg"
@@ -13,7 +13,7 @@
                                class="text-dark">
                                 <span style="font-size: 7pt">  برای ارتباط با تیم پشتیبانی ما تیکت ثبت نمایید</span>
                                 <br>
-                                <span class="btn btn-info py-1 mt-10">ثبت تیکت</span>
+                                <span class="btn btn-info py-1 mt-21">ثبت تیکت</span>
                             </a>
                         </p>
                     </v-col>

@@ -5,8 +5,6 @@ export default {
         sub_title: "",
         menus: [],
         wallet: {balance: 0},
-        pack: {},
-        user: {},
         core: {},
         walletDialog: false,
     },
@@ -15,8 +13,7 @@ export default {
         sub_title: state => state.sub_title,
         menus: state => state.menus,
         wallet: state => state.wallet,
-        pack: state => state.pack,
-        user: state => state.user,
+        user: state => state.core?.user?.length > 0 && state.core.user[0] ? state.core.user[0] : null,
         core: state => state.core,
         walletDialog: state => state.walletDialog
     },
@@ -29,12 +26,6 @@ export default {
         },
         setWallet(context, obj) {
             context.commit('set_wallet', obj)
-        },
-        setPack(context, obj) {
-            context.commit('set_pack', obj)
-        },
-        setUser(context, obj) {
-            context.commit('set_user', obj)
         },
         setCore(context, obj) {
             context.commit('set_core', obj)
@@ -50,12 +41,6 @@ export default {
         },
         set_wallet(state, obj) {
             state.wallet = obj
-        },
-        set_pack(state, obj) {
-            state.pack = obj
-        },
-        set_user(state, obj) {
-            state.user = obj
         },
         set_core(state, obj) {
             state.user = obj?.user.length > 0 && obj?.user[0] ? obj?.user[0] : null;

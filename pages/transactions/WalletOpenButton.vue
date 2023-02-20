@@ -11,12 +11,12 @@
 
         <span class="font-weight-bold"
               style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(balance)) }}
+            {{ persianNum(currency(wallet?.balance || 0)) }}
         </span>
 
         <v-spacer class="d-none d-sm-block"/>
 
-        <v-icon class="d-none d-sm-block">mdi-currency-rial</v-icon>
+        <v-icon class="d-none d-sm-block" v-text="wallet?.icon"/>
 
         <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
                height="32" dark depressed @click.stop="toggleWalletDialog">
@@ -56,7 +56,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('ribbon', ['core', 'walletDialog']),
+        ...mapGetters('ribbon', ['core', 'walletDialog', 'wallet']),
         avg() {
             const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)
             const length = this.heartbeats.length
@@ -65,9 +65,6 @@ export default {
 
             return Math.ceil(sum / length)
         },
-        balance() {
-            return this.core?.wallet?.balance || 0;
-        }
     },
     created() {
         this.takePulse(false)

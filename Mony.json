@@ -1,0 +1,37 @@
+{
+    "data": {
+        "bitcoin": {
+            "value": "123",
+            "icon": "mdi-bitcoin",
+            "color": "#C59849"
+        },
+        "rial": {
+            "value": "321",
+            "icon": "mdi-currency-rial",
+            "color": "#14FFF7"
+        },
+        "toman": {
+            "value": "321",
+            "icon": "fa6-solid-t",
+            "color": "#9D9B61"
+        },
+        "ethereum": {
+            "value": "321",
+            "icon": "fa6-brands-ethereum",
+            "color": "#9C79AE"
+
+        },
+        "euro": {
+            "value": "321",
+            "icon": "majesticons-euro-circle",
+            "color": "#C38D94"
+
+        },
+        "dollar": {
+            "value": "321",
+            "icon": "ant-design-dollar-circle-filled",
+            "color": "#63C98F"
+        }
+    }
+}
+

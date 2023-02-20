@@ -105,6 +105,7 @@ export default {
             this.$DashboardAxios.get('/api/core')
                 .then(({data}) => {
                     this.setCore(data.data)
+                    this.checkWalletAsync(data.data.wallet)
                 })
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!'))
         }

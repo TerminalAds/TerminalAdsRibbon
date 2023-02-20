@@ -5,7 +5,7 @@
             <div class="d-flex align-items-center">
                 <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                     <div class="symbol-label"
-                         style="background-image: url('http://api.terminalads.com/avatar/blank.jpg')"/>
+                         :style="`background-image: url('https://api.terminalads.com/${userImage}')`"/>
                     <i class="symbol-badge bg-success"></i>
                 </div>
                 <div>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
     name: "userProfile",
@@ -54,7 +54,6 @@ export default {
         userInfo: {},
     }),
     methods: {
-        ...mapActions('ribbon', ['setUser']),
         changeProfile() {
             window.open(`${this.front_url}/#/profile/my-profile`)
         },
@@ -64,20 +63,22 @@ export default {
         userType() {
             let type = 'نامشخص';
 
-            try {
-                switch (this.core.user[0].type) {
-                    case 'regular' :
-                        type = 'حقیقی';
-                        break;
-                    case 'legal' :
-                        type = ' حقوقی';
-                        break;
-                    default:
-                        type = 'نامشخص';
-                        break;
-                }
-            } catch (e) {
+            if (this.core?.user?.length > 0 && this.core.user[0].type) {
+                try {
+                    switch (this.core.user[0].type) {
+                        case 'regular' :
+                            type = 'حقیقی';
+                            break;
+                        case 'legal' :
+                            type = ' حقوقی';
+                            break;
+                        default:
+                            type = 'نامشخص';
+                            break;
+                    }
+                } catch (e) {
 
+                }
             }
             return type
         },
@@ -97,6 +98,11 @@ export default {
         },
         username() {
             return this.core?.user?.length > 0 && this.core?.user[0].username ? this.core.user[0].username : 'نامشخص';
+        },
+        userImage() {
+            return this.core?.user?.length > 0 && this.core?.user[0].image
+                ? 'storage/' + this.core?.user[0].image
+                : 'avatar/blank.jpg'
         }
     }
 }

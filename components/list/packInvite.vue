@@ -78,34 +78,26 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
     name: "packInvite",
 
     data: () => ({
-        pack: [],
         phoneNumber: '',
         giftDialog: false,
         loading: false,
         expire: 0,
     }),
 
-    mounted() {
-        this.fetch();
+    computed: {
+        ...mapGetters("ribbon", ["core"]),
+        pack() {
+            return this.core?.pack?.length > 0 && this.core?.pack[0]
+        }
     },
 
     methods: {
-        ...mapActions("ribbon", ["setPack"]),
-        fetch() {
-            this.$DashboardAxios.get('/api/core/pack')
-                .then(({data}) => {
-                    this.pack = data.data
-                    this.setPack(data.data)
-                    let myDate = this.pack.expired_at;
-                    this.fillExpire(myDate);
-                })
-        },
         invite() {
             if (this.phoneNumber === '' || this.phoneNumber.length <= 10) {
                 this.$toast.error('لطفا شماره صحیح وارد نمایید.')
