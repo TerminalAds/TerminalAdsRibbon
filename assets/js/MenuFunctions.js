@@ -21,6 +21,9 @@ export function reformatMenuResponse(items) {
 
             delete menu[item];
         }
+
+        if (!ribbonCan(menu[item]?.gate))
+            delete menu[item];
     }
 
     return Object.values(menu).filter(item => {
