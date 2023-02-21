@@ -9,8 +9,9 @@
                             <h4>آخرین تراکنش ها</h4>
                             <span>موجودی شما:</span>
                             <span class="float-left">
-                                {{ persianNum(currency(wallet?.balance || 0)) }}
-                                <v-icon class="ms-2" v-text="wallet?.icon"/>
+                                {{ persianNum(currency(balance)) }}
+                                <v-icon class="ms-2" v-if="wallet.icon != null && wallet.icon.length > 0"
+                                        v-text="wallet.icon"/>
                             </span>
                         </div>
 
@@ -136,6 +137,9 @@ export default {
         ...mapGetters("ribbon", ["core", "wallet"]),
         transactions() {
             return this.core?.transactions || [];
+        },
+        balance() {
+            return this.wallet?.balance || 0
         }
     },
     watch: {
