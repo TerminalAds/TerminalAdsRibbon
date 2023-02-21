@@ -82,6 +82,10 @@ export default {
         this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
 
         HtmlClass.init(this.layoutConfig());
+
+        let token = localStorage.getItem('id_token');
+        this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+        console.log('index token: ', this.$DashboardAxios.defaults.headers)
     },
     // watch: {
     //     $route(to, from) {

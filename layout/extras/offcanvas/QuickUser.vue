@@ -4,7 +4,7 @@
                class="px-2 mx-md-1">
             <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">سلام</span>
             <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mx-2">
-                {{ user?.name || 'کاربر عزیز' }}
+                {{ userName }}
             </span>
             <span class="symbol symbol-35">
                 <img :src="'http://api.terminalads.com/' + userImage" alt="user-default">
@@ -45,6 +45,9 @@ export default {
         ...mapGetters('ribbon', ['user']),
         userImage() {
             return this.user?.image ? 'storage/' + this.user.image : 'avatar/blank.jpg'
+        },
+        userName() {
+            return this.user?.name || 'کاربر عزیز'
         }
     },
 
