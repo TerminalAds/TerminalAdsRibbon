@@ -9,6 +9,9 @@ export default {
 
         options.store.registerModule("ribbon", store);
 
+        // console.log('headers: ', token)
+        // options.headers.Authorization = options.headers.Authorization()
+
         Vue.prototype.$DashboardAxios = DashboardAxios.create({
             baseURL: options.core_url,
             timeout: 15000,
