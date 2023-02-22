@@ -75,6 +75,9 @@ export default {
         });
 
         window.ribbonCan = (permission) => {
+            if(!permission)
+                return true;
+
             const abilities = options.permissions();
 
             return abilities.indexOf(permission + ':active') >= 0 || abilities.indexOf(permission + ':show') >= 0;

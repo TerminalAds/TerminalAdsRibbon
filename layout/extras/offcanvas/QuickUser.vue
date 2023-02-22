@@ -29,7 +29,6 @@ export default {
     name: "KTQuickUser",
     mounted() {
         KTLayoutQuickUser.init(this.$refs["kt_quick_user"]);
-        console.log('user : ', this.user)
     },
     methods: {
         onLogout() {
