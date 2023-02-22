@@ -83,14 +83,13 @@ export default {
 
     HtmlClass.init(this.layoutConfig());
 
-    this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
-
-    this.fetch();
-  },
-  mounted() {
-    setTimeout(() => {
-      this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
-    }, 2000);
+        let token = localStorage.getItem('id_token');
+        this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+    },
+    mounted() {
+        setTimeout(() => {
+            this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
+        }, 2000);
 
         this.fetch();
         this.setTutorials();

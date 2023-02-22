@@ -63,15 +63,6 @@ export default {
         }
     },
 
-    computed: {
-        scrollOptions() {
-            return {
-                duration: 300,
-                offset: 0,
-                easing: 'easeInOutCubic',
-            }
-        },
-    },
     methods: {
         onHandler(type) {
             if (this.cons.buttons && this.cons.buttons.length > 0) {
