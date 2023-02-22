@@ -3,19 +3,15 @@
         <v-list nav dense class="d-flex flex-column justify-center rounded-xl" color="rgba(3,3,3,0.50)">
 
             <v-list-item v-for="(item, i) in links" :key="i" link active-class="rail-blue-active"
-                         class="active d-flex align-center justify-center"
+                         class="active d-flex align-center justify-center" :href="item.href"
                          v-if="item.limit ? ribbon_can(item.limit) : true">
                 <v-tooltip nudge-right="8" right>
                     <template v-slot:activator="{ on, attrs }">
-                        <router-link :to="item.href" v-slot="{ href, navigate, isActive, isExactActive }">
-                            <a :href="href" v-on="on" v-bind="attrs">
-                                <span v-if="item.type === 'icon'" class="fas icon-xl" :class="`fa-${item.icon}`"
-                                      style="color: #000000"></span>
+                        <span v-if="item.type === 'icon'" class="fas icon-xl" :class="`fa-${item.icon}`"
+                              style="color: #000000"/>
 
-                                <inline-svg v-else :class="{'svg-white' : isActive}" :src="item.icon" alt="" title=""
-                                            v-on="on" v-bind="attrs"/>
-                            </a>
-                        </router-link>
+                        <inline-svg v-else :class="{'svg-white' : isActive}" :src="item.icon" alt="" title=""
+                                    v-on="on" v-bind="attrs"/>
                     </template>
                     <span style="white-space: nowrap" class="d-inline-block" v-text="item.title"/>
                 </v-tooltip>
@@ -38,20 +34,14 @@ export default {
                 type: 'icon',
                 limit: false
             }, {
-                title: 'دفترچه تلفن',
-                href: '/phonebook',
-                icon: 'media/svg/icons/Communication/Address-card.svg',
-                type: 'svg',
-                limit: 'phoneBook_access'
-            }, {
                 title: 'تیکت',
-                href: 'https://panel.terminalads.com/#/tickets',
+                href: 'https://core.terminalads.com/#/tickets/create',
                 icon: 'comments',
                 type: 'icon',
                 limit: false
             }, {
                 title: 'فرصت های همکاری',
-                href: 'https://terminalads.com/%d9%81%d8%b1%d8%b5%d8%aa-%d9%87%d8%a7%db%8c-%d8%b4%d8%ba%d9%84%db%8c/',
+                href: 'https://terminalads.com/%d8%b9%d8%a7%d9%85%d9%84%db%8c%d8%aa-%d9%81%d8%b1%d9%88%d8%b4/',
                 icon: 'handshake',
                 type: 'icon',
                 limit: false
@@ -61,13 +51,7 @@ export default {
                 icon: 'info-circle',
                 type: 'icon',
                 limit: false
-            }, {
-                title: 'استخدام',
-                href: 'https://terminalads.com/%d9%81%d8%b1%d8%b5%d8%aa-%d9%87%d8%a7%db%8c-%d8%b4%d8%ba%d9%84%db%8c/',
-                icon: 'clipboard',
-                type: 'icon',
-                limit: false
-            },
+            }
         ]
     })
 }

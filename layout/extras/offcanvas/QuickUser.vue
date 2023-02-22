@@ -44,7 +44,9 @@ export default {
     computed: {
         ...mapGetters('ribbon', ['user']),
         userImage() {
-            return this.user?.image ? 'storage/' + this.user.image : 'avatar/blank.jpg'
+            return this.user?.image && this.user.image !== 'avatar/blank.jpg'
+                ? 'storage/' + this.user.image
+                : 'avatar/blank.jpg'
         },
         userName() {
             return this.user?.name || 'کاربر عزیز'

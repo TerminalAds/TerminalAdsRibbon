@@ -104,10 +104,11 @@ export default {
 }
 
 .ribbon3 {
-    width: 180px;
+    width: fit-content;
+    min-width: 180px;
     height: 40px;
     line-height: 40px;
-    padding-left: 15px;
+    padding: 0 12px;
     position: relative;
     background: rgb(238, 49, 138);
     border-radius: 8px 0 8px 0;

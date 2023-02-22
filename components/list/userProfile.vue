@@ -3,9 +3,12 @@
         <div class="card card-body d-flex flex-column py-4 mt-0 fill-height">
 
             <div class="d-flex align-items-center">
-                <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
-                    <div class="symbol-label"
-                         :style="`background-image: url('https://api.terminalads.com/${userImage}')`"/>
+                <div class="symbol user-avatar symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+                    <v-hover v-slot:default="{hover}">
+                        <div class="symbol-label" :class="hover ? 'elevation-8' : 'elevation-4'"
+                             :style="`background-image: url('https://api.terminalads.com/${userImage}')`"/>
+                    </v-hover>
+
                     <i class="symbol-badge bg-success"></i>
                 </div>
                 <div>
@@ -107,3 +110,14 @@ export default {
     }
 }
 </script>
+
+<style>
+.symbol.user-avatar,
+.symbol.user-avatar .symbol-label {
+    transition: all .3s ease-out;
+}
+
+.symbol.user-avatar:hover {
+    transform: scale(1.1);
+}
+</style>

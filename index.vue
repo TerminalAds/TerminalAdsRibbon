@@ -85,13 +85,7 @@ export default {
 
         let token = localStorage.getItem('id_token');
         this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-        console.log('index token: ', this.$DashboardAxios.defaults.headers)
     },
-    // watch: {
-    //     $route(to, from) {
-    //         this.checkWallet();
-    //     }
-    // },
     mounted() {
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
