@@ -1,7 +1,7 @@
 <template>
     <div id="kt_header" ref="kt_header" class="header d-flex justify-content-between" v-bind:class="headerClasses">
         <div class="d-none d-md-block">
-            <KTAside v-if="asideEnabled"></KTAside>
+            <KTAside v-if="asideEnabled"/>
         </div>
 
         <div class="d-flex align-items-center justify-content-between"
@@ -22,15 +22,15 @@
                 <div class="header-menu-wrapper header-menu-wrapper-left" ref="kt_header_menu_wrapper">
                     <div v-if="headerMenuEnabled" id="kt_header_menu" ref="kt_header_menu"
                          class="header-menu header-menu-mobile" v-bind:class="headerMenuClasses">
-                        <KTMenu></KTMenu>
+                        <KTMenu/>
                     </div>
                 </div>
             </div>
 
-            <KTTopbar></KTTopbar>
+            <KTTopbar/>
         </div>
         <div class="hiddenIn990 d-flex align-items-center ml-5">
-            <KTExitButton></KTExitButton>
+            <KTExitButton/>
         </div>
     </div>
     <!-- end:: Header -->
