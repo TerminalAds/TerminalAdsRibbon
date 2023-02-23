@@ -48,10 +48,8 @@
             </v-card>
         </v-col>
 
-        <v-dialog v-model="giftDialog" max-width="700" transition="slide-y-transition">
+        <custom-popup v-model="giftDialog" :cons="cons" max-width="700" transition="slide-y-transition" hide-confirm>
             <v-card flat min-height="500" class="d-flex flex-column justify-center">
-                <v-card-title>دریافت هدیه</v-card-title>
-                <v-divider/>
                 <v-spacer/>
                 <v-card-text class="d-flex align-center justify-center">
                     <v-img width="100%" contain src="https://core-robot.terminalads.com/inviteFriends.jpeg"
@@ -73,17 +71,21 @@
                     </v-btn>
                 </v-card-actions>
             </v-card>
-        </v-dialog>
+        </custom-popup>
     </v-row>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import CustomPopup from "../../plugins/popup/customPopup";
 
 export default {
     name: "packInvite",
-
+    components: {CustomPopup},
     data: () => ({
+        cons: {
+            title: 'دریافت هدیه'
+        },
         phoneNumber: '',
         giftDialog: false,
         loading: false,

@@ -1,8 +1,7 @@
 <template>
-    <v-dialog v-model="dialog" :max-width="maxWidth">
-        <v-card flat height="fit-content" min-height="350" max-height="calc(100vh - 120px)">
-            <v-card-title class="sticky-top align-center"
-                          style="background-size: cover !important;background: linear-gradient(to left, #089D88 0%, #03BACF 51%, #514A9D 100%);word-break: break-word">
+    <v-dialog v-model="dialog" :max-width="maxWidth" :hide-overlay="hideOverlay" :transition="transition">
+        <v-card flat height="fit-content" class="overflow-y-auto" max-height="calc(100vh - 120px)">
+            <v-card-title class="sticky-top align-center popup-title">
                 <span class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
                 <v-spacer/>
 
@@ -11,12 +10,12 @@
                 </div>
 
                 <v-btn v-if="!hideConfirm" min-width="36" class="ms-2 px-0" color="green lighten-3" depressed
-                       @click="onHandler('submit')" title="تایید" style="order: 3">
+                       @click="onHandler('submit')" title="تایید">
                     <v-icon color="green darken-4">mdi-check</v-icon>
                 </v-btn>
 
                 <v-btn min-width="36" class="ms-2 px-0 text-danger" color="#fcc1c7" depressed
-                       @click="$emit('input', false)" title="بستن" style="order: 2">
+                       @click="$emit('input', false)" title="بستن">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-card-title>
@@ -39,7 +38,9 @@ export default {
         maxWidth: {
             type: [Number, String],
             default: '1024'
-        }
+        },
+        hideOverlay: Boolean,
+        transition: String
     },
 
     model: {
@@ -62,6 +63,15 @@ export default {
         }
     },
 
+    computed: {
+        scrollOptions() {
+            return {
+                duration: 300,
+                offset: 0,
+                easing: 'easeInOutCubic',
+            }
+        },
+    },
     methods: {
         onHandler(type) {
             if (this.cons.buttons && this.cons.buttons.length > 0) {
@@ -76,5 +86,9 @@ export default {
 </script>
 
 <style scoped>
-
+.popup-title {
+    background-size: cover !important;
+    background: linear-gradient(to left, #089D88 0%, #03BACF 51%, #514A9D 100%);
+    word-break: break-word;
+}
 </style>

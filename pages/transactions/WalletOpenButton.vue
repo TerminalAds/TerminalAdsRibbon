@@ -1,9 +1,6 @@
 <template>
-    <v-card @click="changeRoute"
-            class="d-flex flex-nowrap price-wallet align-self-center"
-            flat
-            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 200"
-            :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
+    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center" flat
+            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 200" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
             height="32" v-b-tooltip="'لیست تراکنش های شما'">
         <span class="font-weight-bold">اعتبار</span>
 
