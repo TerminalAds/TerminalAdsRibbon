@@ -95,9 +95,7 @@ export default {
         this.setTutorials();
     },
     methods: {
-        ...mapActions('tutorial', [
-            'setTutorials',
-        ]),
+        ...mapActions('tutorial', ['setTutorials']),
         ...mapActions('ribbon', ['setCore']),
         fetch() {
             this.$DashboardAxios.get('/api/core')
