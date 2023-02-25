@@ -72,6 +72,7 @@ export default {
             }
         },
     },
+
     methods: {
         onHandler(type) {
             if (this.cons.buttons && this.cons.buttons.length > 0) {

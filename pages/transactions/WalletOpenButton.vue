@@ -1,14 +1,13 @@
 <template>
-    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center" flat
+    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center font-size-h4" flat
             :max-width="$vuetify.breakpoint.mdAndUp ? '' : 200" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
             height="32" v-b-tooltip="'لیست تراکنش های شما'">
-        <span class="font-weight-bold">اعتبار</span>
+        <span>اعتبار</span>
 
         <v-spacer/>
 
-        <span class="font-weight-bold"
-              style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(balance)) }}
+        <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
+            {{ persianNum(currency(56413465)) }}
         </span>
 
         <v-spacer class="d-none d-sm-block"/>

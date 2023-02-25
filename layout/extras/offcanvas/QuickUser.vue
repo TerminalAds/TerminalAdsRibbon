@@ -7,7 +7,7 @@
                 {{ userName }}
             </span>
             <span class="symbol symbol-35">
-                <img :src="'http://api.terminalads.com/' + userImage" alt="user-default">
+                <img :src="'http://api.terminalads.com/storage/' + userImage" alt="user-default">
             </span>
         </v-btn>
     </div>
@@ -22,7 +22,6 @@
 <script>
 import {LOGOUT} from "@/core/services/store/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
-import KTOffcanvas from "@/assets/js/components/offcanvas.js";
 import {mapGetters} from 'vuex'
 
 export default {
@@ -36,16 +35,11 @@ export default {
                 .dispatch(LOGOUT)
                 .then(() => window.location.replace(`${this.$sarveLandFront}`));
         },
-        closeOffcanvas() {
-            new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();
-        }
     },
     computed: {
         ...mapGetters('ribbon', ['user']),
         userImage() {
-            return this.user?.image && this.user.image !== 'avatar/blank.jpg'
-                ? 'storage/' + this.user.image
-                : 'avatar/blank.jpg'
+            return this.user?.image ? this.user.image : 'avatar/blank.jpg'
         },
         userName() {
             return this.user?.name || 'کاربر عزیز'
