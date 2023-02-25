@@ -8,12 +8,12 @@
                 <v-tooltip nudge-right="8" right>
                     <template v-slot:activator="{ on, attrs }">
                         <span v-if="item.type === 'icon'" class="fas icon-xl" :class="`fa-${item.icon}`"
-                              style="color: #000000"/>
+                              style="color: #000000"  v-on="on" v-bind="attrs"/>
 
                         <inline-svg v-else :class="{'svg-white' : isActive}" :src="item.icon" alt="" title=""
                                     v-on="on" v-bind="attrs"/>
                     </template>
-                    <span style="white-space: nowrap" class="d-inline-block" v-text="item.title"/>
+                    <span class="text-no-wrap" v-text="item.title"/>
                 </v-tooltip>
             </v-list-item>
 

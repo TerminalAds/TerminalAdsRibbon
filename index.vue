@@ -81,10 +81,11 @@ export default {
     beforeMount() {
         this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
 
-    HtmlClass.init(this.layoutConfig());
+        HtmlClass.init(this.layoutConfig());
 
         let token = localStorage.getItem('id_token');
         this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+        this.headers.Authorization = 'Bearer ' + token
     },
     mounted() {
         setTimeout(() => {

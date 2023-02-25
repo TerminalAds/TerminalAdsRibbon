@@ -6,16 +6,20 @@
                  :style="{backgroundImage: `url('media/bg/bg-10.jpg')`}">
 
                 <div class="card-body d-flex flex-column">
-                    <a href="#"
-                       class="text-white text-hover-primary font-weight-bolder font-size-h6">بسته های فعال </a>
-                    <a href="#" class="text-white text-hover-primary font-weight-bolder mt-3"
-                       style="font-size: 8pt">شما هیچ بسته فعالی ندارید.</a>
+                    <span class="text-white font-weight-bolder font-size-h6">بسته های فعال</span>
+
+                    <span v-if="pack && pack.title" class="text-white font-weight-bolder mt-3"
+                          style="font-size: 8pt" v-text="pack.title"/>
+
+                    <span v-else class="text-white font-weight-bolder mt-3"
+                          style="font-size: 8pt">شما هیچ بسته فعالی ندارید.</span>
 
                     <div class="mt-12">
-                        <b-progress :max="pack.expire" height="18px" v-b-tooltip.hover
-                                    title="شما هیچ بسته ای ندارید." show-value :value="pack.diff_day"
-                                    :variant="(pack.expire *20 / 100) < pack.diff_day  ? 'primary' : 'danger'"
-                                    :striped="true" :animated="true"></b-progress>
+                        <b-progress :max="pack.expire" height="18px"
+                                    v-b-tooltip.hover="pack && pack.title ? pack.title : 'بدون بسته فعال'"
+                                    show-value :value="packValue"
+                                    :variant="(pack.expire * 20 / 100) < packValue  ? 'primary' : 'danger'"
+                                    :striped="true" :animated="true"/>
                     </div>
                 </div>
             </div>
@@ -96,6 +100,14 @@ export default {
         ...mapGetters("ribbon", ["core"]),
         pack() {
             return this.core?.pack?.length > 0 && this.core?.pack[0]
+        },
+        packValue() {
+            if (this.pack)
+                if (this.pack.expired_at == null || this.pack.expired_at === 0) {
+                    return this.pack.expire
+                } else {
+                    return this.pack.diff_day
+                }
         }
     },
 

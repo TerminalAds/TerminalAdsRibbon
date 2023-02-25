@@ -6,7 +6,7 @@
                 <div class="symbol user-avatar symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                     <v-hover v-slot:default="{hover}">
                         <div class="symbol-label" :class="hover ? 'elevation-8' : 'elevation-4'"
-                             :style="`background-image: url('https://api.terminalads.com/${userImage}')`"/>
+                             :style="`background-image: url('https://api.terminalads.com/storage/${userImage}')`"/>
                     </v-hover>
 
                     <i class="symbol-badge bg-success"></i>
@@ -104,7 +104,7 @@ export default {
         },
         userImage() {
             return this.core?.user?.length > 0 && this.core?.user[0].image
-                ? 'storage/' + this.core?.user[0].image
+                ? this.core?.user[0].image
                 : 'avatar/blank.jpg'
         }
     }

@@ -24,9 +24,9 @@
                 :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'"
                 :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) } ]">
 
-                <router-link v-if="!menu.children" :to="`/${menu.slug}`" class="menu-link">
+                <a v-if="!menu.children" :href="itemSlug(menu.slug)" class="menu-link">
                     <span class="menu-text"> {{ menu.name }} </span>
-                </router-link>
+                </a>
 
                 <span v-else class="menu-link menu-toggle noBackground">
                     <span class="menu-text">{{ menu.name }}</span>
@@ -78,6 +78,12 @@ export default {
         hasActiveChildren(match) {
             if (!match || match.length <= 0) return false
             return this.$route["path"].indexOf(match) !== -1;
+        },
+        itemSlug(slug) {
+            if (slug.startsWith('http')) {
+                return slug
+            }
+            return '/#' + slug
         }
     }
 };

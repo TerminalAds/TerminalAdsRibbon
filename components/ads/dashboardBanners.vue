@@ -1,7 +1,7 @@
 <template>
     <div v-if="banners.length > 0" class="px-4 py-2"
          @mouseenter="hoverEvent(false)" @mouseleave="hoverEvent(true)">
-        <v-carousel :cycle="cycleActive" height="fit-content" hide-delimiter-background interval="5000" vertical
+        <v-carousel :cycle="cycleActive" height="fit-content" hide-delimiter-background interval="3000" vertical
                     :vertical-delimiters="$vuetify.breakpoint.mdAndUp ? 'vertical': undefined" :show-arrows="false"
                     class="rounded-lg overflow-hidden" :hide-delimiters="$vuetify.breakpoint.xs">
 

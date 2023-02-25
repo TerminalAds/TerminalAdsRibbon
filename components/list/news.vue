@@ -9,14 +9,9 @@
             <div v-if="loading" class="row justify-content-center mt-10">
                 <fingerprint-spinner :animation-duration="1500" :size="68" color="#ff1d5e"/>
             </div>
-            <div class="justify-content-center text-center" v-if="!news.length && !loading">
-                <div class="mt-15">
-                    <i class="fa la-frown fa-7x"></i>
-                    <h2 class="text-dark-50 mt-2">خبر تازه ای نیست.</h2>
-                </div>
-            </div>
-            <div v-else class="d-flex flex-wrap align-items-center pb-10" v-for="(item, index) in news.data"
-                 :key="index">
+
+            <div v-else-if="news.data && news.data.length > 0" class="d-flex flex-wrap align-items-center pb-10"
+                 v-for="(item, index) in news.data" :key="index">
                 <div class="symbol symbol-50 symbol-2by3 flex-shrink-0 mr-4">
                     <div class="symbol-label" :style="{backgroundImage: `url('${coreLandUrl(item.picture)}')`}"></div>
                 </div>
@@ -33,6 +28,13 @@
                         class="text-dark-75 text-hover-primary font-weight-bold">
                     مشاهده
                 </button>
+            </div>
+
+            <div class="justify-content-center text-center" v-else>
+                <div class="mt-15">
+                    <i class="fa la-frown fa-7x"></i>
+                    <h2 class="text-dark-50 mt-2">خبر تازه ای نیست.</h2>
+                </div>
             </div>
         </div>
 
@@ -189,10 +191,11 @@ export default {
             this.$DashboardAxios.get(`api/core/content?type=news&sid=${this.sid}`)
                 .then(({data}) => {
                     this.news = data.data
-                    this.loading = false;
                 }).catch(() => {
                 this.$toast.error('خطا در دریافت اخبار!')
-            }).finally(() => this.loading = false)
+            }).finally(() => setTimeout(() => {
+                this.loading = false
+            }, 3000))
         },
     },
     created() {
