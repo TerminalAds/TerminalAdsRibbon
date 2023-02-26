@@ -7,7 +7,7 @@
         <v-spacer/>
 
         <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(56413465)) }}
+            {{ persianNum(currency(balance)) }}
         </span>
 
         <v-spacer class="d-none d-sm-block"/>

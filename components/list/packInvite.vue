@@ -8,7 +8,7 @@
                 <div class="card-body d-flex flex-column">
                     <span class="text-white font-weight-bolder font-size-h6">بسته های فعال</span>
 
-                    <span v-if="pack && pack.title" class="text-white font-weight-bolder mt-3"
+                    <span v-if="pack && pack.title && pack.expire" class="text-white font-weight-bolder mt-3"
                           style="font-size: 8pt" v-text="pack.title"/>
 
                     <span v-else class="text-white font-weight-bolder mt-3"
@@ -16,7 +16,7 @@
 
                     <div class="mt-12">
                         <b-progress :max="pack.expire" height="18px"
-                                    v-b-tooltip.hover="pack && pack.title ? pack.title : 'بدون بسته فعال'"
+                                    v-b-tooltip.hover="progressTitle"
                                     show-value :value="packValue"
                                     :variant="(pack.expire * 20 / 100) < packValue  ? 'primary' : 'danger'"
                                     :striped="true" :animated="true"/>
@@ -103,11 +103,19 @@ export default {
         },
         packValue() {
             if (this.pack)
-                if (this.pack.expired_at == null || this.pack.expired_at === 0) {
+                if (this.pack.diff_day == null || this.pack.diff_day === 0) {
                     return this.pack.expire
                 } else {
                     return this.pack.diff_day
                 }
+        },
+        progressTitle() {
+            if (this.pack && this.pack.diff_day && this.pack.diff_day > 0) {
+                return this.pack.title
+            } else if (this.pack.expire && this.pack.expire > 0) {
+                return 'پنل نامحدود'
+            }
+            return 'بدون بسته فعال'
         }
     },
 
