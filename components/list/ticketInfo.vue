@@ -27,22 +27,22 @@
 
         <v-col cols="12" sm="6" md="3" lg="6" class="pa-2">
             <a class="card card-custom cursor-pointer"
-               :href="config.dashboardConfig.announcement.url"
-               :style="`height: 165px;background-image: url(${config.dashboardConfig.announcement.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
+               :href="DConfigs.dashboardConfig.announcement.url"
+               :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.announcement.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
                 <div class="card-body">
                     <div class="text-dark font-weight-bolder font-size-h2 mt-20"
                          v-text="announcement"/>
-                    <p class="black--text">{{ config.dashboardConfig.announcement.text }}</p>
+                    <p class="black--text">{{ DConfigs.dashboardConfig.announcement.text }}</p>
                 </div>
             </a>
         </v-col>
 
         <v-col cols="12" sm="6" md="3" lg="6" class="pa-2">
-            <a class="card ribbon card-custom" :href="config.dashboardConfig.numbers.url"
-               :style="`height: 165px;background-image: url(${config.dashboardConfig.numbers.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
+            <a class="card ribbon card-custom" :href="DConfigs.dashboardConfig.numbers.url"
+               :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.numbers.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
                 <div class="card-body">
                     <div class="text-dark font-weight-bolder font-size-h2 mt-20" v-text="numbers"/>
-                    <p class="black--text" v-text="config.dashboardConfig.numbers.text"/>
+                    <p class="black--text" v-text="DConfigs.dashboardConfig.numbers.text"/>
                 </div>
             </a>
         </v-col>
@@ -73,7 +73,7 @@ export default {
         ...mapGetters(["layoutConfig"]),
     },
     mounted() {
-        this.config.dashboardConfig.counter.then(res => {
+        this.DConfigs.dashboardConfig.counter.then(res => {
             this.announcement = res.announcement
             this.numbers = res.numbers
         });

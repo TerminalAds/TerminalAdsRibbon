@@ -14,8 +14,8 @@
             <div class="d-flex align-items-stretch mr-3">
                 <div class="header-logo">
                     <router-link to="/">
-                        <img alt="Logo" :src="config.header_logo" class="logo-default max-h-40px"/>
-                        <img alt="Logo" :src="config.header_logo" class="logo-sticky max-h-40px"/>
+                        <img alt="Logo" :src="DConfigs.header_logo" class="logo-default max-h-40px"/>
+                        <img alt="Logo" :src="DConfigs.header_logo" class="logo-sticky max-h-40px"/>
                     </router-link>
                 </div>
 

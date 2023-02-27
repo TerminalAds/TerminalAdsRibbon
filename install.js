@@ -9,6 +9,7 @@ export default {
 
         options.store.registerModule("ribbon", store);
 
+        Vue.prototype.$instanceAxios = options.axios
         Vue.prototype.$DashboardAxios = DashboardAxios.create({
             baseURL: options.core_url,
             timeout: 15000,
@@ -20,9 +21,9 @@ export default {
         Vue.mixin({
             data: () => ({
                 core_url: options.core_url,
-                headers: options.headers,
+                DHeaders: options.headers,
                 front_url: options.front_url,
-                config: options.config(),
+                DConfigs: options.config(),
                 sid: options.sid
             }),
             methods: {

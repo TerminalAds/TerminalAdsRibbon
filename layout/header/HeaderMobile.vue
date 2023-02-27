@@ -1,40 +1,52 @@
 <template>
-    <div id="kt_header_mobile" class="header-mobile d-block align-items-center" v-bind:class="headerClasses">
+    <v-app-bar app fixed color="transparent" flat dense>
+        <v-img src="media/bg/bg-10.jpg" class="app-bar-img px-2" height="100%">
+            <template v-slot:default>
+                <v-toolbar-items>
+                    <v-btn small class="px-2" dark text @click="toggleMobileMenu()">
+                        <v-icon class="ml-1">mdi-menu</v-icon>
+                        منو
+                    </v-btn>
+                </v-toolbar-items>
 
-        <div class="d-flex align-items-center w-100 justify-content-between">
-            <v-btn small class="px-1" dark text @click="toggleMobileMenu()">
-                <v-icon class="ml-1">mdi-menu</v-icon>
-                منو
-            </v-btn>
+                <router-link to="/">
+                    <img alt="Logo" class="px-2" :src="DConfigs.header_logo" style="width: 42px"/>
+                </router-link>
 
-            <walletButton></walletButton>
+                <v-btn :href="front_url" text min-width="36" class="px-2" color="#6cdb72">
+                    <v-icon size="30">mdi-home</v-icon>
+                </v-btn>
 
-            <div class="d-flex flex-nowrap">
-                <b-dropdown class="downpDownMobile" size="sm" variant="link"
-                            toggle-class="topbar-item text-decoration-none p-0" no-caret right no-flip>
-                    <template v-slot:button-content class="pt-0">
-                        <div class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 pulse pulse-primary">
-                            <span class="svg-icon svg-icon-xl"><i class="flaticon2-notification"></i></span>
-                            <span class="pulse-ring"></span>
-                        </div>
+                <v-spacer/>
+
+                <KTQuickUser :large="false"/>
+
+                <v-menu offset-y :close-on-content-click="false" eager>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-badge :value="unread" :content="persianNum(unread)" left overlap color="red"
+                                 offset-x="20" offset-y="20">
+                            <v-btn text dark min-width="36" class="px-2" v-bind="attrs" v-on="on">
+                                <v-icon>mdi-bell</v-icon>
+                            </v-btn>
+                        </v-badge>
                     </template>
-                    <b-dropdown-text tag="div" style="width: 100vw !important; padding: 0"
-                                     class="transition-linear-out-slow-in mobileCutomPaddingNotif">
-                        <form class="p-0">
-                            <KTDropdownNotification></KTDropdownNotification>
-                        </form>
-                    </b-dropdown-text>
-                </b-dropdown>
 
-                <button class="btn btn-icon btn-hover-transparent-white p-0 ml-0 mt-1" @click="onLogout()">
-                    <span class="svg-icon svg-icon-xl">
-                        <v-icon size="25" class="hover-logout">mdi-power</v-icon>
-                    </span>
-                </button>
+                    <v-card flat>
+                        <KTDropdownNotification v-model="unread"/>
+                    </v-card>
+                </v-menu>
 
-            </div>
-        </div>
-    </div>
+                <v-btn text dark min-width="36" class="px-2">
+                    <v-icon>mdi-power</v-icon>
+                </v-btn>
+            </template>
+        </v-img>
+
+        <template v-slot:extension>
+            <v-spacer/>
+            <walletButton style="flex-basis: 100%"/>
+        </template>
+    </v-app-bar>
 </template>
 
 <script>
@@ -44,14 +56,19 @@ import walletButton from '../../pages/transactions/WalletOpenButton';
 import KTExitButton from "../../layout/header/ExitButton.vue";
 import {LOGOUT} from "@/core/services/store/auth.module";
 import KTDropdownNotification from "../../layout/extras/dropdown/DropdownNotification.vue";
+import KTQuickUser from "../extras/offcanvas/QuickUser";
 
 export default {
     name: "KTHeaderMobile",
-    components: {walletButton, KTExitButton, KTDropdownNotification},
+    components: {KTQuickUser, walletButton, KTExitButton, KTDropdownNotification},
     mounted() {
         // Init Header Topbar For Mobile Mode
         KTLayoutHeaderTopbar.init(this.$refs["kt_header_mobile_topbar_toggle"]);
     },
+    data: () => ({
+        unread: 0
+    }),
+
     methods: {
         onLogout() {
             this.$store
@@ -59,6 +76,7 @@ export default {
                 .then(() => window.location.reload());
         }
     },
+
     computed: {
         ...mapGetters(["layoutConfig", "getClasses"]),
 
@@ -90,22 +108,37 @@ export default {
             return !!this.layoutConfig("aside.self.display");
         }
     }
-};
-</script>
-
-<style>
-.downpDownMobile .dropdown-menu {
-    width: 100vw !important;
-    left: -5px !important;
-    padding-top: 0 !important;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    height: 100vh !important;
 }
-</style>
+</script>
 
 <style scoped>
 .mobileCutomPaddingNotif .b-dropdown-text {
     padding: 0 !important;
+}
+
+.v-app-bar >>> .v-toolbar__extension,
+.app-bar-img {
+    transition: opacity .3s ease-in;
+}
+
+.v-app-bar >>> .v-toolbar__content {
+    padding: 0;
+}
+
+.app-bar-img >>> .v-image__image {
+    opacity: 0;
+}
+
+.app-bar-img >>> .v-responsive__content {
+    display: flex;
+    align-items: center;
+}
+
+.v-app-bar--is-scrolled >>> .app-bar-img .v-image__image {
+    opacity: 1;
+}
+
+.v-app-bar--is-scrolled >>> .v-toolbar__extension {
+    opacity: 0;
 }
 </style>

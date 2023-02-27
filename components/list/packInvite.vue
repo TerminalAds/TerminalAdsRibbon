@@ -7,8 +7,8 @@
 
                 <div class="card-body d-flex flex-column">
                     <span class="text-white font-weight-bolder font-size-h6">بسته های فعال</span>
-
-                    <span v-if="pack && pack.title" class="text-white font-weight-bolder mt-3"
+                    
+                    <span v-if="pack && pack.title && pack.expire" class="text-white font-weight-bolder mt-3"
                           style="font-size: 8pt" v-text="pack.title"/>
 
                     <span v-else class="text-white font-weight-bolder mt-3"
@@ -16,7 +16,7 @@
 
                     <div class="mt-12">
                         <b-progress :max="pack.expire" height="18px"
-                                    v-b-tooltip.hover="pack && pack.title ? pack.title : 'بدون بسته فعال'"
+                                    v-b-tooltip.hover="progressTitle"
                                     show-value :value="packValue"
                                     :variant="(pack.expire * 20 / 100) < packValue  ? 'primary' : 'danger'"
                                     :striped="true" :animated="true"/>
@@ -34,8 +34,9 @@
                               @click.stop="giftDialog = true">هدیه</span>
                         دریافت کنید.
                     </h6>
-                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber" type="number"
-                           placeholder="شماره را وارد نمایید.">
+                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber"
+                           placeholder="شماره را وارد نمایید." id="invite.input" @keydown.enter="invite"
+                           v-intersect="onIntersect">
                     <v-btn class="py-1 mt-5 white--text rounded-lg" style="margin-right: auto;" depressed width="100"
                            height="30"
                            min-height="30"
@@ -90,6 +91,8 @@ export default {
         cons: {
             title: 'دریافت هدیه'
         },
+        isIntersecting: false,
+        seen: false,
         phoneNumber: '',
         giftDialog: false,
         loading: false,
@@ -103,18 +106,26 @@ export default {
         },
         packValue() {
             if (this.pack)
-                if (this.pack.expired_at == null || this.pack.expired_at === 0) {
+                if (this.pack.diff_day == null || this.pack.diff_day === 0) {
                     return this.pack.expire
                 } else {
                     return this.pack.diff_day
                 }
+        progressTitle() {
+            if (this.pack && this.pack.diff_day && this.pack.diff_day > 0) {
+                return this.pack.diff_day + ' روز مانده است'
+            } else if (this.pack.expire && this.pack.expire > 0) {
+                return 'پنل نامحدود'
+            }
+            return 'بدون بسته فعال'
         }
     },
 
     methods: {
         invite() {
-            if (this.phoneNumber === '' || this.phoneNumber.length <= 10) {
+            if (this.phoneNumber === '' || this.phoneNumber.length <= 10 || !this.phoneNumber.startsWith('09')) {
                 this.$toast.error('لطفا شماره صحیح وارد نمایید.')
+                this.phoneNumber = ''
                 return false;
             }
             this.loading = true
@@ -128,7 +139,33 @@ export default {
                         this.$toast.error(response.data.message)
                     }
                 })
-                .finally(() => this.loading = false)
+                .finally(() => {
+                    this.phoneNumber = ''
+                    this.loading = false
+                })
+        },
+        onIntersect(isIntersecting, entries, observer) {
+            if (this.seen) return
+            this.seen = true
+            // More information about these options
+            // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+            this.isIntersecting = isIntersecting
+
+            const digitPeriodRegExp = new RegExp('\\d|\\.');
+            const input = document.getElementById('invite.input')
+
+            input.addEventListener('keydown', function (event) {
+                if (event.ctrlKey
+                    || event.altKey
+                    || typeof event.key !== 'string'
+                    || event.key.length !== 1) {
+                    return;
+                }
+
+                if (!digitPeriodRegExp.test(event.key)) {
+                    event.preventDefault();
+                }
+            }, false);
         },
         fillExpire(expire_date) {
             if (!expire_date) {

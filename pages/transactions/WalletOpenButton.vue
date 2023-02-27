@@ -1,18 +1,18 @@
 <template>
     <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center font-size-h4" flat
-            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 200" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
+            :max-width="$vuetify.breakpoint.mdAndUp ? '' : 400" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
             height="32" v-b-tooltip="'لیست تراکنش های شما'">
         <span>اعتبار</span>
 
         <v-spacer/>
 
         <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(56413465)) }}
+            {{ persianNum(currency(balance)) }}
         </span>
 
-        <v-spacer class="d-none d-sm-block"/>
+        <v-spacer/>
 
-        <v-icon class="d-none d-sm-block" v-if="wallet.icon != null && wallet.icon.length > 0" v-text="wallet.icon"/>
+        <v-icon v-if="wallet.icon != null && wallet.icon.length > 0" v-text="wallet.icon"/>
 
         <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
                height="32" dark depressed @click.stop="toggleWalletDialog">

@@ -1,25 +1,28 @@
 <template>
     <v-card flat>
         <div class="title-wrapper pb-2">
-            <terminal_title_ribbon/>
+            <terminal_title_ribbon>
+                <v-card-title class="justify-end pa-0 flex-nowrap">
+                    <!--                    <v-btn depressed color="rgba(105, 147, 255, .35)" v-if="tutorialExists" @click="getTutorial"-->
+                    <v-btn depressed color="rgb(202,217,255)" v-if="tutorialExists" @click="getTutorial"
+                           v-b-tooltip.hover="'راهنما'" class="px-0" min-width="36">
+                        <v-icon small class="text-primary jump">mdi-help</v-icon>
+                    </v-btn>
 
-            <v-card-title class="justify-end py-2">
-                <v-btn depressed color="rgba(105, 147, 255, .35)" v-if="tutorialExists" @click="getTutorial"
-                       v-b-tooltip.hover="'راهنما'" class="px-0" min-width="36">
-                    <v-icon small class="text-primary jump">mdi-help</v-icon>
-                </v-btn>
+                    <!--                    <v-btn depressed style="margin-right: 8px" color="rgba(123, 31, 162, .3)"-->
+                    <v-btn depressed style="margin-right: 8px" color="rgb(215,187,227)"
+                           @click="reloadPage" min-width="36" class="px-0" v-b-tooltip.hover="'به روزرسانی'">
+                        <v-icon color="#7b1fa2">mdi-reload</v-icon>
+                        <!--                    رفرش-->
+                    </v-btn>
 
-                <v-btn depressed style="margin-right: 8px" color="rgba(123, 31, 162, .3)"
-                       @click="reloadPage" min-width="36" class="px-0" v-b-tooltip.hover="'به روزرسانی'">
-                    <v-icon color="#7b1fa2">mdi-reload</v-icon>
-                    <!--                    رفرش-->
-                </v-btn>
-
-                <v-btn depressed color="rgba(246, 78, 96, .35)" v-b-tooltip.hover="'بازگشت به صفحه قبلی'"
-                       @click="$router.back()" style="margin-right: 8px" min-width="36" class="px-0">
-                    <v-icon class="text-danger">mdi-close</v-icon>
-                </v-btn>
-            </v-card-title>
+                    <!--                    <v-btn depressed color="rgba(246, 78, 96, .35)" v-b-tooltip.hover="'بازگشت به صفحه قبلی'"-->
+                    <v-btn depressed color="rgb(252,193,199)" v-b-tooltip.hover="'بازگشت به صفحه قبلی'"
+                           @click="$router.back()" style="margin-right: 8px" min-width="36" class="px-0">
+                        <v-icon class="text-danger">mdi-close</v-icon>
+                    </v-btn>
+                </v-card-title>
+            </terminal_title_ribbon>
         </div>
 
         <router-view v-if="rerender"/>
@@ -155,7 +158,7 @@ export default {
         },
         allTutorials() {
             Axios.get(`${this.core_url}/api/allTutorials`, {
-                headers: this.headers,
+                headers: this.DHeaders,
                 params: {
                     sid: this.sid,
                 }
@@ -212,7 +215,7 @@ export default {
                 slug: this.$route.path.substring(1),
                 sid: this.sid,
             }, {
-                headers: this.headers
+                headers: this.DHeaders
             }).then(({data}) => {
                 for (let a of data) {
                     if (a.privilege_type === 'admin') {
@@ -275,13 +278,13 @@ export default {
     flex-wrap: wrap-reverse;
 }
 
-.title-wrapper >>> .v-card__title {
-    flex: 1 0 0;
-}
+/*.title-wrapper >>> .v-card__title {*/
+/*    flex: 1 0 0;*/
+/*}*/
 
-@media screen and (max-width: 960px) {
-    .title-wrapper >>> .v-card__title {
-        flex: 0 0 100%;
-    }
-}
+/*@media screen and (max-width: 960px) {*/
+/*    .title-wrapper >>> .v-card__title {*/
+/*        flex: 0 0 100%;*/
+/*    }*/
+/*}*/
 </style>
