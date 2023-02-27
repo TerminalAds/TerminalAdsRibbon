@@ -179,7 +179,6 @@ export default {
          */
         loaderLogo() {
             return this.DConfigs.header_logo
-            // return process.env.BASE_URL + this.layoutConfig("loader.logo");
         },
 
         /**

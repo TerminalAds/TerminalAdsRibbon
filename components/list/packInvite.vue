@@ -7,7 +7,7 @@
 
                 <div class="card-body d-flex flex-column">
                     <span class="text-white font-weight-bolder font-size-h6">بسته های فعال</span>
-
+                    
                     <span v-if="pack && pack.title && pack.expire" class="text-white font-weight-bolder mt-3"
                           style="font-size: 8pt" v-text="pack.title"/>
 
@@ -111,7 +111,6 @@ export default {
                 } else {
                     return this.pack.diff_day
                 }
-        },
         progressTitle() {
             if (this.pack && this.pack.diff_day && this.pack.diff_day > 0) {
                 return this.pack.diff_day + ' روز مانده است'
