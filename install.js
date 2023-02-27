@@ -9,6 +9,7 @@ export default {
 
         options.store.registerModule("ribbon", store);
 
+        Vue.prototype.$instanceAxios = options.axios
         Vue.prototype.$DashboardAxios = DashboardAxios.create({
             baseURL: options.core_url,
             timeout: 15000,

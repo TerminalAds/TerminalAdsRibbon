@@ -79,6 +79,21 @@ export default {
         }
     },
     beforeMount() {
+        this.$instanceAxios.interceptors.response.use(
+            response => Promise.resolve(response),
+            error => {
+                this.handleResponse(error);
+                return Promise.reject(error)
+            }
+        )
+        this.$DashboardAxios.interceptors.response.use(
+            response => Promise.resolve(response),
+            error => {
+                this.handleResponse(error);
+                return Promise.reject(error)
+            }
+        )
+
         this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
 
         HtmlClass.init(this.layoutConfig());
@@ -96,8 +111,32 @@ export default {
         this.setTutorials();
     },
     methods: {
+        handleResponse(error) {
+            if (error.response.status === 403) {
+                this.$modal.error(this.$t("ERRORS.NoAccess"), this.$t("ERRORS.PleasebyeAPlane"), undefined, {
+                    text: this.$t("BUTTONS.BuyAPlane"),
+                    class: 'success w-100',
+                    onClick: this.gotoPanel
+                }, [{
+                    text: this.$t("BUTTONS.OK")
+                }])
+            } else if (error.response.status === 402) {
+                this.$modal.wallet(this.$t("ERRORS.NoAccountCharge"), this.$t("ERRORS.PleaseChargeYourAccount"), undefined, {
+                    text: this.$t("BUTTONS.AccountCharge"),
+                    class: 'success w-100',
+                    onClick: this.toggleWalletDialog
+                }, [
+                    {
+                        text: this.$t("BUTTONS.Close")
+                    }
+                ])
+            }
+        },
+        gotoPanel() {
+            window.location.href = 'https://core.terminalads.com/#/panel'
+        },
         ...mapActions('tutorial', ['setTutorials']),
-        ...mapActions('ribbon', ['setCore']),
+        ...mapActions('ribbon', ['setCore', 'toggleWalletDialog']),
         fetch() {
             this.$DashboardAxios.get('/api/core')
                 .then(({data}) => {
