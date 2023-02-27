@@ -3,7 +3,7 @@
         <v-list-item @click="toggleMobileMenu()">
             <v-list-item-content>
                 <div class="text-center">
-                    <img alt="Logo" :src="config.header_logo" class="logo-default max-h-40px"/>
+                    <img alt="Logo" :src="DConfigs.header_logo" class="logo-default max-h-40px"/>
                 </div>
             </v-list-item-content>
             <v-list-item-action>

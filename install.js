@@ -20,9 +20,9 @@ export default {
         Vue.mixin({
             data: () => ({
                 core_url: options.core_url,
-                headers: options.headers,
+                DHeaders: options.headers,
                 front_url: options.front_url,
-                config: options.config(),
+                DConfigs: options.config(),
                 sid: options.sid
             }),
             methods: {

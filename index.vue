@@ -85,7 +85,7 @@ export default {
 
         let token = localStorage.getItem('id_token');
         this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-        this.headers.Authorization = 'Bearer ' + token
+        this.DHeaders.Authorization = 'Bearer ' + token
     },
     mounted() {
         setTimeout(() => {
@@ -139,7 +139,7 @@ export default {
          * @returns {string}
          */
         loaderLogo() {
-            return this.config.header_logo
+            return this.DConfigs.header_logo
             // return process.env.BASE_URL + this.layoutConfig("loader.logo");
         },
 
@@ -183,6 +183,10 @@ export default {
 }
 
 @media screen and (max-width: 960px) {
+    #kt_content {
+        padding-top: 15vh;
+    }
+
     .content {
         margin: 0 16px;
     }

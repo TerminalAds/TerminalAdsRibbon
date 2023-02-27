@@ -158,7 +158,7 @@ export default {
         },
         allTutorials() {
             Axios.get(`${this.core_url}/api/allTutorials`, {
-                headers: this.headers,
+                headers: this.DHeaders,
                 params: {
                     sid: this.sid,
                 }
@@ -215,7 +215,7 @@ export default {
                 slug: this.$route.path.substring(1),
                 sid: this.sid,
             }, {
-                headers: this.headers
+                headers: this.DHeaders
             }).then(({data}) => {
                 for (let a of data) {
                     if (a.privilege_type === 'admin') {

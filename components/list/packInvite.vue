@@ -34,8 +34,9 @@
                               @click.stop="giftDialog = true">هدیه</span>
                         دریافت کنید.
                     </h6>
-                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber" type="number"
-                           placeholder="شماره را وارد نمایید.">
+                    <input :disabled="loading" class="form-control" :maxlength="11" v-model="phoneNumber"
+                           placeholder="شماره را وارد نمایید." id="invite.input" @keydown.enter="invite"
+                           v-intersect="onIntersect">
                     <v-btn class="py-1 mt-5 white--text rounded-lg" style="margin-right: auto;" depressed width="100"
                            height="30"
                            min-height="30"
@@ -90,6 +91,8 @@ export default {
         cons: {
             title: 'دریافت هدیه'
         },
+        isIntersecting: false,
+        seen: false,
         phoneNumber: '',
         giftDialog: false,
         loading: false,
@@ -111,7 +114,7 @@ export default {
         },
         progressTitle() {
             if (this.pack && this.pack.diff_day && this.pack.diff_day > 0) {
-                return this.pack.title
+                return this.pack.diff_day + ' روز مانده است'
             } else if (this.pack.expire && this.pack.expire > 0) {
                 return 'پنل نامحدود'
             }
@@ -121,8 +124,9 @@ export default {
 
     methods: {
         invite() {
-            if (this.phoneNumber === '' || this.phoneNumber.length <= 10) {
+            if (this.phoneNumber === '' || this.phoneNumber.length <= 10 || !this.phoneNumber.startsWith('09')) {
                 this.$toast.error('لطفا شماره صحیح وارد نمایید.')
+                this.phoneNumber = ''
                 return false;
             }
             this.loading = true
@@ -136,7 +140,33 @@ export default {
                         this.$toast.error(response.data.message)
                     }
                 })
-                .finally(() => this.loading = false)
+                .finally(() => {
+                    this.phoneNumber = ''
+                    this.loading = false
+                })
+        },
+        onIntersect(isIntersecting, entries, observer) {
+            if (this.seen) return
+            this.seen = true
+            // More information about these options
+            // is located here: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+            this.isIntersecting = isIntersecting
+
+            const digitPeriodRegExp = new RegExp('\\d|\\.');
+            const input = document.getElementById('invite.input')
+
+            input.addEventListener('keydown', function (event) {
+                if (event.ctrlKey
+                    || event.altKey
+                    || typeof event.key !== 'string'
+                    || event.key.length !== 1) {
+                    return;
+                }
+
+                if (!digitPeriodRegExp.test(event.key)) {
+                    event.preventDefault();
+                }
+            }, false);
         },
         fillExpire(expire_date) {
             if (!expire_date) {
