@@ -82,9 +82,9 @@ export default {
             }).then(({data}) => {
                 const menus = reformatMenuResponse(data.data);
 
-                this.items = menus;
+                this.setMenus(data.data);
 
-                this.setMenus(menus);
+                this.items = menus;
             })
                 .catch(() => this.$toast.error('خطایی رخ داده است.'))
         },

@@ -56,7 +56,7 @@ export default {
                     }
                 },
                 currency(x) {
-                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "0";
+                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "---";
                 },
                 checkWalletAsync(data) {
                     let walletInfo = money.data[data.currency.toLowerCase()]

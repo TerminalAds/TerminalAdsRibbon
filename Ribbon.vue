@@ -92,36 +92,27 @@ export default {
     position: absolute;
 }
 
+.ribbon:before,
+.ribbon:after {
+    background-color: var(--v-third-base);
+    z-index: -0;
+}
+
 .ribbon:before {
     width: 60px;
     height: 40px;
     right: 0;
     transform: rotate(19deg) translate(-1px, 8px);
-    background-color: #b30f5b;
     top: -50%;
-    z-index: -0;
     border-radius: 0 8px 0 0;
 }
-
-/*.ribbon:after {*/
-/*    width: 45px;*/
-/*    height: 20px;*/
-/*    left: 0;*/
-/*    transform: rotate(19deg) translate(-3px, -8px);*/
-/*    background-color: #b30f5b;*/
-/*    bottom: -50%;*/
-/*    z-index: 0;*/
-/*    border-radius: 0 0 0 8px;*/
-/*}*/
 
 .ribbon:after {
     width: 20px;
     height: 20px;
     left: 0;
     transform: rotate(19deg) translate(-4px, -14px);
-    background-color: #b30f5b;
     bottom: -50%;
-    z-index: 0;
     border-radius: 0 0 0 8px;
 }
 
@@ -146,59 +137,40 @@ export default {
     z-index: 2;
 }
 
-/*@media screen and (max-width: 960px) {*/
-/*    .ribbon {*/
-/*        top: 0;*/
-/*    }*/
-
-/*    .ribbon >>> .cheat-div {*/
-/*        width: 40px;*/
-/*        top: -16px;*/
-/*        border-radius: 0;*/
-/*    }*/
-
-/*    .ribbon:before {*/
-/*        width: 16px;*/
-/*        transform: rotate(19deg) translate(-1px, 13px);*/
-/*    }*/
-/*}*/
-
 .ribbon3 {
-    /*width: fit-content;*/
     min-width: 180px;
     height: 44px;
     line-height: 40px;
-    padding: 4px 12px 4px 20px;
+    padding: 4px 18px 4px 20px;
     position: relative;
-    background: rgb(238, 49, 138);
+    /*background: rgb(238, 49, 138);*/
+    background: #f13030;
     border-radius: 8px 0 8px 0;
     z-index: 2;
 }
 
-.ribbon3:before {
-    position: absolute;
-    content: '';
-    width: 4px;
-    height: 4px;
-    background-color: transparent;
-    box-shadow: 4px 2px 0 1px #ee318a;
-    top: 0;
-    right: 4px;
-    transform: rotate(-65deg);
-    border-radius: 0 0 13px;
-}
 
+.ribbon3:before,
 .ribbon3:after {
     position: absolute;
     content: '';
     width: 4px;
     height: 4px;
     background-color: transparent;
-    box-shadow: 4px 2px 0 1px #ee318a;
+    box-shadow: 4px 2px 0 1px #f13030;
+    border-radius: 0 0 13px;
+}
+
+.ribbon3:before {
+    top: 0;
+    right: 4px;
+    transform: rotate(-65deg);
+}
+
+.ribbon3:after {
     bottom: 0;
     left: 4px;
     transform: rotate(-249deg);
-    border-radius: 0 0 13px;
 }
 
 .ribbon-text-wrapper {
