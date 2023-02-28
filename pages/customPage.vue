@@ -4,9 +4,9 @@
             <terminal_title_ribbon>
                 <v-card-title class="justify-end pa-0 flex-nowrap">
                     <!--                    <v-btn depressed color="rgba(105, 147, 255, .35)" v-if="tutorialExists" @click="getTutorial"-->
-                    <v-btn depressed color="rgb(202,217,255)" v-if="tutorialExists" @click="getTutorial"
-                           v-b-tooltip.hover="'راهنما'" class="px-0" min-width="36">
-                        <v-icon small class="text-primary jump">mdi-help</v-icon>
+                    <v-btn depressed color="rgb(202,217,255)" @click="getTutorial"
+                           v-b-tooltip.hover="'راهنما'" class="px-0" min-width="36" :loading="loading">
+                        <v-icon small class="jump" color="#6993ff">mdi-help</v-icon>
                     </v-btn>
 
                     <!--                    <v-btn depressed style="margin-right: 8px" color="rgba(123, 31, 162, .3)"-->
@@ -27,95 +27,64 @@
 
         <router-view v-if="rerender"/>
 
-        <div v-if="dialog && tutorialExists">
-            <v-dialog v-model="dialog" scrollable max-width="800px">
-                <v-card elevation="2" outlined>
-                    <v-card-title>
-                        <v-tabs v-model="tab" align-with-title grow>
-                            <v-tabs-slider/>
-                            <v-tab v-if="tutorial && haveFeature">
-                                <v-icon color="pink" class="m-2">mdi-subtitles</v-icon>
-                                معرفی نامه
-                            </v-tab>
+        <!--        <div v-if="dialog && ">-->
+        <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>
+            <template v-slot:extension>
+                <v-tabs v-model="tab" align-with-title grow background-color="transparent" dark
+                        style="flex: 1 0 0;max-width: calc(100% - 46px)"
+                        show-arrows>
+                    <v-tabs-slider/>
+                    <v-tab v-for="(item, i) in tabItems" v-if="item.condition">
+                        <v-icon :color="tab === i ? item.color : ''" class="m-2">mdi-{{ item.icon }}</v-icon>
+                        {{ item.title }}
+                    </v-tab>
+                </v-tabs>
+            </template>
 
-                            <v-tab>
-                                <v-icon color="green" class="m-2">mdi-account</v-icon>
-                                راهنما
-                            </v-tab>
+            <v-tabs-items v-model="tab" class="pa-4">
+                <v-tab-item v-if="tutorial && haveFeature">
+                    <v-card flat>
+                        <v-card-text v-html="tutorial.features"></v-card-text>
+                    </v-card>
+                </v-tab-item>
 
-                            <v-tab v-if="hasQuestions">
-                                <v-icon color="indigo" class="m-2">mdi-help-circle-outline</v-icon>
-                                سوالات متداول
-                            </v-tab>
+                <v-tab-item>
+                    <v-card flat v-if="Object.keys(tutorial).length > 0">
+                        <v-card-title class="justify-content-center">
+                            {{ tutorial.title }}
+                        </v-card-title>
 
-                            <v-tab v-if="ribbon_can('admin_access')">
-                                <v-icon color="blue" class="m-2">mdi-shield-account-outline</v-icon>
-                                راهنمای ادمین
-                            </v-tab>
-                        </v-tabs>
-                    </v-card-title>
+                        <v-card-text v-html="tutorial.description"/>
+                    </v-card>
+                </v-tab-item>
 
-                    <v-card-text>
-                        <v-tabs-items v-model="tab">
+                <v-tab-item v-if="hasQuestions && tutorial !== null">
+                    <v-expansion-panels flat>
+                        <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i"
+                                           class="grey lighten-2 mb-2">
+                            <v-expansion-panel-header class="font-size-h4 font-weight-bold text-break">
+                                {{ item.question }}
+                            </v-expansion-panel-header>
 
-                            <v-tab-item v-if="tutorial && haveFeature">
-                                <v-card>
-                                    <v-card-text v-html="tutorial.features"></v-card-text>
-                                </v-card>
-                            </v-tab-item>
+                            <v-expansion-panel-content class="pt-2 font-size-h6 text-break">
+                                <div v-html="item.answer"/>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </v-tab-item>
 
-                            <v-tab-item>
-                                <v-card v-if="Object.keys(tutorial).length > 0">
-                                    <v-card-title class="justify-content-center">
-                                        {{ tutorial.title }}
-                                    </v-card-title>
+                <v-tab-item>
+                    <v-card flat v-if="adminTutorial">
+                        <v-card-title class="justify-content-center">
+                            {{ adminTutorial.title }}
+                        </v-card-title>
 
-                                    <v-card-text v-html="tutorial.description"></v-card-text>
-                                </v-card>
-                            </v-tab-item>
-
-                            <v-tab-item v-if="hasQuestions && tutorial !== null">
-                                <v-card>
-                                    <v-card-title class="justify-content-center">سوالات متداول</v-card-title>
-
-                                    <v-expansion-panels>
-                                        <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i">
-                                            <v-expansion-panel-header>
-                                                {{ item.question }}
-                                            </v-expansion-panel-header>
-
-                                            <v-expansion-panel-content>
-                                                {{ item.answer }}
-                                            </v-expansion-panel-content>
-                                        </v-expansion-panel>
-                                    </v-expansion-panels>
-                                </v-card>
-                            </v-tab-item>
-
-                            <v-tab-item>
-                                <v-card v-if="adminTutorial">
-                                    <v-card-title class="justify-content-center">
-                                        {{ adminTutorial.title }}
-                                    </v-card-title>
-
-                                    <v-card-text v-html="adminTutorial.description"></v-card-text>
-                                </v-card>
-                            </v-tab-item>
-                        </v-tabs-items>
-                    </v-card-text>
-
-                    <v-card-actions class="justify-end" style="background: white; z-index: 999">
-                        <hr>
-                        <v-spacer></v-spacer>
-
-                        <v-btn outlined class="mr-auto btn-cancel" text @click="dialog = false">
-                            <v-icon>mdi-close-circle</v-icon>
-                            <b>بستن</b>
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </div>
+                        <v-card-text v-html="adminTutorial.description"></v-card-text>
+                    </v-card>
+                </v-tab-item>
+            </v-tabs-items>
+        </custom-popup>
+        <!--        </div>-->
 
         <div v-if="totalPopup">
             <b-modal id="modal-scrollable" ok-only ok-title="تایید" scrollable @ok="nextPopup"
@@ -131,14 +100,17 @@
 import {mapGetters} from "vuex";
 import Terminal_title_ribbon from "../Ribbon";
 import Axios from "axios";
+import CustomPopup from "../plugins/popup/customPopup";
 
 export default {
     name: "customPage",
-    components: {Terminal_title_ribbon},
+    components: {CustomPopup, Terminal_title_ribbon},
     data: () => ({
+        cons: {title: 'آموزش'},
+        loading: false,
         project_title: null,
         tab: null,
-        dialog: false,
+        tDialog: false,
         tutorialExists: false,
         hasQuestions: false,
         tutorial: [],
@@ -148,6 +120,12 @@ export default {
         popupSlugs: [],
         popups: [],
         rerender: true,
+        tabItems: [
+            {title: 'معرفی نامه', icon: 'subtitles', color: 'pink', condition: true},
+            {title: 'راهنما', icon: 'account', color: 'green', condition: true},
+            {title: 'سوالات متداول', icon: 'help-circle-outline', color: 'indigo', condition: true},
+            {title: 'راهنمای ادمین', icon: 'shield-account-outline', color: 'blue', condition: true},
+        ]
     }),
     methods: {
         reloadPage() {
@@ -182,7 +160,7 @@ export default {
 
                 this.totalPopup = popup[to.path.substring(1)].filter(item => seen.indexOf(item.id) < 0);
 
-                if (this.totalPopup.length > 0)
+                if (this.totalPopup?.length > 0)
                     this.$bvModal.show('modal-scrollable');
             }
 
@@ -206,11 +184,11 @@ export default {
             localStorage.setItem('popup', JSON.stringify(seen));
 
 
-            if (this.totalPopup.length > 0)
+            if (this.totalPopup?.length > 0)
                 event.preventDefault();
         },
         getTutorial() {
-            this.$modal.showLoading();
+            this.loading = true;
             Axios.post(`${this.core_url}/api/contentTutorial`, {
                 slug: this.$route.path.substring(1),
                 sid: this.sid,
@@ -228,8 +206,8 @@ export default {
                     }
                 }
             }).finally(() => {
-                this.$modal.hideLoading();
-                this.dialog = true;
+                this.loading = false
+                this.tDialog = true;
             });
         }
     },
@@ -250,6 +228,9 @@ export default {
         this.project_title = document.title.split(" -")[0];
 
         this.allTutorials();
+        this.tabItems[0].condition = () => this.tutorial && this.haveFeature
+        this.tabItems[2].condition = () => this.hasQuestions
+        this.tabItems[3].condition = this.ribbon_can('admin_access')
     }
 }
 </script>
@@ -257,20 +238,52 @@ export default {
 <style scoped>
 @keyframes jump {
     0% {
-        transform: scale(1);
+        transform: scale(1.1);
+    }
+
+    10% {
+        transform: scale(1.8) rotateY(0);
+    }
+
+    20% {
+        transform: scale(1.1)
+    }
+
+    30% {
+        transform: scale(1.8) rotateY(-180deg);
+    }
+
+    40% {
+        transform: scale(1.1);
     }
 
     50% {
-        transform: scale(1.5)
+        transform: scale(1.8) rotateY(0);
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(1.8) rotateY(-180deg);
+    }
+
+    80% {
+        transform: scale(1.1);
+    }
+
+    90% {
+        transform: scale(1.8) rotateY(0);
     }
 
     100% {
-        transform: scale(1)
+        transform: scale(1.1)
     }
 }
 
 .jump {
-    animation: jump 2s linear infinite;
+    animation: jump 7s linear infinite;
 }
 
 .title-wrapper {
@@ -278,13 +291,12 @@ export default {
     flex-wrap: wrap-reverse;
 }
 
-/*.title-wrapper >>> .v-card__title {*/
-/*    flex: 1 0 0;*/
-/*}*/
+.v-expansion-panel--active >>> .v-expansion-panel-header {
+    background-color: var(--v-warning-base);
+}
 
-/*@media screen and (max-width: 960px) {*/
-/*    .title-wrapper >>> .v-card__title {*/
-/*        flex: 0 0 100%;*/
-/*    }*/
-/*}*/
+.v-tabs >>> .v-slide-group__prev,
+.v-tabs >>> .v-slide-group__next {
+    min-width: 36px;
+}
 </style>

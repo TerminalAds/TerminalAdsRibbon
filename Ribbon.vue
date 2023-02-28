@@ -142,7 +142,7 @@ export default {
     background-color: #fff;
     position: absolute;
     bottom: -12px;
-    left: 16px;
+    left: 15px;
     z-index: 2;
 }
 
