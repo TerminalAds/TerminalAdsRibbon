@@ -2,9 +2,11 @@
     <v-dialog v-model="dialog" :max-width="maxWidth" :hide-overlay="hideOverlay" :transition="transition"
               :scrollable="scrollable">
         <v-card flat height="fit-content" class="overflow-y-auto" max-height="calc(100vh - 120px)">
-            <v-card-title class="sticky-top align-center popup-title">
-                <span class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
-                <v-spacer/>
+            <v-card-title class="sticky-top align-center popup-title flex-nowrap pa-2 pa-md-4">
+                <span v-if="!$slots.extension" class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
+                <v-spacer v-if="!$slots.extension"/>
+
+                <slot name="extension"/>
 
                 <div class="pt-2 pa-md-0">
                     <slot name="title"/>
