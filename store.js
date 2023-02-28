@@ -4,7 +4,7 @@ export default {
     state: {
         sub_title: "",
         menus: [],
-        wallet: {balance: 5641613},
+        wallet: {balance: 0},
         core: {},
         walletDialog: false,
     },
