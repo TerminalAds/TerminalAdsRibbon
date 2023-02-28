@@ -30,12 +30,13 @@
         <!--        <div v-if="dialog && ">-->
         <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>
             <template v-slot:extension>
-                <v-tabs v-model="tab" align-with-title grow background-color="transparent" dark
+                <v-tabs v-model="tab" align-with-title grow background-color="transparent" dark color="primary"
                         style="flex: 1 0 0;max-width: calc(100% - 46px)"
                         show-arrows>
                     <v-tabs-slider/>
                     <v-tab v-for="(item, i) in tabItems" v-if="item.condition">
-                        <v-icon :color="tab === i ? item.color : ''" class="m-2">mdi-{{ item.icon }}</v-icon>
+                        <!--                        <v-icon :color="tab === i ? item.color : ''" class="m-2">mdi-{{ item.icon }}</v-icon>-->
+                        <v-icon class="m-2">mdi-{{ item.icon }}</v-icon>
                         {{ item.title }}
                     </v-tab>
                 </v-tabs>
@@ -48,7 +49,7 @@
                     </v-card>
                 </v-tab-item>
 
-                <v-tab-item>
+                <v-tab-item v-if="tutorial !== null">
                     <v-card flat v-if="Object.keys(tutorial).length > 0">
                         <v-card-title class="justify-content-center">
                             {{ tutorial.title }}
@@ -113,7 +114,7 @@ export default {
         tDialog: false,
         tutorialExists: false,
         hasQuestions: false,
-        tutorial: [],
+        tutorial: null,
         adminTutorial: null,
         totalPopup: null,
         tutorials: [],
@@ -293,10 +294,16 @@ export default {
 
 .v-expansion-panel--active >>> .v-expansion-panel-header {
     background-color: var(--v-warning-base);
+    min-height: 49px;
 }
 
 .v-tabs >>> .v-slide-group__prev,
 .v-tabs >>> .v-slide-group__next {
     min-width: 36px;
+}
+
+.v-tabs >>> .v-tab:not(.v-tab--active),
+.v-tabs >>> .v-tab:not(.v-tab--active) .v-icon {
+    color: white !important;
 }
 </style>
