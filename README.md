@@ -47,6 +47,7 @@ after that you must use this as **plugin**.
 ```javascript
 Vue.use(TerminalTitleRibbon, ({
     store,
+    axios,                                                                  // an inctance of axios *reqire*
     config: () => ({                                                        // global configs for layout & dashboard
         dashboardConfig,                                                    // dashboard data
         static_top_menu,                                                    // links in top of menu

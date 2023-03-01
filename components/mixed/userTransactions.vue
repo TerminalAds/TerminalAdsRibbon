@@ -117,32 +117,31 @@ export default {
             strokeColor: "#f86573",
             chartOptions: {},
             loading: false,
-            userTransactions: [],
+            transactions: [],
             url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4HznXqgGC7rvaM8z_AfFnrYfVqf-8NTWQyuZsXhkLiLiiYKsvRLuNp7Tzp1ZtSDn0m8&usqp=CAU'
         };
     },
+    mounted() {
+        this.fetch();
+    },
     methods: {
         ...mapActions('ribbon', ['toggleWalletDialog']),
+        fetch() {
+            this.loading = true;
+            this.$DashboardAxios.get('/api/transactions/user?length=3&filters=%7B%22type%22:%22%22,%22admin_type%22:null,%22confirmed%22:%22%22,%22date%22:%22%22%7D')
+                .then(({data}) => this.transactions = data.data)
+                .catch(({response}) => console.log('error in get transactions: ', response))
+                .finally(() => this.loading = false)
+        },
         goToTransactions() {
             window.open('https://core.terminalads.com/#/user/transactions')
         },
     },
     computed: {
-        ...mapGetters("ribbon", ["core", "wallet"]),
-        transactions() {
-            return this.core?.transactions || [];
-        },
+        ...mapGetters("ribbon", ["wallet"]),
         balance() {
             return this.wallet?.balance || 0
         }
     },
-    watch: {
-        core: function () {
-            this.loading = true;
-            setTimeout(() => {
-                this.loading = false
-            }, 3000)
-        },
-    }
 };
 </script>

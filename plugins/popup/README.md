@@ -3,6 +3,7 @@
 ## Table Of Content
 
 - [Usage](#Usage).
+- [Slots](#Slots).
 - [Tips](#tips).
 
 ---
@@ -27,6 +28,16 @@ now you can use this component like this
 
 <custom-popup v-model="showMessage" :cons="cons" :max-width="maxWidth" max-heigth="maxHeight" hide-overlay scrollable
               :transition="name">
+    <template v-slot:extension>
+        <v-tabs v-model="tab" grow >
+            <v-tabs-slider/>
+            <v-tab v-for="(item, i) in tabItems" v-if="item.condition">
+                <v-icon>mdi-{{ item.icon }}</v-icon>
+                {{ item.title }}
+            </v-tab>
+        </v-tabs>
+    </template>
+    
     <template v-slot:title>
         <v-btn icon @click="func">
             <v-icon>mdi-account</v-icon>
@@ -55,20 +66,31 @@ cons: {
 
 ---
 
+###Slots
+
+```
+action    - The action buttons on the bottom of dialog
+default   - The daault slot for content
+extension - The slot used to replace with default header
+title     - The extra buttons or text in header
+```
+
+---
+
 ### Tips
 
 Accessible attributes
 
 ```bash
+hide-confirm = Boolean - default: false - Hide the confirm buttom in title.
+
+hide-overlay = Boolean - default: true - Sets the maximum width for the component.
+
 max-width = [Number, String] - default: '1024' - Sets the maximum width for the component.
 
 max-height = [Number, String] - default: undefined - Sets the minimum height for the component.
 
-hide-overlay = Boolean - default: true - Sets the maximum width for the component.
-
-hide-confirm = Boolean - default: false - Hide the confirm buttom in title.
+scrollable = Boolean - default: false - When set to true, expects a v-card and a v-card-text component with a designated height
 
 transition = [String, Boolean] - default: undefined - Dialog animation
-
-scrollable = Boolean - default: false - When set to true, expects a v-card and a v-card-text component with a designated height
 ```
