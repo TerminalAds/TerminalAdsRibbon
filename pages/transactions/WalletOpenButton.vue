@@ -1,5 +1,5 @@
 <template>
-    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center font-size-h4" flat
+    <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center font-size-h4" flat dark
             :max-width="$vuetify.breakpoint.mdAndUp ? '' : 400" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
             height="32" v-b-tooltip="'لیست تراکنش های شما'">
         <span>اعتبار</span>
@@ -12,7 +12,7 @@
 
         <v-spacer/>
 
-        <v-icon v-if="wallet.icon != null && wallet.icon.length > 0" v-text="wallet.icon"/>
+        <v-icon dark v-if="wallet.icon != null && wallet.icon.length > 0" v-text="wallet.icon"/>
 
         <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
                height="32" dark depressed @click.stop="toggleWalletDialog">
