@@ -86,6 +86,7 @@ export default {
             return type
         },
         packTitle() {
+            return ''
             return this.core?.pack?.length > 0 && this.core.pack[0].title ?
                 this.core.pack[0].title += ' ' + this.core.pack[0].expire + ' روزه' :
                 'اطلاعات پروفایل تکمیل نشده است';

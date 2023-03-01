@@ -79,6 +79,7 @@ export default {
             return this.$route["path"].indexOf(match) !== -1;
         },
         itemSlug(slug) {
+            console.log('startsWith: ', slug)
             if (slug.startsWith('http')) {
                 return slug
             }

@@ -7,7 +7,7 @@
                         <h4>آخرین تراکنش ها</h4>
                         <span>موجودی شما:</span>
                         <span class="float-left">
-                                {{ persianNum(currency(balance)) }}
+                                {{ balance !== null && balance >= 0 ? persianNum(currency(balance)) : '---' }}
                                 <v-icon class="ms-2" v-if="wallet.icon != null && wallet.icon.length > 0"
                                         v-text="wallet.icon"/>
                             </span>
@@ -140,7 +140,7 @@ export default {
     computed: {
         ...mapGetters("ribbon", ["wallet"]),
         balance() {
-            return this.wallet?.balance || 0
+            return this.wallet.balance
         }
     },
 };

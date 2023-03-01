@@ -74,8 +74,8 @@
                     </v-expansion-panels>
                 </v-tab-item>
 
-                <v-tab-item>
-                    <v-card flat v-if="adminTutorial">
+                <v-tab-item v-if="adminTutorial">
+                    <v-card flat>
                         <v-card-title class="justify-content-center">
                             {{ adminTutorial.title }}
                         </v-card-title>
@@ -229,9 +229,10 @@ export default {
         this.project_title = document.title.split(" -")[0];
 
         this.allTutorials();
-        this.tabItems[0].condition = () => this.tutorial && this.haveFeature
-        this.tabItems[2].condition = () => this.hasQuestions
-        this.tabItems[3].condition = this.ribbon_can('admin_access')
+        this.tabItems[0].condition = () => this.tutorial !== null && this.haveFeature
+        this.tabItems[1].condition = () => this.tutorial !== null
+        this.tabItems[2].condition = () => this.hasQuestions && this.tutorial !== null
+        this.tabItems[3].condition = this.ribbon_can('admin_access') && this.adminTutorial
     }
 }
 </script>

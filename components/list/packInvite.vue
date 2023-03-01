@@ -15,11 +15,9 @@
                           style="font-size: 8pt">شما هیچ بسته فعالی ندارید.</span>
 
                     <div class="mt-12">
-                        <b-progress :max="pack.expire" height="18px"
-                                    v-b-tooltip.hover="progressTitle"
-                                    show-value :value="packValue"
+                        <b-progress :max="pack.expire" height="18px" v-b-tooltip.hover="progressTitle" show-value
                                     :variant="(pack.expire * 20 / 100) < packValue  ? 'primary' : 'danger'"
-                                    :striped="true" :animated="true"/>
+                                    :striped="true" :animated="true" :value="packValue"/>
                     </div>
                 </div>
             </div>

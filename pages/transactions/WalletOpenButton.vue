@@ -7,7 +7,7 @@
         <v-spacer/>
 
         <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
-            {{ persianNum(currency(balance)) }}
+            {{ balance !== null && balance >= 0 ? persianNum(currency(balance)) : '---' }}
         </span>
 
         <v-spacer/>
@@ -54,7 +54,7 @@ export default {
     computed: {
         ...mapGetters('ribbon', ['core', 'walletDialog', 'wallet']),
         balance() {
-            return this.wallet?.balance || 0
+            return this.wallet.balance
         },
         avg() {
             const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)

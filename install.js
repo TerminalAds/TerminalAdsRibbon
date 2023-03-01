@@ -56,7 +56,13 @@ export default {
                     }
                 },
                 currency(x) {
-                    return x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "---";
+                    try {
+                        return x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    } catch (e) {
+                        return x;
+                    }
+
+                    // return x >= 0 ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "0";
                 },
                 checkWalletAsync(data) {
                     let walletInfo = money.data[data.currency.toLowerCase()]
