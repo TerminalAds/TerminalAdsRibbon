@@ -9,7 +9,7 @@
                     <span class="text-white font-weight-bolder font-size-h6">بسته های فعال</span>
 
                     <span v-if="pack && pack.title && pack.expire" class="text-white font-weight-bolder mt-3"
-                          style="font-size: 8pt" v-text="pack.title"/>
+                          style="font-size: 8pt" v-text="packTitle"/>
 
                     <span v-else class="text-white font-weight-bolder mt-3"
                           style="font-size: 8pt">شما هیچ بسته فعالی ندارید.</span>
@@ -101,6 +101,11 @@ export default {
         ...mapGetters("ribbon", ["core"]),
         pack() {
             return this.core?.pack?.length > 0 && this.core?.pack[0]
+        },
+        packTitle() {
+            return this.pack?.title && this.pack.title?.length > 0
+                ? this.pack.title + ' ' + this.pack.expire + ' روزه'
+                : ''
         },
         packValue() {
             if (this.pack)

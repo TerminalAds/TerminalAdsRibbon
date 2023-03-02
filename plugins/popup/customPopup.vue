@@ -6,11 +6,16 @@
                 <span v-if="!$slots.extension" class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
                 <v-spacer v-if="!$slots.extension"/>
 
-                <slot name="extension"/>
+                <slot v-if="rerender" name="extension"/>
 
-                <div class="pt-2 pa-md-0">
+                <div class="pt-2 pa-md-0" v-if="rerender">
                     <slot name="title"/>
                 </div>
+
+                <v-btn v-if="reloadable" depressed style="margin-right: 8px" color="rgb(215,187,227)"
+                       @click="reloadPopup" min-width="36" class="px-0" title="به روزرسانی">
+                    <v-icon color="#7b1fa2">mdi-reload</v-icon>
+                </v-btn>
 
                 <v-btn v-if="!hideConfirm" min-width="36" class="ms-2 px-0" color="green lighten-3" depressed
                        @click="onHandler('submit')" title="تایید" :disabled="getDisabled('submit')">
@@ -23,11 +28,16 @@
                 </v-btn>
             </v-card-title>
 
-            <v-card-text class="pa-0">
+            <v-card-text ref="popup-card" class="pa-0" v-if="rerender">
                 <slot name="default"/>
             </v-card-text>
 
-            <slot name="action"/>
+            <v-card v-else flat width="100%" :height="cardHeight ? cardHeight : '200'" max-height="calc(100vh - 188px)"
+                    class="d-flex align-center justify-center">
+                <v-progress-circular indeterminate color="primary" class="d-block my-4 mx-auto"/>
+            </v-card>
+
+            <slot v-if="rerender" name="action"/>
         </v-card>
     </v-dialog>
 </template>
@@ -48,9 +58,10 @@ export default {
             type: [Number, String],
             default: undefined
         },
-        scrollable: Boolean,
         hideOverlay: Boolean,
-        transition: String
+        transition: String,
+        scrollable: Boolean,
+        reloadable: Boolean
     },
 
     model: {
@@ -60,6 +71,8 @@ export default {
 
     data: () => ({
         dialog: false,
+        rerender: true,
+        cardHeight: null
     }),
 
     watch: {
@@ -88,6 +101,20 @@ export default {
                 return obj && obj.disabled ? typeof obj.disabled === 'function' ? obj.disabled() : obj.disabled : false
             }
             return false
+        },
+        reloadPopup() {
+            let card = this.$refs['popup-card']
+            if (card) {
+                console.log('el card: ', card.getBoundingClientRect().height)
+                this.cardHeight = card.getBoundingClientRect().height
+            }
+
+            this.rerender = false;
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    this.rerender = true
+                }, 1000)
+            })
         }
     }
 }
