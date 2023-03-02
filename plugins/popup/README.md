@@ -27,7 +27,7 @@ now you can use this component like this
 ```html
 
 <custom-popup v-model="showMessage" :cons="cons" :max-width="maxWidth" max-heigth="maxHeight" hide-overlay scrollable
-              :transition="name">
+              reloadable :transition="name">
     <template v-slot:extension>
         <v-tabs v-model="tab" grow >
             <v-tabs-slider/>
@@ -82,15 +82,17 @@ title     - The extra buttons or text in header
 Accessible attributes
 
 ```bash
-hide-confirm = Boolean - default: false - Hide the confirm buttom in title.
+hide-confirm  = Boolean               - default: false          - Hide the confirm buttom in title.
 
-hide-overlay = Boolean - default: true - Sets the maximum width for the component.
+hide-overlay  = Boolean               - default: true           - Sets the maximum width for the component.
 
-max-width = [Number, String] - default: '1024' - Sets the maximum width for the component.
+max-width     = [Number, String]      - default: '1024'         - Sets the maximum width for the component.
 
-max-height = [Number, String] - default: undefined - Sets the minimum height for the component.
+max-height    = [Number, String]      - default: undefined      - Sets the minimum height for the component.
 
-scrollable = Boolean - default: false - When set to true, expects a v-card and a v-card-text component with a designated height
+reloadable    = Boolean               - default: false          - When set to true, a bnt shows on header for reload all slots
 
-transition = [String, Boolean] - default: undefined - Dialog animation
+scrollable    = Boolean               - default: false          - When set to true, expects a v-card and a v-card-text component with a designated height
+
+transition    = [String, Boolean]     - default: undefined      - Dialog animation
 ```

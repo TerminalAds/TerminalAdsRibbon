@@ -169,8 +169,8 @@ export default {
 
 .ribbon3:after {
     bottom: 0;
-    left: 4px;
-    transform: rotate(-249deg);
+    left: 5px;
+    transform: rotate(-232deg);
 }
 
 .ribbon-text-wrapper {

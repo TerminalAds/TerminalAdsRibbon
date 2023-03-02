@@ -51,7 +51,7 @@ import navigation from "./layout/aside/Navigation";
 import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/htmlclass.module.js";
 
 import modal from "./components/modals/modal";
-import CustomPage from "./pages/customPage"
+import CustomPage from "./pages/customPage";
 import easyModal from "@/core/plugins/EasyModal/view";
 
 
@@ -112,7 +112,16 @@ export default {
     },
     methods: {
         handleResponse(error) {
-            if (error.response.status === 403) {
+            if (error.response.status === 404) {
+                console.log('error response: ', error.response)
+                this.$modal.error('خطا', error.response.data.message ?? 'درخواست مورد نظر یافت نشد', undefined, {
+                    text: this.$t("BUTTONS.BuyAPlane"),
+                    class: 'success w-100',
+                    onClick: this.gotoPanel
+                }, [{
+                    text: this.$t("BUTTONS.OK")
+                }])
+            } else if (error.response.status === 403) {
                 this.$modal.error(this.$t("ERRORS.NoAccess"), this.$t("ERRORS.PleasebyeAPlane"), undefined, {
                     text: this.$t("BUTTONS.BuyAPlane"),
                     class: 'success w-100',
