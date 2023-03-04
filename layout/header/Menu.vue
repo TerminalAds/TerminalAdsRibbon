@@ -8,12 +8,12 @@
                 </a>
             </li>
 
-            <li class="menu-item exact-color">
-                <v-btn text @click="$root.$emit('openTuts')" dark class="menu-link px-4" aria-haspopup="true"
-                       data-menu-toggle="hover" height="40" min-width="40">
-                    <v-icon>mdi-help</v-icon>
-                </v-btn>
-            </li>
+            <!--            <li class="menu-item exact-color">-->
+            <!--                <v-btn text @click="$root.$emit('openTuts')" dark class="menu-link px-4" aria-haspopup="true"-->
+            <!--                       data-menu-toggle="hover" height="40" min-width="40">-->
+            <!--                    <v-icon>mdi-help</v-icon>-->
+            <!--                </v-btn>-->
+            <!--            </li>-->
 
             <router-link to="/dashboard" v-slot="{ href, navigate, isActive, isExactActive }">
                 <li aria-haspopup="true" data-menu-toggle="hover" class="menu-item"
