@@ -51,16 +51,18 @@ export default {
                 let wrapper = document.getElementById('ribbon.text.wrapper')
                 let text = document.getElementById('ribbon.text')
 
-                let wrapperCliW = wrapper.getClientRects()[0].width
-                let textCliW = text.getClientRects()[0].width
+                if (wrapper) {
+                    let wrapperCliW = wrapper.getClientRects()[0].width
+                    let textCliW = text.getClientRects()[0].width
 
-                if (wrapperCliW >= textCliW) {
-                    setTimeout(() => {
-                        this.status += 1
-                        this.checkTextOverflow()
-                    }, 5000)
-                } else if (wrapperCliW < textCliW) {
-                    text.classList.add('set-transition')
+                    if (wrapperCliW >= textCliW) {
+                        setTimeout(() => {
+                            this.status += 1
+                            this.checkTextOverflow()
+                        }, 5000)
+                    } else if (wrapperCliW < textCliW) {
+                        text.classList.add('set-transition')
+                    }
                 }
             })
         }

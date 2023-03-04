@@ -13,8 +13,12 @@
                     <img alt="Logo" class="px-2" :src="DConfigs.header_logo" style="width: 42px"/>
                 </router-link>
 
-                <v-btn :href="front_url" text min-width="36" class="px-2" color="#6cdb72">
+                <v-btn :href="front_url" text min-width="36" class="px-1" color="#6cdb72">
                     <v-icon size="30">mdi-home</v-icon>
+                </v-btn>
+
+                <v-btn text @click="$emit('update:dialog', true)" dark class="px-1" min-width="36">
+                    <v-icon>mdi-help</v-icon>
                 </v-btn>
 
                 <v-spacer/>

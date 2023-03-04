@@ -113,6 +113,7 @@ export default {
             this.$nextTick(() => {
                 setTimeout(() => {
                     this.rerender = true
+                    this.$emit('onReload')
                 }, 1000)
             })
         }
