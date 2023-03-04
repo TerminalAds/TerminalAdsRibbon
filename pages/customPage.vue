@@ -1,5 +1,5 @@
 <template>
-    <v-card flat>
+    <v-card flat min-height="200">
         <div class="title-wrapper pb-2">
             <terminal_title_ribbon>
                 <v-card-title class="justify-end pa-0 flex-nowrap">
@@ -10,7 +10,7 @@
                     </v-btn>
 
                     <!--                    <v-btn depressed style="margin-right: 8px" color="rgba(123, 31, 162, .3)"-->
-                    <v-btn depressed style="margin-right: 8px" color="rgb(215,187,227)"
+                    <v-btn depressed style="margin-right: 8px" color="rgb(215,187,227)" :loading="reloadLoading"
                            @click="reloadPage" min-width="36" class="px-0" v-b-tooltip.hover="'به روزرسانی'">
                         <v-icon color="#7b1fa2">mdi-reload</v-icon>
                         <!--                    رفرش-->
@@ -109,6 +109,7 @@ export default {
     data: () => ({
         cons: {title: 'آموزش'},
         loading: false,
+        reloadLoading: false,
         project_title: null,
         tab: null,
         tDialog: false,
@@ -131,9 +132,13 @@ export default {
     methods: {
         reloadPage() {
             this.rerender = false
+            this.reloadLoading = true
             this.$nextTick(() => {
-                this.rerender = true
-            })
+                setTimeout(() => {
+                    this.reloadLoading = false
+                    this.rerender = true
+                }, 1000)
+            });
         },
         allTutorials() {
             Axios.get(`${this.core_url}/api/allTutorials`, {
