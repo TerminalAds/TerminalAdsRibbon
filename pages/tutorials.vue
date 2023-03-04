@@ -1,0 +1,275 @@
+<template>
+    <v-card flat class="pa-4 pb-10">
+
+        <v-carousel height="200" hide-delimiters>
+            <template v-for="(item, index) in guidence.length">
+                <v-carousel-item class="p-5 " v-if="(index + 1) % columns === 1 || columns === 1" :key="index">
+                    <v-row class="flex-nowrap">
+                        <template v-for="(n,i) in columns">
+                            <template v-if="(+index + i) < guidence.length">
+                                <div :class="activeProject === guidence[index+i].value ? 'col-md-2 text-center cardActive cardStyle my-4 mx-5' : 'col-md-2 text-center cardStyle my-4 mx-5' "
+                                     @click="getPages(guidence[index + i].sid,guidence[index + i].value)">
+                                    <img :src="guidence[index + i].img" alt="" style="width: 50px">
+                                    <p class="mt-4 font-weight-bold">{{ guidence[index + i].name }}</p>
+                                </div>
+                            </template>
+                        </template>
+                    </v-row>
+                </v-carousel-item>
+            </template>
+        </v-carousel>
+
+        <v-row no-gutters justify="center">
+            <v-col cols="12" md="3" class="pa-2">
+                <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x,index) in pages"
+                       :class="isActive === x.slug ?'font-weight-bold bg-indigo mb-2 col-md text-center btnActive rounded' : 'font-weight-bold btnStyles bg-white mb-2 col-md text-center rounded' "
+                       style="border-color: navy!important;letter-spacing: unset">
+                    {{ x.name }}
+                </v-btn>
+            </v-col>
+
+            <v-col cols="12" md="8" class="pa-2">
+                <v-card class="cardMine">
+                    <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
+                        <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
+                        <v-progress-linear v-show="!tutorials && loading" indeterminate color="primary"/>
+                    </v-card-title>
+
+                    <v-card-text>
+                        <items-tutorial v-model="tabModel" :items.sync="tabItems" no-call :called-tuts="tutorials"/>
+                    </v-card-text>
+
+                    <v-speed-dial direction="top" absolute left bottom transition="slide-y-reverse-transition">
+                        <template v-slot:activator>
+                            <v-btn dark fab bottom small color="indigo">
+                                <v-icon>mdi-phone</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-btn small class="text-white font-weight-bold" color="green">
+                            <v-icon class="ml-2">mdi-whatsapp</v-icon>
+                            ارتباط در واتساپ
+                        </v-btn>
+                        <v-btn small class="text-white px-5 font-weight-bold" color="primary">
+                            <v-icon class="ml-2">mdi-phone</v-icon>
+                            {{ persianNum('021-91017077') }}
+                        </v-btn>
+                        <v-btn small class="text-white text-dark px-7 font-weight-bold" color="warning">
+                            <v-icon class="ml-2">mdi-chat</v-icon>
+                            ثبت تیکت
+                        </v-btn>
+                    </v-speed-dial>
+                </v-card>
+            </v-col>
+        </v-row>
+        <!--        <div class="col-md-3">-->
+        <!--            &lt;!&ndash; v-if="ribbon_can(x.gate)" &ndash;&gt;-->
+        <!--            <v-btn-->
+        <!--                    :class="isActive===x.slug ?'font-weight-bold bg-indigo mb-2 col-md text-center btnActive rounded' : 'font-weight-bold btnStyles bg-white mb-2 col-md text-center rounded' "-->
+        <!--                    style="border-color: navy!important;letter-spacing: unset">-->
+
+        <!--            </v-btn>-->
+        <!--        </div>-->
+
+        <!--        <div class="col-md cardMine pa-0">-->
+
+        <!--        </div>-->
+
+    </v-card>
+</template>
+<script>
+
+import TabsTutorial from "../components/tabsTutorial";
+import ItemsTutorial from "../components/itemsTutorial";
+
+export default {
+    name: "tutorials",
+
+    components: {ItemsTutorial, TabsTutorial},
+
+    data() {
+        return {
+            loading: false,
+            tab: 0,
+            tabModel: 0,
+            isActive: '',
+            serverId: 1,
+            activeProject: 'terminal',
+            guidence: [
+                {
+                    name: 'سامانه ترمینال تبلیغات',
+                    value: 'terminal',
+                    sid: '1',
+                    img: require('@/assets/img/logo/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png')
+                },
+                {
+                    name: 'سامانه ارسال پیامک هدفمند',
+                    sid: '2',
+                    value: 'sms',
+                    img: require('@/assets/img/logo/payamak-land.png')
+                },
+                {
+                    name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
+                    value: 'rbLand',
+                    sid: '4',
+                    img: require('@/assets/img/logo/robot-land.png')
+                },
+                {
+                    name: 'سامانه بانک اطلاعات مشاغل کشور',
+                    value: 'info',
+                    sid: '10',
+                    img: require('@/assets/img/logo/info-land.png')
+                },
+                {
+                    name: 'سامانه مدیریت‌آنلاین فایل املاک',
+                    value: 'realEstate',
+                    sid: '11',
+                    img: require('@/assets/img/logo/estate-land.png')
+                },
+                {
+                    name: 'سامانه خدمات طراحی گرافیکی و ویدئو',
+                    value: 'geraphic',
+                    sid: '14',
+                    img: require('@/assets/img/logo/graphic-land-mix.png')
+                },
+                {
+                    name: 'سامانه طراحی،پشتیبانی و سئوسایت',
+                    value: 'digi',
+                    sid: '13',
+                    img: require('@/assets/img/logo/web-land-1.png')
+                },
+
+                // {name: 'سامانه فروشگاه آنلاین شخصی', value: 'shopOnline'},
+                // {name: 'سامانه تبلیغات در شبکه های اجتماعی', value: 'ads'},
+                // {name: 'سامانه اجاره بیلبوردآنلاین', value: 'bilboard'},
+                // {name: 'سامانه تبلیغات دررسانه های ملی', value: 'meli'},
+                // {name: 'سامانه تبلیغات درناوگان حمل و نقل', value: 'transport'},
+                // {name: 'سامانه تبلیغات دررسانه های تصویری', value: 'meliMedia'},
+                // {name: 'سامانه مدیریت‌آنلاین فایل املاک', value: 'picMedia'},
+                // {name: 'سامانه مدیریت‌آنلاین مشتریان', value: 'Qr'},
+                // {name: 'سامانه سفارش ودرج تبلیغات اینترنتی', value: 'CRM'},
+                // {name: 'سامانه ایمیل مارکتینگ', value: 'googleAds'},
+                // {name: 'سامانه تبلیغات در ورزشگاه ونمایشگاه ها', value: 'emailMarket'},
+                // {name: 'سامانه جامع مزایده آنلاین', value: 'gyms'},
+                // {name: 'سامانه ابزارهای آنلاین کسب وکار', value: 'mozayede'},
+                // {name: 'سامانه آموزش آنلاین مشاغل', value: 'freeTools'},
+            ],
+            tutorials: null,
+            tabItems: [],
+            pages: [],
+        }
+    },
+    methods: {
+        goTo(categoryID, value) {
+            this.isActive = value;
+            this.getContent(categoryID)
+        },
+        getPages(id, value) {
+            this.loading = true
+            this.activeProject = value;
+            this.serverId = id
+            this.tutorials = null
+            this.tabModel = 0
+            this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
+                .then(({data}) => {
+                    this.pages = data.data.filter((item) => this.ribbon_can(item.gate))
+                    // this.pages = data.data
+                    if (data.data?.length > 0) {
+                        this.goTo(data.data[0].id, data.data[0].slug)
+                    }
+                })
+                .finally(() => this.loading = false)
+        },
+        getContent(categoryId) {
+            this.loading = true
+            this.tutorials = null
+            this.$DashboardAxios(`/api/categoryTutorial?sid=${this.serverId}&category_id=${categoryId}`)
+                .then(({data}) => {
+                    this.tutorials = data.data
+                })
+                .finally(() => this.loading = false)
+        },
+    },
+    mounted() {
+        this.getPages(this.serverId, this.activeProject)
+    },
+    computed: {
+        columns() {
+            if (this.$vuetify.breakpoint.xl) {
+                return 5;
+            }
+            if (this.$vuetify.breakpoint.lg) {
+                return 5;
+            }
+            if (this.$vuetify.breakpoint.md) {
+                return 5;
+            }
+            return 1;
+        }
+    },
+}
+</script>
+
+<style scoped>
+.bg-indigo {
+    background-color: #1c0152 !important;
+    color: #FFFFFF;
+}
+
+.cardMine {
+    border-radius: 15px;
+    color: #1c0152;
+    background-color: #FFFFFF;
+    box-shadow: 8px 5px 10px #7e8299 !important;
+}
+
+.cardMine >>> .v-card__title {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.btnStyles {
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    box-shadow: 5px 5px 5px #7e8299;
+    border: 2px solid #1c0152;
+}
+
+.btnActive {
+    border-radius: 15px;
+    background-color: #FFFFFF;
+    color: #F49D1A;
+    box-shadow: 5px 5px 5px #7e8299;
+}
+
+.cardStyle {
+    border-radius: 15px;
+    color: #1c0152;
+    background-color: #FFFFFF;
+    box-shadow: 8px 5px 10px #F49D1A;
+}
+
+.cardStyle:hover {
+    box-shadow: 8px 5px 10px #7e8299;
+    background-color: #1c0152;
+    color: #FFFFFF;
+}
+
+.cardActive {
+    box-shadow: 8px 5px 10px #7e8299 !important;
+    background-color: #1c0152 !important;
+    color: #F49D1A !important;
+
+}
+
+.popup-title {
+    background-size: cover !important;
+    background: linear-gradient(to left, #089D88 0%, #03BACF 51%, #514A9D 100%);
+    word-break: break-word;
+    z-index: 50 !important;
+}
+
+@media screen and (max-width: 960px) {
+    .v-speed-dial >>> .v-speed-dial__list {
+        left: 48px !important;
+    }
+}
+</style>

@@ -2,7 +2,7 @@
     <v-app class="d-flex flex-column flex-root ebi" style="background: transparent !important;"
            v-if="$store.getters['global/isLoaded']">
 
-        <KTHeaderMobile v-if="$vuetify.breakpoint.smAndDown"/>
+        <KTHeaderMobile :dialog.sync="showTuts" v-if="$vuetify.breakpoint.smAndDown"/>
 
         <Loader v-if="loaderEnabled" v-bind:logo="loaderLogo"/>
 
@@ -32,6 +32,10 @@
         <easy-modal/>
         <navigation/>
         <KTScrollTop/>
+
+        <custom-popup v-model="showTuts" :cons="cons" max-width="1240" hide-confirm>
+            <tutorials v-if="showTuts"/>
+        </custom-popup>
     </v-app>
 </template>
 
@@ -53,11 +57,15 @@ import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/h
 import modal from "./components/modals/modal";
 import CustomPage from "./pages/customPage";
 import easyModal from "@/core/plugins/EasyModal/view";
+import CustomPopup from "./plugins/popup/customPopup";
+import Tutorials from "./pages/tutorials";
 
 
 export default {
     name: "index",
     components: {
+        Tutorials,
+        CustomPopup,
         CustomPage,
         KTAside,
         KTHeader,
@@ -76,6 +84,10 @@ export default {
             qrUrl: '',
             coreBack: 'https://www.sarvland.ir',
             pLandUrl: 'http://localhost:8080/',
+            showTuts: false,
+            cons: {
+                title: 'راهنمای سامانه ترمینال تبلیغات'
+            }
         }
     },
     beforeMount() {
@@ -103,6 +115,7 @@ export default {
         this.DHeaders.Authorization = 'Bearer ' + token
     },
     mounted() {
+        this.$root.$on('openTuts', () => this.showTuts = true)
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
         }, 2000);

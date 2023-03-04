@@ -8,6 +8,13 @@
                 </a>
             </li>
 
+            <li class="menu-item exact-color">
+                <v-btn text @click="$root.$emit('openTuts')" dark class="menu-link px-4" aria-haspopup="true"
+                       data-menu-toggle="hover" height="40" min-width="40">
+                    <v-icon>mdi-help</v-icon>
+                </v-btn>
+            </li>
+
             <router-link to="/dashboard" v-slot="{ href, navigate, isActive, isExactActive }">
                 <li aria-haspopup="true" data-menu-toggle="hover" class="menu-item"
                     :class="[isActive && 'menu-item-active', isExactActive && 'menu-item-active']">
@@ -60,9 +67,14 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import CustomPopup from "../../plugins/popup/customPopup";
+import Tutorials from "../../pages/tutorials";
 
 export default {
     name: "KTMenu",
+
+    components: {Tutorials, CustomPopup},
+
     computed: {
         ...mapGetters("ribbon", ["menus"]),
         topMenus() {
@@ -70,6 +82,7 @@ export default {
             return menu = menu.concat(this.DConfigs.static_top_menu)
         }
     },
+
     methods: {
         homeLink() {
             return this.front_url;
