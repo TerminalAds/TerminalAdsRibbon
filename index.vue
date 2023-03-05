@@ -125,16 +125,16 @@ export default {
     },
     methods: {
         handleResponse(error) {
-            if (error.response.status === 404) {
-                console.log('error response: ', error.response)
-                this.$modal.error('خطا', error.response.data.message ?? 'درخواست مورد نظر یافت نشد', undefined, {
-                    text: this.$t("BUTTONS.BuyAPlane"),
-                    class: 'success w-100',
-                    onClick: this.gotoPanel
-                }, [{
-                    text: this.$t("BUTTONS.OK")
-                }])
-            } else if (error.response.status === 403) {
+            // if (error.response.status === 404) {
+            //     this.$modal.error('خطا', error.response.data.message ?? 'درخواست مورد نظر یافت نشد', undefined, {
+            //         text: this.$t("BUTTONS.BuyAPlane"),
+            //         class: 'success w-100',
+            //         onClick: this.gotoPanel
+            //     }, [{
+            //         text: this.$t("BUTTONS.OK")
+            //     }])
+            // } else
+            if (error.response.status === 403) {
                 this.$modal.error(this.$t("ERRORS.NoAccess"), this.$t("ERRORS.PleasebyeAPlane"), undefined, {
                     text: this.$t("BUTTONS.BuyAPlane"),
                     class: 'success w-100',
