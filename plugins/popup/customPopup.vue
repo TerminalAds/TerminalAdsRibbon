@@ -40,7 +40,7 @@
 
             <v-card v-else flat width="100%" :height="cardHeight ? cardHeight : '200'" max-height="calc(100vh - 188px)"
                     class="d-flex align-center justify-center">
-                <v-progress-circular indeterminate color="primary" class="d-block my-4 mx-auto"/>
+                <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
             </v-card>
 
             <slot v-if="rerender" name="action"/>
@@ -49,8 +49,12 @@
 </template>
 
 <script>
+import {AtomSpinner} from 'epic-spinners'
+
 export default {
     name: "customPopup",
+
+    components: {AtomSpinner},
 
     props: {
         cons: Object,

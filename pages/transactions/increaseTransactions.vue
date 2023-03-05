@@ -209,13 +209,13 @@ export default {
                 this.$toast.error('مبلغ وارد شده کمتر از ۵۰۰۰۰ تومان است.');
                 return;
             }
-            this.$modal.showLoading();
+            // this.$modal.showLoading();
             this.$DashboardAxios.post('api/wallet/sharge/', {
                 balance: this.data.price
             }).then(({data}) => {
                 window.location.href = data.action;
             }).catch((e) => {
-                this.$modal.hideLoading()
+                // this.$modal.hideLoading()
                 this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
             });
         },
