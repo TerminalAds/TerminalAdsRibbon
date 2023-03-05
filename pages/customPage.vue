@@ -68,6 +68,7 @@ export default {
         routeChanged: true,
         tabItems: [],
         tutorialExists: false,
+        project_title: null,
         totalPopup: null,
         tutorials: [],
         popupSlugs: [],
@@ -77,6 +78,12 @@ export default {
     mounted() {
         this.project_title = document.title.split(" -")[0];
         this.allTutorials()
+    },
+
+    computed: {
+        title() {
+            return this.$route.meta.title ?? "";
+        },
     },
 
     methods: {

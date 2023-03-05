@@ -64,7 +64,6 @@ export default {
     data: () => ({
         loading: false,
         tab: 0,
-        project_title: null,
         hasQuestions: false,
         tutorial: null,
         tabItems: null,
@@ -90,9 +89,6 @@ export default {
             return this.tutorial?.features;
         },
         ...mapGetters("ribbon", ["sub_title"]),
-        title() {
-            return this.$route.meta.title ?? "";
-        },
         fillItems() {
             return [
                 {
@@ -137,9 +133,6 @@ export default {
             this.setTutorials(val)
             this.tabItems = this.fillItems
         },
-        loading(val) {
-            console.log('loading val: ', val)
-        }
     },
 
     methods: {

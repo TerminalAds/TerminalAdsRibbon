@@ -1,6 +1,12 @@
 <template>
     <v-dialog v-model="dialog" :max-width="maxWidth" :hide-overlay="hideOverlay" :transition="transition"
               :scrollable="scrollable">
+        <template v-slot:activator="{ on, attrs }">
+            <div v-bind="attrs" v-on="on">
+                <slot name="activator"/>
+            </div>
+        </template>
+
         <v-card flat height="fit-content" class="overflow-y-auto" max-height="calc(100vh - 120px)">
             <v-card-title class="sticky-top align-center popup-title flex-nowrap pa-2 pa-md-4">
                 <span v-if="!$slots.extension" class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
@@ -23,7 +29,7 @@
                 </v-btn>
 
                 <v-btn min-width="36" class="ms-2 px-0 text-danger" color="#fcc1c7" depressed
-                       @click="$emit('input', false)" title="بستن">
+                       @click="closeDialog" title="بستن">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-card-title>
@@ -80,9 +86,9 @@ export default {
             this.dialog = val
         },
         dialog: function (val) {
-            if (!val) {
-                this.$emit('input', false);
-            }
+            // if (!val) {
+            this.$emit('input', val);
+            // }
         }
     },
 
@@ -93,7 +99,7 @@ export default {
                 if (obj && typeof obj.handler === 'function')
                     obj.handler()
             }
-            this.$emit('input', false);
+            this.closeDialog()
         },
         getDisabled(type) {
             if (this.cons.buttons && this.cons.buttons.length > 0) {
@@ -105,7 +111,6 @@ export default {
         reloadPopup() {
             let card = this.$refs['popup-card']
             if (card) {
-                console.log('el card: ', card.getBoundingClientRect().height)
                 this.cardHeight = card.getBoundingClientRect().height
             }
 
@@ -116,6 +121,9 @@ export default {
                     this.$emit('onReload')
                 }, 1000)
             })
+        },
+        closeDialog() {
+            this.dialog = false
         }
     }
 }
