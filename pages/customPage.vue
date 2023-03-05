@@ -1,5 +1,5 @@
 <template>
-    <v-card flat min-height="200">
+    <v-card flat>
         <div class="title-wrapper pb-2">
             <terminal_title_ribbon>
                 <v-card-title class="justify-end pa-0 flex-nowrap">
@@ -27,6 +27,10 @@
 
         <router-view v-if="rerender"/>
 
+        <v-card v-else-if="reloadLoading" flat class="d-flex align-center justify-center" height="300">
+            <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
+        </v-card>
+
         <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" hide-confirm>
             <!--            <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>-->
             <template v-slot:extension>
@@ -52,11 +56,12 @@ import Axios from "axios";
 import CustomPopup from "../plugins/popup/customPopup";
 import TabsTutorial from "../components/tabsTutorial";
 import ItemsTutorial from "../components/itemsTutorial";
+import {AtomSpinner} from 'epic-spinners'
 
 export default {
     name: "customPage",
 
-    components: {ItemsTutorial, TabsTutorial, CustomPopup, Terminal_title_ribbon},
+    components: {ItemsTutorial, TabsTutorial, CustomPopup, Terminal_title_ribbon, AtomSpinner},
 
     data: () => ({
         cons: {title: 'آموزش'},

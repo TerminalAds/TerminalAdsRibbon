@@ -11,6 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "axios": "^0.19.2",
-    "vuetify": "^2.4.9"
+    "vuetify": "^2.4.9",
+    "epic-spinners": "^1.1.0"
   }
 }
