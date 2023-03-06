@@ -1,21 +1,23 @@
 <template>
     <v-card @click="changeRoute" class="d-flex flex-nowrap price-wallet align-self-center font-size-h4" flat dark
             :max-width="$vuetify.breakpoint.mdAndUp ? '' : 400" :min-width="$vuetify.breakpoint.mdAndUp ? 232 : 85"
-            height="32" v-b-tooltip="'لیست تراکنش های شما'">
-        <span>اعتبار</span>
+            height="32">
+        <div class="d-flex align-center fill-height" style="flex: 1 0 auto" v-b-tooltip="'لیست تراکنش های شما'">
+            <span>اعتبار</span>
 
-        <v-spacer/>
+            <v-spacer/>
 
-        <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
+            <span style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
             {{ balance !== null && balance >= 0 ? persianNum(currency(balance)) : '---' }}
         </span>
 
-        <v-spacer/>
+            <v-spacer/>
 
-        <v-icon dark v-if="wallet.icon != null && wallet.icon.length > 0" v-text="wallet.icon"/>
+            <v-icon dark v-if="wallet.icon != null && wallet.icon.length > 0" v-text="wallet.icon"/>
+        </div>
 
         <v-btn color="#6cdb72" class="price-walletButton px-0" style="margin-right: 12px" min-width="32" min-height="32"
-               height="32" dark depressed @click.stop="toggleWalletDialog">
+               height="32" dark depressed @click.stop="toggleWalletDialog" v-b-tooltip.passive="'شارژ کیف پول'">
             <v-icon class="plus" small>
                 mdi-plus
             </v-icon>
@@ -35,16 +37,16 @@ const exhale = ms =>
 export default {
     name: "WalletOpenButton",
     components: {Wallet},
-    data: () => ({
-        checking: false,
-        heartbeats: []
-    }),
     props: {
         hideInMobile: {
             type: Boolean,
             default: false
         }
     },
+    data: () => ({
+        checking: false,
+        heartbeats: []
+    }),
     mounted() {
         let classes = window.document.querySelectorAll(".price-wallet .v-input__control .v-text-field__slot *");
         for (let c of classes) {

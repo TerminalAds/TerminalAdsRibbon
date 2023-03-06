@@ -1,6 +1,6 @@
 <template>
     <custom-popup v-model="dialog" :cons="cons" hide-overlay transition="dialog-top-transition" max-width="800px"
-                  hide-confirm>
+                  reloadable>
         <increase-transactions/>
     </custom-popup>
 </template>

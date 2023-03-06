@@ -18,14 +18,14 @@
                     <slot name="title"/>
                 </div>
 
-                <v-btn v-if="reloadable" depressed style="margin-right: 8px" color="rgb(215,187,227)"
-                       @click="reloadPopup" min-width="36" class="px-0" title="به روزرسانی">
-                    <v-icon color="#7b1fa2">mdi-reload</v-icon>
-                </v-btn>
-
                 <v-btn v-if="!hideConfirm" min-width="36" class="ms-2 px-0" color="green lighten-3" depressed
                        @click="onHandler('submit')" title="تایید" :disabled="getDisabled('submit')">
                     <v-icon color="green darken-4">mdi-check</v-icon>
+                </v-btn>
+
+                <v-btn v-if="reloadable" depressed style="margin-right: 8px" color="rgb(215,187,227)"
+                       @click="reloadPopup" min-width="36" class="px-0" title="به روزرسانی">
+                    <v-icon color="#7b1fa2">mdi-reload</v-icon>
                 </v-btn>
 
                 <v-btn min-width="36" class="ms-2 px-0 text-danger" color="#fcc1c7" depressed
@@ -34,12 +34,12 @@
                 </v-btn>
             </v-card-title>
 
-            <v-card-text ref="popup-card" class="pa-0" v-if="rerender">
+            <v-card-text ref="popup-card" class="pa-0" v-if="rerender" v-show="!loading">
                 <slot name="default"/>
             </v-card-text>
 
-            <v-card v-else flat width="100%" :height="cardHeight ? cardHeight : '200'" max-height="calc(100vh - 188px)"
-                    class="d-flex align-center justify-center">
+            <v-card v-if="loading" flat width="100%" min-height="200" :height="cardHeight ? cardHeight : '200'"
+                    max-height="calc(100vh - 188px)" class="d-flex align-center justify-center">
                 <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
             </v-card>
 
@@ -82,7 +82,8 @@ export default {
     data: () => ({
         dialog: false,
         rerender: true,
-        cardHeight: null
+        cardHeight: null,
+        loading: false,
     }),
 
     watch: {
@@ -119,10 +120,12 @@ export default {
             }
 
             this.rerender = false;
+            this.loading = true
             this.$nextTick(() => {
+                this.rerender = true
                 setTimeout(() => {
-                    this.rerender = true
-                    this.$emit('onReload')
+                    this.loading = false
+                    this.$emit('on-reload')
                 }, 1000)
             })
         },
