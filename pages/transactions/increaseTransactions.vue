@@ -56,7 +56,7 @@
             <p v-if="gateways == undefined" class="my-10">{{ $t('WALLET.noGateWay') }}</p>
 
             <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" borderless mandatory>
-                <v-btn v-for="gate in gateways" :value="gate" width="6rem" height="6rem"
+                <v-btn v-for="gate in gateways" :key="gate.id" :value="gate" width="6rem" height="6rem"
                        :class="['py-2' , {'activeGateWay' : data.gateway.id === gate.id}]"
                        style="background-color: white">
 

@@ -25,9 +25,9 @@
             </terminal_title_ribbon>
         </div>
 
-        <router-view v-if="rerender"/>
+        <router-view v-if="rerender" v-show="!reloadLoading"/>
 
-        <v-card v-else-if="reloadLoading" flat class="d-flex align-center justify-center" height="300">
+        <v-card v-if="reloadLoading" flat class="d-flex align-center justify-center" height="300">
             <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
         </v-card>
 
@@ -96,9 +96,9 @@ export default {
             this.rerender = false
             this.reloadLoading = true
             this.$nextTick(() => {
+                this.rerender = true
                 setTimeout(() => {
                     this.reloadLoading = false
-                    this.rerender = true
                 }, 1000)
             });
         },
