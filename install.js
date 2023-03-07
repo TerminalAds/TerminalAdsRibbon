@@ -66,13 +66,14 @@ export default {
                 },
                 checkWalletAsync(data) {
                     let walletInfo = money.data[data.currency.toLowerCase()]
-
                     let user_wallet = {
                         'icon': walletInfo.icon,
                         'color': walletInfo.color,
                         'balance': data.balance
                     }
+                    console.log(user_wallet)
                     this.setWallet(user_wallet)
+                    console.log(user_wallet)
                     localStorage.setItem('user_wallet', JSON.stringify(user_wallet));
                 },
             }
