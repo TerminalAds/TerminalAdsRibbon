@@ -163,8 +163,7 @@ export default {
             this.$DashboardAxios.get('/api/core')
                 .then(({data}) => {
                     this.setCore(data.data)
-                    console.log('dafasd: ', data.data)
-                    this.checkWalletAsync(data.data.wallet)
+                    this.setWalletData(data.data.wallet)
                 })
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
         }

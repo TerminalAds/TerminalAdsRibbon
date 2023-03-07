@@ -64,16 +64,14 @@ export default {
 
                     // return x >= 0 ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "0";
                 },
-                checkWalletAsync(data) {
+                setWalletData(data) {
                     let walletInfo = money.data[data.currency.toLowerCase()]
                     let user_wallet = {
                         'icon': walletInfo.icon,
                         'color': walletInfo.color,
                         'balance': data.balance
                     }
-                    console.log(user_wallet)
                     this.setWallet(user_wallet)
-                    console.log(user_wallet)
                     localStorage.setItem('user_wallet', JSON.stringify(user_wallet));
                 },
             }

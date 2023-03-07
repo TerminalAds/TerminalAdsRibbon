@@ -26,7 +26,6 @@ export default {
         },
         setWallet(context, obj) {
             context.commit('set_wallet', obj)
-            console.log('set wallet: ', obj)
         },
         setCore(context, obj) {
             context.commit('set_core', obj)
@@ -41,7 +40,6 @@ export default {
             state.menus = obj
         },
         set_wallet(state, obj) {
-            console.log(state)
             state.wallet = obj
         },
         set_core(state, obj) {
