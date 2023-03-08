@@ -126,7 +126,7 @@ export default {
                 setTimeout(() => {
                     this.loading = false
                     this.$emit('on-reload')
-                }, 1000)
+                }, 500)
             })
         },
         closeDialog() {

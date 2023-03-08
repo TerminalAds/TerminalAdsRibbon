@@ -2,7 +2,7 @@
     <div :test="isShowNav" :test2="isShowMobile">
         <v-navigation-drawer v-model="navShow" absolute fixed temporary
                              right style="position: fixed;top : 0;left: 0;z-index: 999">
-            <Menu/>
+            <Menu :visible="navShow"/>
         </v-navigation-drawer>
     </div>
 </template>

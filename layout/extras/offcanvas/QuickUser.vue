@@ -1,7 +1,7 @@
 <template>
     <div class="topbar-item">
         <v-btn :href="`${front_url}/#/profile/my-profile`" id="kt_quick_user_toggle" :large="large" depressed text dark
-               class="px-2 mx-md-1" :min-width="large ? '' : '36'">
+               class="px-2 mx-md-1" :min-width="large ? '' : '36'" v-b-tooltip="'مشاهده پروفایل'">
             <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">سلام</span>
             <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mx-2">
                 {{ userName }}
