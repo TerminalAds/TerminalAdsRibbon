@@ -99,7 +99,7 @@ export default {
                 this.rerender = true
                 setTimeout(() => {
                     this.reloadLoading = false
-                }, 1000)
+                }, 500)
             });
         },
         allTutorials() {

@@ -8,12 +8,12 @@
                 </a>
             </li>
 
-            <!--            <li class="menu-item exact-color">-->
-            <!--                <v-btn text @click="$root.$emit('openTuts')" dark class="menu-link px-4" aria-haspopup="true"-->
-            <!--                       data-menu-toggle="hover" height="40" min-width="40">-->
-            <!--                    <v-icon>mdi-help</v-icon>-->
-            <!--                </v-btn>-->
-            <!--            </li>-->
+            <li class="menu-item exact-color">
+                <v-btn text @click="$root.$emit('openTuts')" dark class="menu-link px-4" aria-haspopup="true"
+                       data-menu-toggle="hover" height="40" min-width="40">
+                    <v-icon>mdi-help</v-icon>
+                </v-btn>
+            </li>
 
             <router-link to="/dashboard" v-slot="{ href, navigate, isActive, isExactActive }">
                 <li aria-haspopup="true" data-menu-toggle="hover" class="menu-item"
@@ -24,9 +24,7 @@
                 </li>
             </router-link>
 
-            <li v-for="(menu, i) in topMenus"
-                :key="i"
-                aria-haspopup="true"
+            <li v-for="(menu, i) in topMenus" :key="i" aria-haspopup="true"
                 :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'"
                 :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) } ]">
 
@@ -34,32 +32,28 @@
                     <span class="menu-text"> {{ menu.name }} </span>
                 </a>
 
-                <span v-else class="menu-link menu-toggle noBackground">
-                    <span class="menu-text">{{ menu.name }}</span>
-                </span>
+                <v-menu v-else open-on-hover offset-y close-on-click>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn text dark v-bind="attrs" v-on="on" class="menu-link font-weight-normal">
+                            {{ menu.name }}
+                        </v-btn>
+                    </template>
 
-                <div v-if="menu.children && menu.children.length !== 0" class="menu-submenu menu-submenu-fixed">
-                    <div class="menu-subnav megamenu">
-                        <ul class="menu-content">
-                            <li class="menu-item">
-                                <h3 class="menu-heading menu-toggle">
-                                    <i class="menu-bullet menu-bullet-dot"><span></span></i>
-                                    <span class="menu-text"> {{ menu.name }}</span>
-                                    <i class="menu-arrow"></i>
-                                </h3>
-
-                                <!-- child or a slug is required to do so the following jobs -->
-                                <v-list-item light v-for="(child, j) in menu.children" :key="j"
-                                             :to="`/${child.slug}`" style="min-height: 32px" class="menu-link">
-                                    <v-list-item-icon style="margin-left: 16px" class="my-3">
-                                        <v-icon color="grey">mdi-circle-small</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-title v-text="child.name" class="py-2"/>
-                                </v-list-item>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                    <v-card flat>
+                        <h3 class="px-2 pt-3 font-size-h6">
+                            {{ menu.name }}
+                        </h3>
+                        <v-list>
+                            <v-list-item light v-for="(child, j) in menu.children" :key="j" :to="`/${child.slug}`"
+                                         style="min-height: 32px" class="menu-link px-4">
+                                <v-list-item-icon style="margin-left: 16px" class="my-3">
+                                    <v-icon color="grey">mdi-circle-small</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-title v-text="child.name" class="py-2"/>
+                            </v-list-item>
+                        </v-list>
+                    </v-card>
+                </v-menu>
             </li>
         </ul>
     </div>
