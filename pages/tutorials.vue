@@ -103,43 +103,43 @@ export default {
                     name: 'سامانه ترمینال تبلیغات',
                     value: 'terminal',
                     sid: '1',
-                    img: require('@/assets/img/logo/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png')
+                    img: '/media/guids/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png'
                 },
                 {
                     name: 'سامانه ارسال پیامک هدفمند',
                     sid: '2',
                     value: 'sms',
-                    img: require('@/assets/img/logo/payamak-land.png')
+                    img: '/media/guids/payamak-land.png'
                 },
                 {
                     name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
                     value: 'rbLand',
                     sid: '4',
-                    img: require('@/assets/img/logo/robot-land.png')
+                    img: '/media/guids/robot-land.png'
                 },
                 {
                     name: 'سامانه بانک اطلاعات مشاغل کشور',
                     value: 'info',
                     sid: '10',
-                    img: require('@/assets/img/logo/info-land.png')
+                    img: '/media/guids/info-land.png'
                 },
                 {
                     name: 'سامانه مدیریت‌آنلاین فایل املاک',
                     value: 'realEstate',
                     sid: '11',
-                    img: require('@/assets/img/logo/estate-land.png')
+                    img: '/media/guids/estate-land.png'
                 },
                 {
                     name: 'سامانه خدمات طراحی گرافیکی و ویدئو',
                     value: 'geraphic',
                     sid: '14',
-                    img: require('@/assets/img/logo/graphic-land-mix.png')
+                    img: '/media/guids/graphic-land-mix.png'
                 },
                 {
                     name: 'سامانه طراحی،پشتیبانی و سئوسایت',
                     value: 'digi',
                     sid: '13',
-                    img: require('@/assets/img/logo/web-land-1.png')
+                    img: '/media/guids/web-land-1.png'
                 },
 
                 // {name: 'سامانه فروشگاه آنلاین شخصی', value: 'shopOnline'},
