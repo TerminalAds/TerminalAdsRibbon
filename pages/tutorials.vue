@@ -110,6 +110,7 @@ export default {
                     sid: '2',
                     value: 'sms',
                     img: '/media/guids/payamak-land.png'
+
                 },
                 {
                     name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
