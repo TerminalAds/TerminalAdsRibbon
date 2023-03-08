@@ -1,13 +1,14 @@
 <template>
-    <v-card flat class="pa-4 pb-10">
+    <v-card flat class="pa-2 pb-10">
 
-        <v-carousel height="200" hide-delimiters>
+        <v-carousel height="200" hide-delimiters :show-arrows="columns < guidence.length">
             <template v-for="(item, index) in guidence.length">
                 <v-carousel-item class="p-5 " v-if="(index + 1) % columns === 1 || columns === 1" :key="index">
-                    <v-row class="flex-nowrap">
-                        <template v-for="(n,i) in columns">
+                    <v-row class="flex-nowrap" no-gutters>
+                        <template v-for="(n, i) in columns">
                             <template v-if="(+index + i) < guidence.length">
-                                <div :class="activeProject === guidence[index+i].value ? 'col-md-2 text-center cardActive cardStyle my-4 mx-5' : 'col-md-2 text-center cardStyle my-4 mx-5' "
+                                <div class="col-md-2 text-center cardStyle my-4 mx-5 pa-2"
+                                     :class="activeProject === guidence[index+i].value ? ' cardActive' : '' "
                                      @click="getPages(guidence[index + i].sid,guidence[index + i].value)">
                                     <img :src="guidence[index + i].img" alt="" style="width: 50px">
                                     <p class="mt-4 font-weight-bold">{{ guidence[index + i].name }}</p>
@@ -29,13 +30,13 @@
             </v-col>
 
             <v-col cols="12" md="8" class="pa-2">
-                <v-card class="cardMine">
+                <v-card class="cardMine" min-height="230">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
                         <v-progress-linear v-show="!tutorials && loading" indeterminate color="primary"/>
                     </v-card-title>
 
-                    <v-card-text>
+                    <v-card-text class="px-0">
                         <items-tutorial v-model="tabModel" :items.sync="tabItems" no-call :called-tuts="tutorials"/>
                     </v-card-text>
 
@@ -45,15 +46,17 @@
                                 <v-icon>mdi-phone</v-icon>
                             </v-btn>
                         </template>
-                        <v-btn small class="text-white font-weight-bold" color="green">
+                        <v-btn small class="text-white font-weight-bold" color="green" target="_blank"
+                               href="https://wa.me/982191017077">
                             <v-icon class="ml-2">mdi-whatsapp</v-icon>
                             ارتباط در واتساپ
                         </v-btn>
-                        <v-btn small class="text-white px-5 font-weight-bold" color="primary">
+                        <v-btn small class="text-white px-5 font-weight-bold" color="primary" href="tel:021-91017077">
                             <v-icon class="ml-2">mdi-phone</v-icon>
                             {{ persianNum('021-91017077') }}
                         </v-btn>
-                        <v-btn small class="text-white text-dark px-7 font-weight-bold" color="warning">
+                        <v-btn small class="text-white text-dark px-7 font-weight-bold" color="warning"
+                               href="https://core.terminalads.com/#/tickets/create" target="_blank">
                             <v-icon class="ml-2">mdi-chat</v-icon>
                             ثبت تیکت
                         </v-btn>
@@ -94,7 +97,8 @@ export default {
             isActive: '',
             serverId: 1,
             activeProject: 'terminal',
-            guidence: [
+            guidence: [],
+            guidList: [
                 {
                     name: 'سامانه ترمینال تبلیغات',
                     value: 'terminal',
@@ -159,6 +163,19 @@ export default {
         }
     },
     methods: {
+        getPageList() {
+            this.loading = true
+            this.$DashboardAxios.get('/api/contentService')
+                .then(({data}) => {
+                    let list = []
+                    if (data.data && data.data.length > 0) {
+                        list = data.data.sort((a, b) => a - b);
+                        this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
+                        this.getPages(this.serverId, this.activeProject)
+                    }
+                }).catch(({response}) => console.log('error in get category server list: ', response))
+                .finally(() => this.loading = false)
+        },
         goTo(categoryID, value) {
             this.isActive = value;
             this.getContent(categoryID)
@@ -172,10 +189,11 @@ export default {
             this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
                 .then(({data}) => {
                     this.pages = data.data.filter((item) => this.ribbon_can(item.gate))
-                    // this.pages = data.data
-                    if (data.data?.length > 0) {
-                        this.goTo(data.data[0].id, data.data[0].slug)
-                    }
+                    this.$nextTick(() => {
+                        if (this.pages?.length > 0) {
+                            this.goTo(this.pages[0].id, this.pages[0].slug)
+                        }
+                    })
                 })
                 .finally(() => this.loading = false)
         },
@@ -190,20 +208,12 @@ export default {
         },
     },
     mounted() {
-        this.getPages(this.serverId, this.activeProject)
+        this.getPageList()
     },
     computed: {
         columns() {
-            if (this.$vuetify.breakpoint.xl) {
-                return 5;
-            }
-            if (this.$vuetify.breakpoint.lg) {
-                return 5;
-            }
-            if (this.$vuetify.breakpoint.md) {
-                return 5;
-            }
-            return 1;
+            if (this.$vuetify.breakpoint.mdAndUp) return 5
+            else if (this.$vuetify.breakpoint.smAndDown) return 1
         }
     },
 }
@@ -264,7 +274,7 @@ export default {
     background-size: cover !important;
     background: linear-gradient(to left, #089D88 0%, #03BACF 51%, #514A9D 100%);
     word-break: break-word;
-    z-index: 50 !important;
+    z-index: 0 !important;
 }
 
 @media screen and (max-width: 960px) {
