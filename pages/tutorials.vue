@@ -33,7 +33,7 @@
                 <v-card class="cardMine" min-height="230">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
-                        <v-progress-linear v-show="!tutorials && loading" indeterminate color="primary"/>
+                        <v-progress-linear v-show="!tutorials && showLoading" indeterminate color="primary"/>
                     </v-card-title>
 
                     <v-card-text class="px-0">
@@ -87,15 +87,39 @@ import ItemsTutorial from "../components/itemsTutorial";
 export default {
     name: "tutorials",
 
+    props: {
+        loading: Boolean,
+    },
+
     components: {ItemsTutorial, TabsTutorial},
+
+    mounted() {
+        this.getPageList()
+    },
+
+    computed: {
+        columns() {
+            if (this.$vuetify.breakpoint.mdAndUp) return 5
+            else if (this.$vuetify.breakpoint.smAndDown) return 1
+        }
+    },
+
+    watch: {
+        loading(val) {
+            this.showLoading = val
+        },
+        showLoading(val) {
+            this.$emit('update:loading', val)
+        }
+    },
 
     data() {
         return {
-            loading: false,
+            showLoading: false,
             tab: 0,
             tabModel: 0,
             isActive: '',
-            serverId: 1,
+            serverId: null,
             activeProject: 'terminal',
             guidence: [],
             guidList: [
@@ -163,59 +187,64 @@ export default {
             pages: [],
         }
     },
+
     methods: {
         getPageList() {
-            this.loading = true
+            this.showLoading = true
             this.$DashboardAxios.get('/api/contentService')
                 .then(({data}) => {
                     let list = []
                     if (data.data && data.data.length > 0) {
                         list = data.data.sort((a, b) => a - b);
-                        this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
-                        this.getPages(this.serverId, this.activeProject)
+                        let guids = this.guidList.filter((item) => list.includes(Number(item.sid)))
+                        guids = this.array_move(guids, 0, guids.findIndex(item => Number(item.sid) === Number(this.sid)))
+                        this.activeProject = guids[0].value
+                        this.guidence = guids
+                        this.getPages(this.sid, this.activeProject)
                     }
                 }).catch(({response}) => console.log('error in get category server list: ', response))
-                .finally(() => this.loading = false)
+                .finally(() => this.showLoading = false)
+        },
+        array_move(arr, old_index, new_index) {
+            if (new_index >= arr.length) {
+                let k = new_index - arr.length + 1;
+                while (k--) {
+                    arr.push(undefined);
+                }
+            }
+            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+            return arr; // for testing
         },
         goTo(categoryID, value) {
             this.isActive = value;
             this.getContent(categoryID)
         },
         getPages(id, value) {
-            this.loading = true
+            this.showLoading = true
             this.activeProject = value;
             this.serverId = id
             this.tutorials = null
             this.tabModel = 0
             this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
                 .then(({data}) => {
-                    this.pages = data.data.filter((item) => this.ribbon_can(item.gate))
+                    this.pages = data.data.filter((item) => !item.gate || this.ribbon_can(item.gate))
                     this.$nextTick(() => {
                         if (this.pages?.length > 0) {
                             this.goTo(this.pages[0].id, this.pages[0].slug)
                         }
                     })
                 })
-                .finally(() => this.loading = false)
+                .finally(() => this.showLoading = false)
         },
         getContent(categoryId) {
-            this.loading = true
+            this.showLoading = true
             this.tutorials = null
             this.$DashboardAxios(`/api/categoryTutorial?sid=${this.serverId}&category_id=${categoryId}`)
                 .then(({data}) => {
                     this.tutorials = data.data
                 })
-                .finally(() => this.loading = false)
+                .finally(() => this.showLoading = false)
         },
-    },
-    mounted() {
-        this.getPageList()
-    },
-    computed: {
-        columns() {
-            if (this.$vuetify.breakpoint.mdAndUp) return 5
-            else if (this.$vuetify.breakpoint.smAndDown) return 1
-        }
     },
 }
 </script>

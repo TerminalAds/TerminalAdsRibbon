@@ -7,7 +7,8 @@
             </div>
         </template>
 
-        <v-card flat height="fit-content" class="overflow-y-auto" max-height="calc(100vh - 120px)">
+        <v-card flat height="fit-content" class="overflow-y-auto" max-height="calc(100vh - 120px)"
+                :class="{'popup-card-loading' : showLoading}">
             <v-card-title class="sticky-top align-center popup-title flex-nowrap pa-2 pa-md-4">
                 <span v-if="!$slots.extension" class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
                 <v-spacer v-if="!$slots.extension"/>
@@ -34,12 +35,12 @@
                 </v-btn>
             </v-card-title>
 
-            <v-card-text ref="popup-card" class="pa-0" v-if="rerender" v-show="!loading">
+            <v-card-text class="pa-0" v-if="rerender">
                 <slot name="default"/>
             </v-card-text>
 
-            <v-card v-if="loading" flat width="100%" min-height="200" :height="cardHeight ? cardHeight : '200'"
-                    max-height="calc(100vh - 188px)" class="d-flex align-center justify-center">
+            <v-card color="rgba(255, 255, 255, .8)" v-if="showLoading" flat width="100%" height="calc(100% - 68px)"
+                    max-height="calc(100% - 68px)" class="d-flex align-center justify-center loading-wrapper">
                 <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
             </v-card>
 
@@ -71,7 +72,8 @@ export default {
         hideOverlay: Boolean,
         transition: String,
         scrollable: Boolean,
-        reloadable: Boolean
+        reloadable: Boolean,
+        loading: Boolean
     },
 
     model: {
@@ -83,7 +85,7 @@ export default {
         dialog: false,
         rerender: true,
         cardHeight: null,
-        loading: false,
+        showLoading: false,
     }),
 
     watch: {
@@ -94,6 +96,12 @@ export default {
             // if (!val) {
             this.$emit('input', val);
             // }
+        },
+        loading(val) {
+            this.showLoading = val
+        },
+        showLoading(val) {
+            this.$emit('update:loading', val)
         }
     },
 
@@ -114,19 +122,14 @@ export default {
             return false
         },
         reloadPopup() {
-            let card = this.$refs['popup-card']
-            if (card) {
-                this.cardHeight = card.getBoundingClientRect().height
-            }
-
             this.rerender = false;
-            this.loading = true
+            this.showLoading = true
             this.$nextTick(() => {
                 this.rerender = true
                 setTimeout(() => {
-                    this.loading = false
+                    this.showLoading = false
                     this.$emit('on-reload')
-                }, 500)
+                }, 1000)
             })
         },
         closeDialog() {
@@ -141,5 +144,17 @@ export default {
     background-size: cover !important;
     background: linear-gradient(to left, #089D88 0%, #03BACF 51%, #514A9D 100%);
     word-break: break-word;
+}
+
+.loading-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.popup-card-loading {
+    overflow: hidden !important;
 }
 </style>
