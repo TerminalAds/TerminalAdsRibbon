@@ -33,8 +33,8 @@
         <navigation/>
         <KTScrollTop/>
 
-        <custom-popup v-model="showTuts" :cons="cons" max-width="1240" hide-confirm>
-            <tutorials v-if="showTuts"/>
+        <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" max-width="1240" hide-confirm>
+            <tutorials v-if="showTuts" :loading.sync="loading"/>
         </custom-popup>
     </v-app>
 </template>
@@ -85,11 +85,13 @@ export default {
             coreBack: 'https://www.sarvland.ir',
             pLandUrl: 'http://localhost:8080/',
             showTuts: false,
+            loading: false,
             cons: {
                 title: 'راهنمای سامانه ترمینال تبلیغات'
             }
         }
     },
+
     beforeMount() {
         this.$instanceAxios.interceptors.response.use(
             response => Promise.resolve(response),
