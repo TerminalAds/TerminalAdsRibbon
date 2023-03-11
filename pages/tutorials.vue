@@ -23,8 +23,8 @@
         <v-row no-gutters justify="center">
             <v-col cols="12" md="3" class="pa-2">
                 <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x,index) in pages"
-                       :class="isActive === x.slug ?'font-weight-bold bg-indigo mb-2 col-md text-center btnActive rounded' : 'font-weight-bold btnStyles bg-white mb-2 col-md text-center rounded' "
-                       style="border-color: navy!important;letter-spacing: unset">
+                       :class="isActive === x.slug ? 'btnActive bg-indigo' : ''"
+                       class="font-weight-bold btnStyles bg-white mb-2 col-md text-center">
                     {{ x.name }}
                 </v-btn>
             </v-col>
@@ -196,10 +196,9 @@ export default {
                     let list = []
                     if (data.data && data.data.length > 0) {
                         list = data.data.sort((a, b) => a - b);
-                        let guids = this.guidList.filter((item) => list.includes(Number(item.sid)))
-                        guids = this.array_move(guids, 0, guids.findIndex(item => Number(item.sid) === Number(this.sid)))
-                        this.activeProject = guids[0].value
-                        this.guidence = guids
+                        this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
+                        let index = this.guidence.findIndex(item => Number(item.sid) === Number(this.sid))
+                        this.activeProject = this.guidence[index].value
                         this.getPages(this.sid, this.activeProject)
                     }
                 }).catch(({response}) => console.log('error in get category server list: ', response))
@@ -225,9 +224,15 @@ export default {
             this.serverId = id
             this.tutorials = null
             this.tabModel = 0
+            this.pages = []
             this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
                 .then(({data}) => {
-                    this.pages = data.data.filter((item) => !item.gate || this.ribbon_can(item.gate))
+                    let pages = data.data.filter((item) => !item.gate || this.ribbon_can(item.gate));
+                    for (let p in pages) {
+                        if (pages[p].meta_title && pages[p].meta_title === 'admin')
+                            continue
+                        this.pages.push(pages[p])
+                    }
                     this.$nextTick(() => {
                         if (this.pages?.length > 0) {
                             this.goTo(this.pages[0].id, this.pages[0].slug)
@@ -270,7 +275,8 @@ export default {
     border-radius: 15px;
     background-color: #FFFFFF;
     box-shadow: 5px 5px 5px #7e8299;
-    border: 2px solid #1c0152;
+    border: 2px solid #1c0152 !important;
+    letter-spacing: unset;
 }
 
 .btnActive {
