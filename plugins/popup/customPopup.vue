@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" :max-width="maxWidth" :hide-overlay="hideOverlay" :transition="transition"
               :scrollable="scrollable">
         <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
+            <div v-bind="attrs" v-on="on" class="d-inline-block">
                 <slot name="activator"/>
             </div>
         </template>
