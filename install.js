@@ -2,10 +2,12 @@ import DashboardAxios from "axios";
 import Vuex, {mapActions} from "vuex";
 import store from "./store";
 import money from './Mony.json';
+import VueOffline from 'vue-offline'
 
 export default {
     install(Vue, options) {
         Vue.use(Vuex);
+        Vue.use(VueOffline)
 
         options.store.registerModule("ribbon", store);
 
@@ -73,6 +75,27 @@ export default {
                     }
                     this.setWallet(user_wallet)
                     localStorage.setItem('user_wallet', JSON.stringify(user_wallet));
+                },
+                setCookie(cname, cvalue, exdays) {
+                    let d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                    let expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                },
+                getCookie(cname, def = "") {
+                    let name = cname + "=";
+                    let decodedCookie = decodeURIComponent(document.cookie);
+                    let ca = decodedCookie.split(';');
+                    for (let i = 0; i < ca.length; i++) {
+                        let c = ca[i];
+                        while (c.charAt(0) === ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) === 0) {
+                            return c.substring(name.length, c.length);
+                        }
+                    }
+                    return def;
                 },
             }
         });

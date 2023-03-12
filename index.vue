@@ -117,10 +117,16 @@ export default {
         this.DHeaders.Authorization = 'Bearer ' + token
     },
     mounted() {
+        this.$on('offline', () => {
+            console.log('offline: ', true)
+            this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
+        })
         this.$root.$on('openTuts', () => this.showTuts = true)
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
         }, 2000);
+
+        this.$emit('offline')
 
         this.fetch();
         this.setTutorials();
@@ -166,8 +172,24 @@ export default {
                 .then(({data}) => {
                     this.setCore(data.data)
                     this.setWalletData(data.data.wallet)
+
+                    let tuts = this.getCookie('tuts')
+                    if ((tuts && Number(tuts) || !tuts) < 3) {
+                        setTimeout(() => {
+                            this.showTuts = true
+                            this.fetchTuts();
+                        }, 1500)
+                    }
                 })
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
+        },
+        fetchTuts() {
+            let tuts = this.getCookie('tuts');
+            if (tuts) {
+                tuts = Number(tuts) + 1
+                this.setCookie('tuts', tuts)
+            } else
+                this.setCookie('tuts', 1)
         }
     },
     computed: {

@@ -58,6 +58,10 @@ export default {
     components: {AtomSpinner},
 
     props: {
+        closeOnConfirm: {
+            type: Boolean,
+            default: true
+        },
         cons: Object,
         value: Boolean,
         hideConfirm: Boolean,
@@ -106,13 +110,17 @@ export default {
     },
 
     methods: {
-        onHandler(type) {
+        async onHandler(type) {
             if (this.cons.buttons && this.cons.buttons.length > 0) {
+                this.showLoading = true
                 const obj = this.cons.buttons.filter((item) => item.type === type)[0]
-                if (obj && typeof obj.handler === 'function')
-                    obj.handler()
+                if (obj && typeof obj.handler === 'function') {
+                    await obj.handler()
+                }
+                this.showLoading = false
             }
-            this.closeDialog()
+            if (type !== 'close' && this.closeOnConfirm)
+                this.closeDialog()
         },
         getDisabled(type) {
             if (this.cons.buttons && this.cons.buttons.length > 0) {
@@ -133,6 +141,7 @@ export default {
             })
         },
         closeDialog() {
+            this.onHandler('close')
             this.dialog = false
         }
     }

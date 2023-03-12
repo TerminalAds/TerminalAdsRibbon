@@ -9,6 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "vue-offline": "^2.0.8"
+  },
   "devDependencies": {
     "axios": "^0.19.2",
     "vuetify": "^2.4.9",
