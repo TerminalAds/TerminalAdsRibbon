@@ -126,8 +126,6 @@ export default {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
         }, 2000);
 
-        this.$emit('offline')
-
         this.fetch();
         this.setTutorials();
     },
