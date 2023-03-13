@@ -56,7 +56,7 @@ import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/h
 
 import modal from "./components/modals/modal";
 import CustomPage from "./pages/customPage";
-import easyModal from "@/core/plugins/EasyModal/view";
+import easyModal from "./plugins/EasyModal/view";
 import CustomPopup from "./plugins/popup/customPopup";
 import Tutorials from "./pages/tutorials";
 
@@ -118,9 +118,13 @@ export default {
     },
     mounted() {
         this.$on('offline', () => {
-            console.log('offline: ', true)
-            this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
+            this.$modal.showConnectionLost()
+            // this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
         })
+        this.$on('online', () => {
+            this.$modal.hideConnectionLost()
+        })
+
         this.$root.$on('openTuts', () => this.showTuts = true)
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
@@ -254,25 +258,35 @@ export default {
 </script>
 
 <style>
-@media screen and (min-width: 960px) {
-    #kt_content {
-        margin-top: 0;
-    }
-}
-
 #kt_content {
-    margin-top: 21vh;
+    padding-top: 12em;
 }
 
 @media screen and (max-width: 960px) {
     #kt_content {
-        padding-top: 15vh;
-    }
-
-    .content {
-        margin: 0 16px;
+        padding-top: 19em;
     }
 }
+
+/*@media screen and (min-width: 960px) {*/
+/*    #kt_content {*/
+/*        margin-top: 0;*/
+/*    }*/
+/*}*/
+
+/*#kt_content {*/
+/*    margin-top: 21vh;*/
+/*}*/
+
+/*@media screen and (max-width: 960px) {*/
+/*    #kt_content {*/
+/*        padding-top: 15vh;*/
+/*    }*/
+
+/*    .content {*/
+/*        margin: 0 16px;*/
+/*    }*/
+/*}*/
 
 .v-navigation-drawer {
     background-image: /*linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),*/ url('/media/bg/bg-menu.jpg');

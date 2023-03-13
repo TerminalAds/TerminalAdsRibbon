@@ -3,11 +3,13 @@ import Vuex, {mapActions} from "vuex";
 import store from "./store";
 import money from './Mony.json';
 import VueOffline from 'vue-offline'
+import modal from './plugins/EasyModal/index'
 
 export default {
     install(Vue, options) {
         Vue.use(Vuex);
         Vue.use(VueOffline)
+        Vue.use(modal)
 
         options.store.registerModule("ribbon", store);
 
