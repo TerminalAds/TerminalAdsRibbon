@@ -29,6 +29,13 @@ export default {
         },
         tab(val) {
             this.$emit('input', val)
+        },
+        tabItems: {
+            deep: true,
+
+            handler() {
+                this.tab = 0
+            }
         }
     },
 
