@@ -3,10 +3,10 @@
         <v-progress-circular indeterminate color="primary"/>
     </v-card>
 
-    <v-tabs-items v-else-if="tutorial" v-model="tab" class="pa-4">
+    <v-tabs-items v-else-if="tutorial" v-model="tab" class="pa-0 pa-md-4">
         <v-tab-item v-if="tutorial && haveFeature">
             <v-card flat>
-                <v-card-text v-html="tutorial.features"></v-card-text>
+                <v-card-text class="pa-2 pa-md-4" v-html="tutorial.features"></v-card-text>
             </v-card>
         </v-tab-item>
 
@@ -16,11 +16,11 @@
                     {{ tutorial.title }}
                 </v-card-title>
 
-                <v-card-text v-html="tutorial.description"/>
+                <v-card-text class="pa-2 pa-md-4" v-html="tutorial.description"/>
             </v-card>
         </v-tab-item>
 
-        <v-tab-item v-if="hasQuestions && tutorial !== null">
+        <v-tab-item v-if="hasQuestions && tutorial !== null" class="pa-2">
             <v-expansion-panels flat>
                 <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i"
                                    class="grey lighten-2 mb-2">
@@ -182,5 +182,10 @@ export default {
 .v-expansion-panel--active >>> .v-expansion-panel-header {
     background-color: var(--v-warning-base);
     min-height: 49px;
+}
+
+.v-window >>> iframe,
+.v-window >>> img {
+    max-width: 100% !important;
 }
 </style>

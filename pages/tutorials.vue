@@ -29,7 +29,7 @@
                 </v-btn>
             </v-col>
 
-            <v-col cols="12" md="8" class="pa-2">
+            <v-col cols="12" md="8" class="pa-0 pa-md-2">
                 <v-card class="cardMine" min-height="230">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
@@ -99,49 +99,6 @@ export default {
             activeProject: 'terminal',
             guidence: [],
             guidList: [
-                {
-                    name: 'سامانه ترمینال تبلیغات',
-                    value: 'terminal',
-                    sid: '1',
-                    img: '/media/guids/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png'
-                },
-                {
-                    name: 'سامانه ارسال پیامک هدفمند',
-                    sid: '2',
-                    value: 'sms',
-                    img: '/media/guids/payamak-land.png'
-
-                },
-                {
-                    name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
-                    value: 'rbLand',
-                    sid: '4',
-                    img: '/media/guids/robot-land.png'
-                },
-                {
-                    name: 'سامانه بانک اطلاعات مشاغل کشور',
-                    value: 'info',
-                    sid: '10',
-                    img: '/media/guids/info-land.png'
-                },
-                {
-                    name: 'سامانه مدیریت‌آنلاین فایل املاک',
-                    value: 'realEstate',
-                    sid: '11',
-                    img: '/media/guids/estate-land.png'
-                },
-                {
-                    name: 'سامانه خدمات طراحی گرافیکی و ویدئو',
-                    value: 'geraphic',
-                    sid: '14',
-                    img: '/media/guids/graphic-land-mix.png'
-                },
-                {
-                    name: 'سامانه طراحی،پشتیبانی و سئوسایت',
-                    value: 'digi',
-                    sid: '13',
-                    img: '/media/guids/web-land-1.png'
-                },
 
                 // {name: 'سامانه فروشگاه آنلاین شخصی', value: 'shopOnline'},
                 // {name: 'سامانه تبلیغات در شبکه های اجتماعی', value: 'ads'},
@@ -163,6 +120,58 @@ export default {
             pages: [],
         }
     },
+<<<<<<< Updated upstream
+=======
+
+    beforeMount() {
+        this.guidList = [
+            {
+                name: 'سامانه ترمینال تبلیغات',
+                value: 'terminal',
+                sid: '1',
+                img: require('../assets/img/guids/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png')
+            },
+            {
+                name: 'سامانه ارسال پیامک هدفمند',
+                sid: '2',
+                value: 'sms',
+                img: require('../assets/img/guids/payamak-land.png')
+
+            },
+            {
+                name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
+                value: 'rbLand',
+                sid: '4',
+                img: require('../assets/img/guids/robot-land.png')
+            },
+            {
+                name: 'سامانه بانک اطلاعات مشاغل کشور',
+                value: 'info',
+                sid: '10',
+                img: require('../assets/img/guids/info-land.png')
+            },
+            {
+                name: 'سامانه مدیریت‌آنلاین فایل املاک',
+                value: 'realEstate',
+                sid: '11',
+                img: require('../assets/img/guids/estate-land.png')
+            },
+            {
+                name: 'سامانه خدمات طراحی گرافیکی و ویدئو',
+                value: 'geraphic',
+                sid: '14',
+                img: require('../assets/img/guids/graphic-land-mix.png')
+            },
+            {
+                name: 'سامانه طراحی،پشتیبانی و سئوسایت',
+                value: 'digi',
+                sid: '13',
+                img: require('../assets/img/guids/web-land-1.png')
+            },
+        ]
+    },
+
+>>>>>>> Stashed changes
     methods: {
         getPageList() {
             this.loading = true
@@ -227,10 +236,14 @@ export default {
 }
 
 .cardMine {
-    border-radius: 15px;
     color: #1c0152;
-    background-color: #FFFFFF;
-    box-shadow: 8px 5px 10px #7e8299 !important;
+}
+
+@media screen and (min-width: 690px) {
+    .cardMine {
+        border-radius: 15px;
+        box-shadow: 8px 5px 10px #7e8299 !important;
+    }
 }
 
 .cardMine >>> .v-card__title {

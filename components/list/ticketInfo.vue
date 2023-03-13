@@ -26,10 +26,9 @@
         </v-col>
 
         <v-col cols="12" sm="6" md="3" lg="6" class="pa-2">
-            <a class="card card-custom cursor-pointer"
-               :href="DConfigs.dashboardConfig.announcement.url"
+            <a class="card card-custom cursor-pointer" :href="DConfigs.dashboardConfig.announcement.url"
                :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.announcement.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
-                <div class="card-body">
+                <div class="card-body pe-1">
                     <div class="text-dark font-weight-bolder font-size-h2 mt-20"
                          v-text="announcement"/>
                     <p class="black--text">{{ DConfigs.dashboardConfig.announcement.text }}</p>
@@ -40,7 +39,7 @@
         <v-col cols="12" sm="6" md="3" lg="6" class="pa-2">
             <a class="card ribbon card-custom" :href="DConfigs.dashboardConfig.numbers.url"
                :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.numbers.img});background-size: 50%;background-color: rgb(245, 245, 245);`">
-                <div class="card-body">
+                <div class="card-body pe-1">
                     <div class="text-dark font-weight-bolder font-size-h2 mt-20" v-text="numbers"/>
                     <p class="black--text" v-text="DConfigs.dashboardConfig.numbers.text"/>
                 </div>
