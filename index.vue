@@ -115,8 +115,6 @@ export default {
         this.DHeaders.Authorization = 'Bearer ' + token
     },
     mounted() {
-<<<<<<< Updated upstream
-=======
         this.$on('offline', () => {
             this.$modal.showConnectionLost()
             // this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
@@ -125,7 +123,6 @@ export default {
             this.$modal.hideConnectionLost()
         })
 
->>>>>>> Stashed changes
         this.$root.$on('openTuts', () => this.showTuts = true)
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
