@@ -120,8 +120,6 @@ export default {
             pages: [],
         }
     },
-<<<<<<< Updated upstream
-=======
 
     beforeMount() {
         this.guidList = [
@@ -171,7 +169,6 @@ export default {
         ]
     },
 
->>>>>>> Stashed changes
     methods: {
         getPageList() {
             this.loading = true
