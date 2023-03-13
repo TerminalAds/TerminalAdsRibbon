@@ -2,10 +2,20 @@ import DashboardAxios from "axios";
 import Vuex, {mapActions} from "vuex";
 import store from "./store";
 import money from './Mony.json';
+<<<<<<< Updated upstream
+=======
+import VueOffline from 'vue-offline'
+import modal from './plugins/EasyModal/index'
+>>>>>>> Stashed changes
 
 export default {
     install(Vue, options) {
         Vue.use(Vuex);
+<<<<<<< Updated upstream
+=======
+        Vue.use(VueOffline)
+        Vue.use(modal)
+>>>>>>> Stashed changes
 
         options.store.registerModule("ribbon", store);
 
