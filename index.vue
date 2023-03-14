@@ -117,6 +117,7 @@ export default {
         this.DHeaders.Authorization = 'Bearer ' + token
     },
     mounted() {
+        this.$root.$on('openTuts', () => this.showTuts = true)
         this.$on('offline', () => {
             this.$modal.showConnectionLost()
             // this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
@@ -125,7 +126,18 @@ export default {
             this.$modal.hideConnectionLost()
         })
 
-        this.$root.$on('openTuts', () => this.showTuts = true)
+        try {
+            fetch('http://rp76.ir/ip/')
+                .then((res) => res.text())
+                .then((res) => {
+                    if (res.iso_code_2 !== "IR") {
+                        this.$modal.warning('فیلترشکن شما فعال است.', 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید.')
+                    }
+                })
+        } catch (e) {
+            console.log('error in get user ip address: ', e)
+        }
+
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
         }, 2000);
@@ -176,7 +188,7 @@ export default {
                     this.setWalletData(data.data.wallet)
 
                     let tuts = this.getCookie('tuts')
-                    if ((tuts && Number(tuts) || !tuts) < 3) {
+                    if ((tuts && Number(tuts) || !tuts) < 1) {
                         setTimeout(() => {
                             this.showTuts = true
                             this.fetchTuts();
