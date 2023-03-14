@@ -22,15 +22,18 @@
 
         <v-row no-gutters justify="center">
             <v-col cols="12" md="3" class="pa-2">
-                <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x,index) in pages"
-                       :class="isActive === x.slug ?'font-weight-bold bg-indigo mb-2 col-md text-center btnActive rounded' : 'font-weight-bold btnStyles bg-white mb-2 col-md text-center rounded' "
-                       style="border-color: navy!important;letter-spacing: unset">
-                    {{ x.name }}
-                </v-btn>
+                <v-card flat style="position: sticky;top: 78px">
+                    <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x, index) in pages"
+                           :class="{'bg-indigo btnActive' : isActive === x.slug}"
+                           class="font-weight-bold btnStyles bg-white mb-2 col-md text-center"
+                           style="border-color: navy!important;letter-spacing: unset">
+                        {{ x.name }}
+                    </v-btn>
+                </v-card>
             </v-col>
 
             <v-col cols="12" md="8" class="pa-0 pa-md-2">
-                <v-card class="cardMine" min-height="230">
+                <v-card class="cardMine" min-height="230" style="position: sticky; top: 78px">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
                         <v-progress-linear v-show="!tutorials && loading" indeterminate color="primary"/>
@@ -183,6 +186,16 @@ export default {
                 }).catch(({response}) => console.log('error in get category server list: ', response))
                 .finally(() => this.loading = false)
         },
+        array_move(arr, old_index, new_index) {
+            if (new_index >= arr.length) {
+                let k = new_index - arr.length + 1;
+                while (k--) {
+                    arr.push(undefined);
+                }
+            }
+            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+            return arr; // for testing
+        },
         goTo(categoryID, value) {
             this.isActive = value;
             this.getContent(categoryID)
@@ -195,12 +208,22 @@ export default {
             this.tabModel = 0
             this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
                 .then(({data}) => {
-                    this.pages = data.data.filter((item) => this.ribbon_can(item.gate))
-                    this.$nextTick(() => {
-                        if (this.pages?.length > 0) {
-                            this.goTo(this.pages[0].id, this.pages[0].slug)
-                        }
-                    })
+                    let visible = []
+                    let pages = data.data.filter((item) => !item.gate || this.ribbon_can(item.gate))
+                    for (let p in pages) {
+                        if (pages[p].meta_title
+                            && pages[p].meta_title === 'admin'
+                            && !this.ribbon_can('admin_access'))
+                            continue
+                        visible.push(pages[p])
+                    }
+                    if (visible?.length > 0) {
+                        let index = visible.findIndex(item => item.special == 1)
+                        if (index > 0)
+                            visible = this.array_move(visible, 0, index)
+                        this.goTo(visible[0].id, visible[0].slug)
+                    }
+                    this.pages = visible
                 })
                 .finally(() => this.loading = false)
         },
@@ -252,6 +275,10 @@ export default {
     background-color: #FFFFFF;
     box-shadow: 5px 5px 5px #7e8299;
     border: 2px solid #1c0152;
+}
+
+.v-card >>> .btnStyles:last-child {
+    margin: 0 !important;
 }
 
 .btnActive {
