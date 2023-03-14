@@ -36,7 +36,7 @@
                 <v-card class="cardMine" min-height="230" style="position: sticky; top: 78px">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
-                        <v-progress-linear v-show="!tutorials && loading" indeterminate color="primary"/>
+                        <v-progress-linear v-show="!tutorials && showLoading" indeterminate color="primary"/>
                     </v-card-title>
 
                     <v-card-text class="px-0">
@@ -90,15 +90,39 @@ import ItemsTutorial from "../components/itemsTutorial";
 export default {
     name: "tutorials",
 
+    props: {
+        loading: Boolean,
+    },
+
     components: {ItemsTutorial, TabsTutorial},
+
+    mounted() {
+        this.getPageList()
+    },
+
+    computed: {
+        columns() {
+            if (this.$vuetify.breakpoint.mdAndUp) return 5
+            else if (this.$vuetify.breakpoint.smAndDown) return 1
+        }
+    },
+
+    watch: {
+        loading(val) {
+            this.showLoading = val
+        },
+        showLoading(val) {
+            this.$emit('update:loading', val)
+        }
+    },
 
     data() {
         return {
-            loading: false,
+            showLoading: false,
             tab: 0,
             tabModel: 0,
             isActive: '',
-            serverId: 1,
+            serverId: null,
             activeProject: 'terminal',
             guidence: [],
             guidList: [
@@ -174,17 +198,29 @@ export default {
 
     methods: {
         getPageList() {
-            this.loading = true
+            this.showLoading = true
             this.$DashboardAxios.get('/api/contentService')
                 .then(({data}) => {
                     let list = []
                     if (data.data && data.data.length > 0) {
                         list = data.data.sort((a, b) => a - b);
                         this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
-                        this.getPages(this.serverId, this.activeProject)
+                        let index = this.guidence.findIndex(item => Number(item.sid) === Number(this.sid))
+                        this.activeProject = this.guidence[index].value
+                        this.getPages(this.sid, this.activeProject)
                     }
                 }).catch(({response}) => console.log('error in get category server list: ', response))
-                .finally(() => this.loading = false)
+                .finally(() => this.showLoading = false)
+        },
+        array_move(arr, old_index, new_index) {
+            if (new_index >= arr.length) {
+                let k = new_index - arr.length + 1;
+                while (k--) {
+                    arr.push(undefined);
+                }
+            }
+            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+            return arr; // for testing
         },
         array_move(arr, old_index, new_index) {
             if (new_index >= arr.length) {
@@ -201,11 +237,12 @@ export default {
             this.getContent(categoryID)
         },
         getPages(id, value) {
-            this.loading = true
+            this.showLoading = true
             this.activeProject = value;
             this.serverId = id
             this.tutorials = null
             this.tabModel = 0
+            this.pages = []
             this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
                 .then(({data}) => {
                     let visible = []
@@ -225,26 +262,17 @@ export default {
                     }
                     this.pages = visible
                 })
-                .finally(() => this.loading = false)
+                .finally(() => this.showLoading = false)
         },
         getContent(categoryId) {
-            this.loading = true
+            this.showLoading = true
             this.tutorials = null
             this.$DashboardAxios(`/api/categoryTutorial?sid=${this.serverId}&category_id=${categoryId}`)
                 .then(({data}) => {
                     this.tutorials = data.data
                 })
-                .finally(() => this.loading = false)
+                .finally(() => this.showLoading = false)
         },
-    },
-    mounted() {
-        this.getPageList()
-    },
-    computed: {
-        columns() {
-            if (this.$vuetify.breakpoint.mdAndUp) return 5
-            else if (this.$vuetify.breakpoint.smAndDown) return 1
-        }
     },
 }
 </script>
@@ -274,7 +302,8 @@ export default {
     border-radius: 15px;
     background-color: #FFFFFF;
     box-shadow: 5px 5px 5px #7e8299;
-    border: 2px solid #1c0152;
+    border: 2px solid #1c0152 !important;
+    letter-spacing: unset;
 }
 
 .v-card >>> .btnStyles:last-child {

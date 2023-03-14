@@ -34,7 +34,7 @@
         <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" hide-confirm>
             <!--            <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>-->
             <template v-slot:extension>
-                <tabs-tutorial v-model="tab" :tab-items="tabItems" v-if="routeChanged && tDialog"/>
+                <tabs-tutorial v-model="tab" :tab-items="tabItems" v-if="routeChanged && tDialog" class="popup-tuts"/>
             </template>
 
             <items-tutorial v-model="tab" :items.sync="tabItems" v-if="routeChanged && tDialog"/>
@@ -218,5 +218,9 @@ export default {
 .title-wrapper {
     display: flex;
     flex-wrap: wrap-reverse;
+}
+
+.popup-tuts {
+    max-width: calc(100% - 44px);
 }
 </style>
