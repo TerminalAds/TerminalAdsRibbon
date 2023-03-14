@@ -124,17 +124,17 @@ export default {
             this.$modal.hideConnectionLost()
         })
 
-        try {
-            fetch('https://rp76.ir/ip/')
-                .then((res) => res.text())
-                .then((res) => {
-                    if (res.iso_code_2 !== "IR") {
-                        this.$modal.warning('فیلترشکن شما فعال است.', 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید.')
-                    }
-                })
-        } catch (e) {
-            console.log('error in get user ip address: ', e)
-        }
+        // try {
+        //     fetch('https://rp76.ir/ip/')
+        //         .then((res) => res.text())
+        //         .then((res) => {
+        //             if (res.iso_code_2 !== "IR") {
+        //                 this.$modal.warning('فیلترشکن شما فعال است.', 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید.')
+        //             }
+        //         })
+        // } catch (e) {
+        //     console.log('error in get user ip address: ', e)
+        // }
 
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
