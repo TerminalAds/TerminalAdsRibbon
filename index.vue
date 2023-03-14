@@ -125,7 +125,7 @@ export default {
         })
 
         try {
-            fetch('http://rp76.ir/ip/')
+            fetch('https://rp76.ir/ip/')
                 .then((res) => res.text())
                 .then((res) => {
                     if (res.iso_code_2 !== "IR") {
