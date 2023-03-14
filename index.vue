@@ -186,7 +186,7 @@ export default {
                     this.setWalletData(data.data.wallet)
 
                     let tuts = this.getCookie('tuts')
-                    if ((tuts && Number(tuts) || !tuts) < 1) {
+                    if ((tuts && Number(tuts) || !tuts) <= 1) {
                         setTimeout(() => {
                             this.showTuts = true
                             this.fetchTuts();
