@@ -218,7 +218,7 @@ export default {
                         visible.push(pages[p])
                     }
                     if (visible?.length > 0) {
-                        let index = visible.findIndex(item => item.special == 1)
+                        let index = visible.findIndex(item => item.sort_order == 1)
                         if (index > 0)
                             visible = this.array_move(visible, 0, index)
                         this.goTo(visible[0].id, visible[0].slug)

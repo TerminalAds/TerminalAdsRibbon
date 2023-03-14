@@ -49,6 +49,13 @@
                             {{ activeAdsBtn.text }}
                         </v-btn>
 
+                        <!--                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons"-->
+                        <!--                               :key="i"-->
+                        <!--                               :href="item.href" dark>-->
+                        <!--                            <v-icon class="me-2">mdi-{{ item.icon ?? 'chevron-left' }}</v-icon>-->
+                        <!--                            {{ item.text }}-->
+                        <!--                        </v-btn>-->
+
                         <v-btn block :color="item.color ?? '#3ebd47'" v-for="(item, i) in actionButtons"
                                :key="i" dark @click="clickOnActions(item)" :class="item.class ?? ''">
                             <v-icon class="me-2">mdi-{{ item.icon ?? 'circle-small' }}</v-icon>
@@ -125,6 +132,7 @@ export default {
                     color: '#ae2012'
                 },
                 {text: 'سفارش طراحی لوگو', icon: 'draw', href: '', color: '#0a9396'},
+                // {text: 'نردبان هوشمند آگهی دیوار', icon: 'arrow-up-right', href: '', color: '#fca311'},
                 // {text: 'سفارش ست اداری', icon: 'paperclip', href: '', color: '#ee9b00'},
                 {
                     text: 'سفارش طراحی سایت',
@@ -215,12 +223,8 @@ export default {
             }
         },
         isLostShow(val) {
-            console.log('is lost show: ', val);
             vx.dispatch("connectionLost/show", this.showing)
         },
-        isConnectionLostShow(val) {
-            console.log('isConnectionLostShow: ', val)
-        }
     },
 
     methods: {
