@@ -49,8 +49,7 @@
                             {{ activeAdsBtn.text }}
                         </v-btn>
 
-                        <!--                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons"-->
-                        <!--                               :key="i"-->
+                        <!--                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons" :key="item.icon"-->
                         <!--                               :href="item.href" dark>-->
                         <!--                            <v-icon class="me-2">mdi-{{ item.icon ?? 'chevron-left' }}</v-icon>-->
                         <!--                            {{ item.text }}-->
@@ -67,11 +66,18 @@
         </v-row>
 
         <v-row v-if="isConnectionLostShow">
-            <v-dialog v-model='isLostShow' width="250" persistent>
+            <v-dialog v-model='isLostShow' width="250" :persistent="!isConnectClosable">
                 <v-card flat width="100%">
-                    <v-card-text class="d-flex flex-column justify-center align-center">
+                    <v-card-title class="pa-2 justify-end" v-if="isConnectClosable">
+                        <v-btn depressed color="rgb(252,193,199)" v-b-tooltip="'بستن'"
+                               @click="isLostShow = false" min-width="36" class="px-0">
+                            <v-icon class="text-danger">mdi-close</v-icon>
+                        </v-btn>
+                    </v-card-title>
+                    <v-card-text class="d-flex flex-column justify-center align-center pt-4">
                         <div class="d-flex justify-center mb-3 mx-auto">
-                            <v-img :src="getIcon" width="112" max-height="112" max-width="112" contain/>
+                            <img :src="getIcon" alt="" loading="eager"
+                                 style="width: 112px;max-width: 112px;max-height: 112px"/>
                         </div>
 
                         <h6 class="primary--text">{{ getConnectionLostTitle }}</h6>
@@ -131,8 +137,19 @@ export default {
                     href: 'https://core-info.terminalads.com/#/shop/archives',
                     color: '#ae2012'
                 },
-                {text: 'سفارش طراحی لوگو', icon: 'draw', href: '', color: '#0a9396'},
-                // {text: 'نردبان هوشمند آگهی دیوار', icon: 'arrow-up-right', href: '', color: '#fca311'},
+                // {text: 'سفارش طراحی لوگو', icon: 'draw', href: '', color: '#0a9396'},
+                {
+                    text: 'نردبان هوشمند آگهی دیوار',
+                    icon: 'stairs-up',
+                    href: 'https://core-robot.terminalads.com/#/Tools/SmartLadder',
+                    color: '#fca311'
+                },
+                {
+                    text: 'ارسال پیامک به مشاغل',
+                    icon: 'wallet-travel',
+                    href: 'https://core-sms.terminalads.com/#/JobSms',
+                    color: '#7678ed'
+                },
                 // {text: 'سفارش ست اداری', icon: 'paperclip', href: '', color: '#ee9b00'},
                 {
                     text: 'سفارش طراحی سایت',
@@ -145,6 +162,43 @@ export default {
                     icon: 'finance',
                     href: 'https://core-digi.terminalads.com/#/seo',
                     color: '#7b2cbf'
+                },
+                {
+                    text: 'ارسال پیامک از نقشه',
+                    icon: 'cellphone-marker',
+                    href: 'https://core-sms.terminalads.com/#/MapSms',
+                    color: '#0466c8'
+                },
+                {
+                    text: 'نردبان تدریجی آگهی دیوار',
+                    icon: 'angle-acute',
+                    href: 'https://core-robot.terminalads.com/#/Tools/gradualLadder',
+                    color: '#56ab91'
+                },
+                {
+                    text: 'سفارش سئو سایت',
+                    icon: 'bullseye-arrow',
+                    href: 'https://core-digi.terminalads.com/#/seo',
+                    color: '#85182a'
+                },
+                // {text: 'سفارش کارت ویزیت', icon: 'card-account-phone', href: '', color: '#212f45'},
+                {
+                    text: 'مدیریت و پیشتبانی سایت',
+                    icon: 'face-agent',
+                    href: 'https://core-digi.terminalads.com/#/support',
+                    color: '#058c42'
+                },
+                {
+                    text: 'ارسال پیامک به شهر و استان',
+                    icon: 'home-city',
+                    href: 'https://core-sms.terminalads.com/#/CitySms',
+                    color: '#a68a64'
+                },
+                {
+                    text: 'چت اتوماتیک دیوار',
+                    icon: 'text-recognition',
+                    href: 'https://core-robot.terminalads.com/#/Tools/autoChats',
+                    color: '#ff477e'
                 },
             ]
         }
@@ -185,6 +239,9 @@ export default {
         getIcon() {
             return vx.getters[Icon];
         },
+        // getType() {
+        //     return vx.getters[DialogType]
+        // },
         isConnectionLostShow() {
             this.isLostShow = vx.getters['connectionLost/isShow'];
             return this.isLostShow;
@@ -194,6 +251,9 @@ export default {
         },
         getConnectionLostSubtitle() {
             return vx.getters['connectionLost/subtitle'];
+        },
+        isConnectClosable() {
+            return vx.getters['connectionLost/closable']
         },
         getConnectionLostButtonText() {
             return vx.getters['connectionLost/button'];
@@ -207,6 +267,8 @@ export default {
         isDialogOpened(val) {
             vx.dispatch(Showing, val)
             let index = this.getCookie('adIndex')
+            // if (['success', 'info', 'wallet'].includes())
+
             if (index && index.length > 0) {
                 if (val) {
                     index = Number(index)
@@ -223,7 +285,7 @@ export default {
             }
         },
         isLostShow(val) {
-            vx.dispatch("connectionLost/show", this.showing)
+            vx.dispatch("connectionLost/showing", val)
         },
     },
 

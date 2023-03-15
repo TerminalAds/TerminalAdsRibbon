@@ -4,6 +4,7 @@ export const Closable = "closable"
 export const PrimaryButtons = "PrimaryButtons"
 export const ActionButtons = "ActionButtons"
 export const Icon = "Icon"
+export const DialogType = "DialogType"
 export const Title = "Title"
 export const Description = "Description"
 export const Data = "Data"
@@ -19,6 +20,7 @@ const state = {
     [PrimaryButtons]: [],
     [ActionButtons]: [],
     [Icon]: "",
+    [DialogType]: "",
     [Title]: "",
     [Description]: "",
     [Width]: "",
@@ -44,6 +46,9 @@ const getters = {
     },
     [Icon](state) {
         return state[Icon];
+    },
+    [DialogType](state) {
+        return state[DialogType];
     },
     [Title](state) {
         return state[Title];
@@ -81,6 +86,9 @@ const mutations = {
     [Icon](state, value) {
         return state[Icon] = value;
     },
+    [DialogType](state) {
+        return state[DialogType];
+    },
     [Title](state, value) {
         return state[Title] = value;
     },
@@ -116,6 +124,9 @@ const actions = {
     },
     [Icon]({commit}, value) {
         commit(Icon, value)
+    },
+    [DialogType]({commit}, value) {
+        commit(DialogType, value)
     },
     [Title]({commit}, value) {
         commit(Title, value)

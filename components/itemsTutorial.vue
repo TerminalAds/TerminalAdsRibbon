@@ -188,4 +188,9 @@ export default {
 .v-window >>> img {
     max-width: 100% !important;
 }
+
+.v-window >>> ol,
+.v-window >>> ul {
+    padding: 0 24px 0 16px !important;
+}
 </style>

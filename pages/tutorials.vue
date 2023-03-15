@@ -1,7 +1,7 @@
 <template>
     <v-card flat class="pa-2 pb-10">
 
-        <v-carousel height="200" hide-delimiters :show-arrows="columns < guidence.length">
+        <v-carousel height="200" hide-delimiters :show-arrows="columns < guidence.length" v-model="carouselModel">
             <template v-for="(item, index) in guidence.length">
                 <v-carousel-item class="p-5 " v-if="(index + 1) % columns === 1 || columns === 1" :key="index">
                     <v-row class="flex-nowrap" no-gutters>
@@ -96,28 +96,9 @@ export default {
 
     components: {ItemsTutorial, TabsTutorial},
 
-    mounted() {
-        this.getPageList()
-    },
-
-    computed: {
-        columns() {
-            if (this.$vuetify.breakpoint.mdAndUp) return 5
-            else if (this.$vuetify.breakpoint.smAndDown) return 1
-        }
-    },
-
-    watch: {
-        loading(val) {
-            this.showLoading = val
-        },
-        showLoading(val) {
-            this.$emit('update:loading', val)
-        }
-    },
-
     data() {
         return {
+            carouselModel: null,
             showLoading: false,
             tab: 0,
             tabModel: 0,
@@ -145,6 +126,26 @@ export default {
             tutorials: null,
             tabItems: [],
             pages: [],
+        }
+    },
+
+    mounted() {
+        this.getPageList()
+    },
+
+    computed: {
+        columns() {
+            if (this.$vuetify.breakpoint.mdAndUp) return 5
+            else if (this.$vuetify.breakpoint.smAndDown) return 1
+        }
+    },
+
+    watch: {
+        loading(val) {
+            this.showLoading = val
+        },
+        showLoading(val) {
+            this.$emit('update:loading', val)
         }
     },
 
@@ -207,20 +208,11 @@ export default {
                         this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
                         let index = this.guidence.findIndex(item => Number(item.sid) === Number(this.sid))
                         this.activeProject = this.guidence[index].value
+                        this.carouselModel = index
                         this.getPages(this.sid, this.activeProject)
                     }
                 }).catch(({response}) => console.log('error in get category server list: ', response))
                 .finally(() => this.showLoading = false)
-        },
-        array_move(arr, old_index, new_index) {
-            if (new_index >= arr.length) {
-                let k = new_index - arr.length + 1;
-                while (k--) {
-                    arr.push(undefined);
-                }
-            }
-            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-            return arr; // for testing
         },
         array_move(arr, old_index, new_index) {
             if (new_index >= arr.length) {
@@ -255,9 +247,9 @@ export default {
                         visible.push(pages[p])
                     }
                     if (visible?.length > 0) {
-                        let index = visible.findIndex(item => item.sort_order == 1)
-                        if (index > 0)
-                            visible = this.array_move(visible, 0, index)
+                        //     let index = visible.findIndex(item => item.sort_order == 1)
+                        //     if (index > 0)
+                        //         visible = this.array_move(visible, 0, index)
                         this.goTo(visible[0].id, visible[0].slug)
                     }
                     this.pages = visible

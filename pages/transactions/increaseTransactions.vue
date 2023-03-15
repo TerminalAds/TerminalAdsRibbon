@@ -99,6 +99,7 @@ export default {
     name: "increaseTransactions",
     data() {
         return {
+            loading: false,
             quickCharge: 10_000_000,
             costs: [
                 {
@@ -205,19 +206,19 @@ export default {
         },
 
         payment() {
+            this.loading = true
             if (this.data.price < this.min) {
                 this.$toast.error('مبلغ وارد شده کمتر از ۵۰۰۰۰ تومان است.');
                 return;
             }
-            // this.$modal.showLoading();
             this.$DashboardAxios.post('api/wallet/sharge/', {
                 balance: this.data.price
             }).then(({data}) => {
+                this.loading = false
                 window.location.href = data.action;
             }).catch((e) => {
-                // this.$modal.hideLoading()
                 this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
-            });
+            }).finally(() => this.loading = false)
         },
 
         getGateWayImage(gatewayDriver) {
