@@ -43,17 +43,17 @@
                     </v-card-text>
 
                     <v-card-actions class="flex-column mt-2 justify-center action-wrapper">
-                        <!--                        <v-btn block :color="activeAdsBtn.color" v-if="activeAdsBtn"-->
-                        <!--                               :href="activeAdsBtn.href" dark>-->
-                        <!--                            <v-icon class="me-2">mdi-{{ activeAdsBtn.icon ?? 'chevron-left' }}</v-icon>-->
-                        <!--                            {{ activeAdsBtn.text }}-->
-                        <!--                        </v-btn>-->
-
-                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons" :key="item.icon"
-                               :href="item.href" dark>
-                            <v-icon class="me-2">mdi-{{ item.icon ?? 'chevron-left' }}</v-icon>
-                            {{ item.text }}
+                        <v-btn block :color="activeAdsBtn.color" v-if="activeAdsBtn"
+                               :href="activeAdsBtn.href" dark>
+                            <v-icon class="me-2">mdi-{{ activeAdsBtn.icon ?? 'chevron-left' }}</v-icon>
+                            {{ activeAdsBtn.text }}
                         </v-btn>
+
+                        <!--                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons" :key="item.icon"-->
+                        <!--                               :href="item.href" dark>-->
+                        <!--                            <v-icon class="me-2">mdi-{{ item.icon ?? 'chevron-left' }}</v-icon>-->
+                        <!--                            {{ item.text }}-->
+                        <!--                        </v-btn>-->
 
                         <v-btn block :color="item.color ?? '#3ebd47'" v-for="(item, i) in actionButtons"
                                :key="i" dark @click="clickOnActions(item)" :class="item.class ?? ''">
