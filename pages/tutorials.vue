@@ -208,7 +208,8 @@ export default {
                         this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
                         let index = this.guidence.findIndex(item => Number(item.sid) === Number(this.sid))
                         this.activeProject = this.guidence[index].value
-                        this.carouselModel = index
+                        if (this.$vuetify.breakpoint.smAndDown)
+                            this.carouselModel = index
                         this.getPages(this.sid, this.activeProject)
                     }
                 }).catch(({response}) => console.log('error in get category server list: ', response))
