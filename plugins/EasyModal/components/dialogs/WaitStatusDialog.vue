@@ -4,9 +4,9 @@
         <v-card v-if="loading" class="fill-height">
 
             <v-card-text class="text-center d-flex flex-column justify-center align-center">
-                <div class="d-flex justify-center mb-3 pt-3 mx-auto">
-                    <v-img src="sms.ico" max-height="80" max-width="80" contain/>
-                </div>
+                <!--                <div class="d-flex justify-center mb-3 pt-3 mx-auto">-->
+                <!--                    <v-img src="sms.ico" max-height="80" max-width="80" contain/>-->
+                <!--                </div>-->
 
                 <p class="font-weight-bold font-size-h4 ">
                     {{ i18n.t('Loading.Waiting') }} ...
