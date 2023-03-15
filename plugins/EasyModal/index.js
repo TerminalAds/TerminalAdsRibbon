@@ -23,7 +23,9 @@ export const ICONS = {
     FAILED: require('./img/failed.png'),
     WALLET: require('./img/wallet.png'),
     WARNING: require('./img/warn.png'),
-    CONNECTION: require('./img/connect.png')
+    CONNECTION: require('./img/connect.png'),
+    VPN: require("./img/vpn.png"),
+    PROXY: require("./img/proxy.png"),
 }
 
 
@@ -40,17 +42,21 @@ function hideLoading() {
     vx.dispatch(Closable, false);
 }
 
-function showConnectionLost(event, title = undefined, subtitle = undefined, buttonText = undefined) {
-    if (!title) title = i18n.t("ConnectionLost.Title");
-    if (!subtitle) subtitle = i18n.t("ConnectionLost.Subtitle");
-    if (!buttonText) buttonText = i18n.t("ConnectionLost.Button");
+function showConnectionLost(obj) {
+    if (!obj.title) obj.title = i18n.t("ConnectionLost.Title");
+    if (!obj.subtitle) obj.subtitle = i18n.t("ConnectionLost.Subtitle");
+    if (!obj.buttonText) obj.buttonText = i18n.t("ConnectionLost.Button");
+    if (!obj.closable) obj.closable = false
+    if (!obj.type) obj.type = 'CONNECTION';
+    let iconType = obj.type.toUpperCase()
 
-    vx.dispatch("connectionLost/title", title)
-    vx.dispatch("connectionLost/subtitle", subtitle)
-    vx.dispatch("connectionLost/button", buttonText)
-    vx.dispatch("connectionLost/onClick", event)
+    vx.dispatch("connectionLost/title", obj.title)
+    vx.dispatch("connectionLost/subtitle", obj.subtitle)
+    vx.dispatch("connectionLost/button", obj.buttonText)
+    vx.dispatch("connectionLost/onClick", obj.event)
     vx.dispatch("connectionLost/showing", true)
-    vx.dispatch(Icon, ICONS.CONNECTION);
+    vx.dispatch("connectionLost/closable", obj.closable)
+    vx.dispatch(Icon, ICONS[iconType]);
 }
 
 function hideConnectionLost() {

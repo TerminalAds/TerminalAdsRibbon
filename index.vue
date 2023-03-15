@@ -119,12 +119,30 @@ export default {
     mounted() {
         this.$root.$on('openTuts', () => this.showTuts = true)
         this.$on('offline', () => {
-            this.$modal.showConnectionLost()
+            this.$modal.showConnectionLost({})
             // this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
         })
         this.$on('online', () => {
             this.$modal.hideConnectionLost()
         })
+
+        this.$DashboardAxios.get('/api/checkVpn')
+            .then(({data}) => {
+                if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
+                    let obj = {
+                        closable: true,
+                        type: 'VPN',
+                        title: 'فیلترشکن شما فعال است',
+                        description: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
+                    }
+                    this.$modal.showConnectionLost(obj)
+                }
+            })
+            .catch(({response}) => {
+                if (response?.data?.message) {
+                    console.log('error in get vpn status: ', response.data.message)
+                }
+            })
 
         // try {
         //     fetch('https://rp76.ir/ip/')
@@ -137,6 +155,8 @@ export default {
         // } catch (e) {
         //     console.log('error in get user ip address: ', e)
         // }
+
+        // this.handleResponse({response: {status: 402}})
 
         setTimeout(() => {
             this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
@@ -187,23 +207,25 @@ export default {
                     this.setCore(data.data)
                     this.setWalletData(data.data.wallet)
 
-                    let tuts = this.getCookie('tuts')
-                    if ((tuts && Number(tuts) || !tuts) <= 1) {
-                        setTimeout(() => {
-                            this.showTuts = true
-                            this.fetchTuts();
-                        }, 1500)
+                    try {
+                        let tuts = this.getCookie('tuts')
+                        if (tuts) {
+                            tuts = JSON.parse(tuts)
+                        }
+                        if (!tuts) {
+                            setTimeout(() => {
+                                this.showTuts = true
+                                this.fetchTuts();
+                            }, 1500)
+                        }
+                    } catch (e) {
+                        console.log('error in get count of tuts: ', e)
                     }
                 })
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
         },
         fetchTuts() {
-            let tuts = this.getCookie('tuts');
-            if (tuts) {
-                tuts = Number(tuts) + 1
-                this.setCookie('tuts', tuts)
-            } else
-                this.setCookie('tuts', 1)
+            this.setCookie('tuts', true)
         }
     },
     computed: {

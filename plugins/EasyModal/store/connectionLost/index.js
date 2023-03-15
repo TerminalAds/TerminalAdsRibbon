@@ -3,6 +3,7 @@ export const Showing = "showing"
 export const Title = "title"
 export const Subtitle = "subtitle"
 export const Button = "button"
+export const Closable = "closable"
 
 export const Events = {
     Click: "onClick"
@@ -14,6 +15,7 @@ const state = {
     [Title]: "",
     [Subtitle]: "",
     [Button]: "",
+    [Closable]: false,
 }
 
 const getters = {
@@ -33,6 +35,9 @@ const getters = {
     [Button](state) {
         return state[Button];
     },
+    [Closable](state) {
+        return state[Closable];
+    },
 }
 
 const mutations = {
@@ -51,6 +56,9 @@ const mutations = {
     [Subtitle](state, value) {
         return state[Subtitle] = value;
     },
+    [Closable](state, value) {
+        return state[Closable] = value;
+    },
 }
 
 const actions = {
@@ -68,6 +76,9 @@ const actions = {
     },
     [Button]({commit}, value) {
         commit(Button, value)
+    },
+    [Closable]({commit}, value) {
+        commit(Closable, value)
     }
 }
 
