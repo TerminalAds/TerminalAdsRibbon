@@ -12,7 +12,7 @@
                     {{ i18n.t('Loading.Waiting') }} ...
                 </p>
 
-                <half-circle-spinner class="mx-auto mt-10" :animation-duration="1000" :size="50" color="#8b8e94"/>
+                <atom-spinner class="mx-auto mt-10" :animation-duration="1000" :size="100" color="primary"/>
             </v-card-text>
 
             <p class="text-center mb-0 description">{{ i18n.t('Loading.Description') }}</p>
@@ -26,13 +26,13 @@
 </template>
 
 <script>
-import {HalfCircleSpinner, HollowDotsSpinner} from 'epic-spinners'
+import {AtomSpinner} from 'epic-spinners'
 
 import i18n from "../../i18n";
 
 export default {
     name: "WaitStatusDialog",
-    components: {HollowDotsSpinner, HalfCircleSpinner},
+    components: {AtomSpinner},
     props: {
         show: {
             type: false,
