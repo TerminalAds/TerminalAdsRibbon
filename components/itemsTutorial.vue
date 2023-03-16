@@ -1,50 +1,52 @@
 <template>
-    <v-card v-if="loading" flat min-height="200" class="d-flex align-center justify-center">
-        <v-progress-circular indeterminate color="primary"/>
+    <!--    <v-card v-if="showLoading" flat min-height="200" class="d-flex align-center justify-center">-->
+    <!--        <v-progress-circular indeterminate color="primary"/>-->
+    <!--    </v-card>-->
+
+    <v-card min-height="250" flat>
+        <v-tabs-items v-if="tutorial" v-model="tab" class="pa-0 pa-md-4">
+            <v-tab-item v-if="tutorial && haveFeature">
+                <v-card flat>
+                    <v-card-text class="pa-2 pa-md-4" v-html="tutorial.features"></v-card-text>
+                </v-card>
+            </v-tab-item>
+
+            <v-tab-item v-if="tutorial !== null">
+                <v-card flat v-if="Object.keys(tutorial).length > 0">
+                    <v-card-title class="justify-content-center">
+                        {{ tutorial.title }}
+                    </v-card-title>
+
+                    <v-card-text class="pa-2 pa-md-4" v-html="tutorial.description"/>
+                </v-card>
+            </v-tab-item>
+
+            <v-tab-item v-if="hasQuestions && tutorial !== null" class="pa-2">
+                <v-expansion-panels flat>
+                    <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i"
+                                       class="grey lighten-2 mb-2">
+                        <v-expansion-panel-header class="font-size-h4 font-weight-bold text-break">
+                            {{ item.question }}
+                        </v-expansion-panel-header>
+
+                        <v-expansion-panel-content class="pt-2 font-size-h6 text-break">
+                            <div v-html="item.answer"/>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-tab-item>
+
+            <v-tab-item v-if="adminTutorial">
+                <v-card flat>
+                    <v-card-title class="justify-content-center">
+                        {{ adminTutorial.title }}
+                    </v-card-title>
+
+                    <v-card-text v-html="adminTutorial.description"></v-card-text>
+                </v-card>
+            </v-tab-item>
+        </v-tabs-items>
     </v-card>
-
-    <v-tabs-items v-else-if="tutorial" v-model="tab" class="pa-0 pa-md-4">
-        <v-tab-item v-if="tutorial && haveFeature">
-            <v-card flat>
-                <v-card-text class="pa-2 pa-md-4" v-html="tutorial.features"></v-card-text>
-            </v-card>
-        </v-tab-item>
-
-        <v-tab-item v-if="tutorial !== null">
-            <v-card flat v-if="Object.keys(tutorial).length > 0">
-                <v-card-title class="justify-content-center">
-                    {{ tutorial.title }}
-                </v-card-title>
-
-                <v-card-text class="pa-2 pa-md-4" v-html="tutorial.description"/>
-            </v-card>
-        </v-tab-item>
-
-        <v-tab-item v-if="hasQuestions && tutorial !== null" class="pa-2">
-            <v-expansion-panels flat>
-                <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i"
-                                   class="grey lighten-2 mb-2">
-                    <v-expansion-panel-header class="font-size-h4 font-weight-bold text-break">
-                        {{ item.question }}
-                    </v-expansion-panel-header>
-
-                    <v-expansion-panel-content class="pt-2 font-size-h6 text-break">
-                        <div v-html="item.answer"/>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-            </v-expansion-panels>
-        </v-tab-item>
-
-        <v-tab-item v-if="adminTutorial">
-            <v-card flat>
-                <v-card-title class="justify-content-center">
-                    {{ adminTutorial.title }}
-                </v-card-title>
-
-                <v-card-text v-html="adminTutorial.description"></v-card-text>
-            </v-card>
-        </v-tab-item>
-    </v-tabs-items>
 </template>
 
 <script>
@@ -58,11 +60,12 @@ export default {
     props: {
         value: Number,
         noCall: Boolean,
-        calledTuts: [Object, Array]
+        calledTuts: [Object, Array],
+        loading: Boolean
     },
 
     data: () => ({
-        loading: false,
+        showLoading: false,
         tab: 0,
         hasQuestions: false,
         tutorial: null,
@@ -133,11 +136,14 @@ export default {
             this.setTutorials(val)
             this.tabItems = this.fillItems
         },
+        showLoading(val) {
+            this.$emit('update:loading', val)
+        }
     },
 
     methods: {
         getTutorial() {
-            this.loading = true;
+            this.showLoading = true;
             Axios.post(`${this.core_url}/api/contentTutorial`, {
                 slug: this.$route.path.substring(1),
                 sid: this.sid,
@@ -146,11 +152,11 @@ export default {
             }).then(({data}) => {
                 this.setTutorials(data)
             }).finally(() => {
-                this.loading = false
+                this.showLoading = false
             });
         },
         setTutorials(data) {
-            this.loading = true
+            this.showLoading = true
             this.tab = 0;
             this.tutorial = null;
             this.adminTutorial = null;
@@ -171,7 +177,7 @@ export default {
             this.tabItems = []
             this.$nextTick(() => {
                 this.tabItems = this.fillItems
-                this.loading = false
+                this.showLoading = false
             })
         }
     },

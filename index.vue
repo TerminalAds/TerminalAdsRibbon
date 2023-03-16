@@ -1,6 +1,6 @@
 <template>
-    <v-app class="d-flex flex-column flex-root ebi" style="background: transparent !important;"
-           v-if="$store.getters['global/isLoaded']">
+    <v-app class="d-flex flex-column flex-root" style="background: transparent !important;"
+           v-show="$store.getters['global/isLoaded']">
 
         <KTHeaderMobile :dialog.sync="showTuts" v-if="$vuetify.breakpoint.smAndDown"/>
 
@@ -207,25 +207,25 @@ export default {
                     this.setCore(data.data)
                     this.setWalletData(data.data.wallet)
 
-                    try {
-                        let tuts = this.getCookie('tuts')
-                        if (tuts) {
-                            tuts = JSON.parse(tuts)
-                        }
-                        if (!tuts) {
-                            setTimeout(() => {
-                                this.showTuts = true
-                                this.fetchTuts();
-                            }, 1500)
-                        }
-                    } catch (e) {
-                        console.log('error in get count of tuts: ', e)
-                    }
+                    this.fetchTuts()
                 })
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
         },
         fetchTuts() {
-            this.setCookie('tuts', true)
+            try {
+                let tuts = this.getCookie('tuts')
+                if (tuts) {
+                    tuts = JSON.parse(tuts)
+                }
+                if (!tuts) {
+                    setTimeout(() => {
+                        this.showTuts = true
+                        this.setCookie('tuts', true)
+                    }, 1500)
+                }
+            } catch (e) {
+                console.log('error in get count of tuts: ', e)
+            }
         }
     },
     computed: {
