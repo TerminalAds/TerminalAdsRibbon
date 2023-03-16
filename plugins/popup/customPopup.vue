@@ -1,6 +1,6 @@
 <template>
     <v-dialog v-model="dialog" :max-width="maxWidth" :hide-overlay="hideOverlay" :transition="transition"
-              :scrollable="scrollable">
+              :scrollable="scrollable" content-class="popup-content">
         <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on" class="d-inline-block">
                 <slot name="activator"/>
@@ -39,12 +39,13 @@
                 <slot name="default"/>
             </v-card-text>
 
-            <v-card color="rgba(255, 255, 255, .8)" v-if="showLoading" flat width="100%" height="calc(100% - 68px)"
-                    max-height="calc(100% - 68px)" class="d-flex align-center justify-center loading-wrapper">
-                <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
-            </v-card>
-
             <slot v-if="rerender" name="action"/>
+        </v-card>
+
+        <v-card color="rgba(255, 255, 255, .8)" v-if="showLoading" flat width="100%"
+                height="calc(100% - 68px)"
+                max-height="calc(100% - 68px)" class="d-flex align-center justify-center loading-wrapper">
+            <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
         </v-card>
     </v-dialog>
 </template>
@@ -161,9 +162,14 @@ export default {
     bottom: 0;
     right: 0;
     z-index: 99;
+    width: 100%;
 }
 
 .popup-card-loading {
     overflow: hidden !important;
+}
+
+.v-dialog__content >>> .popup-content {
+    position: relative;
 }
 </style>

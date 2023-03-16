@@ -1,24 +1,49 @@
 <template>
     <v-card flat class="pa-2 pb-10">
 
-        <v-carousel height="200" hide-delimiters :show-arrows="columns < guidence.length" v-model="carouselModel">
-            <template v-for="(item, index) in guidence.length">
-                <v-carousel-item class="p-5 " v-if="(index + 1) % columns === 1 || columns === 1" :key="index">
-                    <v-row class="flex-nowrap" no-gutters>
-                        <template v-for="(n, i) in columns">
-                            <template v-if="(+index + i) < guidence.length">
-                                <div class="col-md-2 text-center cardStyle my-4 mx-5 pa-2"
-                                     :class="activeProject === guidence[index+i].value ? ' cardActive' : '' "
-                                     @click="getPages(guidence[index + i].sid,guidence[index + i].value)">
-                                    <img :src="guidence[index + i].img" alt="" style="width: 50px">
-                                    <p class="mt-4 font-weight-bold">{{ guidence[index + i].name }}</p>
-                                </div>
-                            </template>
-                        </template>
-                    </v-row>
-                </v-carousel-item>
-            </template>
-        </v-carousel>
+        <!--        <v-carousel height="200" hide-delimiters :show-arrows="columns < guidence.length" v-model="carouselModel">-->
+        <!--            <template v-for="(item, index) in guidence.length">-->
+        <!--                <v-carousel-item class="p-5 " v-if="(index + 1) % columns === 1 || columns === 1" :key="index">-->
+        <!--                    <v-row class="flex-nowrap" no-gutters>-->
+        <!--                        <template v-for="(n, i) in columns">-->
+        <!--                            <template v-if="(+index + i) < guidence.length">-->
+        <!--                                <div class="col-md-2 text-center cardStyle my-4 mx-5 pa-2"-->
+        <!--                                     :class="activeProject === guidence[index+i].value ? ' cardActive' : '' "-->
+        <!--                                     @click="getPages(guidence[index + i].sid,guidence[index + i].value)">-->
+        <!--                                    <img :src="guidence[index + i].img" alt="" style="width: 50px">-->
+        <!--                                    <p class="mt-4 font-weight-bold">{{ guidence[index + i].name }}</p>-->
+        <!--                                </div>-->
+        <!--                            </template>-->
+        <!--                        </template>-->
+        <!--                    </v-row>-->
+        <!--                </v-carousel-item>-->
+        <!--            </template>-->
+        <!--        </v-carousel>-->
+
+        <div class="swiper mySwiper pa-4">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide" style="user-select: none" v-for="(item, i) in guidence" :key="i">
+                    <div class="text-center cardStyle pa-2"
+                         :class="activeProject === item.value ? ' cardActive' : ''"
+                         @click="getPages(item.sid, item.value)">
+                        <img :src="item.img" alt="" style="width: 50px">
+                        <p class="mt-4 font-weight-bold">{{ item.name }}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-button-prev d-none d-md-block">
+                <v-btn fab depressed small>
+                    <v-icon>mdi-chevron-right</v-icon>
+                </v-btn>
+            </div>
+            <div class="swiper-button-next d-none d-md-block">
+                <v-btn fab depressed small>
+                    <v-icon>mdi-chevron-left</v-icon>
+                </v-btn>
+            </div>
+        </div>
 
         <v-row no-gutters justify="center">
             <v-col cols="12" md="3" class="pa-2">
@@ -83,9 +108,12 @@
     </v-card>
 </template>
 <script>
-
 import TabsTutorial from "../components/tabsTutorial";
 import ItemsTutorial from "../components/itemsTutorial";
+import {FreeMode, Navigation, Swiper} from 'swiper';
+import "swiper/swiper-bundle.min.css";
+
+let swiper = null
 
 export default {
     name: "tutorials",
@@ -131,13 +159,43 @@ export default {
 
     mounted() {
         this.getPageList()
-    },
 
-    computed: {
-        columns() {
-            if (this.$vuetify.breakpoint.mdAndUp) return 5
-            else if (this.$vuetify.breakpoint.smAndDown) return 1
-        }
+        swiper = new Swiper(`.swiper`, {
+            // Optional parameters
+            // @see https://swiperjs.com/swiper-api#parameters
+            freeMode: {
+                enabled: true,
+                sticky: true,
+            },
+            spaceBetween: 20,
+            breakpoints: {
+                1920: {
+                    slidesPerView: 5.4,
+                    spaceBetween: 20
+                },
+                1264: {
+                    slidesPerView: 4.4,
+                    spaceBetween: 20
+                },
+                960: {
+                    slidesPerView: 3.3,
+                    spaceBetween: 20
+                },
+                600: {
+                    slidesPerView: 2.2,
+                },
+                320: {
+                    slidesPerView: 1.1,
+                }
+            },
+            // remove unused modules if needed
+            modules: [Navigation, FreeMode],
+            // Navigation arrows if needed
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        })
     },
 
     watch: {
@@ -207,24 +265,30 @@ export default {
                         list = data.data.sort((a, b) => a - b);
                         this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
                         let index = this.guidence.findIndex(item => Number(item.sid) === Number(this.sid))
+                        index = index >= 0 ? index : 0
                         this.activeProject = this.guidence[index].value
                         if (this.$vuetify.breakpoint.smAndDown)
                             this.carouselModel = index
                         this.getPages(this.sid, this.activeProject)
+
+                        setTimeout(() => {
+                            swiper.slideTo(index, 500, false)
+                        }, 1000)
                     }
-                }).catch(({response}) => console.log('error in get category server list: ', response))
+                })
+                .catch(({response}) => console.log('error in get category server list: ', response))
                 .finally(() => this.showLoading = false)
         },
-        array_move(arr, old_index, new_index) {
-            if (new_index >= arr.length) {
-                let k = new_index - arr.length + 1;
-                while (k--) {
-                    arr.push(undefined);
-                }
-            }
-            arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-            return arr; // for testing
-        },
+        // array_move(arr, old_index, new_index) {
+        //     if (new_index >= arr.length) {
+        //         let k = new_index - arr.length + 1;
+        //         while (k--) {
+        //             arr.push(undefined);
+        //         }
+        //     }
+        //     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        //     return arr; // for testing
+        // },
         goTo(categoryID, value) {
             this.isActive = value;
             this.getContent(categoryID)
@@ -271,6 +335,11 @@ export default {
 </script>
 
 <style scoped>
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    content: none !important;
+}
+
 .bg-indigo {
     background-color: #1c0152 !important;
     color: #FFFFFF;

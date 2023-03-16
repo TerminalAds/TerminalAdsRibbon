@@ -31,13 +31,15 @@
             <atom-spinner :animation-duration="1500" :size="100" class="mx-auto" color="var(--v-primary-base)"/>
         </v-card>
 
-        <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" hide-confirm>
+        <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" hide-confirm
+                      :loading.sync="loadingTuts">
             <!--            <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>-->
             <template v-slot:extension>
                 <tabs-tutorial v-model="tab" :tab-items="tabItems" v-if="routeChanged && tDialog" class="popup-tuts"/>
             </template>
 
-            <items-tutorial v-model="tab" :items.sync="tabItems" v-if="routeChanged && tDialog"/>
+            <items-tutorial v-model="tab" :items.sync="tabItems" v-if="routeChanged && tDialog"
+                            :loading.sync="loadingTuts"/>
         </custom-popup>
 
         <div v-if="totalPopup">
@@ -78,6 +80,7 @@ export default {
         tutorials: [],
         popupSlugs: [],
         popups: [],
+        loadingTuts: false,
     }),
 
     mounted() {
