@@ -25,13 +25,15 @@
                     </div>
                 </div>
 
-                <v-spacer/>
-                <KTFooter/>
+                <!--                <v-spacer/>-->
+                <!--                <KTFooter/>-->
             </div>
         </div>
         <easy-modal/>
         <navigation/>
         <KTScrollTop/>
+
+
 
         <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" max-width="1240" hide-confirm>
             <tutorials v-if="showTuts" :loading.sync="loading"/>
@@ -133,7 +135,7 @@ export default {
                         closable: true,
                         type: 'VPN',
                         title: 'فیلترشکن شما فعال است',
-                        description: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
+                        subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
                     }
                     this.$modal.showConnectionLost(obj)
                 }
@@ -214,8 +216,11 @@ export default {
         fetchTuts() {
             try {
                 let tuts = this.getCookie('tuts')
-                if (tuts) {
+                if (tuts && tuts == true) {
                     tuts = JSON.parse(tuts)
+                } else if (tuts) {
+                    tuts = true
+                    this.setCookie('tuts', true)
                 }
                 if (!tuts) {
                     setTimeout(() => {

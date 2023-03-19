@@ -47,7 +47,7 @@
 
         <v-row no-gutters justify="center">
             <v-col cols="12" md="3" class="pa-2">
-                <v-card flat style="position: sticky;top: 78px">
+                <v-card flat class="transparent" style="position: sticky;top: 78px">
                     <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x, index) in pages"
                            :class="{'bg-indigo btnActive' : isActive === x.slug}"
                            class="font-weight-bold btnStyles bg-white mb-2 col-md text-center"
@@ -58,7 +58,7 @@
             </v-col>
 
             <v-col cols="12" md="8" class="pa-0 pa-md-2">
-                <v-card class="cardMine" min-height="230" style="position: sticky; top: 78px">
+                <v-card class="cardMine transparent" min-height="230" style="position: sticky; top: 78px">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
                         <v-progress-linear v-show="!tutorials && showLoading" indeterminate color="primary"/>
