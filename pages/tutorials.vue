@@ -58,7 +58,7 @@
             </v-col>
 
             <v-col cols="12" md="8" class="pa-0 pa-md-2">
-                <v-card class="cardMine transparent" min-height="230" style="position: sticky; top: 78px">
+                <v-card class="cardMine" min-height="230" style="position: sticky; top: 78px">
                     <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
                         <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
                         <v-progress-linear v-show="!tutorials && showLoading" indeterminate color="primary"/>
@@ -346,6 +346,7 @@ export default {
 }
 
 .cardMine {
+    background-color: transparent !important;
     color: #1c0152;
 }
 
