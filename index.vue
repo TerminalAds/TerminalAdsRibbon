@@ -228,7 +228,6 @@ export default {
 
             if (!vpn) {
                 setTimeout(() => {
-                    localStorage.setItem('vpn', 'true')
                     this.$DashboardAxios.get('/api/checkVpn')
                         .then(({data}) => {
                             if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
@@ -239,6 +238,7 @@ export default {
                                     subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
                                 }
                                 this.$modal.showConnectionLost(obj)
+                                localStorage.setItem('vpn', 'true')
                             }
                         })
                         .catch(({response}) => {
