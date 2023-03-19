@@ -29,7 +29,7 @@
             <v-list-item-title>داشبورد</v-list-item-title>
         </v-list-item>
 
-        <div v-for="(item, i) in items" :key="i" class="group-wrapper">
+        <div v-for="(item, i) in items" :key="`item-${i}`" class="group-wrapper">
             <v-list-item link :to="`/${item.slug}`" v-if="!item.children">
                 <v-list-item-icon>
                     <v-icon>mdi-circle-small</v-icon>

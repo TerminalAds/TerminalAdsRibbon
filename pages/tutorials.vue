@@ -346,6 +346,7 @@ export default {
 }
 
 .cardMine {
+    background-color: transparent !important;
     color: #1c0152;
 }
 

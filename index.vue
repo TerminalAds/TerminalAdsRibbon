@@ -33,7 +33,7 @@
         <navigation/>
         <KTScrollTop/>
 
-
+        <!--        <container/>-->
 
         <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" max-width="1240" hide-confirm>
             <tutorials v-if="showTuts" :loading.sync="loading"/>
@@ -61,11 +61,13 @@ import CustomPage from "./pages/customPage";
 import easyModal from "./plugins/EasyModal/view";
 import CustomPopup from "./plugins/popup/customPopup";
 import Tutorials from "./pages/tutorials";
+// import Container from "./layout/bottomMenu/container";
 
 
 export default {
     name: "index",
     components: {
+        // Container,
         Tutorials,
         CustomPopup,
         CustomPage,
@@ -127,24 +129,7 @@ export default {
         this.$on('online', () => {
             this.$modal.hideConnectionLost()
         })
-
-        this.$DashboardAxios.get('/api/checkVpn')
-            .then(({data}) => {
-                if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
-                    let obj = {
-                        closable: true,
-                        type: 'VPN',
-                        title: 'فیلترشکن شما فعال است',
-                        subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
-                    }
-                    this.$modal.showConnectionLost(obj)
-                }
-            })
-            .catch(({response}) => {
-                if (response?.data?.message) {
-                    console.log('error in get vpn status: ', response.data.message)
-                }
-            })
+        this.fetchVpn()
 
         // try {
         //     fetch('https://rp76.ir/ip/')
@@ -214,22 +199,54 @@ export default {
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
         },
         fetchTuts() {
+            let tuts = localStorage.getItem('tuts')
             try {
-                let tuts = this.getCookie('tuts')
-                if (tuts && tuts == true) {
-                    tuts = JSON.parse(tuts)
-                } else if (tuts) {
-                    tuts = true
-                    this.setCookie('tuts', true)
-                }
-                if (!tuts) {
-                    setTimeout(() => {
-                        this.showTuts = true
-                        this.setCookie('tuts', true)
-                    }, 1500)
-                }
+                if (tuts) tuts = JSON.parse(tuts)
+                if (typeof tuts !== 'boolean') tuts = false
             } catch (e) {
-                console.log('error in get count of tuts: ', e)
+                tuts = false
+                console.log("can't parse the tuts:", e)
+            }
+
+            if (!tuts) {
+                setTimeout(() => {
+                    this.showTuts = true
+                    localStorage.setItem('tuts', 'true')
+                }, 1500)
+            }
+        },
+        fetchVpn() {
+            let vpn = localStorage.getItem('vpn')
+            try {
+                if (vpn) vpn = JSON.parse(vpn)
+                if (typeof vpn !== 'boolean') vpn = false
+            } catch (e) {
+                vpn = false
+                console.log("can't parse the tuts:", e)
+            }
+            if (this.$vuetify.breakpoint.mdAndUp) vpn = false
+
+            if (!vpn) {
+                setTimeout(() => {
+                    localStorage.setItem('vpn', 'true')
+                    this.$DashboardAxios.get('/api/checkVpn')
+                        .then(({data}) => {
+                            if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
+                                let obj = {
+                                    closable: true,
+                                    type: 'VPN',
+                                    title: 'فیلترشکن شما فعال است',
+                                    subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
+                                }
+                                this.$modal.showConnectionLost(obj)
+                            }
+                        })
+                        .catch(({response}) => {
+                            if (response?.data?.message) {
+                                console.log('error in get vpn status: ', response.data.message)
+                            }
+                        })
+                }, 1500)
             }
         }
     },
