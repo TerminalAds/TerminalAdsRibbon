@@ -74,7 +74,7 @@
                             <v-icon class="text-danger">mdi-close</v-icon>
                         </v-btn>
                     </v-card-title>
-                    <v-card-text class="d-flex flex-column justify-center align-center pt-4">
+                    <v-card-text class="d-flex flex-column justify-center align-center pt-4 text-center">
                         <div class="d-flex justify-center mb-3 mx-auto">
                             <img :src="getIcon" alt="" loading="eager"
                                  style="width: 112px;max-width: 112px;max-height: 112px"/>
