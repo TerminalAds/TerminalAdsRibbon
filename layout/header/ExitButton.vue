@@ -12,6 +12,7 @@ export default {
     methods: {
         onLogout() {
             localStorage.removeItem('id_token');
+            localStorage.removeItem('reloaded');
             window.location.replace(process.env.VUE_APP_LOGIN_URL);
         }
     }
