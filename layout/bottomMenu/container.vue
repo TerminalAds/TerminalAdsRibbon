@@ -2,22 +2,21 @@
   <v-row no-gutters class="bottom-btn-group-row">
 
     <v-btn-toggle group v-model="toggle_exclusive" class="button-btn-group">
-
       <div v-for="(item, i) in btnGroup" :key="i" class="btn-toggle-holder">
         <v-btn v-if="item.link" :href="typeof item.link === 'string' ? item.link : ''" @click="handleCLick(item)"
                class="rounded-pill" depressed height="32" min-width="32" width="32" text :aria-label="item.title"
-               :color="toggle_exclusive === i ? 'primary' : 'grey darken-2'">
+               color="primary lighten-1">
           <v-icon>mdi-{{ item.icon }}</v-icon>
         </v-btn>
 
         <component v-else :is="item.component" :icon="item.icon">
           <v-btn class="rounded-pill" depressed height="32" min-width="32" width="32" text :aria-label="item.title"
-                 :color="toggle_exclusive === i ? 'primary' : 'grey darken-2'">
+                 color="primary lighten-1">
             <v-icon>mdi-{{ item.icon }}</v-icon>
           </v-btn>
         </component>
 
-        <span class="pt-1" :class="toggle_exclusive === i ? 'primary--text' : ''">{{ item.title }}</span>
+        <span class="pt-1 primary--text">{{ item.title }}</span>
       </div>
     </v-btn-toggle>
 
@@ -26,10 +25,8 @@
 
 
 <script>
-// import SvgWrapper from "@/components/fragments/svgWrapper";
 import MoreButton from "./moreButton";
 import NotifyMenu from "./notifyMenu";
-// import CustomerLinks from "@/components/assets/customerLinks";
 
 export default {
   name: "BottomMenuContainer",
@@ -37,16 +34,12 @@ export default {
   components: {MoreButton, NotifyMenu},
 
   data: () => ({
-    toggle_exclusive: undefined,
+    toggle_exclusive: null,
     btnGroup: [],
     width: 0
   }),
 
   mounted() {
-    setTimeout(() => {
-      this.setToggle(this.$route.path);
-    }, 500)
-
     this.btnGroup = [
       {link: 'https://core.terminalads.com', icon: 'home', title: 'خانه'},
       {link: this.handleMenu, icon: 'menu', title: 'منو'},
@@ -56,28 +49,7 @@ export default {
     ]
   },
 
-  watch: {
-    '$route.path': function (val) {
-      this.setToggle(val);
-    },
-    toggle_exclusive: function (val) {
-      // this.itemClick(val)
-    },
-  },
-
   methods: {
-    setToggle(route) {
-      if (route === '/') {
-        this.toggle_exclusive = 3;
-      } else if (route.includes('/core')) {
-        this.toggle_exclusive = 2;
-      } else if (route.includes('/profile')) {
-        this.toggle_exclusive = 1;
-      } else {
-        this.toggle_exclusive = 0;
-      }
-    },
-
     handleCLick(item) {
       if (typeof item.link === 'function') {
         let btn = document.createElement('button')
