@@ -269,7 +269,6 @@ export default {
               this.activeProject = this.guidence[index].value
               if (this.$vuetify.breakpoint.smAndDown)
                 this.carouselModel = index
-              console.log('index: ', this.guidence[index])
               this.getPages(this.guidence[index].sid, this.activeProject)
 
               setTimeout(() => {

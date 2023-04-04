@@ -101,8 +101,8 @@ export default {
         btn.click()
         btn.removeEventListener('click', item.href);
         btn.remove()
-      }
-      return null
+      } else
+        return null
     },
 
     handleHelp() {

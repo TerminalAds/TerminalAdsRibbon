@@ -33,7 +33,7 @@
     <navigation/>
     <KTScrollTop/>
 
-    <!--        <container/>-->
+    <bottom-menu-container v-if="$vuetify.breakpoint.smAndDown"/>
 
     <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" max-width="1240" hide-confirm>
       <tutorials v-if="showTuts" :loading.sync="loading"/>
@@ -61,13 +61,13 @@ import CustomPage from "./pages/customPage";
 import easyModal from "./plugins/EasyModal/view";
 import CustomPopup from "./plugins/popup/customPopup";
 import Tutorials from "./pages/tutorials";
-// import Container from "./layout/bottomMenu/container";
+import BottomMenuContainer from "./layout/bottomMenu/container";
 
 
 export default {
   name: "index",
   components: {
-    // Container,
+    BottomMenuContainer,
     Tutorials,
     CustomPopup,
     CustomPage,
