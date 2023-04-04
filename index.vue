@@ -262,6 +262,7 @@ export default {
       return !/false/.test(this.layoutConfig("loader.type"));
     },
 
+
     /**
      * Check if container width is fluid
      * @returns {boolean}
@@ -277,7 +278,6 @@ export default {
     loaderLogo() {
       return this.DConfigs.header_logo
     },
-
     /**
      * Check if the left aside menu is enabled
      * @returns {boolean}

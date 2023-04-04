@@ -31,7 +31,6 @@
             <p class="mt-4 font-weight-bold">{{ item.name }}</p>
           </div>
         </div>
-
       </div>
       <div class="swiper-button-prev d-none d-md-block">
         <v-btn fab depressed small>
@@ -106,6 +105,7 @@
     <!--        </div>-->
 
   </v-card>
+
 </template>
 <script>
 import TabsTutorial from "../components/tabsTutorial";
