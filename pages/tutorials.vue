@@ -31,6 +31,80 @@
             <p class="mt-4 font-weight-bold">{{ item.name }}</p>
           </div>
         </div>
+      </div>
+      <div class="swiper-button-prev d-none d-md-block">
+        <v-btn fab depressed small>
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+      </div>
+      <div class="swiper-button-next d-none d-md-block">
+        <v-btn fab depressed small>
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </div>
+    </div>
+
+    <v-row no-gutters justify="center">
+      <v-col cols="12" md="3" class="pa-2">
+        <v-card flat class="transparent" style="position: sticky;top: 78px">
+          <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x, index) in pages"
+                 :class="{'bg-indigo btnActive' : isActive === x.slug}"
+                 class="font-weight-bold btnStyles bg-white mb-2 col-md text-center"
+                 style="border-color: navy!important;letter-spacing: unset">
+            {{ x.name }}
+          </v-btn>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="8" class="pa-0 pa-md-2">
+        <v-card class="cardMine" min-height="230" style="position: sticky; top: 78px">
+          <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
+            <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
+            <v-progress-linear v-show="!tutorials && showLoading" indeterminate color="primary"/>
+          </v-card-title>
+
+          <v-card-text class="px-0">
+            <items-tutorial v-model="tabModel" :items.sync="tabItems" no-call :called-tuts="tutorials"/>
+          </v-card-text>
+
+          <v-speed-dial direction="top" absolute left bottom transition="slide-y-reverse-transition">
+            <template v-slot:activator>
+              <v-btn dark fab bottom small color="indigo">
+                <v-icon>mdi-phone</v-icon>
+              </v-btn>
+            </template>
+            <v-btn small class="text-white font-weight-bold" color="green" target="_blank"
+                   href="https://wa.me/982191017077">
+              <v-icon class="ml-2">mdi-whatsapp</v-icon>
+              ارتباط در واتساپ
+            </v-btn>
+            <v-btn small class="text-white px-5 font-weight-bold" color="primary" href="tel:021-91017077">
+              <v-icon class="ml-2">mdi-phone</v-icon>
+              {{ persianNum('021-91017077') }}
+            </v-btn>
+            <v-btn small class="text-white text-dark px-7 font-weight-bold" color="warning"
+                   href="https://core.terminalads.com/#/tickets/create" target="_blank">
+              <v-icon class="ml-2">mdi-chat</v-icon>
+              ثبت تیکت
+            </v-btn>
+          </v-speed-dial>
+        </v-card>
+      </v-col>
+    </v-row>
+    <!--        <div class="col-md-3">-->
+    <!--            &lt;!&ndash; v-if="ribbon_can(x.gate)" &ndash;&gt;-->
+    <!--            <v-btn-->
+    <!--                    :class="isActive===x.slug ?'font-weight-bold bg-indigo mb-2 col-md text-center btnActive rounded' : 'font-weight-bold btnStyles bg-white mb-2 col-md text-center rounded' "-->
+    <!--                    style="border-color: navy!important;letter-spacing: unset">-->
+
+    <!--            </v-btn>-->
+    <!--        </div>-->
+
+    <!--        <div class="col-md cardMine pa-0">-->
+
+    <!--        </div>-->
+
+  </v-card>
 
       </div>
       <div class="swiper-button-prev d-none d-md-block">
