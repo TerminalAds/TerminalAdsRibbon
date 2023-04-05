@@ -5,7 +5,7 @@
       <v-list-item v-for="(item, i) in links" :key="i" link active-class="rail-blue-active"
                    class="active d-flex align-center justify-center"
                    :href="item.type !== 'btn' ? item.href : ''"
-                   @click="handleClick(item)"
+                   @click="handleClick(item)" target="_blank"
                    v-if="item.limit ? ribbon_can(item.limit) : true">
         <v-tooltip nudge-right="8" right>
           <template v-slot:activator="{ on, attrs }">
@@ -47,25 +47,25 @@ export default {
         limit: false
       }, {
         title: 'ارسال پیامک',
-        href: '',
+        href: 'https://core-sms.terminalads.com',
         icon: require('../../assets/img/logo/sms.png'),
         type: 'svg',
         limit: false
       }, {
         title: 'آگهی تبلیغاتی',
-        href: '',
+        href: 'https://core-robot.terminalads.com',
         icon: require('../../assets/img/logo/robot.png'),
         type: 'svg',
         limit: false
       }, {
         title: 'بانک اطلاعاتی',
-        href: '',
+        href: 'https://core-info.terminalads.com',
         icon: require('../../assets/img/logo/info.png'),
         type: 'svg',
         limit: false
       }, {
         title: 'پشتیبانی سایت',
-        href: '',
+        href: 'https://core-digi.terminalads.com',
         icon: require('../../assets/img/logo/site.png'),
         type: 'svg',
         limit: false
