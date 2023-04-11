@@ -34,9 +34,9 @@
 
                         <div class="d-flex flex-wrap justify-content-center align-center mb-0 w-100 px-2">
                             <v-btn v-for="(b, i) in primaryButtons" :key="i" :color="b.color"
-                                   :class="['mx-2 mt-5 mb-0 white--text', b.class ?? '']"
+                                   :class="['mx-2 mt-5 mb-0 white--text', b.class ? b.class : '']"
                                    @click="clickOnActions(b)">
-                                <v-icon class="me-2">mdi-{{ b.icon ?? 'check' }}</v-icon>
+                                <v-icon class="me-2">mdi-{{ b.icon ? b.icon : 'check' }}</v-icon>
                                 {{ b.text }}
                             </v-btn>
                         </div>
@@ -45,19 +45,19 @@
                     <v-card-actions class="flex-column mt-2 justify-center action-wrapper">
                         <v-btn block :color="activeAdsBtn.color" v-if="activeAdsBtn"
                                :href="activeAdsBtn.href" dark>
-                            <v-icon class="me-2">mdi-{{ activeAdsBtn.icon ?? 'chevron-left' }}</v-icon>
+                            <v-icon class="me-2">mdi-{{ activeAdsBtn.icon ? activeAdsBtn.icon : 'chevron-left' }}</v-icon>
                             {{ activeAdsBtn.text }}
                         </v-btn>
 
                         <!--                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons" :key="item.icon"-->
                         <!--                               :href="item.href" dark>-->
-                        <!--                            <v-icon class="me-2">mdi-{{ item.icon ?? 'chevron-left' }}</v-icon>-->
+                        <!--                            <v-icon class="me-2">mdi-{{ item.icon ? item.icon : 'chevron-left' }}</v-icon>-->
                         <!--                            {{ item.text }}-->
                         <!--                        </v-btn>-->
 
-                        <v-btn block :color="item.color ?? '#3ebd47'" v-for="(item, i) in actionButtons"
-                               :key="i" dark @click="clickOnActions(item)" :class="item.class ?? ''">
-                            <v-icon class="me-2">mdi-{{ item.icon ?? 'circle-small' }}</v-icon>
+                        <v-btn block :color="item.color ? item.color : '#3ebd47'" v-for="(item, i) in actionButtons"
+                               :key="i" dark @click="clickOnActions(item)" :class="item.class ? item.class : ''">
+                            <v-icon class="me-2">mdi-{{ item.icon ? item.icon : 'circle-small' }}</v-icon>
                             {{ item.text }}
                         </v-btn>
                     </v-card-actions>
