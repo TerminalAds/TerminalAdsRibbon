@@ -1,39 +1,41 @@
 <template>
+  <v-app-bar app fixed flat height="80" color="transparent">
     <div id="kt_header" ref="kt_header" class="header d-flex justify-content-between" v-bind:class="headerClasses">
-        <div class="d-none d-md-block">
-            <KTAside v-if="asideEnabled"/>
-        </div>
+      <div class="d-none d-md-block">
+        <KTAside v-if="asideEnabled"/>
+      </div>
 
-        <div class="d-flex align-items-center justify-content-between"
-             v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }">
-            <v-btn dark text min-width="32" v-if="asideEnabled" id="kt_aside_mobile_toggle" @click="toggleNavigation()">
-                <v-icon>mdi-menu</v-icon>
-                منو
-            </v-btn>
+      <div class="d-flex align-items-center justify-content-between"
+           v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }">
+        <v-btn dark text min-width="32" v-if="asideEnabled" id="kt_aside_mobile_toggle" @click="toggleNavigation()">
+          <v-icon>mdi-menu</v-icon>
+          منو
+        </v-btn>
 
-            <div class="d-flex align-items-stretch mr-3">
-                <div class="header-logo">
-                    <router-link to="/">
-                        <img alt="Logo" :src="DConfigs.header_logo" class="logo-default max-h-40px"/>
-                        <img alt="Logo" :src="DConfigs.header_logo" class="logo-sticky max-h-40px"/>
-                    </router-link>
-                </div>
+        <div class="d-flex align-items-stretch mr-3">
+          <div class="header-logo">
+            <router-link to="/">
+              <img alt="Logo" :src="DConfigs.header_logo" class="logo-default max-h-40px"/>
+              <img alt="Logo" :src="DConfigs.header_logo" class="logo-sticky max-h-40px"/>
+            </router-link>
+          </div>
 
-                <div class="header-menu-wrapper header-menu-wrapper-left" ref="kt_header_menu_wrapper">
-                    <div v-if="headerMenuEnabled" id="kt_header_menu" ref="kt_header_menu"
-                         class="header-menu header-menu-mobile" v-bind:class="headerMenuClasses">
-                        <KTMenu/>
-                    </div>
-                </div>
+          <div class="header-menu-wrapper header-menu-wrapper-left" ref="kt_header_menu_wrapper">
+            <div v-if="headerMenuEnabled" id="kt_header_menu" ref="kt_header_menu"
+                 class="header-menu header-menu-mobile" v-bind:class="headerMenuClasses">
+              <KTMenu/>
             </div>
+          </div>
+        </div>
 
-            <KTTopbar/>
-        </div>
-        <div class="hiddenIn990 d-flex align-items-center ml-5">
-            <KTExitButton/>
-        </div>
+        <KTTopbar/>
+      </div>
+      <div class="hiddenIn990 d-flex align-items-center ml-5">
+        <KTExitButton/>
+      </div>
     </div>
-    <!-- end:: Header -->
+  </v-app-bar>
+  <!-- end:: Header -->
 </template>
 
 <script>
@@ -46,101 +48,106 @@ import KTAside from "../../layout/aside/Aside.vue";
 import KTExitButton from "../../layout/header/ExitButton.vue"
 
 export default {
-    name: "KTHeader",
-    components: {
-        KTTopbar,
-        KTMenu,
-        KTAside,
-        KTExitButton
+  name: "KTHeader",
+  components: {
+    KTTopbar,
+    KTMenu,
+    KTAside,
+    KTExitButton
+  },
+  mounted() {
+    // Init Desktop & Mobile Headers
+    KTLayoutHeader.init("kt_header", "kt_header_mobile");
+
+    // Init Header Menu
+    KTLayoutHeaderMenu.init(
+        this.$refs["kt_header_menu"],
+        this.$refs["kt_header_menu_wrapper"]
+    );
+
+    const headerRef = this.$refs["kt_header"];
+
+    headerRef.querySelectorAll("a[class='menu-link']").forEach(item => {
+      item.addEventListener("click", () => {
+        KTLayoutHeaderMenu.getOffcanvas().hide();
+      });
+    });
+  },
+  computed: {
+    ...mapGetters(["layoutConfig", "getClasses"]),
+    asideEnabled() {
+      return !!this.layoutConfig("aside.self.display");
     },
-    mounted() {
-        // Init Desktop & Mobile Headers
-        KTLayoutHeader.init("kt_header", "kt_header_mobile");
-
-        // Init Header Menu
-        KTLayoutHeaderMenu.init(
-            this.$refs["kt_header_menu"],
-            this.$refs["kt_header_menu_wrapper"]
-        );
-
-        const headerRef = this.$refs["kt_header"];
-
-        headerRef.querySelectorAll("a[class='menu-link']").forEach(item => {
-            item.addEventListener("click", () => {
-                KTLayoutHeaderMenu.getOffcanvas().hide();
-            });
-        });
+    /**
+     * Check if the header menu is enabled
+     * @returns {boolean}
+     */
+    headerMenuEnabled() {
+      return !!this.layoutConfig("header.menu.self.display");
     },
-    computed: {
-        ...mapGetters(["layoutConfig", "getClasses"]),
-        asideEnabled() {
-            return !!this.layoutConfig("aside.self.display");
-        },
-        /**
-         * Check if the header menu is enabled
-         * @returns {boolean}
-         */
-        headerMenuEnabled() {
-            return !!this.layoutConfig("header.menu.self.display");
-        },
 
-        /**
-         * Get extra classes for header based on the options
-         * @returns {null|*}
-         */
-        headerClasses() {
-            const classes = this.getClasses("header");
-            if (typeof classes !== "undefined") {
-                return classes.join(" ");
-            }
-            return null;
-        },
-
-        /**
-         * Get extra classes for header menu based on the options
-         * @returns {null|*}
-         */
-        headerMenuClasses() {
-            const classes = this.getClasses("header_menu");
-            if (typeof classes !== "undefined") {
-                return classes.join(" ");
-            }
-            return null;
-        },
-
-        /**
-         * Check if header container is fluid
-         */
-        widthFluid() {
-            return this.layoutConfig("header.self.width") === "fluid";
-        }
+    /**
+     * Get extra classes for header based on the options
+     * @returns {null|*}
+     */
+    headerClasses() {
+      const classes = this.getClasses("header");
+      if (typeof classes !== "undefined") {
+        return classes.join(" ");
+      }
+      return null;
     },
-    methods: {
-        toggleSecondMenu: function () {
-            const a = document.getElementById('kt_content')
-            const b = document.getElementById('kt_aside')
-            if (a.classList.contains('flex-column') && b.classList.contains('d-md-none')) {
-                b.classList.remove('d-md-none');
-                a.classList.remove('flex-column');
-            } else if (b.classList.contains('d-block')) {
-                b.classList.add('d-md-none');
-                a.classList.add('flex-column');
-            }
-        }
+
+    /**
+     * Get extra classes for header menu based on the options
+     * @returns {null|*}
+     */
+    headerMenuClasses() {
+      const classes = this.getClasses("header_menu");
+      if (typeof classes !== "undefined") {
+        return classes.join(" ");
+      }
+      return null;
+    },
+
+    /**
+     * Check if header container is fluid
+     */
+    widthFluid() {
+      return this.layoutConfig("header.self.width") === "fluid";
     }
+  },
+  methods: {
+    toggleSecondMenu: function () {
+      const a = document.getElementById('kt_content')
+      const b = document.getElementById('kt_aside')
+      if (a.classList.contains('flex-column') && b.classList.contains('d-md-none')) {
+        b.classList.remove('d-md-none');
+        a.classList.remove('flex-column');
+      } else if (b.classList.contains('d-block')) {
+        b.classList.add('d-md-none');
+        a.classList.add('flex-column');
+      }
+    }
+  }
 };
 </script>
 
-<style scoped>
+<style>
+.v-toolbar .v-toolbar__content {
+  padding: 0;
+}
+
 @media only screen and (max-width: 990px) {
-    .hiddenIn990 {
-        display: none !important;
-    }
+  .hiddenIn990 {
+    display: none !important;
+  }
 }
 
 .header {
-    background-image: url('/media/bg/bg-10.jpg');
-    background-position: top;
-    background-size: cover;
+  background-image: url('/media/bg/bg-10.jpg');
+  background-position: top;
+  background-size: cover;
+  width: 100%;
 }
 </style>

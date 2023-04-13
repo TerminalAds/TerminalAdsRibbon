@@ -2,14 +2,14 @@
   <v-app class="d-flex flex-column flex-root" style="background: transparent !important;"
          v-show="$store.getters['global/isLoaded']">
 
-    <KTHeaderMobile :dialog.sync="showTuts" v-if="$vuetify.breakpoint.smAndDown"/>
+    <KTHeader v-if="$vuetify.breakpoint.mdAndUp"/>
+    <KTHeaderMobile :dialog.sync="showTuts" v-else/>
 
     <Loader v-if="loaderEnabled" v-bind:logo="loaderLogo"/>
 
     <div class="d-flex flex-row flex-column-fluid page">
       <div id="kt_wrapper" class="d-flex flex-column flex-row-fluid wrapper">
 
-        <KTHeader v-if="$vuetify.breakpoint.mdAndUp"/>
         <rail-navigation v-if="$vuetify.breakpoint.mdAndUp"/>
 
         <div id="kt_content" class="content">
@@ -18,10 +18,12 @@
               <KTAside v-if="asideEnabled"/>
             </div>
 
-            <transition name="fade-in-up">
-              <custom-page v-if="!$route.meta.main_page"/>
-              <router-view v-else/>
-            </transition>
+            <v-main>
+              <transition name="fade-in-up">
+                <custom-page v-if="!$route.meta.main_page"/>
+                <router-view v-else/>
+              </transition>
+            </v-main>
           </div>
         </div>
 
