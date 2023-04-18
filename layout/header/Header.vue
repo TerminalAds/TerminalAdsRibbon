@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app fixed flat height="80" color="transparent">
+  <v-app-bar app fixed flat height="80" color="transparent" class="app-header" extension-height="56">
     <div id="kt_header" ref="kt_header" class="header d-flex justify-content-between" v-bind:class="headerClasses">
       <div class="d-none d-md-block">
         <KTAside v-if="asideEnabled"/>
@@ -55,6 +55,7 @@ export default {
     KTAside,
     KTExitButton
   },
+
   mounted() {
     // Init Desktop & Mobile Headers
     KTLayoutHeader.init("kt_header", "kt_header_mobile");
@@ -128,13 +129,13 @@ export default {
         b.classList.add('d-md-none');
         a.classList.add('flex-column');
       }
-    }
+    },
   }
 };
 </script>
 
 <style>
-.v-toolbar .v-toolbar__content {
+.app-header .v-toolbar__content {
   padding: 0;
 }
 

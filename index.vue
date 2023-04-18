@@ -34,6 +34,7 @@
     <easy-modal/>
     <navigation/>
     <KTScrollTop/>
+    <refresh-page v-if="showReloadPage"/>
 
     <bottom-menu-container v-if="$vuetify.breakpoint.smAndDown"/>
 
@@ -64,11 +65,13 @@ import easyModal from "./plugins/EasyModal/view";
 import CustomPopup from "./plugins/popup/customPopup";
 import Tutorials from "./pages/tutorials";
 import BottomMenuContainer from "./layout/bottomMenu/container";
+import RefreshPage from "./layout/header/refreshPage";
 
 
 export default {
   name: "index",
   components: {
+    RefreshPage,
     BottomMenuContainer,
     Tutorials,
     CustomPopup,
@@ -92,6 +95,7 @@ export default {
       pLandUrl: 'http://localhost:8080/',
       showTuts: false,
       loading: false,
+      showReloadPage: false,
       cons: {
         title: 'راهنمای سامانه ترمینال تبلیغات'
       }
@@ -118,18 +122,18 @@ export default {
 
     HtmlClass.init(this.layoutConfig());
 
-    let token = undefined
+    let token = null
     token = localStorage.getItem('id_token');
-    let reloaded = localStorage.getItem('reloaded')
-    if (!reloaded)
-      if (!token || token.length <= 0) {
-        localStorage.setItem('reloaded', JSON.stringify(true))
-        window.location.reload()
-      }
+
+    if (!token || token.length <= 0) {
+      this.showReloadPage = true
+    }
     this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     this.DHeaders.Authorization = 'Bearer ' + token
   },
+
   mounted() {
+    this.$root.$on('closeModal', () => this.showReloadPage = false)
     this.$root.$on('openTuts', () => this.showTuts = true)
     this.$on('offline', () => {
       this.$modal.showConnectionLost({})
@@ -147,6 +151,7 @@ export default {
     this.fetch();
     this.setTutorials();
   },
+
   methods: {
     handleResponse(error) {
       // if (error.response.status === 404) {
@@ -184,6 +189,7 @@ export default {
     ...mapActions('tutorial', ['setTutorials']),
     ...mapActions('ribbon', ['setCore', 'toggleWalletDialog']),
     fetch() {
+      console.log('core: ', this.$DashboardAxios.defaults.headers)
       this.$DashboardAxios.get('/api/core')
           .then(({data}) => {
             this.setCore(data.data)
@@ -191,7 +197,10 @@ export default {
 
             this.fetchTuts()
           })
-          .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
+          .catch(({response}) => {
+            if (response.status !== 401)
+              this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000})
+          })
     },
     fetchTuts() {
       let tuts = localStorage.getItem('tuts')
@@ -315,7 +324,7 @@ export default {
 
 @media screen and (max-width: 960px) {
   #kt_content {
-    padding-top: 19em;
+    padding-top: 15em;
   }
 }
 
