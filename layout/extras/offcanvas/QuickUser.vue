@@ -7,7 +7,7 @@
                 {{ userName }}
             </span>
       <span class="symbol symbol-35">
-                <img :src="'http://api.terminalads.com/storage/' + userImage" alt="user-default">
+                <img :src="userImage" alt="user-default">
             </span>
     </v-btn>
   </div>
@@ -48,7 +48,9 @@ export default {
   computed: {
     ...mapGetters('ribbon', ['user']),
     userImage() {
-      return this.user?.image ? this.user.image : 'avatar/blank.jpg'
+      return this.user?.image
+          ? 'http://api.terminalads.com/storage/' + this.user.image
+          : require('../../../assets/img/user_avatar.jpeg')
     },
     userName() {
       return this.user?.name || 'کاربر عزیز'
