@@ -33,7 +33,6 @@
 
     <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" hide-confirm
                   :loading.sync="loadingTuts">
-      <!--            <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>-->
       <template v-slot:extension>
         <tabs-tutorial v-model="tab" :tab-items="tabItems" v-if="routeChanged && tDialog" class="popup-tuts"/>
       </template>

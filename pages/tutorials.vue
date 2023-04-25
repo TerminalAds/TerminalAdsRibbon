@@ -297,6 +297,13 @@ export default {
 
       },
       {
+        name: 'سامانه تولید QR داینامیک',
+        sid: '3',
+        value: 'qrCode',
+        img: require('../assets/img/guids/qr-land.png')
+
+      },
+      {
         name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
         value: 'rbLand',
         sid: '4',
