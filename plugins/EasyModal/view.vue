@@ -293,7 +293,7 @@ export default {
     closeDialog(byUser = true) {
       vx.dispatch(Showing, false)
       if (byUser && this.onClose) {
-        this.$root.$emit('closeModal')
+        //this.$root.$emit('closeModal')
         (this.onClose)();
       }
     },
