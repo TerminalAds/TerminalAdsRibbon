@@ -73,7 +73,6 @@ export default {
     ...mapGetters("ribbon", ["menus"]),
     topMenus() {
       let menu = this.menus.filter((menu) => menu.special === 1);
-      console.log('menus: ', menu)
       return menu = menu.concat(this.DConfigs.static_top_menu)
     }
   },

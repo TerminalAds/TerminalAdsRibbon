@@ -189,7 +189,6 @@ export default {
     ...mapActions('tutorial', ['setTutorials']),
     ...mapActions('ribbon', ['setCore', 'toggleWalletDialog']),
     fetch() {
-      console.log('core: ', this.$DashboardAxios.defaults.headers)
       this.$DashboardAxios.get('/api/core')
           .then(({data}) => {
             this.setCore(data.data)
