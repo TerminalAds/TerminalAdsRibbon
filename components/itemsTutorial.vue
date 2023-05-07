@@ -169,6 +169,11 @@ export default {
             a.extras !== null ? this.hasQuestions = true : false;
           } else {
             a.extras !== null ? this.hasQuestions = true : false;
+            if (this.hasQuestions){
+                a.extras.toString().replaceAll('\\', '-');
+                console.log('extras equals:')
+                console.log(a.extras)
+            }
             this.tutorial = a;
             this.tutorial.extras = JSON.parse(a.extras);
           }
