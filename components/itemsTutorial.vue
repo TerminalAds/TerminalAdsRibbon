@@ -21,10 +21,9 @@
         </v-card>
       </v-tab-item>
 
-      <v-tab-item v-if="hasQuestions && tutorial !== null" class="pa-2">
+      <v-tab-item v-if="hasQuestions && tutorial && tutorial.length > 0" class="pa-2">
         <v-expansion-panels flat>
-          <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i"
-                             class="grey lighten-2 mb-2">
+          <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i" class="grey lighten-2 mb-2">
             <v-expansion-panel-header class="font-size-h4 font-weight-bold text-break">
               {{ item.question }}
             </v-expansion-panel-header>
