@@ -188,27 +188,8 @@ export default {
                 .then(({data}) => {
                     this.setCore(data.data)
                     this.setWalletData(data.data.wallet)
-
-                    this.fetchTuts()
                 })
                 .catch(() => this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000}))
-        },
-        fetchTuts() {
-            let tuts = localStorage.getItem('tuts')
-            try {
-                if (tuts) tuts = JSON.parse(tuts)
-                if (typeof tuts !== 'boolean') tuts = false
-            } catch (e) {
-                tuts = false
-                console.log("can't parse the tuts:", e)
-            }
-
-            if (!tuts) {
-                setTimeout(() => {
-                    this.showTuts = true
-                    localStorage.setItem('tuts', 'true')
-                }, 1500)
-            }
         },
         fetchVpn() {
             let vpn = localStorage.getItem('vpn')
