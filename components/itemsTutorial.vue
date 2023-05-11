@@ -52,6 +52,7 @@
 <script>
 import {mapGetters} from "vuex";
 import Axios from "axios";
+import {jsonrepair} from 'jsonrepair'
 
 
 export default {
@@ -175,13 +176,15 @@ export default {
 
             if (data && data.length > 0)
                 for (let a of data) {
-                    if (a.privilege_type === 'admin') {
-                        this.adminTutorial = a;
-                        a.extras !== null ? this.hasQuestions = true : false;
-                    } else {
+                    if (a.privilege_type === 'user') {
                         a.extras !== null ? this.hasQuestions = true : false;
                         this.tutorial = a;
                         this.tutorial.extras = JSON.parse(a.extras);
+
+                    } else {
+                        this.adminTutorial = a;
+                        a.extras !== null ? this.hasQuestions = true : false;
+
                     }
                 }
 
