@@ -52,7 +52,6 @@
 <script>
 import {mapGetters} from "vuex";
 import Axios from "axios";
-import {jsonrepair} from 'jsonrepair'
 
 
 export default {
