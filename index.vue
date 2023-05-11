@@ -99,6 +99,7 @@ export default {
     },
 
     beforeMount() {
+        this.initLocalStorageValues()
         this.$instanceAxios.interceptors.response.use(
             response => Promise.resolve(response),
             error => {
@@ -148,6 +149,31 @@ export default {
         this.setTutorials();
     },
     methods: {
+        initLocalStorageValues() {
+            if (localStorage.getItem('firstLogin')) {
+                localStorage.removeItem('firstLogin')
+                window.location.reload()
+            }
+
+            if (localStorage.getItem('inviteCode')) {
+                localStorage.removeItem('inviteCode')
+            }
+
+            if (localStorage.getItem('redirect')) {
+                let redirect = localStorage.getItem('redirect')
+                let arrayUrl = redirect.split(".com")
+                let second = arrayUrl[0] + "/?token=" + localStorage.getItem('id_token')
+                arrayUrl.shift()
+                let finalUrl = ""
+                arrayUrl.forEach(function (item) {
+                    finalUrl += item
+                })
+                let finish = second + finalUrl
+
+                window.location = finish
+                localStorage.removeItem('redirect')
+            }
+        },
         handleResponse(error) {
             // if (error.response.status === 404) {
             //     this.$modal.error('خطا', error.response.data.message ?? 'درخواست مورد نظر یافت نشد', undefined, {
