@@ -178,7 +178,11 @@ export default {
                     if (a.privilege_type === 'user') {
                         a.extras !== null ? this.hasQuestions = true : false;
                         this.tutorial = a;
-                        this.tutorial.extras = JSON.parse(a.extras);
+                        if (this.tutorial.id>253){
+                            this.tutorial.extras=JSON.parse(a.extras)
+                        }else{
+                            this.tutorial.extras=JSON.parse(JSON.parse(a.extras))
+                        }
 
                     } else {
                         this.adminTutorial = a;
