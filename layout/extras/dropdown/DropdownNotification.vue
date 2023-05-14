@@ -76,6 +76,13 @@
         <v-card-text>
           <div class="font-size-h5 pt-5" v-html="dialogData.data.text"/>
         </v-card-text>
+
+          <v-card-text v-if="ribbon_can('admin_access')">
+              <div v-if="containsKey(dialogData.data,'customerHistory')">
+                  <v-btn  @click="goToCustomerHistory(dialogData.data.customerHistory.phone)">برو به کاربر</v-btn>
+              </div>
+          </v-card-text>
+
         <v-card-actions class="justify-end">
           <v-btn text @click="seenDialog">
             <v-icon small class="me-1">mdi-check</v-icon>
@@ -128,6 +135,14 @@ export default {
   },
 
   methods: {
+      containsKey(obj, key) {
+          return Object.keys(obj).includes(key);
+      },
+      goToCustomerHistory(phone) {
+          this.$router.push({name: 'admin.customers.history', params: {phone: phone}})
+          this.dialog=false
+
+      },
     setActiveTab(event) {
       const tab = event.target.closest('[role="tablist"]');
       const links = tab.querySelectorAll(".nav-link");
