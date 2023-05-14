@@ -156,7 +156,7 @@ export default {
     },
     seenDialog() {
       this.dialog = false;
-      this.$DashboardAxios.post('/api/core/seenNotif', {notif_id: this.dialogData.id})
+      this.$DashboardAxios.post('/api/core/seen/notification', {notif_id: this.dialogData.id})
           .then(({data}) => {
             this.getNotifications()
           })
