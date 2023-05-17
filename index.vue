@@ -102,22 +102,22 @@ export default {
     }
   },
 
-    beforeMount() {
-        this.initLocalStorageValues()
-        this.$instanceAxios.interceptors.response.use(
-            response => Promise.resolve(response),
-            error => {
-                this.handleResponse(error);
-                return Promise.reject(error)
-            }
-        )
-        this.$DashboardAxios.interceptors.response.use(
-            response => Promise.resolve(response),
-            error => {
-                this.handleResponse(error);
-                return Promise.reject(error)
-            }
-        )
+  beforeMount() {
+    this.initLocalStorageValues()
+    this.$instanceAxios.interceptors.response.use(
+        response => Promise.resolve(response),
+        error => {
+          this.handleResponse(error);
+          return Promise.reject(error)
+        }
+    )
+    this.$DashboardAxios.interceptors.response.use(
+        response => Promise.resolve(response),
+        error => {
+          this.handleResponse(error);
+          return Promise.reject(error)
+        }
+    )
 
     this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
 
