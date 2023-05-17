@@ -27,8 +27,8 @@
           </div>
         </div>
 
-        <!--                <v-spacer/>-->
-        <!--                <KTFooter/>-->
+        <v-spacer/>
+        <KTFooter/>
       </div>
     </div>
     <easy-modal/>
