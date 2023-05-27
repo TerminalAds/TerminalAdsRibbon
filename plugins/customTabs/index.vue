@@ -87,6 +87,7 @@ export default {
         }
       }
 
+      return this[field]
     }
   }
 }
