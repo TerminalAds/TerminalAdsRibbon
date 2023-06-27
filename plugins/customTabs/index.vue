@@ -9,7 +9,8 @@
           <div class="cornel-left"/>
           <div class="cornel-right"/>
           <slot name="tab" v-bind:tab="tab">
-            {{ tab.text }}
+            <v-icon right>mdi-{{ tab.icon }}</v-icon>
+            <span>{{ tab.text }}</span>
           </slot>
         </v-tab>
       </template>
