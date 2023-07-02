@@ -32,6 +32,8 @@ export default {
   }),
 
   mounted() {
+    let token = localStorage.getItem('id_token')
+
     this.links = [
       {
         title: 'راهنما',
@@ -47,25 +49,25 @@ export default {
         limit: false
       }, {
         title: 'ارسال پیامک',
-        href: 'https://core-sms.terminalads.com',
+        href: `https://core-sms.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/sms.png'),
         type: 'svg',
         limit: false
       }, {
         title: 'آگهی تبلیغاتی',
-        href: 'https://core-robot.terminalads.com',
+        href: `https://core-robot.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/robot.png'),
         type: 'svg',
         limit: false
       }, {
         title: 'بانک اطلاعاتی',
-        href: 'https://core-info.terminalads.com',
+        href: `https://core-info.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/info.png'),
         type: 'svg',
         limit: false
       }, {
         title: 'پشتیبانی سایت',
-        href: 'https://core-digi.terminalads.com',
+        href: `https://core-digi.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/site.png'),
         type: 'svg',
         limit: false
