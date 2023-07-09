@@ -128,6 +128,7 @@ export default {
       color: var(--v-primary-base);
       border-radius: 8px 8px 0 0;
       position: relative;
+      border: none !important;
 
       .cornel-left::before,
       .cornel-left::after {
