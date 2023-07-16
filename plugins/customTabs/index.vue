@@ -54,7 +54,6 @@ export default {
 
   watch: {
     tabs(val) {
-      console.log('slots: ', this.$slots)
       this.$emit('input', val)
     }
   },
