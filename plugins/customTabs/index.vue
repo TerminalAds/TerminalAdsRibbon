@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-tabs v-model="valueComputed" v-bind="$attrs" show-arrows background-color="primary" dark
-            class="rounded-lg custom-tabs" height="52" @change="$emit('change', $event)">
-      <slot name="staticTabs" v-if="$slots.staticTabs"/>
+    <v-tabs v-model="tabs" v-bind="$attrs" background-color="primary" class="rounded-lg custom-tabs" dark
+            height="52" show-arrows @change="$emit('change', $event)">
+      <slot v-if="$slots.staticTabs" name="staticTabs"/>
 
       <template v-else>
         <v-tab v-for="(tab, i) in tabItems" :key="i" v-bind="getProps(i)">
@@ -18,8 +18,8 @@
 
     <slot name="middle"/>
 
-    <v-tabs-items v-model="valueComputed">
-      <slot name="staticItems" v-if="$slots.staticItems"/>
+    <v-tabs-items v-model="tabs">
+      <slot v-if="$slots.staticItems" name="staticItems"/>
 
       <template v-else>
         <v-tab-item v-for="(item, i) in windowItems" :key="i" v-bind="getProps(i, 'windowProps')">
@@ -52,14 +52,10 @@ export default {
     tabs: null
   }),
 
-  computed: {
-    valueComputed: {
-      get() {
-        return this.value
-      },
-      set(val) {
-        this.$emit('input', val)
-      }
+  watch: {
+    tabs(val) {
+      console.log('slots: ', this.$slots)
+      this.$emit('input', val)
     }
   },
 
