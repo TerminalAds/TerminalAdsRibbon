@@ -224,7 +224,7 @@ export default {
         }
       }).then(({data}) => {
         this.loading = false
-        window.location.href = data.data.data.url.replace('sandbox.', '')
+        window.location.href = `${data.data.data.url.replace('sandbox.', '')}?callbackUrl=${window.location.href}`
         // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
       }).catch((e) => {
         this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
