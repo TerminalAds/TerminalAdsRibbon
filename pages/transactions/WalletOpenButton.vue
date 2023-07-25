@@ -68,9 +68,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ribbon', ['core', 'walletDialog', 'wallet']),
+    ...mapGetters('ribbon', ['core', 'walletDialog', 'new_wallet']),
     balance() {
-      return this.wallet.balance
+      return this.new_wallet.balance
     },
     avg() {
       const sum = this.heartbeats.reduce((acc, cur) => acc + cur, 0)

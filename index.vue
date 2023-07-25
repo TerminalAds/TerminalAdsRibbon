@@ -1,9 +1,9 @@
 <template>
-  <v-app class="d-flex flex-column flex-root" style="background: transparent !important;"
-         v-show="$store.getters['global/isLoaded']">
+  <v-app v-show="$store.getters['global/isLoaded']" class="d-flex flex-column flex-root"
+         style="background: transparent !important;">
 
     <KTHeader v-if="$vuetify.breakpoint.mdAndUp"/>
-    <KTHeaderMobile :dialog.sync="showTuts" v-else/>
+    <KTHeaderMobile v-else :dialog.sync="showTuts"/>
 
     <Loader v-if="loaderEnabled" v-bind:logo="loaderLogo"/>
 
@@ -38,7 +38,7 @@
 
     <bottom-menu-container v-if="$vuetify.breakpoint.smAndDown"/>
 
-    <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" max-width="1240" hide-confirm>
+    <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" hide-confirm max-width="1240">
       <tutorials v-if="showTuts" :loading.sync="loading"/>
     </custom-popup>
   </v-app>
@@ -70,6 +70,7 @@ import RefreshPage from "./layout/header/refreshPage";
 
 export default {
   name: "index",
+
   components: {
     RefreshPage,
     BottomMenuContainer,
@@ -88,6 +89,7 @@ export default {
     navigation,
     easyModal,
   },
+
   data() {
     return {
       qrUrl: '',
@@ -153,6 +155,67 @@ export default {
     this.setTutorials();
   },
 
+  computed: {
+    ...mapGetters([
+      "isAuthenticated",
+      "breadcrumbs",
+      "pageTitle",
+      "layoutConfig"
+    ]),
+    ...mapGetters('tutorial', [
+      'popups',
+      'popupSlugs',
+    ]),
+    /**
+     * Check if the page loader is enabled
+     * @returns {boolean}
+     */
+    loaderEnabled() {
+      return !/false/.test(this.layoutConfig("loader.type"));
+    },
+
+    /**
+     * Check if container width is fluid
+     * @returns {boolean}
+     */
+    contentFluid() {
+      return this.layoutConfig("content.width") === "fluid";
+    },
+
+    /**
+     * Page loader logo image using require() function
+     * @returns {string}
+     */
+    loaderLogo() {
+      return this.DConfigs.header_logo
+    },
+
+    /**
+     * Check if the left aside menu is enabled
+     * @returns {boolean}
+     */
+    asideEnabled() {
+      return !!this.layoutConfig("aside.self.display");
+    },
+
+    /**
+     * Set the right toolbar display
+     * @returns {boolean}
+     */
+    toolbarDisplay() {
+      // return !!this.layoutConfig("toolbar.display");
+      return true;
+    },
+
+    /**
+     * Set the subheader display
+     * @returns {boolean}
+     */
+    subheaderDisplay() {
+      return !!this.layoutConfig("subheader.display");
+    }
+  },
+
   methods: {
     initLocalStorageValues() {
       if (localStorage.getItem('firstLogin')) {
@@ -213,7 +276,7 @@ export default {
       window.location.href = 'https://core.terminalads.com/#/panel'
     },
     ...mapActions('tutorial', ['setTutorials']),
-    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog']),
+    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet']),
     fetch() {
       this.$DashboardAxios.get('/api/core')
           .then(({data}) => {
@@ -226,6 +289,27 @@ export default {
             if (response.status !== 401)
               this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000})
           })
+          .finally(() => this.getNewWallet())
+    },
+    getNewWallet() {
+      this.loading = true
+
+      this.$DashboardAxios.post('https://wallet.terminalads.com/api/wallet', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('id_token')}`,
+          Accept: 'application/json',
+          "Access-Control-Allow-Origin": "*",
+          'Content-Type': 'application/json',
+        }
+      })
+          .then(({data}) => {
+            console.log('data balance: ', data.data)
+            this.setNewWallet(Number(data.data.balance.$numberDecimal))
+          })
+          .catch(({response}) => {
+
+          })
+          .finally(() => this.loading = false)
     },
     // fetchTuts() {
     //   let tuts = localStorage.getItem('tuts')
@@ -277,66 +361,6 @@ export default {
               })
         }, 1500)
       }
-    }
-  },
-  computed: {
-    ...mapGetters([
-      "isAuthenticated",
-      "breadcrumbs",
-      "pageTitle",
-      "layoutConfig"
-    ]),
-    ...mapGetters('tutorial', [
-      'popups',
-      'popupSlugs',
-    ]),
-    /**
-     * Check if the page loader is enabled
-     * @returns {boolean}
-     */
-    loaderEnabled() {
-      return !/false/.test(this.layoutConfig("loader.type"));
-    },
-
-    /**
-     * Check if container width is fluid
-     * @returns {boolean}
-     */
-    contentFluid() {
-      return this.layoutConfig("content.width") === "fluid";
-    },
-
-    /**
-     * Page loader logo image using require() function
-     * @returns {string}
-     */
-    loaderLogo() {
-      return this.DConfigs.header_logo
-    },
-
-    /**
-     * Check if the left aside menu is enabled
-     * @returns {boolean}
-     */
-    asideEnabled() {
-      return !!this.layoutConfig("aside.self.display");
-    },
-
-    /**
-     * Set the right toolbar display
-     * @returns {boolean}
-     */
-    toolbarDisplay() {
-      // return !!this.layoutConfig("toolbar.display");
-      return true;
-    },
-
-    /**
-     * Set the subheader display
-     * @returns {boolean}
-     */
-    subheaderDisplay() {
-      return !!this.layoutConfig("subheader.display");
     }
   }
 };
