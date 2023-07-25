@@ -303,7 +303,6 @@ export default {
         }
       })
           .then(({data}) => {
-            console.log('data balance: ', data.data)
             this.setNewWallet(Number(data.data.balance.$numberDecimal))
           })
           .catch(({response}) => {

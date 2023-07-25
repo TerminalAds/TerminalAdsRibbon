@@ -48,7 +48,6 @@ export default {
 			state.wallet = obj
 		},
 		set_new_wallet(state, obj) {
-			// console.log('new wallet: ', obj)
 			state.new_wallet.balance = obj
 		},
 		set_core(state, obj) {
