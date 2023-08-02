@@ -214,7 +214,8 @@ export default {
         return;
       }
       this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
-        amount: this.data.price
+        amount: this.data.price,
+        callbackUrl: window.location.href
       }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('id_token')}`,
@@ -224,7 +225,7 @@ export default {
         }
       }).then(({data}) => {
         this.loading = false
-        window.location.href = `${data.data.data.url.replace('sandbox.', '')}?callbackUrl=${window.location.href}`
+        window.location.href = `${data.data.data.url.replace('sandbox.', '')}`
         // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
       }).catch((e) => {
         this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
