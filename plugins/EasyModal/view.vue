@@ -1,13 +1,13 @@
 <template>
   <div v-if="dialogShow || isConnectionLostShow">
     <v-row v-if="dialogShow">
-      <wait-status-dialog :show="isDialogOpened" :loading="isLoading"
-                          @onShowChange="(s) => isDialogOpened = s" :closable="!(isLoading || isNotClosable)"
-                          @outsideClick="outsideClick" :width="width">
+      <wait-status-dialog :closable="!(isLoading || isNotClosable)" :loading="isLoading"
+                          :show="isDialogOpened" :width="width"
+                          @onShowChange="(s) => isDialogOpened = s" @outsideClick="outsideClick">
         <v-card>
-          <v-card-title class="pa-2 justify-end" v-if="!isNotClosable">
-            <v-btn depressed color="rgb(252,193,199)" v-b-tooltip="'بستن'"
-                   @click="closeDialog()" min-width="36" class="px-0">
+          <v-card-title v-if="!isNotClosable" class="pa-2 justify-end">
+            <v-btn v-b-tooltip="'بستن'" class="px-0" color="rgb(252,193,199)"
+                   depressed min-width="36" @click="closeDialog()">
               <v-icon class="text-danger">mdi-close</v-icon>
             </v-btn>
           </v-card-title>
@@ -18,7 +18,7 @@
             <!--                        </div>-->
 
             <div class="d-flex justify-center mb-3 mx-auto">
-              <v-img :src="getIcon" width="112" max-height="112" max-width="112" contain/>
+              <v-img :src="getIcon" contain max-height="112" max-width="112" width="112"/>
             </div>
 
             <p class="font-weight-bold font-size-h4 mt-2">
@@ -30,11 +30,12 @@
             </p>
 
             <v-textarea v-if="getData" v-model="getData" class="mt-0 pt-1 mb-0 pb-0 mx-2 w-100" filled
-                        readonly hide-details/>
+                        hide-details readonly/>
 
             <div class="d-flex flex-wrap justify-content-center align-center mb-0 w-100 px-2">
-              <v-btn v-for="(b, i) in primaryButtons" :key="i" :color="b.color"
+              <v-btn v-for="(b, i) in primaryButtons" :key="i"
                      :class="['mx-2 mt-5 mb-0 white--text', b.class ? b.class : '']"
+                     :color="b.color"
                      @click="clickOnActions(b)">
                 <v-icon class="me-2">mdi-{{ b.icon ? b.icon : 'check' }}</v-icon>
                 {{ b.text }}
@@ -43,8 +44,7 @@
           </v-card-text>
 
           <v-card-actions class="flex-column mt-2 justify-center action-wrapper">
-            <v-btn block :color="activeAdsBtn.color" v-if="activeAdsBtn"
-                   :href="activeAdsBtn.href" dark>
+            <v-btn v-if="activeAdsBtn" :color="activeAdsBtn.color" :href="computedAdsHref" block dark target="_blank">
               <v-icon class="me-2">mdi-{{ activeAdsBtn.icon ? activeAdsBtn.icon : 'chevron-left' }}</v-icon>
               {{ activeAdsBtn.text }}
             </v-btn>
@@ -55,8 +55,8 @@
             <!--                            {{ item.text }}-->
             <!--                        </v-btn>-->
 
-            <v-btn block :color="item.color ? item.color : '#3ebd47'" v-for="(item, i) in actionButtons"
-                   :key="i" dark @click="clickOnActions(item)" :class="item.class ? item.class : ''">
+            <v-btn v-for="(item, i) in actionButtons" :key="i" :class="item.class ? item.class : ''"
+                   :color="item.color ? item.color : '#3ebd47'" block dark @click="clickOnActions(item)">
               <v-icon class="me-2">mdi-{{ item.icon ? item.icon : 'circle-small' }}</v-icon>
               {{ item.text }}
             </v-btn>
@@ -66,11 +66,11 @@
     </v-row>
 
     <v-row v-if="isConnectionLostShow">
-      <v-dialog v-model='isLostShow' width="250" :persistent="!isConnectClosable">
+      <v-dialog v-model='isLostShow' :persistent="!isConnectClosable" width="250">
         <v-card flat width="100%">
-          <v-card-title class="pa-2 justify-end" v-if="isConnectClosable">
-            <v-btn depressed color="rgb(252,193,199)" v-b-tooltip="'بستن'"
-                   @click="isLostShow = false" min-width="36" class="px-0">
+          <v-card-title v-if="isConnectClosable" class="pa-2 justify-end">
+            <v-btn v-b-tooltip="'بستن'" class="px-0" color="rgb(252,193,199)"
+                   depressed min-width="36" @click="isLostShow = false">
               <v-icon class="text-danger">mdi-close</v-icon>
             </v-btn>
           </v-card-title>
@@ -261,6 +261,13 @@ export default {
     getConnectionLostButtonAction() {
       return vx.getters['connectionLost/onClick'];
     },
+    computedAdsHref() {
+      let token = '?token=' + localStorage.getItem('id_token')
+      if (this.activeAdsBtn.href.indexOf('/#/') > -1) {
+        return this.activeAdsBtn.href.replace('/#/', `/${token}#/`)
+      }
+      return this.activeAdsBtn.href + token
+    }
   },
 
   watch: {
