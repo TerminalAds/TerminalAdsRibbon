@@ -1,23 +1,15 @@
 <template>
   <div class="topbar-item">
-    <v-btn :href="quickUserLink()" id="kt_quick_user_toggle" :large="large" depressed text dark
-           class="px-2 mx-md-1" :min-width="large ? '' : '36'" v-b-tooltip="'مشاهده پروفایل'">
+    <v-btn id="kt_quick_user_toggle" v-b-tooltip="'مشاهده پروفایل'" :href="quickUserLink()" :large="large"
+           :min-width="large ? '' : '36'" class="px-2 mx-md-1" dark depressed text>
       <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">سلام</span>
       <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mx-2">
-                {{ userName }}
-            </span>
-      <span class="symbol symbol-35">
-                <img :src="userImage" alt="user-default">
-            </span>
+        {{ userName }}
+      </span>
+      <span class="symbol symbol-35"><img :src="userImage" alt="user-default"></span>
     </v-btn>
   </div>
 </template>
-
-<style lang="scss" scoped>
-#kt_quick_user {
-  overflow: hidden;
-}
-</style>
 
 <script>
 import {LOGOUT} from "@/core/services/store/auth.module";
@@ -26,25 +18,18 @@ import {mapGetters} from 'vuex'
 
 export default {
   name: "KTQuickUser",
+
   props: {
     large: {
       type: Boolean,
       default: true
     }
   },
+
   mounted() {
     KTLayoutQuickUser.init(this.$refs["kt_quick_user"]);
   },
-  methods: {
-    onLogout() {
-      this.$store
-          .dispatch(LOGOUT)
-          .then(() => window.location.replace(`${this.$sarveLandFront}`));
-    },
-    quickUserLink() {
-      return `${this.front_url}/#/profile/my-profile`
-    }
-  },
+
   computed: {
     ...mapGetters('ribbon', ['user']),
     userImage() {
@@ -57,8 +42,24 @@ export default {
     }
   },
 
+  methods: {
+    onLogout() {
+      this.$store
+          .dispatch(LOGOUT)
+          .then(() => window.location.replace(`${this.$sarveLandFront}`));
+    },
+    quickUserLink() {
+      return `${this.front_url}/#/profile/my-profile`
+    }
+  }
 };
 </script>
+
+<style lang="scss" scoped>
+#kt_quick_user {
+  overflow: hidden;
+}
+</style>
 
 <style scoped>
 @media screen and (max-width: 960px) {
