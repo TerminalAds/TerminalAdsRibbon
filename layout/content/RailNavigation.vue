@@ -1,19 +1,18 @@
 <template>
-  <v-navigation-drawer floating permanent mini-variant class="railNav mx-3">
-    <v-list nav dense class="d-flex flex-column justify-center rounded-xl" color="rgba(3,3,3,0.50)">
+  <v-navigation-drawer class="railNav mx-3" floating mini-variant permanent>
+    <v-list class="d-flex flex-column justify-center rounded-xl" color="rgba(3,3,3,0.50)" dense nav>
 
-      <v-list-item v-for="(item, i) in links" :key="i" link active-class="rail-blue-active"
-                   class="active d-flex align-center justify-center"
-                   :href="item.type !== 'btn' ? item.href : ''"
-                   @click="handleClick(item)" target="_blank"
-                   v-if="item.limit ? ribbon_can(item.limit) : true">
+      <v-list-item v-for="(item, i) in links" v-if="item.limit ? ribbon_can(item.limit) : true" :key="i"
+                   :href="item.type !== 'btn' ? item.href : ''" active-class="rail-blue-active"
+                   class="active d-flex align-center justify-center" link target="_blank"
+                   @click="handleClick(item)">
         <v-tooltip nudge-right="8" right>
           <template v-slot:activator="{ on, attrs }">
-            <v-icon v-if="item.type === 'icon' || item.type === 'btn'" v-on="on" v-bind="attrs" color="#FED402">
+            <v-icon v-if="item.type === 'icon' || item.type === 'btn'" v-bind="attrs" v-on="on" color="#FED402">
               mdi-{{ item.icon }}
             </v-icon>
 
-            <v-img v-else :src="item.icon" v-on="on" v-bind="attrs" contain class="nav-img"/>
+            <v-img v-else v-bind="attrs" v-on="on" :src="item.icon" class="nav-img" contain/>
           </template>
           <span class="text-no-wrap" v-text="item.title"/>
         </v-tooltip>
@@ -35,21 +34,28 @@ export default {
     let token = localStorage.getItem('id_token')
 
     this.links = [
+      // {
+      //   title: 'راهنما',
+      //   href: this.handleHelp,
+      //   icon: 'help',
+      //   type: 'btn',
+      //   limit: false
+      // },
       {
-        title: 'راهنما',
-        href: this.handleHelp,
-        icon: 'help',
-        type: 'btn',
-        limit: false
-      }, {
         title: 'تماس باما',
         href: 'https://terminalads.com/contact',
         icon: 'headset',
         type: 'icon',
         limit: false
       }, {
+        title: 'کیوآر لند',
+        href: `https://core-qr.terminalads.com/?token=${token}`,
+        icon: require('../../assets/img/logo/qrland.png'),
+        type: 'svg',
+        limit: false
+      }, {
         title: 'ارسال پیامک',
-        href: `https://core-sms.terminalads.com/?token=${token}`,
+        href: `https://core-qr.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/sms.png'),
         type: 'svg',
         limit: false
