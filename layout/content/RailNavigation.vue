@@ -54,25 +54,25 @@ export default {
         type: 'svg',
         limit: false
       }, {
-        title: 'ارسال پیامک',
+        title: 'پیامک لند',
         href: `https://core-qr.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/sms.png'),
         type: 'svg',
         limit: false
       }, {
-        title: 'آگهی تبلیغاتی',
+        title: 'ربات لند',
         href: `https://core-robot.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/robot.png'),
         type: 'svg',
         limit: false
       }, {
-        title: 'بانک اطلاعاتی',
+        title: 'اینفو لند',
         href: `https://core-info.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/info.png'),
         type: 'svg',
         limit: false
       }, {
-        title: 'پشتیبانی سایت',
+        title: 'بست وب لند',
         href: `https://core-digi.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/site.png'),
         type: 'svg',
