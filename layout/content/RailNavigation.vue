@@ -55,7 +55,7 @@ export default {
         limit: false
       }, {
         title: 'پیامک لند',
-        href: `https://core-qr.terminalads.com/?token=${token}`,
+        href: `https://core-sms.terminalads.com/?token=${token}`,
         icon: require('../../assets/img/logo/sms.png'),
         type: 'svg',
         limit: false
