@@ -4,21 +4,21 @@
     <v-btn-toggle group v-model="toggle_exclusive" class="button-btn-group" mandatory>
       <div v-for="(item, i) in btnGroup" :key="i" class="btn-toggle-holder">
         <v-btn v-if="item.link" :href="typeof item.link === 'string' ? item.link : ''" @click="handleCLick(item, i)"
-               class="rounded-pill" color="grey" depressed height="32" min-width="32" width="32" text
+               class="rounded-pill" color="white" depressed height="32" min-width="32" width="32" text
                :aria-label="item.title">
           <v-icon>mdi-{{ item.icon }}</v-icon>
         </v-btn>
 
         <component v-else :is="item.component" :icon="item.icon">
-          <v-btn class="rounded-pill" color="grey" depressed height="32" min-width="32" width="32" text
+          <v-btn class="rounded-pill" color="white" depressed height="32" min-width="32" width="32" text
                  :aria-label="item.title" @click="index = i">
             <v-icon>mdi-{{ item.icon }}</v-icon>
           </v-btn>
         </component>
 
-        <span class="pt-1 grey--text menu-subtitle" :class="item.index === index ? 'd-none' : ''">{{
-            item.title
-          }}</span>
+        <span class="pt-1 white--text menu-subtitle" :class="item.index === index ? 'd-none' : ''">
+          {{ item.title }}
+        </span>
       </div>
     </v-btn-toggle>
 
@@ -78,7 +78,7 @@ export default {
 
 <style scoped>
 .bottom-btn-group-row {
-  background-color: white;
+  background: linear-gradient(to right, #0051CE, #0BB7AF);
   overflow: hidden;
   height: 62px;
   position: fixed;
