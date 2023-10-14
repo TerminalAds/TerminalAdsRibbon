@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col class="pa-2" cols="12" sm="6">
+    <v-col class="pa-2" cols="12" order="1" order-md="0" sm="6">
       <div :style="{backgroundImage: `url('media/bg/bg-10.jpg')`}"
            class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg"
            style="height: 180px; background-position:center">
@@ -22,7 +22,7 @@
       </div>
     </v-col>
 
-    <v-col class="pa-2" cols="12" sm="6">
+    <v-col class="pa-2" cols="12" order="0" order-md="1" sm="6">
       <v-card class="d-flex justify-space-between overflow-hidden rounded-lg" color="#ddeaf6" flat height="180">
         <div class="pa-6 d-flex flex-column justify-center text-center flex-grow-1">
           <h6 style="font-size: 10pt">سامانه را به دوستان خود معرفی کنید.
