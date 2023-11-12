@@ -213,7 +213,8 @@ export default {
         this.$toast.error('مبلغ وارد شده کمتر از ۵۰۰۰۰ تومان است.');
         return;
       }
-      this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
+      // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
+      this.$DashboardAxios.post('https://api.terminalads.com/api/newWallet/charge', {
         amount: this.data.price,
         callbackUrl: window.location.href
       }, {
