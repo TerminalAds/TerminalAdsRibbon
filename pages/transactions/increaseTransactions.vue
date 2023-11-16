@@ -4,12 +4,9 @@
 
     <v-flex class="flex-column align-items-center mt-4">
       <v-btn-toggle v-model="quickCharge" class="flex-wrap justify-space-around w-100" dense mandatory>
-
         <v-btn v-for="(price, i) in costs" :key="price.val"
-               :class="[price.class, {[price.classHover] : quickCharge === price.val}]"
-               :style="price.style"
-               :value="price.val"
-               style="margin: 8px 0 0 8px" @click="data.price=price.val">
+               :class="[price.class, {[price.classHover] : quickCharge === price.val}]" :style="price.style"
+               :value="price.val" style="margin: 8px 0 0 8px" @click="data.price=price.val">
           <span class="d-inline-block">{{ price.val | numericPersianNumber }} ریال</span>
         </v-btn>
 
@@ -17,7 +14,6 @@
                style="border-color: rgb(2, 191, 180) !important;margin: 8px 0 0 8px ;">
           <span class="">{{ $t('WALLET.CustomCharge') }}</span>
         </v-btn>
-
       </v-btn-toggle>
     </v-flex>
 
@@ -29,11 +25,9 @@
             <price-input v-model="data.price" label="مبلغ" text-center="true"/>
             <p v-if="error" class="red--text" style="color: darkred">{{ error }}</p>
             <v-row class="justify-content-center py-3 text-center">
-              <v-flex v-for="(cost, index) in costsDefault" :key="index" class="p-2" lg6 md6 sm12 xl6
-                      xs12>
-                <v-btn :id="cost.val"
-                       :data-price="cost.val*(10000)"
-                       class="charge btn-buy mx-3 btn-dec-with-text" @click="prices(cost.val)">
+              <v-flex v-for="(cost, index) in costsDefault" :key="index" class="p-2" lg6 md6 sm12 xl6 xs12>
+                <v-btn :id="cost.val" :data-price="cost.val*(10000)" class="charge btn-buy mx-3 btn-dec-with-text"
+                       @click="prices(cost.val)">
                   <v-icon class="mx-2" small>
                     mdi-plus-circle
                   </v-icon>
@@ -137,11 +131,11 @@ export default {
       ],
       costsDefault: [
         {
-          val: 500_000,
+          val: 2_000_000,
           class: 'btn-2000000',
         },
         {
-          val: 2_000_000,
+          val: 3_500_000,
           class: 'btn-1000000',
         },
         {
@@ -160,7 +154,7 @@ export default {
         price: 10_000_000,
         gateway: {}
       },
-      min: 500_000,
+      min: 2_000_000,
       max: 500_000_000,
       error: ""
     }
@@ -210,7 +204,7 @@ export default {
     payment() {
       this.loading = true
       if (this.data.price < this.min) {
-        this.$toast.error('مبلغ وارد شده کمتر از ۵۰۰۰۰ تومان است.');
+        this.$toast.error('مبلغ وارد شده کمتر از ۲۰۰۰۰۰ تومان است.');
         return;
       }
       // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
