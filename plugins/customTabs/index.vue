@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-tabs v-model="tabs" v-bind="$attrs" background-color="primary" class="rounded-lg custom-tabs" dark
-            height="52" show-arrows @change="$emit('change', $event)">
+    <v-tabs v-model="tabs" background-color="primary" class="rounded-lg custom-tabs" dark height="52" hide-slider
+            show-arrows v-bind="$attrs" @change="$emit('change', $event)">
       <slot v-if="$slots.staticTabs" name="staticTabs"/>
 
       <template v-else>
