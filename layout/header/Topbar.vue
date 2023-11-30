@@ -1,28 +1,27 @@
 <template>
-    <div class="topbar has-background">
+  <div class="topbar has-background">
 
-        <b-dropdown size="sm" variant="link" toggle-class="topbar-item text-decoration-none" no-caret right no-flip>
-            <template v-slot:button-content>
-                <v-badge :value="unread" :content="persianNum(unread)" left overlap color="red"
-                         offset-x="30" offset-y="20">
-                    <div class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 pulse pulse-primary">
-                        <span class="svg-icon svg-icon-xl"><i class="flaticon2-notification"></i></span>
-                        <span class="pulse-ring"></span>
-                    </div>
-                </v-badge>
-            </template>
+    <b-dropdown no-caret no-flip right size="sm" toggle-class="topbar-item text-decoration-none" variant="link">
+      <template v-slot:button-content>
+        <v-badge :content="persianNum(unread)" :value="unread" color="red" left offset-x="30" offset-y="20" overlap>
+          <div class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 pulse pulse-primary">
+            <span class="svg-icon svg-icon-xl"><i class="flaticon2-notification"></i></span>
+            <span class="pulse-ring"></span>
+          </div>
+        </v-badge>
+      </template>
 
-            <b-dropdown-text tag="div" class="min-w-md-350px">
-                <form>
-                    <KTDropdownNotification v-model="unread"/>
-                </form>
-            </b-dropdown-text>
-        </b-dropdown>
+      <b-dropdown-text class="min-w-md-350px" tag="div">
+        <form>
+          <KTDropdownNotification v-model="unread"/>
+        </form>
+      </b-dropdown-text>
+    </b-dropdown>
 
-        <walletButton hide-in-mobile/>
+    <walletButton hide-in-mobile/>
 
-        <KTQuickUser/>
-    </div>
+    <KTQuickUser/>
+  </div>
 </template>
 
 <script>
@@ -34,34 +33,34 @@ import walletButton from '../../pages/transactions/WalletOpenButton'
 
 
 export default {
-    name: "KTTopbar",
+  name: "KTTopbar",
 
-    data() {
-        return {
-            languageFlag: "",
-            unread: 0
-        };
-    },
+  data() {
+    return {
+      languageFlag: "",
+      unread: 0
+    };
+  },
 
-    components: {
-        KTDropdownNotification,
-        KTQuickUser,
-        KTQuickPanel,
-        walletButton
-    },
+  components: {
+    KTDropdownNotification,
+    KTQuickUser,
+    KTQuickPanel,
+    walletButton
+  },
 
-    computed: {
-        ...mapGetters(["layoutConfig", "getClasses"]),
+  computed: {
+    ...mapGetters(["layoutConfig", "getClasses"]),
 
-        /**
-         * Check if the left aside menu is enabled
-         * @returns {boolean}
-         */
-        asideEnabled() {
-            return !!this.layoutConfig("aside.self.display");
-        }
-
+    /**
+     * Check if the left aside menu is enabled
+     * @returns {boolean}
+     */
+    asideEnabled() {
+      return !!this.layoutConfig("aside.self.display");
     }
+
+  }
 }
 </script>
 
@@ -98,10 +97,10 @@ export default {
 
 <style>
 body[data-header-scroll=on] .topbar.has-background .btn.btn-icon:hover {
-    background-color: rgba(255, 255, 255, .10) !important;
+  background-color: rgba(255, 255, 255, .10) !important;
 }
 
 body[data-header-scroll=on] .topbar.has-background .btn.btn-icon i {
-    color: #fff !important;
+  color: #fff !important;
 }
 </style>

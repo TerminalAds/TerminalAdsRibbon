@@ -1,11 +1,8 @@
 <template>
-  <v-text-field outlined :messages="priceString"
-                class="centered-input" autofocus
-                v-model="input" clearable
-                :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13"
-                :error-messages="error !== undefined ? error : []"
-                :dense="dense" @keypress="isNumberKey" @input="handleInput"
-                :readonly="readonly" label="مبلغ (﷼)"/>
+  <v-text-field v-model="input" :dense="dense" :error-messages="error !== undefined ? error : []"
+                :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13" :messages="priceString" :readonly="readonly"
+                autofocus class="centered-input" clearable label="مبلغ (﷼)" outlined @input="handleInput"
+                @keypress="isNumberKey"/>
 </template>
 <script>
 export default {

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app fixed flat height="80" color="transparent" class="app-header" extension-height="56">
+  <v-app-bar app class="app-header" color="transparent" extension-height="56" fixed flat height="80">
     <div id="kt_header" ref="kt_header" class="header d-flex justify-content-between" v-bind:class="headerClasses">
       <div class="d-none d-md-block">
         <KTAside v-if="asideEnabled"/>
@@ -7,7 +7,7 @@
 
       <div class="d-flex align-items-center justify-content-between"
            v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }">
-        <v-btn dark text min-width="32" v-if="asideEnabled" id="kt_aside_mobile_toggle" @click="toggleNavigation()">
+        <v-btn v-if="asideEnabled" id="kt_aside_mobile_toggle" dark min-width="32" text @click="toggleNavigation()">
           <v-icon>mdi-menu</v-icon>
           منو
         </v-btn>
@@ -15,12 +15,12 @@
         <div class="d-flex align-items-stretch mr-3">
           <div class="header-logo">
             <router-link to="/">
-              <img alt="Logo" :src="DConfigs.header_logo" class="logo-default max-h-40px"/>
-              <img alt="Logo" :src="DConfigs.header_logo" class="logo-sticky max-h-40px"/>
+              <img :src="DConfigs.header_logo" alt="Logo" class="logo-default max-h-40px"/>
+              <img :src="DConfigs.header_logo" alt="Logo" class="logo-sticky max-h-40px"/>
             </router-link>
           </div>
 
-          <div class="header-menu-wrapper header-menu-wrapper-left" ref="kt_header_menu_wrapper">
+          <div ref="kt_header_menu_wrapper" class="header-menu-wrapper header-menu-wrapper-left">
             <div v-if="headerMenuEnabled" id="kt_header_menu" ref="kt_header_menu"
                  class="header-menu header-menu-mobile" v-bind:class="headerMenuClasses">
               <KTMenu/>

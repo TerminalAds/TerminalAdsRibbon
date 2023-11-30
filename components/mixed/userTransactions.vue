@@ -40,7 +40,7 @@
 
       <div class="row">
         <div class="col-md mt-5">
-          <b-btn class="btn btn-link-info mt-5" @click="toggleWalletDialog">
+          <b-btn class="btn btn-link-info mt-5" @click="toggleWalletDialog(true)">
             <i class="fa fa-plus"></i>
             افزایش موجودی
           </b-btn>

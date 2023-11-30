@@ -264,7 +264,7 @@ export default {
         this.$modal.wallet(this.$t("ERRORS.NoAccountCharge"), this.$t("ERRORS.PleaseChargeYourAccount"), undefined, {
           text: this.$t("BUTTONS.AccountCharge"),
           class: 'success w-100',
-          onClick: this.toggleWalletDialog
+          onClick: this.toggleWalletDialog(true)
         }, [
           {
             text: this.$t("BUTTONS.Close")
