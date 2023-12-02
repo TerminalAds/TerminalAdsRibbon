@@ -144,7 +144,7 @@ export default {
 .price-wallet {
   align-items: center;
   border-radius: 6px !important;
-  background-color: rgba(255, 255, 255, .2);
+  background-color: rgba(255, 255, 255, .2) !important;
   flex: 1 0 0;
 }
 

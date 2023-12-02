@@ -1,28 +1,34 @@
 <template>
-  <v-text-field v-model="input" :dense="dense" :error-messages="error !== undefined ? error : []"
-                :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13" :messages="priceString" :readonly="readonly"
-                autofocus class="centered-input" clearable label="مبلغ (﷼)" outlined @input="handleInput"
+  <v-text-field v-model="input" :error-messages="error !== undefined ? error : []"
+                :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13" :messages="priceString" autofocus
+                class="centered-input" clearable label="مبلغ (﷼)" outlined v-bind="$attrs" @input="handleInput"
                 @keypress="isNumberKey"/>
 </template>
+
 <script>
+import Num2persian from 'num2persian';
+
 export default {
   name: "priceInput",
 
-  props: ['value', 'error', 'label', 'dense', 'readonly', 'textCenter', 'maxLength'],
+  // props: ['value', 'error', 'label', 'dense', 'readonly', 'textCenter', 'maxLength'],
 
-  model: {
-    prop: 'value',
-    event: 'priceInput'
+  props: {
+    value: [String, Number],
+    error: [Object, Array],
+    label: String,
+    maxLength: Number,
+    toChar: Boolean
   },
 
-  data: function () {
+  data() {
     return {
       input: this.value,
     }
   },
 
   created: function (event) {
-    this.$emit('priceInput', this.convertToRealPrice(this.value + ""))
+    this.$emit('input', this.convertToRealPrice(this.value + ""))
   },
 
   mounted() {
@@ -38,13 +44,13 @@ export default {
           fix = fix + "9";
         }
 
-        this.$emit('priceInput', this.convertToRealPrice(fix))
+        this.$emit('input', this.convertToRealPrice(fix))
         return;
       }
       this.input = this.convertToHumanReadablePrice(this.value);
       if ((this.value + "").length > 10) {
         let fixPrice = this.convertToRealPrice((this.value + "").substring(0, 10));
-        this.$emit('priceInput', fixPrice)
+        this.$emit('input', fixPrice)
         this.input = this.convertToHumanReadablePrice(fixPrice);
       }
     },
@@ -52,7 +58,10 @@ export default {
 
   computed: {
     priceString: function () {
-      return this.input == null ? "" : (this.value + "") + " ریال";
+      return !!this.input ? (this.toChar
+          ? Num2persian(this.value)
+          : this.persianNum(this.currency(this.value))) + " ریال"
+          : '';
     }
   },
 
@@ -66,7 +75,7 @@ export default {
     },
 
     handleInput(e) {
-      this.$emit('priceInput', this.convertToRealPrice(e))
+      this.$emit('input', this.convertToRealPrice(e))
     },
 
     isNumberKey: function (evt) {
