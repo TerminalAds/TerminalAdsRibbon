@@ -17,7 +17,7 @@
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
           <v-autocomplete v-model="selectedAccount" :items="accounts" :loading="loading" label="انتخاب حساب" outlined>
             <template v-slot:prepend-inner>
-              <v-img :src="banksPrefix?.icon" contain width="48"/>
+              <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="48"/>
             </template>
 
             <template v-slot:append-item>
@@ -65,7 +65,7 @@
             <v-text-field v-model="obj.bankName" :rules="[rules.persian]" class="rounded-lg icon-wrapper"
                           clear-icon="mdi-close-circle-outline" clearable dense label="نام بانک" outlined>
               <template v-slot:append>
-                <v-img :src="banksPrefix?.icon" contain width="32"/>
+                <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="32"/>
               </template>
             </v-text-field>
           </v-col>
