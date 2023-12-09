@@ -175,7 +175,7 @@ export default {
       {
         "text": "پاسارگاد",
         "value": "pasargad",
-        "prefix": ["639347", "5022-29"],
+        "prefix": ["639347", "502229"],
         "icon": require('../../assets/img/banks/pasargad.png')
       },
       {
