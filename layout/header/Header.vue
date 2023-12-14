@@ -35,7 +35,6 @@
       </div>
     </div>
   </v-app-bar>
-  <!-- end:: Header -->
 </template>
 
 <script>
@@ -49,6 +48,7 @@ import KTExitButton from "../../layout/header/ExitButton.vue"
 
 export default {
   name: "KTHeader",
+
   components: {
     KTTopbar,
     KTMenu,
@@ -74,6 +74,7 @@ export default {
       });
     });
   },
+
   computed: {
     ...mapGetters(["layoutConfig", "getClasses"]),
     asideEnabled() {
@@ -118,6 +119,7 @@ export default {
       return this.layoutConfig("header.self.width") === "fluid";
     }
   },
+
   methods: {
     toggleSecondMenu: function () {
       const a = document.getElementById('kt_content')

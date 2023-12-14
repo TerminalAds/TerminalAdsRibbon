@@ -1,6 +1,10 @@
 <template>
   <div class="topbar-item">
-    <v-btn id="kt_quick_user_toggle" v-b-tooltip="'مشاهده پروفایل'" :href="quickUserLink()" :large="large"
+    <div v-if="DLoading.user" class="mx-1">
+      <v-skeleton-loader type="button"/>
+    </div>
+
+    <v-btn v-else id="kt_quick_user_toggle" v-b-tooltip="'مشاهده پروفایل'" :href="quickUserLink()" :large="large"
            :min-width="large ? '' : '36'" class="px-2 mx-md-1" dark depressed text>
       <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">سلام</span>
       <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mx-2">
@@ -31,7 +35,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ribbon', ['user']),
+    ...mapGetters('ribbon', ['user', 'DLoading']),
     userImage() {
       return this.user?.image
           ? 'http://api.terminalads.com/storage/' + this.user.image

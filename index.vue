@@ -276,8 +276,10 @@ export default {
       window.location.href = 'https://core.terminalads.com/#/panel'
     },
     ...mapActions('tutorial', ['setTutorials']),
-    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet']),
+    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading']),
     fetch() {
+      this.toggleLoading({field: 'user', status: true})
+
       this.$DashboardAxios.get('/api/core')
           .then(({data}) => {
             this.setCore(data.data)
@@ -289,10 +291,14 @@ export default {
             if (response.status !== 401)
               this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000})
           })
-          .finally(() => this.getNewWallet())
+          .finally(() => {
+            this.toggleLoading({field: 'user', status: false})
+            this.getNewWallet()
+          })
     },
     getNewWallet() {
       this.loading = true
+      this.toggleLoading({field: 'wallet', status: true})
 
       this.$DashboardAxios.post('https://wallet.terminalads.com/api/wallet', {}, {
         headers: {
@@ -308,7 +314,10 @@ export default {
           .catch(({response}) => {
 
           })
-          .finally(() => this.loading = false)
+          .finally(() => {
+            this.loading = false
+            this.toggleLoading({field: 'wallet', status: false})
+          })
     },
     // fetchTuts() {
     //   let tuts = localStorage.getItem('tuts')

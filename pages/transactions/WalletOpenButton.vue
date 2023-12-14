@@ -10,7 +10,11 @@
       </v-icon>
     </v-btn>
 
-    <div v-b-tooltip="'لیست تراکنش های شما'" class="d-flex align-center fill-height" style="flex: 1 0 auto">
+    <div v-if="DLoading.wallet" class="flex mb-n1" style="min-height: 12px">
+      <v-skeleton-loader type="text"/>
+    </div>
+
+    <div v-else v-b-tooltip="'لیست تراکنش های شما'" class="d-flex align-center fill-height" style="flex: 1 0 auto">
       <span>اعتبار</span>
       <v-spacer/>
       <span
@@ -80,7 +84,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ribbon', ['core', 'walletDialog', 'withdrawDialog', 'new_wallet']),
+    ...mapGetters('ribbon', ['core', 'walletDialog', 'withdrawDialog', 'new_wallet', 'DLoading']),
     balance() {
       return this.new_wallet.balance
     },

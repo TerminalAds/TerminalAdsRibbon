@@ -3,58 +3,65 @@
     <ul class="menu-nav has-background">
 
       <li class="menu-item exact-color">
-        <a :href="homeLink()" class="menu-link" aria-haspopup="true" data-menu-toggle="hover">
+        <a :href="homeLink()" aria-haspopup="true" class="menu-link" data-menu-toggle="hover">
           <span class="menu-text"><i class="fas fa-home fa-2x home-icon-color"></i></span>
         </a>
       </li>
 
       <li class="menu-item exact-color">
-        <v-btn text @click="$root.$emit('openTuts')" dark class="menu-link px-4" aria-haspopup="true"
-               data-menu-toggle="hover" height="40" min-width="40">
+        <v-btn aria-haspopup="true" class="menu-link px-4" dark data-menu-toggle="hover" height="40"
+               min-width="40" text @click="$root.$emit('openTuts')">
           <v-icon>mdi-help</v-icon>
         </v-btn>
       </li>
 
-      <router-link to="/dashboard" v-slot="{ href, navigate, isActive, isExactActive }">
-        <li aria-haspopup="true" data-menu-toggle="hover" class="menu-item"
-            :class="[isActive && 'menu-item-active', isExactActive && 'menu-item-active']">
+      <router-link v-slot="{ href, navigate, isActive, isExactActive }" to="/dashboard">
+        <li :class="[isActive && 'menu-item-active', isExactActive && 'menu-item-active']" aria-haspopup="true"
+            class="menu-item" data-menu-toggle="hover">
           <a :href="href" class="menu-link" @click="navigate">
             <span class="menu-text">داشبورد</span>
           </a>
         </li>
       </router-link>
 
-      <li v-for="(menu, i) in topMenus" :key="i" aria-haspopup="true"
-          :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'"
-          :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) } ]">
+      <div v-if="DLoading.menus" class="d-flex align-center">
+        <v-skeleton-loader class="mx-1" type="button"/>
+        <v-skeleton-loader class="mx-1" type="button"/>
+        <v-skeleton-loader class="mx-1" type="button"/>
+      </div>
 
-        <a v-if="!menu.children" :href="itemSlug(menu.slug)" class="menu-link">
-          <span class="menu-text"> {{ menu.name }} </span>
-        </a>
+      <template v-else>
+        <li v-for="(menu, i) in topMenus" :key="i"
+            :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) } ]"
+            :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'" aria-haspopup="true">
+          <a v-if="!menu.children" :href="itemSlug(menu.slug)" class="menu-link">
+            <span class="menu-text"> {{ menu.name }} </span>
+          </a>
 
-        <v-menu v-else open-on-hover offset-y close-on-click>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn text dark v-bind="attrs" v-on="on" class="menu-link font-weight-normal">
-              {{ menu.name }}
-            </v-btn>
-          </template>
+          <v-menu v-else close-on-click offset-y open-on-hover>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn class="menu-link font-weight-normal" dark text v-bind="attrs" v-on="on">
+                {{ menu.name }}
+              </v-btn>
+            </template>
 
-          <v-card flat>
-            <h3 class="px-2 pt-3 font-size-h6">
-              {{ menu.name }}
-            </h3>
-            <v-list>
-              <v-list-item light v-for="(child, j) in menu.children" :key="j" :to="`/${child.slug}`"
-                           style="min-height: 32px" class="menu-link px-4">
-                <v-list-item-icon style="margin-left: 16px" class="my-3">
-                  <v-icon color="grey">mdi-circle-small</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title v-text="child.name" class="py-2"/>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-menu>
-      </li>
+            <v-card flat>
+              <h3 class="px-2 pt-3 font-size-h6">
+                {{ menu.name }}
+              </h3>
+              <v-list>
+                <v-list-item v-for="(child, j) in menu.children" :key="j" :to="`/${child.slug}`" class="menu-link px-4"
+                             light style="min-height: 32px">
+                  <v-list-item-icon class="my-3" style="margin-left: 16px">
+                    <v-icon color="grey">mdi-circle-small</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title class="py-2" v-text="child.name"/>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -70,7 +77,7 @@ export default {
   components: {Tutorials, CustomPopup},
 
   computed: {
-    ...mapGetters("ribbon", ["menus"]),
+    ...mapGetters("ribbon", ["menus", 'DLoading']),
     topMenus() {
       let menu = this.menus.filter((menu) => menu.special === 1);
       return menu = menu.concat(this.DConfigs.static_top_menu)

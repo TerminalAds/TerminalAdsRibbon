@@ -8,7 +8,12 @@ export default {
         new_wallet: {balance: null},
         core: {},
         walletDialog: false,
-        withdrawDialog: false
+        withdrawDialog: false,
+        DLoading: {
+            menus: false,
+            user: false,
+            wallet: false
+        }
     },
 
     getters: {
@@ -19,7 +24,8 @@ export default {
         user: state => state.core?.user?.length > 0 && state.core.user[0] ? state.core.user[0] : null,
         core: state => state.core,
         walletDialog: state => state.walletDialog,
-        withdrawDialog: state => state.withdrawDialog
+        withdrawDialog: state => state.withdrawDialog,
+        DLoading: state => state.DLoading
     },
 
     actions: {
@@ -43,6 +49,9 @@ export default {
         },
         toggleWithdrawDialog({commit}, input) {
             commit('toggleWithdrawDialog', input)
+        },
+        toggleLoading({commit}, {field, status}) {
+            commit('toggle_loading', {field, status})
         }
     },
 
@@ -65,6 +74,9 @@ export default {
         },
         toggleWithdrawDialog(state, input) {
             state.withdrawDialog = input
-        }
+        },
+        toggle_loading(state, {field, status}) {
+            state.DLoading[field] = status
+        },
     }
 };

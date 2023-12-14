@@ -1,13 +1,13 @@
 <template>
-  <v-list dark v-if="rerender">
+  <v-list v-if="rerender" dark>
     <v-list-item @click="toggleMobileMenu()">
       <v-list-item-content>
         <div class="text-center">
-          <img alt="Logo" :src="DConfigs.header_logo" class="logo-default max-h-40px"/>
+          <img :src="DConfigs.header_logo" alt="Logo" class="logo-default max-h-40px"/>
         </div>
       </v-list-item-content>
       <v-list-item-action>
-        <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-danger">
+        <a class="btn btn-xs btn-icon btn-light btn-hover-danger" href="#">
           <i class="ki ki-close icon-xs text-muted"></i>
         </a>
       </v-list-item-action>
@@ -15,7 +15,7 @@
 
     <v-divider style="background-color: rgba(255, 255, 255, .3)"/>
 
-    <v-list-item link :href="homeLink()">
+    <v-list-item :href="homeLink()" link>
       <v-list-item-icon>
         <v-icon color="#6cdb72">mdi-home</v-icon>
       </v-list-item-icon>
@@ -29,30 +29,42 @@
       <v-list-item-title>داشبورد</v-list-item-title>
     </v-list-item>
 
-    <div v-for="(item, i) in items" :key="`item-${i}`" class="group-wrapper">
-      <v-list-item link :to="`/${item.slug}`" v-if="!item.children">
+    <div v-if="DLoading.menus" class="group-wrapper">
+      <v-list-item v-for="x in 3" :key="x">
         <v-list-item-icon>
           <v-icon>mdi-circle-small</v-icon>
         </v-list-item-icon>
-        <v-list-item-title v-text="item.name"/>
+        <v-list-item-title>
+          <v-skeleton-loader class="mb-n1" type="text"/>
+        </v-list-item-title>
       </v-list-item>
-
-      <v-list-group v-else v-model="item.selectedItem" no-action active-class="active-child"
-                    :value="getActive(item)" color="white" @click="item.selectedItem = true">
-        <template v-slot:activator>
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
-        </template>
-
-        <v-list-item link v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`"
-                     style="padding-right: 32px" color="white">
-          <v-list-item-icon>
-            <v-icon>mdi-menu-left</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title v-text="sub.name"/>
-        </v-list-item>
-      </v-list-group>
     </div>
 
+    <template v-else>
+      <div v-for="(item, i) in items" :key="`item-${i}`" class="group-wrapper">
+        <v-list-item v-if="!item.children" :to="`/${item.slug}`" link>
+          <v-list-item-icon>
+            <v-icon>mdi-circle-small</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title v-text="item.name"/>
+        </v-list-item>
+
+        <v-list-group v-else v-model="item.selectedItem" :value="getActive(item)" active-class="active-child"
+                      color="white" no-action @click="item.selectedItem = true">
+          <template v-slot:activator>
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+          </template>
+
+          <v-list-item v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`" color="white"
+                       link style="padding-right: 32px">
+            <v-list-item-icon>
+              <v-icon>mdi-menu-left</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title v-text="sub.name"/>
+          </v-list-item>
+        </v-list-group>
+      </div>
+    </template>
   </v-list>
 </template>
 
@@ -62,19 +74,25 @@ import {reformatMenuResponse} from "../../assets/js/MenuFunctions";
 
 export default {
   name: "AsideMenu",
+
   props: {
     visible: Boolean
   },
+
   data: () => ({
     items: [],
     rerender: true
   }),
+
   mounted() {
     this.getMenus();
   },
+
   computed: {
     ...mapGetters(["layoutConfig", "getClasses"]),
+    ...mapGetters('ribbon', ['DLoading'])
   },
+
   watch: {
     visible(val) {
       if (!val) {
@@ -85,22 +103,27 @@ export default {
       }
     }
   },
+
   methods: {
-    ...mapActions("ribbon", ["setMenus"]),
+    ...mapActions("ribbon", ["setMenus", "toggleLoading"]),
     getMenus() {
+      this.toggleLoading({field: 'menus', status: true})
+
       this.$DashboardAxios.get('/api/core/menus', {
         params: {
           sid: this.sid
         }
-      }).then(({data}) => {
-        const menus = reformatMenuResponse(data.data);
-        this.setMenus(data.data);
-        this.items = menus;
       })
+          .then(({data}) => {
+            const menus = reformatMenuResponse(data.data);
+            this.setMenus(data.data);
+            this.items = menus;
+          })
           .catch(({response}) => {
             if (response.status !== 401)
               this.$toast.error('خطایی رخ داده است.')
           })
+          .finally(() => this.toggleLoading({field: 'menus', status: false}))
     },
     homeLink() {
       return this.front_url || '/';
