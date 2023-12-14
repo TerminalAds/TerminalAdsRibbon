@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-tabs v-model="tabs" background-color="primary" class="rounded-lg custom-tabs" dark height="52" hide-slider
+    <v-tabs v-model="computedTabs" background-color="primary" class="rounded-lg custom-tabs" dark height="52"
+            hide-slider
             show-arrows v-bind="$attrs" @change="$emit('change', $event)">
       <slot v-if="$slots.staticTabs" name="staticTabs"/>
 
@@ -18,7 +19,7 @@
 
     <slot name="middle"/>
 
-    <v-tabs-items v-model="tabs">
+    <v-tabs-items v-model="computedTabs">
       <slot v-if="$slots.staticItems" name="staticItems"/>
 
       <template v-else>
@@ -48,13 +49,14 @@ export default {
     }
   },
 
-  data: () => ({
-    tabs: null
-  }),
-
-  watch: {
-    tabs(val) {
-      this.$emit('input', val)
+  computed: {
+    computedTabs: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
     }
   },
 
