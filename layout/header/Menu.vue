@@ -30,6 +30,13 @@
         <v-skeleton-loader class="mx-1" type="button"/>
       </div>
 
+      <div v-else-if="!sectionStatus.menus" class="d-flex align-center">
+        <v-btn class="mx-1" dark text @click="$root.$emit('getMenus')">
+          دریافت مجدد منو
+          <v-icon right>mdi-reload</v-icon>
+        </v-btn>
+      </div>
+
       <template v-else>
         <li v-for="(menu, i) in topMenus" :key="i"
             :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) } ]"
@@ -77,7 +84,7 @@ export default {
   components: {Tutorials, CustomPopup},
 
   computed: {
-    ...mapGetters("ribbon", ["menus", 'DLoading']),
+    ...mapGetters("ribbon", ["menus", 'DLoading', 'sectionStatus']),
     topMenus() {
       let menu = this.menus.filter((menu) => menu.special === 1);
       return menu = menu.concat(this.DConfigs.static_top_menu)

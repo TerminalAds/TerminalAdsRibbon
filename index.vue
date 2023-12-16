@@ -67,7 +67,6 @@ import Tutorials from "./pages/tutorials";
 import BottomMenuContainer from "./layout/bottomMenu/container";
 import RefreshPage from "./layout/header/refreshPage";
 
-
 export default {
   name: "index",
 
@@ -138,6 +137,8 @@ export default {
   mounted() {
     this.$root.$on('closeModal', () => this.showReloadPage = false)
     this.$root.$on('openTuts', () => this.showTuts = true)
+    this.$root.$on('reFetch', this.fetch)
+    this.$root.$on('getWallet', this.getNewWallet)
     this.$on('offline', () => {
       this.$modal.showConnectionLost({})
       // this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
@@ -276,7 +277,7 @@ export default {
       window.location.href = 'https://core.terminalads.com/#/panel'
     },
     ...mapActions('tutorial', ['setTutorials']),
-    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading']),
+    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading', 'setSectionStatus']),
     fetch() {
       this.toggleLoading({field: 'user', status: true})
 
@@ -284,12 +285,14 @@ export default {
           .then(({data}) => {
             this.setCore(data.data)
             this.setWalletData(data.data.wallet)
-
+            this.setSectionStatus({field: 'user', status: true})
             // this.fetchTuts()
           })
           .catch(({response}) => {
-            if (response.status !== 401)
-              this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000})
+            if (response.status !== 401) {
+              this.setSectionStatus({field: 'user', status: false})
+              this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000});
+            }
           })
           .finally(() => {
             this.toggleLoading({field: 'user', status: false})
@@ -310,9 +313,12 @@ export default {
       })
           .then(({data}) => {
             this.setNewWallet(Number(data.data.balance.$numberDecimal))
+            this.setSectionStatus({field: 'wallet', status: true})
           })
           .catch(({response}) => {
-
+            if (response.status !== 401) {
+              this.setSectionStatus({field: 'wallet', status: false})
+            }
           })
           .finally(() => {
             this.loading = false

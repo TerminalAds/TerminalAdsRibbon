@@ -13,13 +13,16 @@ import Menu from './Menu'
 
 export default {
   name: "Navigation",
+
   components: {Menu},
+
   data() {
     return {
       navShow: false,
       mobileShow: false,
     }
   },
+
   computed: {
     ...mapGetters(['menu/isShow', 'menu/isMobileShow']),
     isShowNav() {
@@ -33,6 +36,7 @@ export default {
       return showing;
     }
   },
+
   watch: {
     navShow() {
       this.$store.dispatch('menu/isShow', this.navShow)

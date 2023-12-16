@@ -14,11 +14,16 @@
       <v-skeleton-loader type="text"/>
     </div>
 
-    <div v-else v-b-tooltip="'لیست تراکنش های شما'" class="d-flex align-center fill-height" style="flex: 1 0 auto">
+    <div v-else v-b-tooltip.passive="'لیست تراکنش های شما'" class="d-flex align-center fill-height"
+         style="flex: 1 0 auto">
       <span>اعتبار</span>
       <v-spacer/>
-      <span
-          style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
+      <v-btn v-if="!sectionStatus.wallet" v-b-tooltip.passive="'بارگزاری مجدد'" height="32" icon min-height="32"
+             min-width="32" width="32" @click.stop="$root.$emit('getWallet')">
+        <v-icon>mdi-reload</v-icon>
+      </v-btn>
+      <span v-else
+            style="max-width: calc(90% - 40px);overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: ltr">
         {{ balance !== null && balance >= 0 ? persianNum(currency(Math.floor(balance))) : '---' }}
       </span>
       <v-spacer/>
@@ -84,7 +89,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('ribbon', ['core', 'walletDialog', 'withdrawDialog', 'new_wallet', 'DLoading']),
+    ...mapGetters('ribbon', ['core', 'walletDialog', 'withdrawDialog', 'new_wallet', 'DLoading', 'sectionStatus']),
     balance() {
       return this.new_wallet.balance
     },

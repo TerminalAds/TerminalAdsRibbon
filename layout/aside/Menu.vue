@@ -40,6 +40,17 @@
       </v-list-item>
     </div>
 
+    <div v-else-if="!sectionStatus.menus">
+      <v-list-item>
+        <v-list-item-action>
+          <v-btn class="mx-1" dark text @click="$root.$emit('getMenus')">
+            دریافت مجدد منو
+            <v-icon right>mdi-reload</v-icon>
+          </v-btn>
+        </v-list-item-action>
+      </v-list-item>
+    </div>
+
     <template v-else>
       <div v-for="(item, i) in items" :key="`item-${i}`" class="group-wrapper">
         <v-list-item v-if="!item.children" :to="`/${item.slug}`" link>
@@ -85,12 +96,13 @@ export default {
   }),
 
   mounted() {
+    this.$root.$on('getMenus', this.getMenus)
     this.getMenus();
   },
 
   computed: {
     ...mapGetters(["layoutConfig", "getClasses"]),
-    ...mapGetters('ribbon', ['DLoading'])
+    ...mapGetters('ribbon', ['DLoading', 'sectionStatus'])
   },
 
   watch: {
@@ -105,7 +117,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("ribbon", ["setMenus", "toggleLoading"]),
+    ...mapActions("ribbon", ["setMenus", "toggleLoading", "setSectionStatus"]),
     getMenus() {
       this.toggleLoading({field: 'menus', status: true})
 
@@ -117,11 +129,14 @@ export default {
           .then(({data}) => {
             const menus = reformatMenuResponse(data.data);
             this.setMenus(data.data);
+            this.setSectionStatus({field: 'menus', status: true})
             this.items = menus;
           })
           .catch(({response}) => {
-            if (response.status !== 401)
-              this.$toast.error('خطایی رخ داده است.')
+            if (response.status !== 401) {
+              this.setSectionStatus({field: 'menus', status: false})
+              this.$toast.error('خطایی رخ داده است.');
+            }
           })
           .finally(() => this.toggleLoading({field: 'menus', status: false}))
     },

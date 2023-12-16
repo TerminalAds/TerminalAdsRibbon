@@ -13,6 +13,11 @@ export default {
             menus: false,
             user: false,
             wallet: false
+        },
+        sectionStatus: {
+            menus: true,
+            user: true,
+            wallet: true
         }
     },
 
@@ -25,7 +30,8 @@ export default {
         core: state => state.core,
         walletDialog: state => state.walletDialog,
         withdrawDialog: state => state.withdrawDialog,
-        DLoading: state => state.DLoading
+        DLoading: state => state.DLoading,
+        sectionStatus: state => state.sectionStatus
     },
 
     actions: {
@@ -52,7 +58,10 @@ export default {
         },
         toggleLoading({commit}, {field, status}) {
             commit('toggle_loading', {field, status})
-        }
+        },
+        setSectionStatus({commit}, {field, status}) {
+            commit('set_section_status', {field, status})
+        },
     },
 
     mutations: {
@@ -77,6 +86,9 @@ export default {
         },
         toggle_loading(state, {field, status}) {
             state.DLoading[field] = status
+        },
+        set_section_status(state, {field, status}) {
+            state.sectionStatus[field] = status
         },
     }
 };
