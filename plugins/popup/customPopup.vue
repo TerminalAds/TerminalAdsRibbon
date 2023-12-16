@@ -29,7 +29,7 @@
           <v-icon color="#7b1fa2">mdi-reload</v-icon>
         </v-btn>
 
-        <v-btn class="ms-2 px-0 text-danger" color="#fcc1c7" depressed min-width="36"
+        <v-btn v-if="!hideClose" class="ms-2 px-0 text-danger" color="#fcc1c7" depressed min-width="36"
                title="بستن" @click="closeDialog">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -66,7 +66,9 @@ export default {
     },
     cons: Object,
     value: Boolean,
+    hideClose: Boolean,
     hideConfirm: Boolean,
+    hideOverlay: Boolean,
     maxWidth: {
       type: [Number, String],
       default: '1024'
@@ -75,7 +77,6 @@ export default {
       type: [Number, String],
       default: undefined
     },
-    hideOverlay: Boolean,
     transition: String,
     scrollable: Boolean,
     reloadable: Boolean,
