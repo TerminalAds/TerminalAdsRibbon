@@ -62,15 +62,6 @@
 
         <v-row class="pa-2" justify="center" no-gutters>
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-            <v-text-field v-model="obj.bankName" :rules="[rules.persian]" class="rounded-lg icon-wrapper"
-                          clear-icon="mdi-close-circle-outline" clearable dense label="نام بانک" outlined>
-              <template v-slot:append>
-                <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="32"/>
-              </template>
-            </v-text-field>
-          </v-col>
-
-          <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
             <v-text-field v-model="obj.ownerName" :rules="[rules.persian]" class="rounded-lg"
                           clear-icon="mdi-close-circle-outline" clearable dense label="نام صاحب حساب" outlined/>
           </v-col>
@@ -78,6 +69,15 @@
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
             <v-text-field v-model="obj.ownerLastName" :rules="[rules.persian]" class="rounded-lg"
                           clear-icon="mdi-close-circle-outline" clearable dense label="نام خانوادگی" outlined/>
+          </v-col>
+
+          <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
+            <v-text-field v-model="obj.bankName" :rules="[rules.persian]" class="rounded-lg icon-wrapper"
+                          clear-icon="mdi-close-circle-outline" clearable dense label="نام بانک" outlined>
+              <template v-slot:append>
+                <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="32"/>
+              </template>
+            </v-text-field>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
@@ -429,6 +429,10 @@ export default {
     addToAccountList() {
       this.addLoading = true
 
+      if (this.obj.ownerName !== this.user.name || this.obj.ownerLastName !== this.user.lastName) {
+        return this.$toast.error('حساب وارد شده به نام کاربر نیست!!')
+      }
+
       this.$DashboardAxios.post('/api/account', this.obj)
           .then(({data}) => {
             this.selectedAccount = data.data.id
@@ -443,6 +447,7 @@ export default {
         this.loading = true
         this.$DashboardAxios.delete(`/api/account/${id}`)
             .then(({data}) => {
+              this.fetch()
             })
             .catch(({response}) => console.error('error in delete account: ', response))
             .finally(() => this.loading = false)
