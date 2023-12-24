@@ -52,23 +52,23 @@
 
       <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" borderless mandatory>
         <v-btn v-for="gate in gateways" :key="gate.id"
-               :class="['py-2' , {'activeGateWay' : data.gateway.id === gate.id}]" :value="gate" height="6rem"
-               style="background-color: white"
-               width="6rem">
+               :class="['py-2' , {'activeGateWay' : data.gateway.id === gate.id}]" :value="gate" height="fit-content"
+               style="background-color: white">
 
-          <div v-if="getGateWayImage(gate.driver)">
-            <v-img :src="getGateWayImage(gate.driver)" class="my-2" contain height="5rem" width="5rem"/>
+          <!--          <div v-if="getGateWayImage(gate.driver)">-->
+          <!--            <v-img :src="getGateWayImage(gate.driver)" class="my-2" contain height="5rem" width="5rem"/>-->
+          <!--          </div>-->
+
+          <div v-if="gateObj.hasOwnProperty(gate.driver)">
+            <v-img :src="gateObj[gate.driver].img" class="my-2" contain height="5rem" width="5rem"/>
+            <div class="pa-1 text-center">{{ gateObj[gate.driver].name }}</div>
           </div>
 
           <div v-else class="d-flex flex-column">
-            <v-icon class="mt-4">
-              fa-credit-card
-            </v-icon>
+            <v-icon class="mt-4">fa-credit-card</v-icon>
             <p class="mt-2">{{ gate.name }}</p>
           </div>
-
         </v-btn>
-
       </v-btn-toggle>
 
       <div v-else>
@@ -89,10 +89,11 @@
 import priceInput from "../../pages/pickers/priceInput";
 import {SemipolarSpinner} from 'epic-spinners'
 
-
 export default {
   components: {priceInput, SemipolarSpinner},
+
   name: "increaseTransactions",
+
   data() {
     return {
       loading: false,
@@ -156,103 +157,24 @@ export default {
       },
       min: 2_000_000,
       max: 500_000_000,
-      error: ""
+      error: "",
+      gateObj: {
+        zarinpal: {img: 'media/gateways/zarinpal.png', name: 'زرین پال'},
+        bazar: {img: 'media/gateways/directPay.svg', name: 'پرداخت آزاد'}
+      }
     }
   },
+
   mounted() {
     this.getGateways()
   },
-  methods: {
-    prices(cost) {
-      if (this.data.price === '')
-        this.data.price = 0;
-      this.data.price = this.data.price + cost;
-    },
-    getGateways() {
-      this.$DashboardAxios.get('/api/core/gateways')
-          .then(({data}) => {
-            if (data) {
-              this.gateways = data.data
 
-            } else {
-              this.gateways = undefined
-            }
-          })
-          .catch(({response}) => {
-            if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
-            else this.$toast.error('ناموفق');
-            this.errors = response.data.errors;
-            this.gateways = undefined
-          })
-    },
-    redirectMelatGateway(link, RefId) {
-      const form = document.createElement("form");
-      const element1 = document.createElement("input");
-
-      form.method = "POST";
-      form.action = link;
-
-      element1.value = RefId;
-      element1.name = "RefId";
-      form.appendChild(element1);
-
-      document.body.appendChild(form);
-
-      form.submit();
-    },
-
-    payment() {
-      this.loading = true
-      if (this.data.price < this.min) {
-        this.$toast.error('مبلغ وارد شده کمتر از ۲۰۰۰۰۰ تومان است.');
-        return;
-      }
-      // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
-      this.$DashboardAxios.post('https://api.terminalads.com/api/newWallet/charge', {
-        amount: this.data.price,
-        callbackUrl: window.location.href
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('id_token')}`,
-          Accept: 'application/json',
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-        }
-      }).then(({data}) => {
-        this.loading = false
-        window.location.href = `${data.data.data.url.replace('sandbox.', '')}`
-        // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
-      }).catch((e) => {
-        this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
-      }).finally(() => this.loading = false)
-    },
-
-    getGateWayImage(gatewayDriver) {
-      switch (gatewayDriver) {
-        case "zarinpal":
-          return "media/gateways/zarinpal.png";
-
-        case "parsian":
-          return "media/gateways/parsian.png";
-
-        case "mellat":
-          return "media/gateways/mellat.png";
-
-      }
-
-      return false;
-    },
-
-    isValidPrice(min, max) {
-      return min <= this.data.price && this.data.price <= max;
-    }
-
-  },
   computed: {
     isValidData() {
       return !!(this.gateways ? this.gateways.length : false) && this.data.price && this.isValidPrice(this.min, this.max)
     }
   },
+
   watch: {
     quickCharge(val) {
       if (val === 0) this.data.price = 0
@@ -266,6 +188,103 @@ export default {
           max: this.persianNum(String(this.max).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"))
         })
       }
+    }
+  },
+
+  methods: {
+    prices(cost) {
+      if (this.data.price === '')
+        this.data.price = 0;
+      this.data.price = this.data.price + cost;
+    },
+    getGateways() {
+      this.$DashboardAxios.get('/api/core/gateways')
+          .then(({data}) => {
+            if (data) {
+              this.gateways = data.data
+            } else {
+              this.gateways = undefined
+            }
+          })
+          .catch(({response}) => {
+            if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
+            else this.$toast.error('ناموفق');
+            this.errors = response.data.errors;
+            this.gateways = undefined
+          })
+    },
+    // redirectMelatGateway(link, RefId) {
+    //   const form = document.createElement("form");
+    //   const element1 = document.createElement("input");
+    //
+    //   form.method = "POST";
+    //   form.action = link;
+    //
+    //   element1.value = RefId;
+    //   element1.name = "RefId";
+    //   form.appendChild(element1);
+    //
+    //   document.body.appendChild(form);
+    //
+    //   form.submit();
+    // },
+    payment() {
+      if (this.data.gateway.driver === 'bazar') {
+        this.payBazar()
+        return
+      }
+
+      this.loading = true;
+      if (this.data.price < this.min) {
+        this.$toast.error('مبلغ وارد شده کمتر از ۲۰۰۰۰۰ تومان است.');
+        return;
+      }
+      // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
+      this.$DashboardAxios.post('https://api.terminalads.com/api/newWallet/charge', {
+        amount: this.data.price,
+        callbackUrl: window.location.href
+      })
+          .then(({data}) => {
+            window.location.href = data.data.data.url.replace('sandbox.', '')
+            // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
+          })
+          .catch((e) => {
+            this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
+          })
+          .finally(() => this.loading = false)
+    },
+    payBazar() {
+      this.loading = true
+
+      this.$DashboardAxios.get('https://api.terminalads.com/api/user/bazar', {
+        data: {
+          amount: this.data.price
+        }
+      })
+          .then(({data}) => {
+            window.location.href = data.data.data.url.replace('sandbox.', '')
+          })
+          .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
+          .finally(() => this.loading = false)
+    },
+    getGateWayImage(gatewayDriver) {
+      switch (gatewayDriver) {
+        case "zarinpal":
+          return "media/gateways/zarinpal.png";
+
+        case "bazar":
+          return "media/gateways/directPay.svg";
+
+        case "parsian":
+          return "media/gateways/parsian.png";
+
+        case "mellat":
+          return "media/gateways/mellat.png";
+      }
+      return false;
+    },
+    isValidPrice(min, max) {
+      return min <= this.data.price && this.data.price <= max;
     }
   },
 }
