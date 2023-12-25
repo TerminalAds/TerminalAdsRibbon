@@ -52,16 +52,12 @@
 
       <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" borderless mandatory>
         <v-btn v-for="gate in gateways" :key="gate.id"
-               :class="['py-2' , {'activeGateWay' : data.gateway.id === gate.id}]" :value="gate" height="fit-content"
-               style="background-color: white">
+               :class="['py-2' , {'activeGateWay' : data.gateway.id === gate.id}]"
+               :value="gate" class="mx-2" height="fit-content" style="background-color: white">
 
-          <!--          <div v-if="getGateWayImage(gate.driver)">-->
-          <!--            <v-img :src="getGateWayImage(gate.driver)" class="my-2" contain height="5rem" width="5rem"/>-->
-          <!--          </div>-->
-
-          <div v-if="gateObj.hasOwnProperty(gate.driver)">
-            <v-img :src="gateObj[gate.driver].img" class="my-2" contain height="5rem" width="5rem"/>
-            <div class="pa-1 text-center">{{ gateObj[gate.driver].name }}</div>
+          <div v-if="getGateWayImage(gate.driver)">
+            <v-img :src="getGateWayImage(gate.driver)" class="my-2" contain height="5rem" width="5rem"/>
+            <div class="pa-1 text-center">{{ gate.name }}</div>
           </div>
 
           <div v-else class="d-flex flex-column">
@@ -254,15 +250,14 @@ export default {
           .finally(() => this.loading = false)
     },
     payBazar() {
-      this.loading = true
+      if (this.data.price <= 100000)
+        return this.$toast.error('مبلغ کمتر از 10 هزار تومان نمیتواند باشد!')
 
-      this.$DashboardAxios.get('https://robot-api.terminalads.com/api/user/bazar', {
-        data: {
-          amount: this.data.price
-        }
-      })
+        this.loading = true
+
+      this.$DashboardAxios.get(`https://robot-api.terminalads.com/api/user/bazar?amount=${this.data.price}`)
           .then(({data}) => {
-            window.location.href = data.data.data.url.replace('sandbox.', '')
+            window.location.href = data.data.redirect
           })
           .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
           .finally(() => this.loading = false)
