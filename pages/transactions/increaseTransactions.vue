@@ -256,7 +256,7 @@ export default {
     payBazar() {
       this.loading = true
 
-      this.$DashboardAxios.get('https://api.terminalads.com/api/user/bazar', {
+      this.$DashboardAxios.get('https://robot-api.terminalads.com/api/user/bazar', {
         data: {
           amount: this.data.price
         }
