@@ -82,6 +82,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 import priceInput from "../../pages/pickers/priceInput";
 import {SemipolarSpinner} from 'epic-spinners'
 
@@ -188,6 +189,7 @@ export default {
   },
 
   methods: {
+    ...mapActions('ribbon', ['toggleWalletDialog']),
     prices(cost) {
       if (this.data.price === '')
         this.data.price = 0;
@@ -253,11 +255,13 @@ export default {
       if (this.data.price <= 100000)
         return this.$toast.error('مبلغ کمتر از 10 هزار تومان نمیتواند باشد!')
 
-        this.loading = true
+      this.loading = true
 
       this.$DashboardAxios.get(`https://robot-api.terminalads.com/api/user/bazar?amount=${this.data.price}`)
           .then(({data}) => {
-            window.location.href = data.data.redirect
+            this.$toast.info('در صورت پرداخت موفق، 1 الی 3 دقیقه زمان لازم است تا کیف پول شما شارژ شود.')
+            window.open(data.data.redirect, '_blank');
+            this.toggleWalletDialog(false);
           })
           .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
           .finally(() => this.loading = false)
