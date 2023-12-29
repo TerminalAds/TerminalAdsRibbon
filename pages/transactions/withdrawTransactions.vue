@@ -35,7 +35,7 @@
               </v-list-item-avatar>
               <v-list-item-title v-text="data.item.text"/>
               <v-list-item-action>
-                <v-btn color="#ff475a" icon @click="deleteAccount(data.item.id)">
+                <v-btn color="#ff475a" icon @click.stop="deleteAccount(data.item.id)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-list-item-action>
