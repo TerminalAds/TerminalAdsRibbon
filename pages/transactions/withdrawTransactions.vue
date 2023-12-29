@@ -436,6 +436,14 @@ export default {
       this.$DashboardAxios.post('/api/account', this.obj)
           .then(({data}) => {
             this.selectedAccount = data.data.id
+            this.obj = {
+              bankName: '',
+              ownerName: '',
+              ownerLastName: '',
+              accountNumber: '',
+              cardNumber: '',
+              sheba: '',
+            }
             this.addAccount = false
             this.fetch()
           })

@@ -259,7 +259,7 @@ export default {
 
       this.$DashboardAxios.get(`https://robot-api.terminalads.com/api/user/bazar?amount=${this.data.price}`)
           .then(({data}) => {
-            this.$toast.info('در صورت پرداخت موفق، 1 الی 3 دقیقه زمان لازم است تا کیف پول شما شارژ شود.')
+            this.$toast.info('در صورت پرداخت موفق، 1 الی 3 دقیقه زمان لازم است تا کیف پول شما شارژ شود.', {timeout: 5000})
             window.open(data.data.redirect, '_blank');
             this.toggleWalletDialog(false);
           })
