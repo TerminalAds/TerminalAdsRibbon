@@ -1,7 +1,6 @@
 <template>
   <div>
     <ul class="menu-nav has-background">
-
       <li class="menu-item exact-color">
         <a :href="homeLink()" aria-haspopup="true" class="menu-link" data-menu-toggle="hover">
           <span class="menu-text"><i class="fas fa-home fa-2x home-icon-color"></i></span>
@@ -30,7 +29,7 @@
         <v-skeleton-loader class="mx-1" type="button"/>
       </div>
 
-      <div v-else-if="!sectionStatus.menus" class="d-flex align-center">
+      <div v-else-if="!sectionStatus.menus || !topMenus || !topMenus.length" class="d-flex align-center">
         <v-btn class="mx-1" dark text @click="$root.$emit('getMenus')">
           دریافت مجدد منو
           <v-icon right>mdi-reload</v-icon>

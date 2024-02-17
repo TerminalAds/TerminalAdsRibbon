@@ -121,24 +121,29 @@ export default {
     getMenus() {
       this.toggleLoading({field: 'menus', status: true})
 
-      this.$DashboardAxios.get('/api/core/menus', {
-        params: {
-          sid: this.sid
-        }
-      })
-          .then(({data}) => {
-            const menus = reformatMenuResponse(data.data);
-            this.setMenus(data.data);
-            this.setSectionStatus({field: 'menus', status: true})
-            this.items = menus;
-          })
-          .catch(({response}) => {
-            if (response.status !== 401) {
+      try {
+        this.$DashboardAxios.get('/api/core/menus', {
+          params: {
+            sid: this.sid
+          }
+        })
+            .then(({data}) => {
+              const menus = reformatMenuResponse(data.data);
+              this.setMenus(data.data);
+              this.setSectionStatus({field: 'menus', status: true})
+              this.items = menus;
+            })
+            .catch(({response}) => {
               this.setSectionStatus({field: 'menus', status: false})
-              this.$toast.error('خطایی رخ داده است.');
-            }
-          })
-          .finally(() => this.toggleLoading({field: 'menus', status: false}))
+              if (response.status !== 401) {
+                this.$toast.error('خطایی رخ داده است.');
+              }
+            })
+            .finally(() => this.toggleLoading({field: 'menus', status: false}))
+      } catch (e) {
+        this.setSectionStatus({field: 'menus', status: false})
+        console.log('catch error: ', e)
+      }
     },
     homeLink() {
       return this.front_url || '/';
