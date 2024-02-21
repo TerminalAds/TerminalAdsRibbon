@@ -67,7 +67,6 @@ import Tutorials from "./pages/tutorials";
 import BottomMenuContainer from "./layout/bottomMenu/container";
 import RefreshPage from "./layout/header/refreshPage";
 
-
 !function () {
   var i = "7WvGxT", a = window, d = document;
 
@@ -80,7 +79,6 @@ import RefreshPage from "./layout/header/refreshPage";
 
   "complete" === d.readyState ? g() : a.attachEvent ? a.attachEvent("onload", g) : a.addEventListener("load", g, !1);
 }();
-
 
 export default {
   name: "index",
@@ -269,13 +267,17 @@ export default {
       //     }])
       // } else
       if (error.response.status === 403) {
-        this.$modal.error(this.$t("ERRORS.NoAccess"), this.$t("ERRORS.PleasebyeAPlane"), undefined, {
-          text: this.$t("BUTTONS.BuyAPlane"),
-          class: 'success w-100',
-          onClick: this.gotoPanel
-        }, [{
-          text: this.$t("BUTTONS.OK")
-        }])
+        this.$modal.error(this.$t("ERRORS.NoAccess"),
+            this.$t("ERRORS.PleasebyeAPlane"),
+            undefined,
+            {
+              text: this.$t("BUTTONS.BuyAPlane"),
+              class: 'success w-100',
+              onClick: this.gotoPanel
+            },
+            [{
+              text: this.$t("BUTTONS.OK")
+            }])
       } else if (error.response.status === 402) {
         this.$modal.wallet(this.$t("ERRORS.NoAccountCharge"), this.$t("ERRORS.PleaseChargeYourAccount"), undefined, {
           text: this.$t("BUTTONS.AccountCharge"),
@@ -340,23 +342,6 @@ export default {
             this.toggleLoading({field: 'wallet', status: false})
           })
     },
-    // fetchTuts() {
-    //   let tuts = localStorage.getItem('tuts')
-    //   try {
-    //     if (tuts) tuts = JSON.parse(tuts)
-    //     if (typeof tuts !== 'boolean') tuts = false
-    //   } catch (e) {
-    //     tuts = false
-    //     console.log("can't parse the tuts:", e)
-    //   }
-    //
-    //   if (!tuts) {
-    //     setTimeout(() => {
-    //       this.showTuts = true
-    //       localStorage.setItem('tuts', 'true')
-    //     }, 1500)
-    //   }
-    // },
     fetchVpn() {
       let vpn = localStorage.getItem('vpn')
       try {
