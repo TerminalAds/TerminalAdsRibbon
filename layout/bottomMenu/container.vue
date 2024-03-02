@@ -1,30 +1,27 @@
 <template>
-  <v-row no-gutters class="bottom-btn-group-row">
-
-    <v-btn-toggle group v-model="toggle_exclusive" class="button-btn-group" mandatory>
+  <v-row class="bottom-btn-group-row" no-gutters>
+    <v-btn-toggle v-model="toggle_exclusive" class="button-btn-group" group mandatory>
       <div v-for="(item, i) in btnGroup" :key="i" class="btn-toggle-holder">
-        <v-btn v-if="item.link" :href="typeof item.link === 'string' ? item.link : ''" @click="handleCLick(item, i)"
-               class="rounded-pill" color="white" depressed height="32" min-width="32" width="32" text
-               :aria-label="item.title">
+        <v-btn v-if="item.link" :aria-label="item.title" :href="typeof item.link === 'string' ? item.link : ''"
+               class="rounded-pill" color="white" depressed height="32" min-width="32" text width="32"
+               @click="handleCLick(item, i)">
           <v-icon>mdi-{{ item.icon }}</v-icon>
         </v-btn>
 
-        <component v-else :is="item.component" :icon="item.icon">
-          <v-btn class="rounded-pill" color="white" depressed height="32" min-width="32" width="32" text
-                 :aria-label="item.title" @click="index = i">
+        <component :is="item.component" v-else :icon="item.icon">
+          <v-btn :aria-label="item.title" class="rounded-pill" color="white" depressed height="32" min-width="32" text
+                 width="32" @click="index = i">
             <v-icon>mdi-{{ item.icon }}</v-icon>
           </v-btn>
         </component>
 
-        <span class="pt-1 white--text menu-subtitle" :class="item.index === index ? 'd-none' : ''">
+        <span :class="item.index === index ? 'd-none' : ''" class="pt-1 white--text menu-subtitle">
           {{ item.title }}
         </span>
       </div>
     </v-btn-toggle>
-
   </v-row>
 </template>
-
 
 <script>
 import MoreButton from "./moreButton";
