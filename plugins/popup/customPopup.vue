@@ -1,6 +1,7 @@
 <template>
   <v-dialog v-model="dialog" :hide-overlay="hideOverlay" :max-width="maxWidth" :persistent="persistent"
-            :scrollable="scrollable" :transition="transition" content-class="popup-content" @close="$emit('close')">
+            :scrollable="scrollable" :transition="transition" content-class="popup-content" v-bind="$attrs"
+            @close="$emit('close')">
     <template v-if="$slots.activator" v-slot:activator="{ on, attrs }">
       <div class="d-inline-block" v-bind="attrs" v-on="on">
         <slot name="activator"/>
