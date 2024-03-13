@@ -57,7 +57,7 @@
               </h3>
               <v-list>
                 <v-list-item v-for="(child, j) in menu.children" :key="j" :to="`/${child.slug}`" class="menu-link px-4"
-                             light style="min-height: 32px">
+                             exact light style="min-height: 32px">
                   <v-list-item-icon class="my-3" style="margin-left: 16px">
                     <v-icon color="grey">mdi-circle-small</v-icon>
                   </v-list-item-icon>
