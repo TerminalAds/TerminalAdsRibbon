@@ -51,12 +51,11 @@
       <p v-if="gateways == undefined" class="my-10">{{ $t('WALLET.noGateWay') }}</p>
 
       <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" borderless mandatory>
-        <v-btn v-for="gate in gateways" :key="gate.id"
-               :class="['py-2' , {'activeGateWay' : data.gateway.id === gate.id}]"
-               :value="gate" class="mx-2" height="fit-content" style="background-color: white">
+        <v-btn v-for="gate in gateways" :key="gate.id" :class="{'activeGateWay' : data.gateway.id === gate.id}"
+               :value="gate" class="mx-2 py-2" height="fit-content" style="background-color: white">
 
           <div v-if="getGateWayImage(gate.driver)">
-            <v-img :src="getGateWayImage(gate.driver)" class="my-2" contain height="5rem" width="5rem"/>
+            <v-img :src="getGateWayImage(gate.driver)" class="my-2 mx-auto" contain height="5rem" width="5rem"/>
             <div class="pa-1 text-center">{{ gate.name }}</div>
           </div>
 
@@ -72,6 +71,8 @@
       </div>
     </div>
 
+    <increase-in-app v-model="showInApp" :info="data"/>
+
     <div class="my-4 d-flex flex-row-reverse">
       <v-btn :disabled="!isValidData" block class="btn-payment" depressed @click="payment">
         <v-icon class="ml-2">fa-credit-card</v-icon>
@@ -85,9 +86,10 @@
 import {mapActions} from 'vuex'
 import priceInput from "../../pages/pickers/priceInput";
 import {SemipolarSpinner} from 'epic-spinners'
+import IncreaseInApp from "./increaseInApp.vue";
 
 export default {
-  components: {priceInput, SemipolarSpinner},
+  components: {IncreaseInApp, priceInput, SemipolarSpinner},
 
   name: "increaseTransactions",
 
@@ -158,7 +160,8 @@ export default {
       gateObj: {
         zarinpal: {img: 'media/gateways/zarinpal.png', name: 'زرین پال'},
         bazar: {img: 'media/gateways/directPay.svg', name: 'پرداخت آزاد'}
-      }
+      },
+      showInApp: false
     }
   },
 
@@ -230,6 +233,9 @@ export default {
       if (this.data.gateway.driver === 'bazar') {
         this.payBazar()
         return
+      } else if (this.data.gateway.driver === 'top') {
+        this.showInApp = true
+        return
       }
 
       this.loading = true;
@@ -270,15 +276,14 @@ export default {
       switch (gatewayDriver) {
         case "zarinpal":
           return "media/gateways/zarinpal.png";
-
         case "bazar":
           return "media/gateways/directPay.svg";
-
         case "parsian":
           return "media/gateways/parsian.png";
-
         case "mellat":
           return "media/gateways/mellat.png";
+        case "top":
+          return require('../../assets/img/gateways/inAppPayment.png')
       }
       return false;
     },
