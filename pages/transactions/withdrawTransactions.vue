@@ -114,6 +114,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import PriceInput from "../pickers/priceInput";
 import CustomPopup from "../../plugins/popup/customPopup";
+import {banks} from "../../assets/js/banksInfo";
 
 export default {
   name: "withdrawTransactions",
@@ -147,200 +148,7 @@ export default {
 
   mounted() {
     this.fetch()
-    this.banksInfo = [
-      {
-        "text": "اقتصاد نوین",
-        "value": "eghtesad novin",
-        "prefix": ["627412"],
-        "icon": require('../../assets/img/banks/eghtesad-novin.png')
-      },
-      {
-        "text": "انصار",
-        "value": "ansar",
-        "prefix": ["627381"],
-        "icon": require('../../assets/img/banks/ansar.png')
-      },
-      {
-        "text": "ایران زمین",
-        "value": "iran-zamin",
-        "prefix": ["505785"],
-        "icon": require('../../assets/img/banks/iran-zamin.png')
-      },
-      {
-        "text": "پارسیان",
-        "value": "parsian",
-        "prefix": ["622106", "639194", "627884"],
-        "icon": require('../../assets/img/banks/parsian.png')
-      },
-      {
-        "text": "پاسارگاد",
-        "value": "pasargad",
-        "prefix": ["639347", "502229"],
-        "icon": require('../../assets/img/banks/pasargad.png')
-      },
-      {
-        "text": "تات",
-        "value": "tat",
-        "prefix": ["636214"],
-        "icon": require('../../assets/img/banks/tat.png')
-      },
-      {
-        "text": "تجارت",
-        "value": "tejarat",
-        "prefix": ["627353"],
-        "icon": require('../../assets/img/banks/tejarat.png')
-      },
-      {
-        "text": "توسعه تعاون",
-        "value": "tosee-taavon",
-        "prefix": ["502908"],
-        "icon": require('../../assets/img/banks/taavon.png')
-      },
-      {
-        "text": "توسعه صادرات ایران",
-        "value": "tosee-saderat",
-        "prefix": ["627648", "207177"],
-        "icon": ''
-      },
-      {
-        "text": "حکمت ایرانیان",
-        "value": "hekmat-iraniyan",
-        "prefix": ["636949"],
-        "icon": require('../../assets/img/banks/hekmat.png')
-      },
-      {
-        "text": "دی",
-        "value": "dey",
-        "prefix": ["502938"],
-        "icon": require('../../assets/img/banks/dey.png')
-      },
-      {
-        "text": "رفاه کارگران",
-        "value": "refah-kargar",
-        "prefix": ["589463"],
-        "icon": require('../../assets/img/banks/refah.png')
-      },
-      {
-        "text": "سامان",
-        "value": "saman",
-        "prefix": ["621986"],
-        "icon": require('../../assets/img/banks/saman.png')
-      },
-      {
-        "text": "سپه",
-        "value": "sepah",
-        "prefix": ["589210"],
-        "icon": require('../../assets/img/banks/sepah.png')
-      },
-      {
-        "text": "سرمایه",
-        "value": "sarmayeh",
-        "prefix": ["639607"],
-        "icon": require('../../assets/img/banks/sarmayeh.png')
-      },
-      {
-        "text": "سینا",
-        "value": "sina",
-        "prefix": ["639346"],
-        "icon": require('../../assets/img/banks/sina.png')
-      },
-      {
-        "text": "شهر",
-        "value": "shahr",
-        "prefix": ["502806"],
-        "icon": require('../../assets/img/banks/shahr.png')
-      },
-      {
-        "text": "صادرات ایران",
-        "value": "saderat-iran",
-        "prefix": ["603769"],
-        "icon": require('../../assets/img/banks/saderat.png')
-      },
-      {
-        "text": "صنعت و معدن",
-        "value": "sanat-madan",
-        "prefix": ["627961"],
-        "icon": require('../../assets/img/banks/sanat-madan.png')
-      },
-      {
-        "text": "قرض الحسنه مهر ایران",
-        "value": "ghorze-alhasane-mehr-iran",
-        "prefix": ["606373"],
-        "icon": require('../../assets/img/banks/mehre-iran.png')
-      },
-      {
-        "text": "قوامین",
-        "value": "ghavamin",
-        "prefix": ["639599"],
-        "icon": require('../../assets/img/banks/ghavamin.png')
-      },
-      {
-        "text": "کارآفرین",
-        "value": "karaafarin",
-        "prefix": ["627488", "502910"],
-        "icon": require('../../assets/img/banks/karafarin.png')
-      },
-      {
-        "text": "کشاورزی",
-        "value": "keshavarzi",
-        "prefix": ["603770", "639217"],
-        "icon": require('../../assets/img/banks/keshavarzi.png')
-      },
-      {
-        "text": "گردشگری",
-        "value": "gardeshgari",
-        "prefix": ["505416"],
-        "icon": require('../../assets/img/banks/gardeshgari.png')
-      },
-      {
-        "text": "مرکزی",
-        "value": "markazi",
-        "prefix": ["636795"],
-        "icon": require('../../assets/img/banks/markazi.png')
-      },
-      {
-        "text": "مسکن",
-        "value": "maskan",
-        "prefix": ["628023"],
-        "icon": require('../../assets/img/banks/maskan.png')
-      },
-      {
-        "text": "ملت",
-        "value": "melat",
-        "prefix": ["610433", "991975"],
-        "icon": require('../../assets/img/banks/mellat.png')
-      },
-      {
-        "text": "ملی",
-        "value": "melli-iran",
-        "prefix": ["603799"],
-        "icon": require('../../assets/img/banks/melli.png')
-      },
-      {
-        "text": "مهر اقتصاد",
-        "value": "mehr-eghtesad",
-        "prefix": ["639370"],
-        "icon": require('../../assets/img/banks/mehre-eghtesad.png')
-      },
-      {
-        "text": "پست بانک ایران",
-        "value": "post-bank-iran",
-        "prefix": ["627760"],
-        "icon": ""
-      },
-      {
-        "text": "موسسه اعتباری توسعه",
-        "value": "etebari-tosee",
-        "prefix": ["628157"],
-        "icon": ""
-      },
-      {
-        "text": "موسسه اعتباری کوثر",
-        "value": "etebari-kosar",
-        "prefix": ["505801"],
-        "icon": require('../../assets/img/banks/kosar.png')
-      }
-    ]
+    this.banksInfo = banks
   },
 
   computed: {
@@ -373,8 +181,7 @@ export default {
       else
         str = this.accounts?.find(item => item.id === this.selectedAccount)?.cardNumber
 
-      return arr.find(item =>
-          item.prefix.includes(str?.substring(0, 6)))
+      return arr.findPrefix(str)
     }
   },
 
