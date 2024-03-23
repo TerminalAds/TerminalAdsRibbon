@@ -41,11 +41,11 @@
     </div>
 
     <v-card class="rounded-t-xl card-data-wrapper mt-8" elevation="5">
-      <div class="timer">
-        08:23
-      </div>
+      <!--      <div class="timer">-->
+      <!--        08:23-->
+      <!--      </div>-->
 
-      <v-card-text>
+      <v-card-text class="pb-0">
         <v-text-field :rules="[rules.cardNumber]" :value="data.PAN | displayPanFilter" autocomplete="off" autofocus
                       class="rounded-lg" color="info" label="شماره کارت" maxlength="19" outlined tabindex="1"
                       @input="updateValue($event)">
@@ -54,19 +54,10 @@
           </template>
         </v-text-field>
 
-        <v-text-field v-model="data.Pin2" autocomplete="new-password" class="rounded-lg rtl" color="info"
-                      label="رمز دوم" outlined tabindex="2" type="password">
-          <template v-slot:append>
-            <v-btn class="rounded-lg" color="info" depressed>
-              دریافت رمز دوم
-            </v-btn>
-          </template>
-        </v-text-field>
-
-        <v-row class="expire-wrapper position-relative" no-gutters>
+        <v-row class="expire-wrapper position-relative mb-8" no-gutters>
           <v-col class="pe-md-1" cols="12" md="6">
             <v-text-field v-model="data.CV" :rules="[rules.cv]" class="rounded-lg" color="info" hide-details
-                          label="CVV2" outlined tabindex="3" type="password"/>
+                          label="CVV2" outlined tabindex="2" type="password"/>
           </v-col>
 
           <v-col class="ps-md-1" cols="12" md="6">
@@ -76,21 +67,34 @@
                             else if(Number(this.value) < Number(this.min)) this.value = this.min;
                             if (this.value.length === 1) this.value = `0${this.value}`;
                             else if (this.value.length > 2) this.value = this.value.substring(1)"
-                            placeholder="ماه" tabindex="4" type="number"/>
+                            placeholder="ماه" tabindex="3" type="number"/>
               <v-divider class="align-self-center" style="height: 70%;min-height: 80%" vertical/>
               <v-text-field v-model="data.ExpY" class="mx-2" color="info" dense hide-details max="50" min="0"
                             oninput="if(Number(this.value) > Number(this.max))
                               this.value = this.max;
                             else if(Number(this.value) < Number(this.min))
                               this.value = this.min;"
-                            placeholder="سال" tabindex="5" type="number"/>
+                            placeholder="سال" tabindex="4" type="number"/>
             </v-card>
           </v-col>
         </v-row>
+
+        <v-text-field v-model="data.Pin2" autocomplete="new-password" class="rounded-lg rtl" color="info"
+                      label="رمز دوم" outlined tabindex="5" type="password">
+          <template v-slot:append>
+            <v-btn :loading="loading" class="rounded-lg" color="info" depressed tabindex="6" @click="getOtp">
+              <template v-if="!otpCounter && !otpTimer">
+                دریافت رمز دوم
+              </template>
+              <span v-else style="direction: ltr" v-text="computedOtpCounter"/>
+            </v-btn>
+          </template>
+        </v-text-field>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn block class="rounded-lg" color="info" depressed tabindex="6">
+        <v-btn :disabled="!canMore" :loading="loading" block class="rounded-lg" color="info" depressed tabindex="6"
+               @click="getPublicKey">
           پرداخت
         </v-btn>
       </v-card-actions>
@@ -99,8 +103,10 @@
 </template>
 
 <script>
+import crypto from "jsencrypt";
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import {banks} from "../../assets/js/banksInfo";
+
 
 export default {
   name: "increaseInApp",
@@ -128,6 +134,9 @@ export default {
         ExpM: '',
         ExpY: ''
       },
+      otpCounter: 0,
+      otpTimer: undefined,
+      loading: false,
       rules: {
         cardNumber: v => !!v.trim() && v?.replace(/ /g, '').length === 16 || 'شماره کارت صحیح نمی باشد',
         cv: v => !!v && v.length >= 3 && v.length <= 4 || 'رمز CVV2 صحیح نیست',
@@ -137,9 +146,6 @@ export default {
 
   mounted() {
     this.banksInfo = banks
-
-    this.$DashboardAxios.post('/api/top/key')
-        .then(({data}) => console.log('data top: ', data))
   },
 
   computed: {
@@ -151,11 +157,22 @@ export default {
         this.$emit('input', val)
       }
     },
+    canMore() {
+      return typeof this.rules.cardNumber(this.data.PAN) === 'boolean'
+          && typeof this.rules.cv(this.data.CV) === 'boolean'
+          && !!this.data.Pin2
+          && !!this.data.ExpM && !!this.data.ExpY
+    },
     banksPrefix() {
       return this.banksInfo.findPrefix(this.data.PAN?.replace(/ /g, '') ?? '')
     },
     getCardBg() {
       return `background: url(${require('../../assets/img/line_pattern.png')}) ${!!this.banksPrefix ? this.banksPrefix.color : 'blue'};`
+    },
+    computedOtpCounter() {
+      let sec = ~~(this.otpCounter % 60)
+      let min = ~~(this.otpCounter / 60)
+      return `${min.toString().padStart(2, '0')} : ${sec.toString().padStart(2, '0')}`
     }
   },
 
@@ -165,6 +182,67 @@ export default {
     },
     updateValue(e) {
       this.data.PAN = e.replace(/ /g, '');
+    },
+    getOtp() {
+      if (!this.data.PAN || typeof this.rules.cardNumber(this.data.PAN) !== 'boolean')
+        return this.$toast.error('شماره کارت صحبح وارد نمایید')
+
+      this.loading = true
+
+      this.$DashboardAxios.post('/api/top/cart/otp', {
+        pan: this.data.PAN,
+        amount: Number(this.info.price)
+      })
+          .then(({data}) => {
+            console.log('data top: ', data);
+            this.data.Pin2 = ''
+            this.startOtpTimer()
+          })
+          .catch(({response}) => console.log('error in get cart otp: ', response))
+          .finally(() => this.loading = false)
+    },
+    startOtpTimer() {
+      let countdown = 120
+
+      this.otpTimer = setInterval(() => {
+        countdown--
+
+        if (countdown <= 0) {
+          clearInterval(this.otpTimer);
+          this.otpTimer = undefined
+        }
+
+        this.otpCounter = countdown
+      }, 1000)
+    },
+    getPublicKey() {
+      this.loading = true
+
+      this.$DashboardAxios.post('/api/top/key')
+          .then(({data}) => this.charge(data.key))
+          .catch(({response}) => {
+            this.loading = false
+            console.log('error in get public key: ', response)
+          })
+    },
+    charge(key) {
+      this.loading = true
+
+      const data = this.data
+      const dcrptkeycode = new crypto();
+      dcrptkeycode.setPublicKey(key)
+
+      this.$DashboardAxios.post('/api/top/charge',
+          {
+            data: dcrptkeycode.encrypt(JSON.stringify(data)),
+            amount: Number(this.info.price)
+          })
+          .then(({data}) => {
+            console.log('charge: ', data);
+            this.computedValue = false
+          })
+          .catch(({response}) => console.log('error in charge operation: ', response))
+          .finally(() => this.loading = false)
     }
   }
 }
