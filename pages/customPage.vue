@@ -86,7 +86,7 @@ export default {
 
   mounted() {
     this.project_title = document.title.split(" -")[0];
-    this.allTutorials()
+    // this.allTutorials()
   },
 
   computed: {
