@@ -1,7 +1,6 @@
 <template>
-  <v-dialog v-model="dialog" :hide-overlay="hideOverlay" :max-width="maxWidth" :persistent="persistent"
-            :scrollable="scrollable" :transition="transition" content-class="popup-content" v-bind="$attrs"
-            @close="$emit('close')">
+  <v-dialog v-model="computedValue" :hide-overlay="hideOverlay" :max-width="maxWidth" :persistent="persistent"
+            :scrollable="scrollable" :transition="transition" content-class="popup-content" v-bind="$attrs">
     <template v-if="$slots.activator" v-slot:activator="{ on, attrs }">
       <div class="d-inline-block" v-bind="attrs" v-on="on">
         <slot name="activator"/>
@@ -31,7 +30,7 @@
         </v-btn>
 
         <v-btn v-if="!hideClose" class="ms-2 px-0 text-danger" color="#fcc1c7" depressed min-width="36"
-               title="بستن" @click="closeDialog">
+               title="بستن" @click="computedValue = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -85,27 +84,25 @@ export default {
     persistent: Boolean
   },
 
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
-
   data: () => ({
-    dialog: false,
     rerender: true,
     cardHeight: null,
     showLoading: false,
   }),
 
+  computed: {
+    computedValue: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('close')
+        this.$emit('input', val)
+      }
+    }
+  },
+
   watch: {
-    value: function (val) {
-      this.dialog = val
-    },
-    dialog: function (val) {
-      // if (!val) {
-      this.$emit('input', val);
-      // }
-    },
     loading(val) {
       this.showLoading = val
     },
@@ -125,7 +122,7 @@ export default {
         this.showLoading = false
       }
       if (type !== 'close' && this.closeOnConfirm)
-        this.closeDialog()
+        this.computedValue = false
     },
     getDisabled(type) {
       if (this.cons.buttons && this.cons.buttons.length > 0) {
@@ -144,10 +141,6 @@ export default {
           this.$emit('on-reload')
         }, 1000)
       })
-    },
-    closeDialog() {
-      this.onHandler('close')
-      this.dialog = false
     }
   }
 }
