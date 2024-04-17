@@ -50,9 +50,10 @@
 
       <p v-if="gateways == undefined" class="my-10">{{ $t('WALLET.noGateWay') }}</p>
 
-      <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" borderless mandatory>
+      <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" :mandatory="gateways.length === 1">
         <v-btn v-for="gate in gateways" :key="gate.id" :class="{'activeGateWay' : data.gateway.id === gate.id}"
-               :value="gate" class="mx-2 py-2" height="fit-content" style="background-color: white">
+               :style="{borderWidth: data.gateway.id !== gate.id ? 'thin !important' : ''}" :value="gate"
+               class="mx-2 py-2 rounded-lg" height="fit-content" outlined style="background-color: aliceblue">
 
           <div v-if="getGateWayImage(gate.driver)">
             <v-img :src="getGateWayImage(gate.driver)" class="my-2 mx-auto" contain height="5rem" width="5rem"/>
@@ -171,7 +172,10 @@ export default {
 
   computed: {
     isValidData() {
-      return !!(this.gateways ? this.gateways.length : false) && this.data.price && this.isValidPrice(this.min, this.max)
+      return !!(this.gateways ? this.gateways.length : false)
+          && this.data.price
+          && this.isValidPrice(this.min, this.max)
+          && !!this.data.gateway && !!Object.keys(this.data.gateway).length
     }
   },
 
