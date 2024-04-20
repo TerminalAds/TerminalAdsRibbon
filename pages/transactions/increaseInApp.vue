@@ -46,9 +46,11 @@
       <!--      </div>-->
 
       <v-card-text class="pb-0">
-        <v-text-field :rules="[rules.cardNumber]" :value="data.PAN | displayPanFilter" autocomplete="off" autofocus
-                      class="rounded-lg" color="info" label="شماره کارت" maxlength="19" outlined tabindex="1"
-                      @input="updateValue($event)">
+        <v-text-field :value="data.PAN | displayPanFilter" autocomplete="off" autofocus class="rounded-lg" color="info"
+                      label="شماره کارت" maxlength="19"
+                      onkeyup="if (this.value.replace(/ /g, '').length >= 16)
+                        document.getElementById('cvv2').focus()"
+                      outlined tabindex="1" @input="updateValue($event)">
           <template v-slot:append>
             <v-img :src="!!banksPrefix ? banksPrefix.icon : ''" contain min-width="32" width="32"/>
           </template>
@@ -56,33 +58,35 @@
 
         <v-row class="expire-wrapper position-relative mb-8" no-gutters>
           <v-col class="pe-md-1" cols="12" md="6">
-            <v-text-field v-model="data.CV" :rules="[rules.cv]" class="rounded-lg" color="info" hide-details
-                          label="CVV2" outlined tabindex="2" type="password"/>
+            <v-text-field id="cvv2" v-model="data.CV" :rules="[rules.cv]" class="rounded-lg" color="info" hide-details
+                          label="CVV2" oninput="if (this.value.length >= 4) this.preventDefault()"
+                          onkeyup="if (this.value.length >= 4)
+                            document.getElementById('month').focus()" outlined tabindex="2" type="password"/>
           </v-col>
 
           <v-col class="ps-md-1" cols="12" md="6">
             <v-card class="rounded-lg d-flex flex-nowrap align-center fill-height expire-card" outlined>
-              <v-text-field v-model="data.ExpM" class="mx-2" color="info" dense hide-details max="12" min="0"
-                            oninput="if(Number(this.value) > Number(this.max)) this.value = this.max;
-                            else if(Number(this.value) < Number(this.min)) this.value = this.min;
-                            if (this.value.length === 1) this.value = `0${this.value}`;
-                            else if (this.value.length > 2) this.value = this.value.substring(1)"
-                            placeholder="ماه" tabindex="3" type="number"/>
+              <v-text-field id="month" v-model="data.ExpM" class="mx-2" color="info" dense hide-details max="12" min="0"
+                            oninput="if (Number(this.value) > Number(this.max)) this.value = this.max;
+                            else if (this.value < 0) this.value = 0"
+                            onkeyup="if (this.value.length >= 2)
+                              document.getElementById('year').focus()" placeholder="ماه" tabindex="3"
+                            type="number"/>
               <v-divider class="align-self-center" style="height: 70%;min-height: 80%" vertical/>
-              <v-text-field v-model="data.ExpY" class="mx-2" color="info" dense hide-details max="50" min="0"
-                            oninput="if(Number(this.value) > Number(this.max))
-                              this.value = this.max;
-                            else if(Number(this.value) < Number(this.min))
-                              this.value = this.min;"
-                            placeholder="سال" tabindex="4" type="number"/>
+              <v-text-field id="year" v-model="data.ExpY" class="mx-2" color="info" dense hide-details max="99" min="0"
+                            oninput="if (Number(this.value) > Number(this.max)) this.value = this.max;
+                            else if (this.value < 0) this.value = 0"
+                            onkeyup="if (this.value.length >= 2)
+                              document.getElementById('pin2').focus()" placeholder="سال" tabindex="4" type="number"/>
             </v-card>
           </v-col>
         </v-row>
 
-        <v-text-field v-model="data.Pin2" autocomplete="new-password" class="rounded-lg rtl" color="info"
-                      label="رمز دوم" outlined tabindex="5" type="password">
+        <v-text-field id="pin2" v-model="data.Pin2" autocomplete="new-password" class="rounded-lg rtl"
+                      color="info" label="رمز دوم" outlined tabindex="5" type="password">
           <template v-slot:append>
-            <v-btn :loading="loading" class="rounded-lg" color="info" depressed tabindex="6" @click="getOtp">
+            <v-btn :disabled="!canGetOtp || (!!otpCounter && !!otpTimer)" :loading="loading" class="rounded-lg"
+                   color="info" depressed tabindex="6" @click="getOtp">
               <template v-if="!otpCounter && !otpTimer">
                 دریافت رمز دوم
               </template>
@@ -107,6 +111,11 @@ import crypto from "jsencrypt";
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import {banks} from "../../assets/js/banksInfo";
 
+function moveToNext(e, id, len) {
+  if (e.value.replace(/ /g, '').length >= len) {
+    document.getElementById(id).focus()
+  }
+}
 
 export default {
   name: "increaseInApp",
@@ -157,11 +166,17 @@ export default {
         this.$emit('input', val)
       }
     },
-    canMore() {
-      return typeof this.rules.cardNumber(this.data.PAN) === 'boolean'
+    canGetOtp() {
+      return this.data.PAN.length === 16
           && typeof this.rules.cv(this.data.CV) === 'boolean'
-          && !!this.data.Pin2
-          && !!this.data.ExpM && !!this.data.ExpY
+          && !!this.data.ExpM && !!this.data.ExpY && this.data.ExpM.length === 2 && this.data.ExpY.length === 2
+
+    },
+    canMore() {
+      return this.data.PAN.length === 16
+          && typeof this.rules.cv(this.data.CV) === 'boolean'
+          && !!this.data.ExpM && !!this.data.ExpY && this.data.ExpM.length === 2 && this.data.ExpY.length === 2
+          && !!this.data.Pin2 && this.data.Pin2.length >= 4
     },
     banksPrefix() {
       return this.banksInfo.findPrefix(this.data.PAN?.replace(/ /g, '') ?? '')
@@ -186,6 +201,10 @@ export default {
     getOtp() {
       if (!this.data.PAN || typeof this.rules.cardNumber(this.data.PAN) !== 'boolean')
         return this.$toast.error('شماره کارت صحبح وارد نمایید')
+      else if (this.data.CV.length < 3 || this.data.CV.length > 4)
+        return this.$toast.error('لطفا cvv2 را صحیح وارد نمایید')
+      else if (this.data.ExpM.length < 2 || this.data.ExpY.length < 2)
+        return this.$toast.error('لطفا ماه و سال را به صورت دو رقمی وارد نمایید')
 
       this.loading = true
 
@@ -219,7 +238,7 @@ export default {
       this.loading = true
 
       this.$DashboardAxios.post('/api/top/key')
-          .then(({data}) => this.charge(data.key))
+          .then(({data}) => this.charge(data.data.key))
           .catch(({response}) => {
             this.loading = false
             console.log('error in get public key: ', response)
