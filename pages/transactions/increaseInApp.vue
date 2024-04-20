@@ -111,12 +111,6 @@ import crypto from "jsencrypt";
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import {banks} from "../../assets/js/banksInfo";
 
-function moveToNext(e, id, len) {
-  if (e.value.replace(/ /g, '').length >= len) {
-    document.getElementById(id).focus()
-  }
-}
-
 export default {
   name: "increaseInApp",
 
