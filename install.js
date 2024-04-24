@@ -33,6 +33,7 @@ export default {
             }),
             beforeMount() {
                 if (!getToken()) {
+                    console.log('before mount: ', this.setToken())
                     if (!this.setToken()) {
                         this.$DashboardAxios.delete('/api/core/logout')
                             .then(({data}) => console.log('logout: ', data))
@@ -121,9 +122,11 @@ export default {
                     let dataToken = url.split('=')[1];
                     if (dataToken) {
                         saveToken(dataToken);
+                        console.log('token set: ', dataToken)
                         // this.$store.commit('isAuthenticated', true);
                         let fullUrl = document.URL;
-                        return window.history.pushState('dashboard', 'Title', '/' + fullUrl.substr(end));
+                        window.history.pushState('dashboard', 'Title', '/' + fullUrl.substr(end))
+                        return true;
                     }
                     return false
                 }
