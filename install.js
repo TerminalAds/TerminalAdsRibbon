@@ -4,6 +4,7 @@ import store from "./store";
 import money from './Mony.json';
 import VueOffline from 'vue-offline'
 import modal from './plugins/EasyModal/index'
+import {destroyToken, getToken} from "./assets/js/jwt.service";
 
 export default {
     install(Vue, options) {
@@ -30,6 +31,17 @@ export default {
                 DConfigs: options.config(),
                 sid: options.sid
             }),
+            beforeCreate() {
+                if (!getToken()) {
+                    this.$DashboardAxios.delete('/api/core/logout')
+                        .then(({data}) => console.log('logout: ', data))
+                        .catch(({response}) => console.log('error in logout: ', response))
+                        .finally(() => {
+                            destroyToken()
+                        })
+
+                }
+            },
             methods: {
                 ...mapActions("ribbon", ["setWallet"]),
                 setSubTitle(title) {

@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "vuetify": "^2.4.9",
     "epic-spinners": "^1.1.0",
+    "jsencrypt": "^3.3.2",
     "vue-offline": "^2.0.8"
   }
 }

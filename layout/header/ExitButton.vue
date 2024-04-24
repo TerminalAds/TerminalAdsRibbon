@@ -1,22 +1,27 @@
 <template>
   <div class="exit-button">
-    <v-btn app text @click="onLogout"
-           :icon="$vuetify.breakpoint.smAndDown"
-           :dark="$vuetify.breakpoint.mdAndUp">
+    <v-btn :dark="$vuetify.breakpoint.mdAndUp" :icon="$vuetify.breakpoint.smAndDown" app
+           text
+           @click="onLogout">
       <v-icon size="25">mdi-power</v-icon>
     </v-btn>
   </div>
 </template>
 <script>
 
+import {destroyToken} from "../../assets/js/jwt.service";
+
 export default {
   name: "KTExitButton",
 
   methods: {
     onLogout() {
-      localStorage.removeItem('id_token');
-      localStorage.removeItem('reloaded');
-      window.location.replace(process.env.VUE_APP_LOGIN_URL);
+      this.$DashboardAxios.delete('/api/core/logout')
+          .then(({data}) => console.log('logout: ', data))
+          .catch(({response}) => console.log('error in logout: ', response))
+          .finally(() => {
+            destroyToken()
+          })
     }
   }
 }

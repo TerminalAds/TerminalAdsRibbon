@@ -66,6 +66,7 @@ import CustomPopup from "./plugins/popup/customPopup";
 import Tutorials from "./pages/tutorials";
 import BottomMenuContainer from "./layout/bottomMenu/container";
 import RefreshPage from "./layout/header/refreshPage";
+import {destroyToken} from "./assets/js/jwt.service";
 
 !function () {
   var i = "7WvGxT", a = window, d = document;
@@ -309,6 +310,12 @@ export default {
             if (response.status !== 401) {
               this.setSectionStatus({field: 'user', status: false})
               this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000});
+              this.$DashboardAxios.delete('/api/core/logout')
+                  .then(({data}) => console.log('logout: ', data))
+                  .catch(({response}) => console.log('error in logout: ', response))
+                  .finally(() => {
+                    destroyToken()
+                  })
             }
           })
           .finally(() => {
