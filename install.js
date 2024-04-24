@@ -4,7 +4,7 @@ import store from "./store";
 import money from './Mony.json';
 import VueOffline from 'vue-offline'
 import modal from './plugins/EasyModal/index'
-import {destroyToken, getToken} from "./assets/js/jwt.service";
+import {destroyToken, getToken, saveToken} from "./assets/js/jwt.service";
 
 export default {
     install(Vue, options) {
@@ -31,15 +31,16 @@ export default {
                 DConfigs: options.config(),
                 sid: options.sid
             }),
-            beforeCreate() {
+            beforeMount() {
                 if (!getToken()) {
-                    this.$DashboardAxios.delete('/api/core/logout')
-                        .then(({data}) => console.log('logout: ', data))
-                        .catch(({response}) => console.log('error in logout: ', response))
-                        .finally(() => {
-                            destroyToken()
-                        })
-
+                    if (!this.setToken()) {
+                        this.$DashboardAxios.delete('/api/core/logout')
+                            .then(({data}) => console.log('logout: ', data))
+                            .catch(({response}) => console.log('error in logout: ', response))
+                            .finally(() => {
+                                destroyToken()
+                            })
+                    }
                 }
             },
             methods: {
@@ -111,6 +112,21 @@ export default {
                     }
                     return def;
                 },
+                setToken() {
+                    let url = window.location.href;
+                    const start = url.indexOf("?");
+                    const end = url.indexOf("#");
+                    url = url.substring(start, end);
+                    let token = url.split('=')[0];
+                    let dataToken = url.split('=')[1];
+                    if (dataToken) {
+                        saveToken(dataToken);
+                        // this.$store.commit('isAuthenticated', true);
+                        let fullUrl = document.URL;
+                        return window.history.pushState('dashboard', 'Title', '/' + fullUrl.substr(end));
+                    }
+                    return false
+                }
             }
         });
 
