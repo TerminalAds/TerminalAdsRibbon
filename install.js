@@ -31,19 +31,6 @@ export default {
                 DConfigs: options.config(),
                 sid: options.sid
             }),
-            beforeMount() {
-                if (!getToken()) {
-                    console.log('before mount: ', this.setToken())
-                    if (!this.setToken()) {
-                        this.$DashboardAxios.delete('/api/core/logout')
-                            .then(({data}) => console.log('logout: ', data))
-                            .catch(({response}) => console.log('error in logout: ', response))
-                            .finally(() => {
-                                destroyToken()
-                            })
-                    }
-                }
-            },
             methods: {
                 ...mapActions("ribbon", ["setWallet"]),
                 setSubTitle(title) {
@@ -124,9 +111,7 @@ export default {
                         saveToken(dataToken);
                         console.log('token set: ', dataToken)
                         // this.$store.commit('isAuthenticated', true);
-                        let fullUrl = document.URL;
-                        window.history.pushState('dashboard', 'Title', '/' + fullUrl.substr(end))
-                        return true;
+                        return document.URL.substr(end)
                     }
                     return false
                 }
