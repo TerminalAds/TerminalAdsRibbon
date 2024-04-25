@@ -28,11 +28,12 @@
                 {{ data.ExpM }}
                 <span v-show="!!data.ExpY || !!data.ExpM" class="mx-1">/</span>
                 {{ data.ExpY }}
+
               </b>
             </div>
 
             <div>
-              <b class="mx-1">{{ data.CV }}</b>
+              <b v-if="!!data.CV" class="mx-1">{{ data.CV.replace(/./g, '*') }}</b>
               :CVV2
             </div>
           </v-card-text>
@@ -97,7 +98,8 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn :disabled="!canMore" :loading="loading" block class="rounded-lg" color="info" depressed tabindex="6"
+        <v-btn :disabled="!canMore && false" :loading="loading" block class="rounded-lg" color="info" depressed
+               tabindex="6"
                @click="getPublicKey">
           پرداخت
         </v-btn>
@@ -244,15 +246,25 @@ export default {
       const data = this.data
       const dcrptkeycode = new crypto();
       dcrptkeycode.setPublicKey(key)
-
       this.$DashboardAxios.post('/api/top/charge',
           {
             data: dcrptkeycode.encrypt(JSON.stringify(data)),
             amount: Number(this.info.price)
           })
           .then(({data}) => {
-            console.log('charge: ', data);
+            if (!!data.data && data.data.Status === 200 && !!data.data.Message) {
+              this.$toast.success(data.data.Message)
+            } else if (!!data.data.Message) {
+              this.$toast.info(data.data.Message)
+            }
             this.computedValue = false
+            this.data = {
+              PAN: '',
+              CV: '',
+              Pin2: '',
+              ExpM: '',
+              ExpY: ''
+            }
           })
           .catch(({response}) => console.log('error in charge operation: ', response))
           .finally(() => this.loading = false)
