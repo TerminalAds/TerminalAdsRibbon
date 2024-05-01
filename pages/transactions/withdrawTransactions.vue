@@ -210,8 +210,11 @@ export default {
           .finally(() => this.loading = false)
     },
     addWithdraw() {
-      if (5000000 < Math.floor(this.inputBalance)) {
+      if (this.balance < Math.floor(this.inputBalance)) {
         this.$toast.error('موجودی کیف پول شما کافی نمی باشد!')
+        return
+      } else if (this.balance < Math.floor(this.inputBalance) + 50000) {
+        this.$toast.error('مبلغ درخواست برداشت با کسر ۵۰,۰۰۰ ریال کارمزد بیشتر از موجودی کیف پول میباشد!', {timeout: 5000})
         return
       }
 
