@@ -99,8 +99,7 @@
 
       <v-card-actions>
         <v-btn :disabled="!canMore && false" :loading="loading" block class="rounded-lg" color="info" depressed
-               tabindex="6"
-               @click="getPublicKey">
+               tabindex="6" @click="getPublicKey">
           پرداخت
         </v-btn>
       </v-card-actions>
