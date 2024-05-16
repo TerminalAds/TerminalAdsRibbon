@@ -250,6 +250,7 @@ export default {
       // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
       this.$DashboardAxios.post('https://api.terminalads.com/api/newWallet/charge', {
         amount: this.data.price,
+        gateway: ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver) ? this.data.gateway.driver : undefined,
         callbackUrl: window.location.href
       })
           .then(({data}) => {
