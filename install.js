@@ -4,7 +4,6 @@ import store from "./store";
 import money from './Mony.json';
 import VueOffline from 'vue-offline'
 import modal from './plugins/EasyModal/index'
-import {destroyToken, getToken, saveToken} from "./assets/js/jwt.service";
 
 export default {
     install(Vue, options) {

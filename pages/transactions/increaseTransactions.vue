@@ -48,7 +48,7 @@
 
     <div class=" d-flex justify-content-center rounded-lg pa-1 wallet-charge mt-3 py-3">
 
-      <p v-if="gateways == undefined" class="my-10">{{ $t('WALLET.noGateWay') }}</p>
+      <p v-if="!gateways" class="my-10">{{ $t('WALLET.noGateWay') }}</p>
 
       <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" :mandatory="gateways.length === 1">
         <v-btn v-for="gate in gateways" :key="gate.id" :class="{'activeGateWay' : data.gateway.id === gate.id}"
@@ -248,13 +248,18 @@ export default {
         return;
       }
       // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
-      this.$DashboardAxios.post('https://api.terminalads.com/api/newWallet/charge', {
+      // let backUrl = this.front_url + '/?token=' + localStorage.getItem('id_token') + '#/payment-callback-new'
+      let backUrl = this.front_url + '/#/payment-callback-new'
+      this.$DashboardAxios.post('/api/newWallet/charge', {
         amount: this.data.price,
-        gateway: ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver) ? this.data.gateway.driver : undefined,
-        callbackUrl: window.location.href
+        gateway: ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver)
+            ? this.data.gateway.driver
+            : undefined,
+        callbackUrl: backUrl
       })
           .then(({data}) => {
-            window.location.href = data.data.data.url.replace('sandbox.', '')
+            window.location.href = data.data.data.action
+            // window.location.href = data.data.data.url.replace('sandbox.', '')
             // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
           })
           .catch((e) => {
