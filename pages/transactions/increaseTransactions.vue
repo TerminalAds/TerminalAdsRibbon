@@ -75,7 +75,7 @@
     <increase-in-app v-model="showInApp" :info="data"/>
 
     <div class="my-4 d-flex flex-row-reverse">
-      <v-btn :disabled="!isValidData" block class="btn-payment" depressed @click="payment">
+      <v-btn :disabled="!isValidData" :loading="loading" block class="btn-payment" depressed @click="payment">
         <v-icon class="ml-2">fa-credit-card</v-icon>
         {{ $t('WALLET.Pay') }}
       </v-btn>
@@ -258,14 +258,18 @@ export default {
         callbackUrl: backUrl
       })
           .then(({data}) => {
-            window.location.href = data.data.data.action
+            // window.location.href = data.data.data.action
             // window.location.href = data.data.data.url.replace('sandbox.', '')
             // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
+            let a = document.createElement('a');
+            a.href = data.data.data.action
+            a.target = '_blank'
+            a.click()
           })
           .catch((e) => {
             this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
           })
-          .finally(() => this.loading = false)
+          .finally(() => this.loading = false);
     },
     payBazar() {
       if (this.data.price <= 100000)
