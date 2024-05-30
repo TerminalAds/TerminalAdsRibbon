@@ -1,8 +1,7 @@
 <template>
   <div>
     <v-tabs v-model="computedTabs" background-color="primary" class="rounded-lg custom-tabs" dark height="52"
-            hide-slider
-            show-arrows v-bind="$attrs" @change="$emit('change', $event)">
+            hide-slider show-arrows v-bind="$attrs" @change="$emit('change', $event)">
       <slot v-if="$slots.staticTabs" name="staticTabs"/>
 
       <template v-else>
@@ -11,7 +10,7 @@
           <div class="cornel-right"/>
           <slot name="tab" v-bind:tab="tab">
             <v-icon right>mdi-{{ tab.icon }}</v-icon>
-            <span>{{ tab.text }}</span>
+            <span class="font-weight-bold">{{ tab.text }}</span>
           </slot>
         </v-tab>
       </template>
