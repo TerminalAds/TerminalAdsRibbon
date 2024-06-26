@@ -136,9 +136,10 @@ export default {
       this.showLoading = true
       this.$nextTick(() => {
         this.rerender = true
+        this.$emit('on-reload')
+
         setTimeout(() => {
           this.showLoading = false
-          this.$emit('on-reload')
         }, 1000)
       })
     }
