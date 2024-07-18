@@ -173,9 +173,9 @@ export default {
   computed: {
     isValidData() {
       return !!(this.gateways ? this.gateways.length : false)
-          && this.data.price
-          && this.isValidPrice(this.min, this.max)
-          && !!this.data.gateway && !!Object.keys(this.data.gateway).length
+        && this.data.price
+        && this.isValidPrice(this.min, this.max)
+        && !!this.data.gateway && !!Object.keys(this.data.gateway).length
     }
   },
 
@@ -204,19 +204,19 @@ export default {
     },
     getGateways() {
       this.$DashboardAxios.get('/api/core/gateways')
-          .then(({data}) => {
-            if (data) {
-              this.gateways = data.data
-            } else {
-              this.gateways = undefined
-            }
-          })
-          .catch(({response}) => {
-            if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
-            else this.$toast.error('ناموفق');
-            this.errors = response.data.errors;
+        .then(({data}) => {
+          if (data) {
+            this.gateways = data.data
+          } else {
             this.gateways = undefined
-          })
+          }
+        })
+        .catch(({response}) => {
+          if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
+          else this.$toast.error('ناموفق');
+          this.errors = response.data.errors;
+          this.gateways = undefined
+        })
     },
     // redirectMelatGateway(link, RefId) {
     //   const form = document.createElement("form");
@@ -253,23 +253,23 @@ export default {
       this.$DashboardAxios.post('/api/newWallet/charge', {
         amount: this.data.price,
         gateway: ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver)
-            ? this.data.gateway.driver
-            : undefined,
+          ? this.data.gateway.driver
+          : undefined,
         callbackUrl: backUrl
       })
-          .then(({data}) => {
-            // window.location.href = data.data.data.action
-            // window.location.href = data.data.data.url.replace('sandbox.', '')
-            // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
-            let a = document.createElement('a');
-            a.href = data.data.data.action
-            a.target = '_blank'
-            a.click()
-          })
-          .catch((e) => {
-            this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
-          })
-          .finally(() => this.loading = false);
+        .then(({data}) => {
+          // window.location.href = data.data.data.action
+          // window.location.href = data.data.data.url.replace('sandbox.', '')
+          // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
+          let a = document.createElement('a');
+          a.href = data.data.data.action
+          a.target = '_blank'
+          a.click()
+        })
+        .catch((e) => {
+          this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
+        })
+        .finally(() => this.loading = false);
     },
     payBazar() {
       if (this.data.price <= 100000)
@@ -278,13 +278,13 @@ export default {
       this.loading = true
 
       this.$DashboardAxios.get(`https://robot-api.terminalads.com/api/user/bazar?amount=${this.data.price}`)
-          .then(({data}) => {
-            this.$toast.info('در صورت پرداخت موفق، 1 الی 3 دقیقه زمان لازم است تا کیف پول شما شارژ شود.', {timeout: 5000})
-            window.open(data.data.redirect, '_blank');
-            this.toggleWalletDialog(false);
-          })
-          .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
-          .finally(() => this.loading = false)
+        .then(({data}) => {
+          this.$toast.info('در صورت پرداخت موفق، 1 الی 3 دقیقه زمان لازم است تا کیف پول شما شارژ شود.', {timeout: 5000})
+          window.open(data.data.redirect, '_blank');
+          this.toggleWalletDialog(false);
+        })
+        .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
+        .finally(() => this.loading = false)
     },
     getGateWayImage(gatewayDriver) {
       switch (gatewayDriver) {
