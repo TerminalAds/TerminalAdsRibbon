@@ -11,6 +11,10 @@
       :single-expand="$attrs['single-expand']"
       :single-select="$attrs['single-select']"
       hide-default-footer>
+      <template v-for="slot in $slots" v-slot:[`slot`]>
+        <slot :name="slot"></slot>
+      </template>
+
       <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="{item}">
         <slot :item="item" :name="value">
           {{ item[value] }}
