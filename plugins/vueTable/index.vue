@@ -11,8 +11,8 @@
       :single-expand="$attrs['single-expand']"
       :single-select="$attrs['single-select']"
       hide-default-footer>
-      <template v-for="slot in $slots" v-slot:[`slot`]>
-        <slot :name="slot"></slot>
+      <template v-for="(slot, i) in $slots" v-slot:[i]>
+        <slot :name="i"></slot>
       </template>
 
       <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="{item}">
@@ -40,13 +40,12 @@
 </template>
 
 <script>
-
 import VueTablePagination from "../../components/vueTable/vueTablePagination.vue";
 
 export default {
   name: "index.vue",
-  components: {VueTablePagination},
 
+  components: {VueTablePagination},
 
   props: {
     value: [Array, Object],
@@ -59,7 +58,7 @@ export default {
     headers: Array,
     perPageItems: {
       type: Array,
-      default: () => [10, 25, 50, 100, 300, 500, 700, 1000]
+      default: () => [10, 25, 50, 100, 300, 500, 700, 1000, 2500, 5000]
     },
     totalVisible: {
       type: Number,
@@ -71,6 +70,10 @@ export default {
     options: {},
     page: 1
   }),
+
+  mounted() {
+    console.log(this.$slots)
+  },
 
   computed: {
     computedValue: {
