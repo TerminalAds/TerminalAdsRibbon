@@ -3,16 +3,16 @@
     <v-data-table
       v-model="computedValue"
       :headers="headers"
-      :item-key="$attrs['item-key']"
       :items="data.data"
       :itemsPerPage="computedPerPage"
       :loading="loading"
-      :show-select="$attrs['show-select']"
-      :single-expand="$attrs['single-expand']"
-      :single-select="$attrs['single-select']"
-      hide-default-footer>
+      hide-default-footer
+      item-key="id"
+      selectable-key="id"
+      v-bind="$attrs"
+      v-on="$listeners">
       <template v-for="(slot, i) in $slots" v-slot:[i]>
-        <slot :name="i"></slot>
+        <slot :name="i"/>
       </template>
 
       <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="{item}">
@@ -63,18 +63,15 @@ export default {
     totalVisible: {
       type: Number,
       default: 5
+    },
+  },
+
+  data() {
+    return {
+      options: {},
+      page: 1,
     }
   },
-
-  data: () => ({
-    options: {},
-    page: 1
-  }),
-
-  mounted() {
-    console.log(this.$slots)
-  },
-
   computed: {
     computedValue: {
       get() {

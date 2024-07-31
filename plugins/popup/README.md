@@ -66,7 +66,7 @@ cons: {
 
 ---
 
-###Slots
+### Slots
 
 ```
 action    - The action buttons on the bottom of dialog
