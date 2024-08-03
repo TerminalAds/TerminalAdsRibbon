@@ -28,6 +28,10 @@
       </span>
       <v-spacer/>
       <v-icon v-if="wallet.icon != null && wallet.icon.length > 0" :dark="dark" v-text="wallet.icon"/>
+      <v-spacer/>
+      <v-btn icon small @click="$root.$emit('getWallet')">
+        <v-icon>mdi-reload</v-icon>
+      </v-btn>
     </div>
 
     <v-btn v-b-tooltip.passive="'برداشت از کیف پول'" class="price-walletButton px-0 min" color="#ff475a" dark depressed
@@ -54,7 +58,7 @@ import CustomPopup from "../../plugins/popup/customPopup";
 import WithdrawTransactions from "./withdrawTransactions";
 
 const exhale = ms =>
-    new Promise(resolve => setTimeout(resolve, ms))
+  new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
   name: "WalletOpenButton",
