@@ -29,8 +29,8 @@
       <v-spacer/>
       <v-icon v-if="wallet.icon != null && wallet.icon.length > 0" :dark="dark" v-text="wallet.icon"/>
       <v-spacer/>
-      <v-btn icon small @click="$root.$emit('getWallet')">
-        <v-icon>mdi-reload</v-icon>
+      <v-btn icon small @click.stop="$root.$emit('getWallet')">
+        <v-icon small>mdi-reload</v-icon>
       </v-btn>
     </div>
 
