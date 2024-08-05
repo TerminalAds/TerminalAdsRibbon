@@ -1,12 +1,12 @@
 <template>
   <div v-if="data && data.data">
-    <slot name="filters" v-bind="{perPage: perPageItems}"/>
+    <slot name="filters" v-bind="{perPage: perPageItems, props: tableProps}"/>
 
     <v-data-table
       v-model="computedValue"
       :headers="headers"
       :items="data.data"
-      :itemsPerPage="computedPerPage"
+      :itemsPerPage="tableProps.length"
       :loading="loading"
       hide-default-footer
       item-key="id"
@@ -26,11 +26,12 @@
 
     <v-divider/>
 
-    <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="page" :data="data" :totalVisible="5"
+    <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="tableProps.page" :data="data"
+                          :totalVisible="5"
                           @input="onPagination">
       <template v-slot:per-page>
         <v-select
-          v-model="computedPerPage"
+          v-model="tableProps.length"
           :items="perPageItems"
           :menu-props="{ offsetY: true }"
           class="ma-2 my-md-0"
@@ -54,10 +55,6 @@ export default {
   props: {
     value: [Array, Object],
     data: Object,
-    perPage: {
-      type: Number,
-      default: 10
-    },
     loading: Boolean,
     headers: Array,
     perPageItems: {
@@ -68,14 +65,22 @@ export default {
       type: Number,
       default: 5
     },
+    debounceDelay: {
+      type: Number,
+      default: 2000
+    }
   },
 
   data() {
     return {
       options: {},
-      page: 1,
+      tableProps: {
+        page: 1,
+        length: 10
+      }
     }
   },
+
   computed: {
     computedValue: {
       get() {
@@ -85,27 +90,34 @@ export default {
         this.$emit('input', val)
       }
     },
-    tableProps() {
-      return {
-        page: this.page,
-        length: this.perPage
-      }
-    },
-    computedPerPage: {
+    computedLoading: {
       get() {
-        return this.perPage
+        return this.loading
       },
       set(val) {
-        this.$emit('update:perPage', val)
+        this.$emit('update:loading', val)
+      }
+    }
+  },
+
+  watch: {
+    tableProps: {
+      deep: true,
+
+      handler(val) {
+        this.onPagination(true)
       }
     }
   },
 
   methods: {
-    onPagination(e) {
-      if (this.page === this.data?.current_page) return
+    onPagination(immediately = false) {
+      if (!immediately && this.tableProps.page === this.data?.current_page) return
 
-      this.$emit('change', this.tableProps)
+      this.computedLoading = true
+      this.debounce(() => {
+        this.$emit('change', this.tableProps)
+      }, this.debounceDelay)
       window.scrollTo({behavior: "smooth", top: 0, left: 0})
     }
   }

@@ -5,6 +5,8 @@ import money from './Mony.json';
 import VueOffline from 'vue-offline'
 import modal from './plugins/EasyModal/index'
 
+let timer = null;
+
 export default {
     install(Vue, options) {
         Vue.use(Vuex);
@@ -113,6 +115,11 @@ export default {
                         return document.URL.substr(end)
                     }
                     return false
+                },
+                debounce(fn, delay) {
+                    clearTimeout(timer);
+
+                    timer = setTimeout(fn, delay)
                 }
             }
         });
