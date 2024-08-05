@@ -5,7 +5,7 @@
       <slot v-if="$slots.staticTabs" name="staticTabs"/>
 
       <template v-else>
-        <v-tab v-for="(tab, i) in tabItems" :key="i" v-bind="getProps(i)">
+        <v-tab v-for="(tab, i) in tabItems" :key="i" v-bind="[getProps(i), tab.attrs]">
           <div class="cornel-left"/>
           <div class="cornel-right"/>
           <slot name="tab" v-bind:tab="tab">
