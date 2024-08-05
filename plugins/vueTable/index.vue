@@ -1,5 +1,7 @@
 <template>
   <div v-if="data && data.data">
+    <slot name="filters" v-bind="{perPage: perPageItems}"/>
+
     <v-data-table
       v-model="computedValue"
       :headers="headers"
@@ -21,6 +23,8 @@
         </slot>
       </template>
     </v-data-table>
+
+    <v-divider/>
 
     <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="page" :data="data" :totalVisible="5"
                           @input="onPagination">
