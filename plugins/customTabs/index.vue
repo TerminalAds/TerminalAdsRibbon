@@ -5,7 +5,7 @@
       <slot v-if="$slots.staticTabs" name="staticTabs"/>
 
       <template v-else>
-        <v-tab v-for="(tab, i) in tabItems" :key="i" v-bind="[getProps(i), tab.attrs]">
+        <v-tab v-for="(tab, i) in tabItems" :key="i" :disabled="getTabItemDisabled(tab)" v-bind="getProps(i)">
           <div class="cornel-left"/>
           <div class="cornel-right"/>
           <slot name="tab" v-bind:tab="tab">
@@ -85,6 +85,11 @@ export default {
       }
 
       return this[field]
+    },
+    getTabItemDisabled(tab) {
+      if (Object.hasOwn(tab, 'disabled'))
+        return typeof tab.disabled === 'boolean' ? tab.disabled : tab.disabled()
+      return false
     }
   }
 }
