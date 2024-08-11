@@ -114,6 +114,9 @@ export default {
     onPagination(immediately = false) {
       if (!immediately && this.tableProps.page === this.data?.current_page) return
 
+      if (this.tableProps.page === this.data?.current_page)
+        this.tableProps.page = 1
+
       this.computedLoading = true
       this.debounce(() => {
         this.$emit('change', this.tableProps)

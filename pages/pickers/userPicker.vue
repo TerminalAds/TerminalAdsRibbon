@@ -139,16 +139,15 @@ export default {
 
           this.userInfo = data;
 
-          this.tempSelection = this.value
-            .map(item => typeof item === 'object' && Object.hasOwn(item, 'id')
-              ? item
-              : ({id: item}))
+          this.tempSelection = this.value?.map(item => typeof item === 'object' && Object.hasOwn(item, 'id')
+            ? item
+            : ({id: item}))
         })
         .finally(() => this.loading = false)
     },
     confirm() {
       this.computedValue = !!this.returnKey
-        ? this.tempSelection.map(item => item.id)
+        ? this.tempSelection?.map(item => item.id)
         : this.tempSelection
 
       this.$nextTick(() => {
