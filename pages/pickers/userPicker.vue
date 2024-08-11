@@ -112,10 +112,9 @@ export default {
       }
     },
     displayValue() {
-      return this.value
-        .map(item => typeof item === 'object' && Object.hasOwn(item, 'id')
-          ? item.id
-          : item)
+      return this.value?.map(item => typeof item === 'object' && Object.hasOwn(item, 'id')
+        ? item.id
+        : item)
         .join(', ')
     }
   },
