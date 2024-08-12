@@ -10,6 +10,7 @@
       :itemsPerPage="tableProps.length"
       :loading="loading"
       :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
+      :no-results-text="$attrs['no-results-text'] || 'رکوردی یافت نشد!'"
       hide-default-footer
       item-key="id"
       selectable-key="id"
