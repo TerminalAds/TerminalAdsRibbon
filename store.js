@@ -18,6 +18,11 @@ export default {
             menus: true,
             user: true,
             wallet: true
+        },
+        autoReload: {
+            time: null,
+            timer: false,
+            route: ''
         }
     },
 
@@ -31,7 +36,9 @@ export default {
         walletDialog: state => state.walletDialog,
         withdrawDialog: state => state.withdrawDialog,
         DLoading: state => state.DLoading,
-        sectionStatus: state => state.sectionStatus
+        sectionStatus: state => state.sectionStatus,
+        hasTimer: state => state.autoReload.timer,
+        timerHasTime: state => !!state.autoReload.time
     },
 
     actions: {
@@ -62,6 +69,12 @@ export default {
         setSectionStatus({commit}, {field, status}) {
             commit('set_section_status', {field, status})
         },
+        setTimer({commit}, timer) {
+            commit('set_timer', timer)
+        },
+        stopTimer({commit}) {
+            commit('stop_timer')
+        }
     },
 
     mutations: {
@@ -89,6 +102,13 @@ export default {
         },
         set_section_status(state, {field, status}) {
             state.sectionStatus[field] = status
+        },
+        set_timer(state, timer) {
+            state.autoReload = timer
+        },
+        stop_timer(state) {
+            state.autoReload.route = null
+            state.autoReload.timer = false
         },
     }
 };

@@ -3,6 +3,7 @@
     <slot name="filters" v-bind="{perPage: perPageItems, props: tableProps}"/>
 
     <v-data-table
+      :ref="`table-${randRef}`"
       v-model="computedValue"
       :headers="headers"
       :items="data.data"
@@ -22,13 +23,16 @@
           {{ item[value] }}
         </slot>
       </template>
+
+      <template v-if="loading" v-slot:footer>
+        <v-progress-linear height="5" indeterminate/>
+      </template>
     </v-data-table>
 
     <v-divider/>
 
     <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="tableProps.page" :data="data"
-                          :totalVisible="5"
-                          @input="onPagination">
+                          :totalVisible="5" @input="onPagination">
       <template v-slot:per-page>
         <v-select
           v-model="tableProps.length"
@@ -77,8 +81,18 @@ export default {
       tableProps: {
         page: 1,
         length: 10
-      }
+      },
+      randRef: null
     }
+  },
+
+  created() {
+    this.randRef = Math.floor(Math.random() * (100 - 1) + 1)
+
+    // setTimeout(() => {
+    //   const el = this.$refs[`table-${this.randRef}`]
+    //   console.log(el.$el)
+    // }, 5000)
   },
 
   computed: {

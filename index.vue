@@ -73,7 +73,7 @@ import {destroyToken} from "./assets/js/jwt.service";
 
   function g() {
     var g = d.createElement("script"), s = "https://www.goftino.com/widget/" + i,
-        l = localStorage.getItem("goftino_" + i);
+      l = localStorage.getItem("goftino_" + i);
     g.async = !0, g.src = l ? s + "?o=" + l : s;
     d.getElementsByTagName("head")[0].appendChild(g);
   }
@@ -120,18 +120,18 @@ export default {
   beforeMount() {
     this.initLocalStorageValues()
     this.$instanceAxios.interceptors.response.use(
-        response => Promise.resolve(response),
-        error => {
-          this.handleResponse(error);
-          return Promise.reject(error)
-        }
+      response => Promise.resolve(response),
+      error => {
+        this.handleResponse(error);
+        return Promise.reject(error)
+      }
     )
     this.$DashboardAxios.interceptors.response.use(
-        response => Promise.resolve(response),
-        error => {
-          this.handleResponse(error);
-          return Promise.reject(error)
-        }
+      response => Promise.resolve(response),
+      error => {
+        this.handleResponse(error);
+        return Promise.reject(error)
+      }
     )
 
     this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
@@ -269,16 +269,16 @@ export default {
       // } else
       if (error.response.status === 403) {
         this.$modal.error(this.$t("ERRORS.NoAccess"),
-            this.$t("ERRORS.PleasebyeAPlane"),
-            undefined,
-            {
-              text: this.$t("BUTTONS.BuyAPlane"),
-              class: 'success w-100',
-              onClick: this.gotoPanel
-            },
-            [{
-              text: this.$t("BUTTONS.OK")
-            }])
+          this.$t("ERRORS.PleasebyeAPlane"),
+          undefined,
+          {
+            text: this.$t("BUTTONS.BuyAPlane"),
+            class: 'success w-100',
+            onClick: this.gotoPanel
+          },
+          [{
+            text: this.$t("BUTTONS.OK")
+          }])
       } else if (error.response.status === 402) {
         this.$modal.wallet(this.$t("ERRORS.NoAccountCharge"), this.$t("ERRORS.PleaseChargeYourAccount"), undefined, {
           text: this.$t("BUTTONS.AccountCharge"),
@@ -300,28 +300,28 @@ export default {
       this.toggleLoading({field: 'user', status: true})
 
       this.$DashboardAxios.get('/api/core')
-          .then(({data}) => {
-            this.setCore(data.data)
-            this.setWalletData(data.data.wallet)
-            this.setSectionStatus({field: 'user', status: true})
-            // this.fetchTuts()
-          })
-          .catch(({response}) => {
-            if (response.status !== 401) {
-              this.setSectionStatus({field: 'user', status: false})
-              this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000});
-              this.$DashboardAxios.delete('/api/core/logout')
-                  .then(({data}) => console.log('logout: ', data))
-                  .catch(({response}) => console.log('error in logout: ', response))
-                  .finally(() => {
-                    destroyToken()
-                  })
-            }
-          })
-          .finally(() => {
-            this.toggleLoading({field: 'user', status: false})
-            this.getNewWallet()
-          })
+        .then(({data}) => {
+          this.setCore(data.data)
+          this.setWalletData(data.data.wallet)
+          this.setSectionStatus({field: 'user', status: true})
+          // this.fetchTuts()
+        })
+        .catch(({response}) => {
+          if (response.status !== 401) {
+            this.setSectionStatus({field: 'user', status: false})
+            this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000});
+            this.$DashboardAxios.delete('/api/core/logout')
+              .then(({data}) => console.log('logout: ', data))
+              .catch(({response}) => console.log('error in logout: ', response))
+              .finally(() => {
+                destroyToken()
+              })
+          }
+        })
+        .finally(() => {
+          this.toggleLoading({field: 'user', status: false})
+          this.getNewWallet()
+        })
     },
     getNewWallet() {
       this.loading = true
@@ -335,19 +335,19 @@ export default {
           'Content-Type': 'application/json',
         }
       })
-          .then(({data}) => {
-            this.setNewWallet(Number(data.data.balance.$numberDecimal))
-            this.setSectionStatus({field: 'wallet', status: true})
-          })
-          .catch(({response}) => {
-            if (response.status !== 401) {
-              this.setSectionStatus({field: 'wallet', status: false})
-            }
-          })
-          .finally(() => {
-            this.loading = false
-            this.toggleLoading({field: 'wallet', status: false})
-          })
+        .then(({data}) => {
+          this.setNewWallet(Number(data.data.balance.$numberDecimal))
+          this.setSectionStatus({field: 'wallet', status: true})
+        })
+        .catch(({response}) => {
+          if (response.status !== 401) {
+            this.setSectionStatus({field: 'wallet', status: false})
+          }
+        })
+        .finally(() => {
+          this.loading = false
+          this.toggleLoading({field: 'wallet', status: false})
+        })
     },
     fetchVpn() {
       let vpn = localStorage.getItem('vpn')
@@ -363,23 +363,23 @@ export default {
       if (!vpn) {
         setTimeout(() => {
           this.$DashboardAxios.get('/api/checkVpn')
-              .then(({data}) => {
-                if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
-                  let obj = {
-                    closable: true,
-                    type: 'VPN',
-                    title: 'فیلترشکن شما فعال است',
-                    subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
-                  }
-                  this.$modal.showConnectionLost(obj)
-                  localStorage.setItem('vpn', 'true')
+            .then(({data}) => {
+              if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
+                let obj = {
+                  closable: true,
+                  type: 'VPN',
+                  title: 'فیلترشکن شما فعال است',
+                  subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
                 }
-              })
-              .catch(({response}) => {
-                if (response?.data?.message) {
-                  console.log('error in get vpn status: ', response.data.message)
-                }
-              })
+                this.$modal.showConnectionLost(obj)
+                localStorage.setItem('vpn', 'true')
+              }
+            })
+            .catch(({response}) => {
+              if (response?.data?.message) {
+                console.log('error in get vpn status: ', response.data.message)
+              }
+            })
         }, 1500)
       }
     }
