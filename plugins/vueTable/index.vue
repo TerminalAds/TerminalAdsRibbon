@@ -9,6 +9,7 @@
       :items="data.data"
       :itemsPerPage="tableProps.length"
       :loading="loading"
+      :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
       hide-default-footer
       item-key="id"
       selectable-key="id"
