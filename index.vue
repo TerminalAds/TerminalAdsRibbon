@@ -54,7 +54,6 @@ import HtmlClass from "@/core/services/htmlclass.service";
 import KTStickyToolbar from "./layout/extras/StickyToolbar.vue";
 import KTScrollTop from "./layout/extras/ScrollTop";
 import Loader from "./layout/content/Loader.vue";
-// import toast from "@/view/content/toast/toast";
 import RailNavigation from "./layout/content/RailNavigation";
 import navigation from "./layout/aside/Navigation";
 import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/htmlclass.module.js";

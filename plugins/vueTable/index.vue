@@ -20,9 +20,9 @@
         <slot :name="i"/>
       </template>
 
-      <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="{item}">
-        <slot :item="item" :name="value">
-          {{ item[value] }}
+      <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="row">
+        <slot :item="{...row, ...row.item}" :name="value">
+          {{ row.item[value] }}
         </slot>
       </template>
 
