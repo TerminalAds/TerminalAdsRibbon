@@ -167,6 +167,8 @@ export default {
 
     this.fetch();
     this.setTutorials();
+
+    this.$vuetify.icons.values.clear = 'mdi-close-circle-outline'
   },
 
   computed: {
