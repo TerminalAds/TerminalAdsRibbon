@@ -8,11 +8,11 @@ export const saveToken = token => {
     window.localStorage.setItem(ID_TOKEN_KEY, token);
 };
 
-export const destroyToken = () => {
+export const destroyToken = (origin, hash) => {
     window.localStorage.removeItem(ID_TOKEN_KEY);
     localStorage.removeItem('reloaded');
     window.localStorage.removeItem('userInfo')
-    window.location.replace('https://core.terminalads.com/#/login');
+    window.location.replace(`https://core.terminalads.com/#/login?call_back_origin=${origin}&call_back_hash=${hash}`);
 };
 
 export default {getToken, saveToken, destroyToken};
