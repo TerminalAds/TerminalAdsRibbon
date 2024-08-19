@@ -1,5 +1,5 @@
 <template>
-  <v-row class="bottom-btn-group-row" no-gutters>
+  <div class="bottom-btn-group-row">
     <v-btn-toggle v-model="toggle_exclusive" class="button-btn-group" group mandatory>
       <div v-for="(item, i) in btnGroup" :key="i" class="btn-toggle-holder">
         <v-btn v-if="item.link" :aria-label="item.title" :href="typeof item.link === 'string' ? item.link : ''"
@@ -20,7 +20,7 @@
         </span>
       </div>
     </v-btn-toggle>
-  </v-row>
+  </div>
 </template>
 
 <script>
@@ -82,12 +82,14 @@ export default {
   bottom: 0;
   z-index: 500;
   left: 0;
+  right: 0;
   width: 100%;
   border-radius: 12px 12px 0 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   box-shadow: 0 -5px 15px 5px rgba(0, 0, 0, .25), 0 -5px 10px 0 rgba(0, 0, 0, .05);
+  max-width: 100vw;
 }
 
 .button-btn-group {

@@ -335,6 +335,7 @@ export default {
 .title-wrapper {
   display: flex;
   flex-wrap: wrap-reverse;
+  overflow-x: hidden !important;
 }
 
 .popup-tuts {

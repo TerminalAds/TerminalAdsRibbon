@@ -253,9 +253,7 @@ export default {
         arrayUrl.forEach(function (item) {
           finalUrl += item
         })
-        let finish = second + finalUrl
-
-        window.location = finish
+        window.location = second + finalUrl
         localStorage.removeItem('redirect')
       }
     },
@@ -299,6 +297,8 @@ export default {
     ...mapActions('tutorial', ['setTutorials']),
     ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading', 'setSectionStatus']),
     fetch() {
+      console.log('vuetify: ', this.$vuetify)
+
       this.toggleLoading({field: 'user', status: true})
 
       this.$DashboardAxios.get('/api/core')
@@ -399,26 +399,6 @@ export default {
     padding-top: 15em;
   }
 }
-
-/*@media screen and (min-width: 960px) {*/
-/*    #kt_content {*/
-/*        margin-top: 0;*/
-/*    }*/
-/*}*/
-
-/*#kt_content {*/
-/*    margin-top: 21vh;*/
-/*}*/
-
-/*@media screen and (max-width: 960px) {*/
-/*    #kt_content {*/
-/*        padding-top: 15vh;*/
-/*    }*/
-
-/*    .content {*/
-/*        margin: 0 16px;*/
-/*    }*/
-/*}*/
 
 .v-navigation-drawer {
   background-image: /*linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),*/ url('/media/bg/bg-menu.jpg');

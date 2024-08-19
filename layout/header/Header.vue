@@ -62,8 +62,8 @@ export default {
 
     // Init Header Menu
     KTLayoutHeaderMenu.init(
-        this.$refs["kt_header_menu"],
-        this.$refs["kt_header_menu_wrapper"]
+      this.$refs["kt_header_menu"],
+      this.$refs["kt_header_menu_wrapper"]
     );
 
     const headerRef = this.$refs["kt_header"];
@@ -137,6 +137,12 @@ export default {
 </script>
 
 <style>
+.app-header {
+  max-width: 100vw;
+  overflow: hidden;
+  display: none;
+}
+
 .app-header .v-toolbar__content {
   padding: 0;
 }

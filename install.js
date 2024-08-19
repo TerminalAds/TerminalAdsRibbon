@@ -130,7 +130,8 @@ export default {
 
             const abilities = options.permissions();
 
-            return abilities.indexOf(permission + ':active') >= 0 || abilities.indexOf(permission + ':show') >= 0;
+            return abilities.indexOf(permission + ':active') >= 0
+                || abilities.indexOf(permission + ':show') >= 0;
         };
     }
 };
