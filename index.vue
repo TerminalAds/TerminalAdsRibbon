@@ -31,6 +31,7 @@
         <KTFooter/>
       </div>
     </div>
+
     <easy-modal/>
     <navigation/>
     <KTScrollTop/>
