@@ -297,8 +297,6 @@ export default {
     ...mapActions('tutorial', ['setTutorials']),
     ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading', 'setSectionStatus']),
     fetch() {
-      console.log('vuetify: ', this.$vuetify)
-
       this.toggleLoading({field: 'user', status: true})
 
       this.$DashboardAxios.get('/api/core')

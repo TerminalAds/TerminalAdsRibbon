@@ -140,7 +140,6 @@ export default {
 .app-header {
   max-width: 100vw;
   overflow: hidden;
-  display: none;
 }
 
 .app-header .v-toolbar__content {

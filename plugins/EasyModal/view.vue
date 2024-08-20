@@ -1,9 +1,8 @@
 <template>
   <div v-if="dialogShow || isConnectionLostShow">
     <v-row v-if="dialogShow">
-      <wait-status-dialog :closable="!(isLoading || isNotClosable)" :loading="isLoading"
-                          :show="isDialogOpened" :width="width"
-                          @onShowChange="(s) => isDialogOpened = s" @outsideClick="outsideClick">
+      <wait-status-dialog v-model="isDialogOpened" :closable="!(isLoading || isNotClosable)" :loading="isLoading"
+                          :width="width" @outsideClick="outsideClick">
         <v-card>
           <v-card-title v-if="!isNotClosable" class="pa-2 justify-end">
             <v-btn v-b-tooltip="'بستن'" class="px-0" color="rgb(252,193,199)"
