@@ -140,7 +140,7 @@ export default {
 }
 
 .ribbon3 {
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
   max-width: 100vw;
   min-width: 180px;
   height: 44px;
