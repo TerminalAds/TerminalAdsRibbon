@@ -29,7 +29,7 @@
         <v-skeleton-loader class="mx-1" type="button"/>
       </div>
 
-      <div v-else-if="!sectionStatus.menus || !topMenus || !topMenus.length" class="d-flex align-center">
+      <div v-else-if="(!sectionStatus.menus || !topMenus || !topMenus.length) && !hasMenu" class="d-flex align-center">
         <v-btn class="mx-1" dark text @click="$root.$emit('getMenus')">
           دریافت مجدد منو
           <v-icon right>mdi-reload</v-icon>
@@ -84,6 +84,9 @@ export default {
 
   computed: {
     ...mapGetters("ribbon", ["menus", 'DLoading', 'sectionStatus']),
+    hasMenu() {
+      return !!this.menus.length
+    },
     topMenus() {
       let menu = this.menus.filter((menu) => menu.special === 1);
       return menu = menu.concat(this.DConfigs.static_top_menu)
