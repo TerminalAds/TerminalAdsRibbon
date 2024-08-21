@@ -30,7 +30,7 @@
         </v-btn>
 
         <v-btn v-if="!hideClose" class="ms-2 px-0 text-danger" color="#fcc1c7" depressed min-width="36"
-               title="بستن" @click="computedValue = false">
+               title="بستن" @click="() => {onHandler('close'); computedValue = false}">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
