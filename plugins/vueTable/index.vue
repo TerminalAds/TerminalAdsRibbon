@@ -1,13 +1,13 @@
 <template>
   <div v-if="data && data.data">
-    <slot name="filters" v-bind="{perPage: perPageItems, props: tableProps}"/>
+    <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps}"/>
 
     <v-data-table
       :ref="`table-${randRef}`"
       v-model="computedValue"
       :headers="headers"
       :items="data.data"
-      :itemsPerPage="tableProps.length"
+      :itemsPerPage="computedProps.length"
       :loading="loading"
       :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
       :no-results-text="$attrs['no-results-text'] || 'رکوردی یافت نشد!'"
@@ -33,11 +33,11 @@
 
     <v-divider/>
 
-    <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="tableProps.page" :data="data"
+    <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="computedProps.page" :data="data"
                           :totalVisible="5" @input="onPagination">
       <template v-slot:per-page>
         <v-select
-          v-model="tableProps.length"
+          v-model="computedProps"
           :items="perPageItems"
           :menu-props="{ offsetY: true }"
           class="ma-2 my-md-0"
@@ -74,6 +74,12 @@ export default {
     debounceDelay: {
       type: Number,
       default: 2000
+    },
+    props: {
+      type: Object,
+      default: function () {
+        return this.tableProps
+      }
     }
   },
 
@@ -113,11 +119,19 @@ export default {
       set(val) {
         this.$emit('update:loading', val)
       }
+    },
+    computedProps: {
+      get() {
+        return this.props
+      },
+      set(val) {
+        this.$emit('update:props', val)
+      }
     }
   },
 
   watch: {
-    tableProps: {
+    computedProps: {
       deep: true,
 
       handler(val) {
@@ -128,14 +142,14 @@ export default {
 
   methods: {
     onPagination(immediately = false) {
-      if (!immediately && this.tableProps.page === this.data?.current_page) return
+      if (!immediately && this.computedProps.page === this.data?.current_page) return
 
-      if (this.tableProps.page === this.data?.current_page)
-        this.tableProps.page = 1
+      if (this.computedProps.page === this.data?.current_page)
+        this.computedProps.page = 1
 
       this.computedLoading = true
       this.debounce(() => {
-        this.$emit('change', this.tableProps)
+        this.$emit('change', this.computedProps)
       }, this.debounceDelay)
       window.scrollTo({behavior: "smooth", top: 0, left: 0})
     }
