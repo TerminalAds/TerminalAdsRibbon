@@ -22,7 +22,7 @@
 
       <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="row">
         <slot :item="{...row, ...row.item}" :name="value">
-          {{ row.item[value] }}
+          {{ row.item[value] || '-' }}
         </slot>
       </template>
 
