@@ -37,7 +37,7 @@
                           :totalVisible="5" @input="onPagination">
       <template v-slot:per-page>
         <v-select
-          v-model="computedProps"
+          v-model="computedProps.length"
           :items="perPageItems"
           :menu-props="{ offsetY: true }"
           class="ma-2 my-md-0"
