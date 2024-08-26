@@ -10,6 +10,7 @@
       :itemsPerPage="computedProps.length"
       :loading="loading"
       :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
+      :no-data-text="$attrs['no-data-text'] || 'بدون اطلاعات!'"
       :no-results-text="$attrs['no-results-text'] || 'رکوردی یافت نشد!'"
       hide-default-footer
       item-key="id"
