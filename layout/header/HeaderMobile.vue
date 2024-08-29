@@ -1,6 +1,18 @@
 <template>
-  <v-app-bar src="media/bg/bg-10.jpg" elevate-on-scroll app fixed color="transparent" flat dense>
+  <v-app-bar app color="transparent" dense elevate-on-scroll fixed flat src="media/bg/bg-10.jpg">
     <walletButton style="flex-basis: 100%"/>
+
+    <template v-slot:extension>
+      <div>
+        <v-btn dark href="/#/dashboard" large text>
+          داشبورد
+        </v-btn>
+
+        <v-btn :href="front_url + '/#/contact/list'" class="mx-2" dark large target="_blank" text>
+          تماس یار (تشکر از تماس)
+        </v-btn>
+      </div>
+    </template>
   </v-app-bar>
 </template>
 
@@ -12,22 +24,25 @@ import {LOGOUT} from "@/core/services/store/auth.module";
 
 export default {
   name: "KTHeaderMobile",
+
   components: {
     walletButton,
   },
-  mounted() {
-    // Init Header Topbar For Mobile Mode
-    KTLayoutHeaderTopbar.init(this.$refs["kt_header_mobile_topbar_toggle"]);
-  },
+
   data: () => ({
     unread: 0
   }),
 
+  mounted() {
+    // Init Header Topbar For Mobile Mode
+    KTLayoutHeaderTopbar.init(this.$refs["kt_header_mobile_topbar_toggle"]);
+  },
+
   methods: {
     onLogout() {
       this.$store
-          .dispatch(LOGOUT)
-          .then(() => window.location.reload());
+        .dispatch(LOGOUT)
+        .then(() => window.location.reload());
     }
   },
 
