@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data && data.data">
+  <div v-if="data">
     <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps}"/>
 
     <v-data-table
