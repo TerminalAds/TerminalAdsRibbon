@@ -8,7 +8,7 @@
       :headers="headers"
       :items="data.data"
       :itemsPerPage="computedProps.length"
-      :loading="loading"
+      :loading="computedLoading"
       :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
       :no-data-text="$attrs['no-data-text'] || 'بدون اطلاعات!'"
       :no-results-text="$attrs['no-results-text'] || 'رکوردی یافت نشد!'"
@@ -27,7 +27,7 @@
         </slot>
       </template>
 
-      <template v-if="loading" v-slot:footer>
+      <template v-if="computedLoading" v-slot:footer>
         <v-progress-linear height="5" indeterminate/>
       </template>
     </v-data-table>
