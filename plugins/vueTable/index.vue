@@ -7,7 +7,7 @@
       v-model="computedValue"
       :headers="headers"
       :items="data.data"
-      :itemsPerPage="computedProps.length"
+      :itemsPerPage="computedProps ? computedProps.length : 10"
       :loading="computedLoading"
       :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
       :no-data-text="$attrs['no-data-text'] || 'بدون اطلاعات!'"

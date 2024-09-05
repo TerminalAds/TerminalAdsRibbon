@@ -252,9 +252,10 @@ export default {
       let backUrl = this.front_url + '/#/payment-callback-new'
       this.$DashboardAxios.post('/api/newWallet/charge', {
         amount: this.data.price,
-        gateway: ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver)
-          ? this.data.gateway.driver
-          : undefined,
+        gateway: this.data.gateway.driver,
+        // ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver)
+        // ? this.data.gateway.driver
+        // : undefined,
         callbackUrl: backUrl
       })
         .then(({data}) => {
