@@ -170,6 +170,8 @@ export default {
     this.setTutorials();
 
     this.$vuetify.icons.values.clear = 'mdi-close-circle-outline'
+    this.$vuetify.icons.values.saveNew = 'mdi-content-save-plus-outline'
+    this.$vuetify.icons.values.saveConfig = 'mdi-content-save-cog-outline'
   },
 
   computed: {
