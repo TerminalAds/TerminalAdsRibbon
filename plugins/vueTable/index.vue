@@ -1,6 +1,6 @@
 <template>
   <div v-if="data">
-    <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps}"/>
+    <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps || {}}"/>
 
     <v-data-table
       :ref="`table-${randRef}`"
@@ -34,8 +34,8 @@
 
     <v-divider/>
 
-    <vue-table-pagination v-if="data && data.data" ref="pagination" v-model="computedProps.page" :data="data"
-                          :totalVisible="5" @input="onPagination">
+    <vue-table-pagination v-if="data && data.data && !!computedProps" ref="pagination" v-model="computedProps.page"
+                          :data="data" :totalVisible="totalVisible" @input="onPagination">
       <template v-slot:per-page>
         <v-select
           v-model="computedProps.length"
@@ -127,6 +127,7 @@ export default {
       },
       set(val) {
         this.$emit('update:props', val)
+        this.$forceUpdate()
       }
     }
   },
@@ -135,8 +136,8 @@ export default {
     computedProps: {
       deep: true,
 
-      handler(val) {
-        this.onPagination(true)
+      handler(val, oldVal) {
+        oldVal && this.onPagination(true)
       }
     }
   },

@@ -43,7 +43,7 @@ export default {
     totalVisible: Number,
     value: {
       type: Number,
-      default: 1
+      default: 5
     }
   },
 
