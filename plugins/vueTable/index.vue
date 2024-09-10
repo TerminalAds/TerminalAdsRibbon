@@ -1,6 +1,38 @@
 <template>
   <div v-if="data">
-    <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps || {}}"/>
+    <div v-if="$vuetify.breakpoint.mobile" class="py-2 filters-wrapper">
+      <v-bottom-sheet v-model="sheet" inset>
+        <template v-slot:activator="{ on, attrs }">
+          <v-badge :content="hasFilter" :value="!!hasFilter" overlap>
+            <v-chip :color="!!hasFilter ? 'rgba(0, 21, 84, .2)' : ''" v-bind="attrs" v-on="on">
+              فیلترها
+              <v-icon right>mdi-tune</v-icon>
+            </v-chip>
+          </v-badge>
+        </template>
+
+        <v-sheet class="text-center" min-height="50vh">
+          <v-card-title class="align-center">
+            <v-btn class="me-2" icon @click="sheet = !sheet">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+
+            <b>فیلترها</b>
+          </v-card-title>
+
+          <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps || {}}"/>
+
+          <v-card-actions class="bottom-sticky white justify-end">
+            <v-btn :loading="loading" class="rounded-lg" color="success" depressed min-width="50%"
+                   @click="sheet = !sheet">
+              مشاهده نتیجه
+            </v-btn>
+          </v-card-actions>
+        </v-sheet>
+      </v-bottom-sheet>
+    </div>
+
+    <slot v-else name="filters" v-bind="{perPage: perPageItems, props: computedProps || {}}"/>
 
     <v-data-table
       :ref="`table-${randRef}`"
@@ -91,7 +123,8 @@ export default {
         page: 1,
         length: 10
       },
-      randRef: null
+      randRef: null,
+      sheet: false
     }
   },
 
@@ -129,14 +162,37 @@ export default {
         this.$emit('update:props', val)
         this.$forceUpdate()
       }
+    },
+    hasFilter() {
+      if (!this.computedProps) return false
+
+      let {length, page, column, dir, ...rest} = this.computedProps
+
+      function check_fields(obj) {
+        return !!obj && Object.values(obj).filter(item => {
+          return (typeof item === 'object' && !(item instanceof Array))
+            ? check_fields(item)
+            : item != null
+        })?.length
+      }
+
+      return check_fields(rest)
     }
   },
 
   watch: {
+    props: {
+      deep: true,
+
+      handler(val, oldVal) {
+        console.log('props changed: ', val, oldVal)
+      }
+    },
     computedProps: {
       deep: true,
 
       handler(val, oldVal) {
+        console.log('computed props changed: ', val, oldVal)
         oldVal && this.onPagination(true)
       }
     }
@@ -144,6 +200,8 @@ export default {
 
   methods: {
     onPagination(immediately = false) {
+      console.log('change props: ', this.computedProps)
+
       if (!immediately && this.computedProps.page === this.data?.current_page) return
 
       if (this.computedProps.page === this.data?.current_page)
@@ -162,5 +220,16 @@ export default {
 <style scoped>
 .v-data-table >>> tbody tr:nth-child(odd) {
   background-color: #ebedf3;
+}
+
+.bottom-sticky {
+  position: sticky;
+  bottom: 0;
+}
+</style>
+
+<style>
+.v-dialog__content {
+  z-index: 999 !important;
 }
 </style>
