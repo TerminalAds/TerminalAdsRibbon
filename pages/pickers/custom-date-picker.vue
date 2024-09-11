@@ -1,8 +1,16 @@
 <template>
-  <div>
+  <div class="d-flex align-top">
     <slot name="default" v-bind="{inputClass}">
       <v-text-field :class="[inputClass, wrapperClass]" :readonly="!editable" :value="getDisplayValue" v-bind="$attrs"/>
     </slot>
+
+    <v-expand-x-transition mode="out-in">
+      <slot v-if="!!computedValue" name="clear-action">
+        <v-btn class="ms-2" icon @click="computedValue = ''">
+          <v-icon>mdi-close-circle-outline</v-icon>
+        </v-btn>
+      </slot>
+    </v-expand-x-transition>
 
     <date-picker v-model="computedValue" :auto-submit="autoSubmit" :custom-input="`.${inputClass}`"
                  :disable="disable" :display-format="getJFormat" :format="format" :max="max" :min="min"
@@ -75,11 +83,15 @@ export default {
     },
     getJFormat: function () {
       let sp = this.sp
+      let dateFormat = this.format.indexOf('j') >= 0
+        ? `YYYY${sp}MM${sp}DD`
+        : `jYYYY${sp}jMM${sp}jDD`
+
       switch (this.type) {
         case 'datetime':
-          return `jYYYY${sp}jMM${sp}jDD HH:mm:ss`
+          return `${dateFormat} HH:mm:ss`
         case 'date':
-          return `jYYYY${sp}jMM${sp}jDD`
+          return dateFormat
         case 'time':
           return 'HH:mm:ss'
       }
@@ -108,7 +120,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

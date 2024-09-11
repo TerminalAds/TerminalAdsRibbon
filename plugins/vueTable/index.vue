@@ -5,7 +5,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-badge :content="hasFilter" :value="!!hasFilter" overlap>
             <v-chip :color="!!hasFilter ? 'rgba(0, 21, 84, .2)' : ''" v-bind="attrs" v-on="on">
-              فیلترها
+              اعمال فیلتر
               <v-icon right>mdi-tune</v-icon>
             </v-chip>
           </v-badge>
@@ -49,6 +49,11 @@
       selectable-key="id"
       v-bind="$attrs"
       v-on="$listeners">
+      <template v-if="$vuetify.breakpoint.mobile" v-slot:header.data-table-select="{isMobile, props, on}">
+        <span class="mx-2">انتخاب همه</span>
+        <v-simple-checkbox :indeterminate="props.indeterminate" :value="props.value" v-on="on"/>
+      </template>
+
       <template v-for="(slot, i) in $slots" v-slot:[i]>
         <slot :name="i"/>
       </template>
@@ -192,18 +197,17 @@ export default {
   },
 
   watch: {
-    props: {
-      deep: true,
-
-      handler(val, oldVal) {
-        console.log('props changed: ', val, oldVal)
-      }
-    },
+    // props: {
+    //   deep: true,
+    //
+    //   handler(val, oldVal) {
+    //     console.log('props changed: ', val, oldVal)
+    //   }
+    // },
     computedProps: {
       deep: true,
 
       handler(val, oldVal) {
-        console.log('computed props changed: ', val, oldVal)
         oldVal && this.onPagination(true)
       }
     }
@@ -211,8 +215,6 @@ export default {
 
   methods: {
     onPagination(immediately = false) {
-      console.log('change props: ', this.computedProps)
-
       if (!immediately && this.computedProps.page === this.data?.current_page) return
 
       if (this.computedProps.page === this.data?.current_page)
@@ -233,14 +235,12 @@ export default {
   background-color: #ebedf3;
 }
 
+.v-data-table >>> .v-data-table-header-mobile__wrapper {
+  justify-content: flex-end;
+}
+
 .bottom-sticky {
   position: sticky;
   bottom: 0;
 }
-</style>
-
-<style>
-/*.v-dialog__content {*/
-/*  z-index: 999 !important;*/
-/*}*/
 </style>
