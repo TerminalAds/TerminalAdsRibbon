@@ -25,28 +25,27 @@
     </v-slide-x-transition>
 
     <custom-popup v-model="dialog" :cons="cons" max-width="800px">
-      <v-card :loading="loading" class="transparent" flat>
-        <v-row no-gutters>
-          <v-col class="pa-2" cols="12" md="4" sm="6">
-            <v-select v-model="tableProps.length" :items="[10, 25, 50, 100, 200, 400]" dense hide-details outlined
-                      @change="reloadTable()"/>
-          </v-col>
+      <v-card :loading="loading" class="transparent pa-4" flat>
+        <vue-table v-model="tempSelection" :data="userInfo" :headers="headers" :loading="loading"
+                   :per-page.sync="tableProps.length" item-key="id" show-select @change="onPagination">
+          <template v-slot:filters="{perPage, props}">
+            <v-row no-gutters>
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-select v-model="props.length" :items="perPage" dense hide-details outlined/>
+              </v-col>
 
-          <v-col class="pa-2" cols="12" md="4" sm="6">
-            <v-text-field v-model="tableProps.search" append-icon="mdi-magnify" clear-icon="mdi-close-circle-outline"
-                          clearable dense hide-details label="جستوجو" outlined @keydown.enter="reloadTable()"
-                          @click:append="reloadTable()" @click:clear="clearFilter"/>
-          </v-col>
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="props.search" append-icon="mdi-magnify"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="جستوجو"
+                              outlined/>
+              </v-col>
+            </v-row>
+          </template>
 
-          <v-col class="pa-2" cols="12">
-            <vue-table v-model="tempSelection" :data="userInfo" :headers="headers" :loading="loading"
-                       :per-page.sync="tableProps.length" item-key="id" show-select @change="onPagination">
-              <template v-slot:type="{item}">
-                <span>{{ item.type === 'regular' ? 'شخص حقیقی' : 'شخص حقوقی' }}</span>
-              </template>
-            </vue-table>
-          </v-col>
-        </v-row>
+          <template v-slot:type="{item}">
+            <span>{{ item.type === 'regular' ? 'شخص حقیقی' : 'شخص حقوقی' }}</span>
+          </template>
+        </vue-table>
       </v-card>
     </custom-popup>
   </div>
@@ -87,12 +86,12 @@ export default {
       loading: false,
       userInfo: {},
       headers: [
-        {value: 'id', text: 'شناسه'},
-        {value: 'name', text: 'نام'},
-        {value: 'lastName', text: 'نام خانوادگی'},
-        {value: 'username', text: 'نام کاربری'},
-        {value: 'phone', text: 'شماره همراه'},
-        {value: 'type', text: 'نوع کاربر'},
+        {value: 'id', text: 'شناسه', sortable: false, align: 'center'},
+        {value: 'name', text: 'نام', sortable: false, align: 'center'},
+        {value: 'lastName', text: 'نام خانوادگی', sortable: false, align: 'center'},
+        {value: 'username', text: 'نام کاربری', sortable: false, align: 'center'},
+        {value: 'phone', text: 'شماره همراه', sortable: false, align: 'center'},
+        {value: 'type', text: 'نوع کاربر', sortable: false, align: 'center'},
       ],
       tempSelection: []
     }

@@ -172,7 +172,7 @@ export default {
         return !!obj && Object.values(obj).filter(item => {
           return (typeof item === 'object' && !(item instanceof Array))
             ? check_fields(item)
-            : item != null
+            : typeof item === 'number' ? item >= 0 : !!item
         })?.length
       }
 
@@ -229,7 +229,7 @@ export default {
 </style>
 
 <style>
-.v-dialog__content {
-  z-index: 999 !important;
-}
+/*.v-dialog__content {*/
+/*  z-index: 999 !important;*/
+/*}*/
 </style>
