@@ -172,8 +172,19 @@ export default {
         return !!obj && Object.values(obj).filter(item => {
           return (typeof item === 'object' && !(item instanceof Array))
             ? check_fields(item)
-            : typeof item === 'number' ? item >= 0 : !!item
+            : type_return(item)
         })?.length
+      }
+
+      function type_return(field) {
+        switch (typeof field) {
+          case 'number':
+            return field >= 0
+          case 'object':
+            return !!field.length
+          default:
+            return !!field
+        }
       }
 
       return check_fields(rest)

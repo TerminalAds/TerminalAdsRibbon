@@ -19,15 +19,16 @@
         <slot name="input">
           <v-text-field key="field" ref="input" :error-messages="errors" :value="displayValue"
                         append-icon="mdi-crosshairs" class="cursor-pointer" clear-icon="mdi-close-circle-outline"
-                        clearable dense label="انتخاب کاربران" outlined readonly @click:clear="clearFilter"/>
+                        clearable dense hide-details label="انتخاب کاربران" outlined readonly
+                        @click:clear="clearFilter"/>
         </slot>
       </div>
     </v-slide-x-transition>
 
     <custom-popup v-model="dialog" :cons="cons" max-width="800px">
       <v-card :loading="loading" class="transparent pa-4" flat>
-        <vue-table v-model="tempSelection" :data="userInfo" :headers="headers" :loading="loading"
-                   :per-page.sync="tableProps.length" item-key="id" show-select @change="onPagination">
+        <vue-table v-model="tempSelection" :data="userInfo" :headers="headers" :loading.sync="loading"
+                   item-key="id" show-select @change="onPagination">
           <template v-slot:filters="{perPage, props}">
             <v-row no-gutters>
               <v-col class="pa-2" cols="12" md="4" sm="6">
