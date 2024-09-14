@@ -2,9 +2,9 @@
   <div v-if="!!data" class="w-100 text-center dir-ltr d-flex align-start py-2 px-6 flex-wrap">
     <v-card class="d-flex" flat max-width="200">
       <span class="text-no-wrap me-2 mt-md-3">برو به صفحه:</span>
-      <v-text-field :disabled="data.last_page <= 1" :max="data.last_page"
+      <v-text-field :disabled="data.last_page <= 1" :max="Number(data.last_page)"
                     :messages="`صفحه ${data.current_page} از ${data.last_page}`" :value="page" dense
-                    oninput="this.value = this.value > this.max ? this.max : this.value < 1 ? 1 : this.value"
+                    oninput="this.value = Number(this.value) > this.max ? this.max : Number(this.value) < 1 ? 1 : Number(this.value)"
                     outlined type="number" @keydown.enter="change"/>
     </v-card>
 
