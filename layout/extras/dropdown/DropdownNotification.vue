@@ -8,19 +8,21 @@
           <h4 class="d-flex flex-center rounded-top">
             <span class="text-white">نوتیفیکیشن های کاربر</span>
             <span class="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">
-                            {{ persianNum(unreadNotif) || 0 }}
-                            پیام جدید
-                        </span>
+              {{ persianNum(unreadNotif) || 0 }}
+              پیام جدید
+            </span>
           </h4>
 
-          <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
-              role="tablist">
+          <ul
+            class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
+            role="tablist">
             <li class="nav-item">
               <a class="nav-link active" data-tab="0" data-toggle="tab" href="#" role="tab"
                  v-on:click="setActiveTab">
                 پیام ها
               </a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" data-tab="2" data-toggle="tab" href="#" role="tab"
                  v-on:click="setActiveTab">
@@ -41,7 +43,6 @@
 
         <perfect-scrollbar v-else class="scroll pr-7 mr-n7" style="max-height: 40vh; position: relative;">
           <template>
-
             <v-list-item v-for="(item, i) in notifications.data" :key="i" @click="dialogShow(item)">
               <v-list-item-icon class="rounded-lg me-2">
                 <img alt="" src="../../../assets/img/communication/Mail-notification.svg">
@@ -91,7 +92,6 @@
         </v-card-actions>
       </v-card>
     </custom-popup>
-
   </div>
 </template>
 
@@ -107,7 +107,9 @@ import CustomPopup from "../../../plugins/popup/customPopup";
 
 export default {
   name: "KTDropdownNotification",
+
   components: {CustomPopup},
+
   props: {
     value: Number
   },
@@ -171,9 +173,9 @@ export default {
     seenDialog() {
       this.dialog = false;
       this.$DashboardAxios.post('/api/core/seen/notification', {notif_id: this.dialogData.id})
-          .then(({data}) => {
-            this.getNotifications()
-          })
+        .then(({data}) => {
+          this.getNotifications()
+        })
     },
     dialogShow(data) {
       this.dialogData = data;

@@ -1,22 +1,20 @@
 <template>
   <div class="topbar has-background">
-
-    <b-dropdown no-caret no-flip right size="sm" toggle-class="topbar-item text-decoration-none" variant="link">
-      <template v-slot:button-content>
+    <v-menu :close-on-content-click="false" offset-y open-on-click>
+      <template v-slot:activator="{on, attrs}">
         <v-badge :content="persianNum(unread)" :value="unread" color="red" left offset-x="30" offset-y="20" overlap>
-          <div class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 pulse pulse-primary">
+          <div class="btn btn-icon btn-hover-transparent-white btn-dropdown btn-lg mr-1 pulse pulse-primary"
+               v-bind="attrs" v-on="on">
             <span class="svg-icon svg-icon-xl"><i class="flaticon2-notification"></i></span>
             <span class="pulse-ring"></span>
           </div>
         </v-badge>
       </template>
 
-      <b-dropdown-text class="min-w-md-350px" tag="div">
-        <form>
-          <KTDropdownNotification v-model="unread"/>
-        </form>
-      </b-dropdown-text>
-    </b-dropdown>
+      <v-card flat>
+        <KTDropdownNotification v-model="unread"/>
+      </v-card>
+    </v-menu>
 
     <walletButton hide-in-mobile/>
 
