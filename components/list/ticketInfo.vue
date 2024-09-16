@@ -31,7 +31,7 @@
          class="card card-custom cursor-pointer">
         <div class="card-body pe-1">
           <div class="text-dark font-weight-bolder font-size-h2 mt-20"
-               v-text="announcement"/>
+               v-text="price(announcement)"/>
           <p class="black--text">{{ DConfigs.dashboardConfig.announcement.text }}</p>
         </div>
       </a>
@@ -42,7 +42,7 @@
          :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.numbers.img});background-size: 50%;background-color: rgb(245, 245, 245);`"
          class="card ribbon card-custom">
         <div class="card-body pe-1">
-          <div class="text-dark font-weight-bolder font-size-h2 mt-20" v-text="numbers"/>
+          <div class="text-dark font-weight-bolder font-size-h2 mt-20" v-text="price(numbers)"/>
           <p class="black--text" v-text="DConfigs.dashboardConfig.numbers.text"/>
         </div>
       </a>
@@ -55,6 +55,7 @@ import {mapGetters} from "vuex";
 
 export default {
   name: "ticketInfo",
+
   data() {
     return {
       strokeColor: "#f86573",
@@ -74,10 +75,18 @@ export default {
     ...mapGetters(["layoutConfig"]),
   },
   mounted() {
-    this.DConfigs.dashboardConfig.counter.then(res => {
-      this.announcement = res.announcement
-      this.numbers = res.numbers
-    });
+    typeof this.DConfigs.dashboardConfig.counter === "function"
+      ? this.DConfigs.dashboardConfig.counter()
+        .then(res => {
+          this.announcement = res.announcement
+          this.numbers = res.numbers
+        })
+      : this.DConfigs.dashboardConfig.counter
+        .then(res => {
+          this.announcement = res.announcement
+          this.numbers = res.numbers
+        });
+
   }
 }
 </script>

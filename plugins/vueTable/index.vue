@@ -25,7 +25,7 @@
           <v-card-actions class="bottom-sticky white justify-end">
             <v-btn :loading="loading" class="rounded-lg" color="success" depressed min-width="50%"
                    @click="sheet = !sheet">
-              مشاهده نتیجه
+              اعمال فیلتر
             </v-btn>
           </v-card-actions>
         </v-sheet>
@@ -210,6 +210,9 @@ export default {
       handler(val, oldVal) {
         oldVal && this.onPagination(true)
       }
+    },
+    sheet(val) {
+      this.changeBottomSheet(val)
     }
   },
 
@@ -225,6 +228,12 @@ export default {
         this.$emit('change', this.computedProps)
       }, this.debounceDelay)
       window.scrollTo({behavior: "smooth", top: 0, left: 0})
+    },
+    changeBottomSheet(e) {
+      let go = document.getElementById('goftino_w')
+
+      if (go)
+        go.style.setProperty('display', e ? 'none' : 'block')
     }
   }
 }
