@@ -52,29 +52,31 @@
     </div>
 
     <template v-else>
-      <div v-for="(item, i) in items" :key="`item-${i}`" class="group-wrapper">
-        <v-list-item v-if="!item.children" :to="`/${item.slug}`" link>
-          <v-list-item-icon>
-            <v-icon>mdi-circle-small</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title v-text="item.name"/>
-        </v-list-item>
-
-        <v-list-group v-else v-model="item.selectedItem" :value="getActive(item)" active-class="active-child"
-                      color="white" no-action @click="item.selectedItem = true">
-          <template v-slot:activator>
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
-          </template>
-
-          <v-list-item v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`" color="white"
-                       link style="padding-right: 32px">
+      <template v-for="(item, i) in items">
+        <div v-if="!!item" :key="`item-${i}`" class="group-wrapper">
+          <v-list-item v-if="!item.children" :to="`/${item.slug}`" link>
             <v-list-item-icon>
-              <v-icon>mdi-menu-left</v-icon>
+              <v-icon>mdi-circle-small</v-icon>
             </v-list-item-icon>
-            <v-list-item-title v-text="sub.name"/>
+            <v-list-item-title v-text="item.name"/>
           </v-list-item>
-        </v-list-group>
-      </div>
+
+          <v-list-group v-else v-model="item.selectedItem" :value="getActive(item)" active-class="active-child"
+                        color="white" no-action @click="item.selectedItem = true">
+            <template v-slot:activator>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </template>
+
+            <v-list-item v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`" color="white" link
+                         style="padding-right: 32px">
+              <v-list-item-icon>
+                <v-icon>mdi-menu-left</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title v-text="sub.name"/>
+            </v-list-item>
+          </v-list-group>
+        </div>
+      </template>
     </template>
   </v-list>
 </template>
@@ -127,19 +129,19 @@ export default {
             sid: this.sid
           }
         })
-            .then(({data}) => {
-              const menus = reformatMenuResponse(data.data);
-              this.setMenus(data.data);
-              this.setSectionStatus({field: 'menus', status: true})
-              this.items = menus;
-            })
-            .catch(({response}) => {
-              this.setSectionStatus({field: 'menus', status: false})
-              if (response.status !== 401) {
-                this.$toast.error('خطایی رخ داده است.');
-              }
-            })
-            .finally(() => this.toggleLoading({field: 'menus', status: false}))
+          .then(({data}) => {
+            const menus = reformatMenuResponse(data.data);
+            this.setMenus(data.data);
+            this.setSectionStatus({field: 'menus', status: true})
+            this.items = menus;
+          })
+          .catch(({response}) => {
+            this.setSectionStatus({field: 'menus', status: false})
+            if (response.status !== 401) {
+              this.$toast.error('خطایی رخ داده است.');
+            }
+          })
+          .finally(() => this.toggleLoading({field: 'menus', status: false}))
       } catch (e) {
         this.setSectionStatus({field: 'menus', status: false})
         console.log('catch error: ', e)
@@ -149,7 +151,7 @@ export default {
       return this.front_url || '/';
     },
     getActive(item) {
-      let activate = item.children.map((a) => a.slug).includes(this.$route.path.substring(1));
+      let activate = item.children?.map((a) => a.slug).includes(this.$route.path.substring(1));
       return item.selectedItem = activate
     }
   }
