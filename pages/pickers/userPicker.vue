@@ -18,9 +18,9 @@
       <div v-else @click="dialog = true">
         <slot name="input">
           <v-text-field key="field" ref="input" :error-messages="errors" :value="displayValue"
-                        append-icon="mdi-crosshairs" class="cursor-pointer" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="انتخاب کاربران" outlined readonly
-                        @click:clear="clearFilter"/>
+                        append-icon="mdi-crosshairs" class="cursor-pointer rounded-lg"
+                        clear-icon="mdi-close-circle-outline" clearable dense hide-details label="انتخاب کاربران"
+                        outlined readonly @click:clear="clearFilter"/>
         </slot>
       </div>
     </v-slide-x-transition>
