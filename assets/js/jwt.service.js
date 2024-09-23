@@ -15,10 +15,9 @@ export const destroyToken = (origin, hash) => {
 
   (!!origin && !!hash)
       ? window.location.replace(`https://core.terminalads.com/#/login?call_back_origin=${origin}&call_back_hash=${hash}`)
-      : window.location.href = 'https://core.terminalads.com/#/login'
-  // : window.location.origin === 'https://core.terminalads.com'
-  //     ? window.location.reload()
-  //     : window.location.replace(`https://core.terminalads.com/#/login`)
+      : window.location.origin === 'https://core.terminalads.com'
+          ? window.location.reload()
+          : window.location.replace(`https://core.terminalads.com/#/login`)
 };
 
 export default {getToken, saveToken, destroyToken};
