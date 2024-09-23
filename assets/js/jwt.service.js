@@ -13,9 +13,7 @@ export const destroyToken = (origin, hash) => {
   localStorage.removeItem('reloaded');
   window.localStorage.removeItem('userInfo');
 
-  console.log('jwt destroyToken: ', origin, hash)
-
-  (origin && hash)
+  (!!origin && !!hash)
       ? window.location.replace(`https://core.terminalads.com/#/login?call_back_origin=${origin}&call_back_hash=${hash}`)
       : window.location.origin === 'https://core.terminalads.com'
           ? window.location.reload()
