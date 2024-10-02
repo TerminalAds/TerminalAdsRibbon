@@ -118,7 +118,8 @@ export default {
       default: function () {
         return this.tableProps
       }
-    }
+    },
+    filterOnEnter: Boolean
   },
 
   data() {
@@ -204,11 +205,14 @@ export default {
     //     console.log('props changed: ', val, oldVal)
     //   }
     // },
+    props(val) {
+      console.log('props changed: ', val)
+    },
     computedProps: {
       deep: true,
 
       handler(val, oldVal) {
-        oldVal && this.onPagination(true)
+        oldVal != null && !this.filterOnEnter && this.onPagination(true)
       }
     },
     sheet(val) {
