@@ -6,7 +6,7 @@
 
     <v-expand-x-transition mode="out-in">
       <slot v-if="!!computedValue" name="clear-action">
-        <v-btn class="ms-2" icon @click="computedValue = ''">
+        <v-btn class="ms-2" icon @click="computedValue = undefined">
           <v-icon>mdi-close-circle-outline</v-icon>
         </v-btn>
       </slot>
