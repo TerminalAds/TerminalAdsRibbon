@@ -262,6 +262,11 @@ export default {
           // window.location.href = data.data.data.action
           // window.location.href = data.data.data.url.replace('sandbox.', '')
           // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
+          if (['behpardakhtPublic', 'behpardakht'].includes(this.data.gateway.driver)) {
+            this.payBehpardakht(data)
+            return
+          }
+
           let a = document.createElement('a');
           a.href = data.data.data.action
           a.target = '_blank'
@@ -287,9 +292,23 @@ export default {
         .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
         .finally(() => this.loading = false)
     },
+    payBehpardakht(data) {
+      var form = document.createElement("form");
+      form.setAttribute("method", "POST");
+      form.setAttribute("action", "https://bpm.shaparak.ir/pgwchannel/startpay.mellat");
+      form.setAttribute("target", "_self");
+      var hiddenField = document.createElement("input");
+      hiddenField.setAttribute("name", "RefId");
+      hiddenField.setAttribute("value", data?.data?.data?.input?.RefId);
+      form.appendChild(hiddenField);
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    },
     getGateWayImage(gatewayDriver) {
       switch (gatewayDriver) {
         case "zarinpal":
+        case "zarinpal2":
           return "media/gateways/zarinpal.png";
         case "bazar":
           return "media/gateways/directPay.svg";
@@ -299,6 +318,9 @@ export default {
           return "media/gateways/mellat.png";
         case "top":
           return require('../../assets/img/gateways/inAppPayment.png')
+        case "behpardakht":
+        case "behpardakhtPublic":
+          return require('../../assets/img/gateways/behpardakht.png')
       }
       return false;
     },
