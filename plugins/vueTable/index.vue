@@ -205,9 +205,9 @@ export default {
     //     console.log('props changed: ', val, oldVal)
     //   }
     // },
-    props(val) {
-      console.log('props changed: ', val)
-    },
+    // props(val) {
+    //   console.log('props changed: ', val)
+    // },
     computedProps: {
       deep: true,
 
