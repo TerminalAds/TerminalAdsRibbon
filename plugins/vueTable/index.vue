@@ -82,6 +82,7 @@
           dense
           label="تعداد نمایش"
           outlined
+          @change="onPagination(true)"
         />
       </template>
     </vue-table-pagination>
@@ -115,8 +116,9 @@ export default {
     },
     props: {
       type: Object,
-      default: function () {
-        return this.tableProps
+      default: {
+        page: 1,
+        length: 10
       }
     },
     filterOnEnter: Boolean
@@ -125,10 +127,6 @@ export default {
   data() {
     return {
       options: {},
-      tableProps: {
-        page: 1,
-        length: 10
-      },
       randRef: null,
       sheet: false
     }
@@ -198,16 +196,6 @@ export default {
   },
 
   watch: {
-    // props: {
-    //   deep: true,
-    //
-    //   handler(val, oldVal) {
-    //     console.log('props changed: ', val, oldVal)
-    //   }
-    // },
-    // props(val) {
-    //   console.log('props changed: ', val)
-    // },
     computedProps: {
       deep: true,
 
