@@ -101,7 +101,12 @@ export default {
 
       const moment = require('moment-jalaali')
 
-      return moment(this.value).format(this.getJFormat)
+      const date_str = moment().formt('YYYY-MM-DD')
+      const val = this.type === 'time'
+        ? `${date_str} ${this.value}`
+        : this.value
+
+      return moment(val).format(this.getJFormat)
     }
   },
 
