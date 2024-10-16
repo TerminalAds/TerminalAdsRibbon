@@ -101,7 +101,7 @@ export default {
 
       const moment = require('moment-jalaali')
 
-      const date_str = moment().formt('YYYY-MM-DD')
+      const date_str = moment().format('YYYY-MM-DD')
       const val = this.type === 'time'
         ? `${date_str} ${this.value}`
         : this.value
