@@ -105,7 +105,7 @@ export default {
 
       if (this.type === 'time') {
         if (this.multiple) {
-          return this.value.map(item => moment(`${date_str} ${item}`).format(this.getJFormat))
+          return this.value.map(item => moment(`${date_str} ${item}`).format(this.getJFormat)).join(', ')
         }
         return moment(`${date_str} ${this.value}`).format(this.getJFormat)
       }
