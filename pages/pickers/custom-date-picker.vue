@@ -100,15 +100,21 @@ export default {
       if (!this.value) return ''
 
       const moment = require('moment-jalaali')
-
       const date_str = moment().format('YYYY-MM-DD')
 
-      if (this.type === 'time') {
-        if (this.multiple) {
-          return this.value.map(item => moment(`${date_str} ${item}`).format(this.getJFormat)).join(', ')
-        }
-        return moment(`${date_str} ${this.value}`).format(this.getJFormat)
+      const init_multi = (value, isTime = false) => {
+        if (isTime)
+          return value.map(item => moment(`${date_str} ${item}`).format(this.getJFormat)).join(', ')
+
+        return value.map(item => moment(item).format(this.getJFormat)).join(', ')
       }
+
+      if (this.multiple) {
+        return init_multi(this.value, this.type === 'time')
+      }
+
+      if (this.type === 'time')
+        return moment(`${date_str} ${this.value}`).format(this.getJFormat)
 
       return moment(this.value).format(this.getJFormat)
     }
