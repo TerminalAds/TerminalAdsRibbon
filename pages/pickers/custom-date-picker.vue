@@ -1,7 +1,8 @@
 <template>
   <div class="d-flex align-top">
     <slot name="default" v-bind="{inputClass}">
-      <v-text-field :class="[inputClass, wrapperClass]" :readonly="!editable" :value="getDisplayValue" v-bind="$attrs"/>
+      <v-text-field :class="[inputClass, wrapperClass]" :readonly="!editable" :value="getDisplayValue"
+                    v-bind="computedAttrs"/>
     </slot>
 
     <v-expand-x-transition mode="out-in">
@@ -111,6 +112,16 @@ export default {
       }
 
       return moment(this.value).format(this.getJFormat)
+    },
+    computedAttrs() {
+      let attrs = {
+        ...this.$attrs
+      }
+
+      if (!this.$attrs?.hasOwnProperty('append-icon'))
+        attrs['append-icon'] = 'mdi-calendar-month'
+
+      return attrs
     }
   },
 
