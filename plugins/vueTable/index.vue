@@ -58,6 +58,10 @@
         <slot :name="i"/>
       </template>
 
+      <template v-for="(slot, i) in $scopedSlots" v-slot:[i]="row">
+        <slot :name="i" v-bind="{...row}"/>
+      </template>
+
       <template v-for="({value}, i) in headers" v-slot:[`item.${value}`]="row">
         <slot :item="{...row, ...row.item}" :name="value">
           {{ row.item[value] || '-' }}
@@ -121,6 +125,7 @@ export default {
         length: 10
       }
     },
+    // noPagination: Boolean,
     filterOnEnter: Boolean
   },
 
@@ -192,7 +197,7 @@ export default {
       }
 
       return check_fields(rest)
-    }
+    },
   },
 
   watch: {
