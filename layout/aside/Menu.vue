@@ -78,6 +78,13 @@
         </div>
       </template>
     </template>
+
+    <v-list-item :disabled="downloading" link @click="downloadDorsandesk">
+      <v-list-item-icon>
+        <v-icon color="#6cdb72">mdi-cloud-download-outline</v-icon>
+      </v-list-item-icon>
+      <v-list-item-title>دانلود دورسان‌دسک</v-list-item-title>
+    </v-list-item>
   </v-list>
 </template>
 
@@ -94,7 +101,8 @@ export default {
 
   data: () => ({
     items: [],
-    rerender: true
+    rerender: true,
+    downloading: false
   }),
 
   mounted() {
@@ -153,6 +161,19 @@ export default {
     getActive(item) {
       let activate = item.children?.map((a) => a.slug).includes(this.$route.path.substring(1));
       return item.selectedItem = activate
+    },
+    downloadDorsandesk() {
+      this.downloading = true
+
+      const el = document.createElement('a')
+      el.href = `https://core.terminalads.com/assets/application/DorsanDesk.msi`
+      el.setAttribute('download', 'DorsanDesk.msi')
+      el.setAttribute('target', '_blank')
+      el.click()
+
+      setTimeout(() => {
+        this.downloading = false
+      }, 2000)
     }
   }
 }
