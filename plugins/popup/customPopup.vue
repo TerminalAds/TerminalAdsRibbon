@@ -134,6 +134,8 @@ export default {
     reloadPopup() {
       this.rerender = false;
       this.showLoading = true
+      this.onHandler('reload')
+
       this.$nextTick(() => {
         this.rerender = true
         this.$emit('on-reload')
