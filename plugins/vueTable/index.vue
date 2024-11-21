@@ -120,9 +120,11 @@ export default {
     },
     props: {
       type: Object,
-      default: {
-        page: 1,
-        length: 10
+      default: function () {
+        return {
+          page: 1,
+          length: 10
+        }
       }
     },
     // noPagination: Boolean,
