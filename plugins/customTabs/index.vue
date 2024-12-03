@@ -18,7 +18,7 @@
 
     <slot name="middle"/>
 
-    <v-tabs-items v-model="computedTabs">
+    <v-tabs-items v-model="computedTabs" v-bind="tabsItemsAttrs">
       <slot v-if="$slots.staticItems" name="staticItems"/>
 
       <template v-else>
@@ -45,6 +45,10 @@ export default {
     windowProps: {
       type: Object,
       default: null
+    },
+    tabsItemsAttrs: {
+      type: Object,
+      default: {}
     }
   },
 
