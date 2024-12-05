@@ -177,5 +177,10 @@ export default {
     }
   }
 
+  @media screen and(max-width: 600px) {
+    .v-slide-group__prev, .v-slide-group__next {
+      display: none;
+    }
+  }
 }
 </style>
