@@ -18,7 +18,7 @@
 
     <slot name="middle"/>
 
-    <v-tabs-items v-model="computedTabs">
+    <v-tabs-items v-model="computedTabs" v-bind="tabsItemsAttrs">
       <slot v-if="$slots.staticItems" name="staticItems"/>
 
       <template v-else>
@@ -50,6 +50,10 @@ export default {
     windowProps: {
       type: Object,
       default: null
+    },
+    tabsItemsAttrs: {
+      type: Object,
+      default: {}
     }
   },
 
@@ -178,5 +182,10 @@ export default {
     }
   }
 
+  @media screen and(max-width: 600px) {
+    .v-slide-group__prev, .v-slide-group__next {
+      display: none;
+    }
+  }
 }
 </style>

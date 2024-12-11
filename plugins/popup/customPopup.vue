@@ -112,7 +112,7 @@ export default {
   },
 
   methods: {
-    async onHandler(type) {
+    async onHandler(type, close = true) {
       if (this.cons.buttons && this.cons.buttons.length > 0) {
         this.showLoading = true
         const obj = this.cons.buttons.filter((item) => item.type === type)[0]
@@ -121,7 +121,7 @@ export default {
         }
         this.showLoading = false
       }
-      if (type !== 'close' && this.closeOnConfirm)
+      if (type !== 'close' && this.closeOnConfirm && close)
         this.computedValue = false
     },
     getDisabled(type) {
@@ -134,11 +134,11 @@ export default {
     reloadPopup() {
       this.rerender = false;
       this.showLoading = true
-      this.onHandler('reload')
+      this.onHandler('reload', false)
 
       this.$nextTick(() => {
         this.rerender = true
-        this.$emit('on-reload')
+        this.$emit('reload')
 
         setTimeout(() => {
           this.showLoading = false
