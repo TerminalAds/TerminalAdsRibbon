@@ -36,7 +36,12 @@ export default {
 
   props: {
     value: [Number, String, undefined],
-    tabItems: [Array, Object],
+    tabItems: {
+      type: [Array, Object],
+      default: function () {
+        return [{text: '', icon: ''}]
+      }
+    },
     windowItems: [Array, Object],
     tabProps: {
       type: Object,
