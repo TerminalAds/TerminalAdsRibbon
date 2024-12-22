@@ -7,8 +7,8 @@
       </div>
     </template>
 
-    <v-card :class="{'popup-card-loading' : showLoading}" class="overflow-y-auto" flat height="fit-content"
-            max-height="calc(100vh - 120px)">
+    <v-card id="cp-container" :class="{'popup-card-loading' : showLoading}" class="overflow-y-auto" flat
+            height="fit-content" max-height="calc(100vh - 120px)">
       <v-card-title class="sticky-top align-center popup-title flex-nowrap pa-2 pa-md-4">
         <span v-if="!$slots.extension" class="font-size-h4 white--text" v-text="cons.title || 'پاپ آپ'"/>
         <v-spacer v-if="!$slots.extension"/>
