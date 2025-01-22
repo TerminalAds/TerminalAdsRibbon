@@ -49,7 +49,9 @@ export default {
       this.$instanceAxios.get('https://api.terminalads.com/api/category/get-all-limited')
         .then(({data}) => {
           this.list = data
-            .filter(item => arr.includes(item.service_id) && (!!/[A-Za-z]+/.test(item.slug) || !!item.parent))
+            .filter(item => !!item.slug
+              && !!/[A-Za-z]+/.test(item.slug)
+              && arr.includes(item.service_id))
             .map(item => ({
               value: item.id,
               text: item.name,
