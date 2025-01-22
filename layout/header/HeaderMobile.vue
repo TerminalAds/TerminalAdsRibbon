@@ -4,11 +4,12 @@
 
     <template v-slot:extension>
       <div>
-        <v-btn dark href="/#/dashboard" large text>
+        <v-btn class="white--text rounded-lg" color="rgba(255, 255, 255, .2)" depressed href="/#/dashboard" large>
           داشبورد
         </v-btn>
 
-        <v-btn :href="front_url + '/#/contact/list'" class="mx-2" dark large target="_blank" text>
+        <v-btn :href="front_url + '/#/contact/list'" class="ms-2 white--text rounded-lg" color="rgba(255, 255, 255, .2)"
+               depressed large target="_blank">
           تماس یار (تشکر از تماس)
         </v-btn>
       </div>

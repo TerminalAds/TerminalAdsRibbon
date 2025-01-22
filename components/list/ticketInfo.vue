@@ -1,6 +1,10 @@
 <template>
   <v-row class="fill-height" no-gutters>
-    <v-col class="pa-2" cols="12" lg="12" md="6">
+    <v-col v-if="dashboardIntro && $vuetify.breakpoint.lgAndUp" class="pa-2" cols="12">
+      <user-pack/>
+    </v-col>
+
+    <v-col v-else class="pa-2" cols="12" lg="12" md="6">
       <div class="card card-custom card-body fill-height pt-4 px-6">
         <v-row no-gutters>
           <v-col cols="7">
@@ -27,7 +31,7 @@
 
     <v-col class="pa-2" cols="12" lg="6" md="3" sm="6">
       <a :href="DConfigs.dashboardConfig.announcement.url"
-         :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.announcement.img});background-size: 50%;background-color: rgb(245, 245, 245);`"
+         :style="`background-image: url(${DConfigs.dashboardConfig.announcement.img})`"
          class="card card-custom cursor-pointer">
         <div class="card-body pe-1">
           <div class="text-dark font-weight-bolder font-size-h2 mt-20"
@@ -39,7 +43,7 @@
 
     <v-col class="pa-2" cols="12" lg="6" md="3" sm="6">
       <a :href="DConfigs.dashboardConfig.numbers.url"
-         :style="`height: 165px;background-image: url(${DConfigs.dashboardConfig.numbers.img});background-size: 50%;background-color: rgb(245, 245, 245);`"
+         :style="`background-image: url(${DConfigs.dashboardConfig.numbers.img})`"
          class="card ribbon card-custom">
         <div class="card-body pe-1">
           <div class="text-dark font-weight-bolder font-size-h2 mt-20" v-text="price(numbers)"/>
@@ -52,9 +56,11 @@
 
 <script>
 import {mapGetters} from "vuex";
+import UserPack from "./userPack.vue";
 
 export default {
   name: "ticketInfo",
+  components: {UserPack},
 
   data() {
     return {
@@ -71,9 +77,12 @@ export default {
       ],
     }
   },
+
   computed: {
     ...mapGetters(["layoutConfig"]),
+    ...mapGetters('ribbon', ['dashboardIntro']),
   },
+
   mounted() {
     typeof this.DConfigs.dashboardConfig.counter === "function"
       ? this.DConfigs.dashboardConfig.counter()
@@ -90,5 +99,12 @@ export default {
   }
 }
 </script>
-<style>
+
+<style scoped>
+.card-custom {
+  height: 100%;
+  min-height: 165px;
+  background-size: 50%;
+  background-color: rgb(245, 245, 245);
+}
 </style>

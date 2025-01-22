@@ -12,7 +12,7 @@
 
         <rail-navigation v-if="$vuetify.breakpoint.mdAndUp"/>
 
-        <div id="kt_content" class="content">
+        <div id="kt_content" :class="{'content-dense': $route.name === 'dashboard'}" class="content">
           <div :class="{'container-fluid': contentFluid, container: !contentFluid}">
             <div class="d-block d-md-none">
               <KTAside v-if="asideEnabled"/>
@@ -168,6 +168,7 @@ export default {
 
     this.fetch();
     this.setTutorials();
+    this.updateService({sid: this.sid})
 
     this.$vuetify.icons.values.clear = 'mdi-close-circle-outline'
     this.$vuetify.icons.values.saveNew = 'mdi-content-save-plus-outline'
@@ -297,7 +298,7 @@ export default {
       window.location.href = 'https://core.terminalads.com/#/panel'
     },
     ...mapActions('tutorial', ['setTutorials']),
-    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading', 'setSectionStatus']),
+    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading', 'setSectionStatus', 'updateService']),
     fetch() {
       this.toggleLoading({field: 'user', status: true})
 
@@ -394,9 +395,17 @@ export default {
   padding-top: 12em;
 }
 
+#kt_content.content-dense {
+  padding-top: 4em;
+}
+
 @media screen and (max-width: 960px) {
   #kt_content {
     padding-top: 15em;
+  }
+
+  #kt_content.content-dense {
+    padding-top: 2em;
   }
 }
 

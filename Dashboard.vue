@@ -1,5 +1,17 @@
 <template>
   <v-row class="no-gutters">
+    <v-col class="pa-4 mb-12" cols="12">
+      <find-menu-page/>
+    </v-col>
+
+    <v-col v-if="dashboardIntro && $vuetify.breakpoint.mdAndDown" class="pa-4" cols="12">
+      <div class="h_iframe-aparat_embed_frame">
+        <!--        <span style="display: block;padding-top: 57%"></span>-->
+        <iframe :src="dashboardIntro.src" allowFullScreen="true"
+                mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+      </div>
+    </v-col>
+
     <v-col class="px-2 pl-lg-0" cols="12" lg="4" order="3" order-md="0">
       <v-row class="fill-height" no-gutters>
         <v-col class="pa-2" cols="12">
@@ -59,6 +71,7 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 import UserTransactions from "./components/mixed/userTransactions";
 import DashboardBanners from "./components/ads/dashboardBanners";
 import News from "./components/list/news";
@@ -67,10 +80,13 @@ import PackInvite from "./components/list/packInvite";
 import TicketInfo from "./components/list/ticketInfo";
 import UserProfile from "./components/list/userProfile";
 import FollowTerminalAds from "./components/mixed/followTerminalAds";
+import FindMenuPage from "./components/list/findMenuPage.vue";
 
 export default {
   name: "Dashboard",
+
   components: {
+    FindMenuPage,
     FollowTerminalAds,
     UserProfile,
     TicketInfo,
@@ -80,5 +96,32 @@ export default {
     DashboardBanners,
     UserTransactions,
   },
+
+  computed: {
+    ...mapGetters('ribbon', ['dashboardIntro']),
+  }
 };
 </script>
+
+<style>
+.h_iframe-aparat_embed_frame {
+  aspect-ratio: 16/9;
+  position: relative;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.h_iframe-aparat_embed_frame .ratio {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.h_iframe-aparat_embed_frame iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

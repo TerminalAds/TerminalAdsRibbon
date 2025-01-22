@@ -7,6 +7,9 @@ export default {
     wallet: {balance: null},
     new_wallet: {balance: null},
     core: {},
+    serviceInfo: {
+      sid: null
+    },
     walletDialog: false,
     withdrawDialog: false,
     DLoading: {
@@ -23,7 +26,12 @@ export default {
       time: null,
       timer: false,
       route: ''
-    }
+    },
+    introVideos: [
+      {src: 'https://www.aparat.com/video/video/embed/videohash/wineuwq/vt/frame', serverId: 3},
+      {src: 'https://www.aparat.com/video/video/embed/videohash/lgcnos4/vt/frame', serverId: 4},
+      {src: 'https://www.aparat.com/video/video/embed/videohash/qpqa67t/vt/frame', serverId: 1},
+    ]
   },
 
   getters: {
@@ -38,7 +46,10 @@ export default {
     DLoading: state => state.DLoading,
     sectionStatus: state => state.sectionStatus,
     hasTimer: state => state.autoReload.timer,
-    timerHasTime: state => !!state.autoReload.time
+    timerHasTime: state => !!state.autoReload.time,
+    dashboardIntro: state => !!state.introVideos.map(item => item.serverId).includes(state.serviceInfo.sid)
+        ? state.introVideos.find(item => item.serverId === state.serviceInfo.sid)
+        : false
   },
 
   actions: {
@@ -74,6 +85,9 @@ export default {
     },
     stopTimer({commit}) {
       commit('stop_timer')
+    },
+    updateService({commit}, input) {
+      commit('update_service_info', input);
     }
   },
 
@@ -110,5 +124,8 @@ export default {
       state.autoReload.route = null
       state.autoReload.timer = false
     },
+    update_service_info(state, info) {
+      state.serviceInfo = info
+    }
   }
 };

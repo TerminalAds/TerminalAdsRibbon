@@ -1,6 +1,6 @@
 <template>
   <div :test="isShowNav" :test2="isShowMobile">
-    <v-navigation-drawer v-model="navShow" fixed right temporary style="z-index: 999">
+    <v-navigation-drawer v-model="navShow" app right style="z-index: 999">
       <Menu :visible="navShow"/>
     </v-navigation-drawer>
   </div>
@@ -17,7 +17,7 @@ export default {
 
   data() {
     return {
-      navShow: false,
+      navShow: true,
       mobileShow: false,
     }
   },

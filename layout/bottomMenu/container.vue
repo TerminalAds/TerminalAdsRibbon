@@ -2,7 +2,13 @@
   <div class="bottom-btn-group-row">
     <v-btn-toggle v-model="toggle_exclusive" class="button-btn-group" group mandatory>
       <div v-for="(item, i) in btnGroup" :key="i" class="btn-toggle-holder">
-        <v-btn v-if="item.link" :aria-label="item.title" :href="typeof item.link === 'string' ? item.link : ''"
+        <v-btn v-if="item.index === 2" :aria-label="item.title" :href="item.link" absolute class="rounded-pill"
+               color="white" depressed fab height="48" min-width="48" style="top: 50%; transform: translateY(-50%)"
+               width="48" @click="handleCLick(item, i)">
+          <v-icon color="green">mdi-{{ item.icon }}</v-icon>
+        </v-btn>
+
+        <v-btn v-else-if="item.link" :aria-label="item.title" :href="typeof item.link === 'string' ? item.link : ''"
                class="rounded-pill" color="white" depressed height="32" min-width="32" text width="32"
                @click="handleCLick(item, i)">
           <v-icon>mdi-{{ item.icon }}</v-icon>
@@ -33,18 +39,18 @@ export default {
   components: {MoreButton, NotifyMenu},
 
   data: () => ({
-    toggle_exclusive: 0,
+    toggle_exclusive: 2,
     btnGroup: [],
     width: 0,
-    index: 0
+    index: 2
   }),
 
   mounted() {
     this.btnGroup = [
-      {link: 'https://core.terminalads.com', icon: 'home', title: 'خانه', index: 0},
-      {link: this.handleMenu, icon: 'menu-open', title: 'منو', index: 1},
-      {link: null, icon: 'bell', title: 'اعلانات', component: 'NotifyMenu', index: 2},
-      {link: this.handleHelp, icon: 'help', title: 'راهنما', index: 3},
+      {link: this.handleMenu, icon: 'menu-open', title: 'منو', index: 0},
+      {link: this.handleHelp, icon: 'help', title: 'راهنما', index: 1},
+      {link: 'https://core.terminalads.com', icon: 'home', title: 'خانه', index: 2},
+      {link: null, icon: 'bell', title: 'اعلانات', component: 'NotifyMenu', index: 3},
       {link: null, icon: 'dots-vertical', title: 'بیشتر', component: 'MoreButton', index: 4},
     ]
   },
@@ -76,7 +82,7 @@ export default {
 <style scoped>
 .bottom-btn-group-row {
   background: linear-gradient(to right, #0051CE, #0BB7AF);
-  overflow: hidden;
+  overflow-x: hidden;
   height: 62px;
   position: fixed;
   bottom: 0;
@@ -99,9 +105,11 @@ export default {
   justify-content: space-around;
   padding-bottom: 3px;
   align-self: center;
+  align-items: center;
 }
 
 .btn-toggle-holder {
+  position: relative;
   flex: 0 1 auto;
   display: inline-flex;
   width: 100%;
