@@ -15,14 +15,14 @@
 
     <v-divider style="background-color: rgba(255, 255, 255, .3)"/>
 
-    <v-list-item :href="homeLink()" link>
+    <v-list-item :href="homeLink()" link @click="toggleMobileMenu()">
       <v-list-item-icon>
         <v-icon color="#6cdb72">mdi-home</v-icon>
       </v-list-item-icon>
       <v-list-item-title>خانه</v-list-item-title>
     </v-list-item>
 
-    <v-list-item link to="/dashboard">
+    <v-list-item link to="/dashboard" @click="toggleMobileMenu()">
       <v-list-item-icon>
         <v-icon color="#6cdb72">widgets</v-icon>
       </v-list-item-icon>
@@ -30,7 +30,7 @@
     </v-list-item>
 
     <div v-if="DLoading.menus" class="group-wrapper">
-      <v-list-item v-for="x in 3" :key="x">
+      <v-list-item v-for="x in 3" :key="x" @click="toggleMobileMenu()">
         <v-list-item-icon>
           <v-icon>mdi-circle-small</v-icon>
         </v-list-item-icon>
@@ -54,7 +54,7 @@
     <template v-else>
       <template v-for="(item, i) in items">
         <div v-if="!!item" :key="`item-${i}`" class="group-wrapper">
-          <v-list-item v-if="!item.children" :to="`/${item.slug}`" link>
+          <v-list-item v-if="!item.children" :to="`/${item.slug}`" link @click="toggleMobileMenu()">
             <v-list-item-icon>
               <v-icon>mdi-circle-small</v-icon>
             </v-list-item-icon>
@@ -68,7 +68,7 @@
             </template>
 
             <v-list-item v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`" color="white" link
-                         style="padding-right: 32px">
+                         style="padding-right: 32px" @click="toggleMobileMenu()">
               <v-list-item-icon>
                 <v-icon>mdi-menu-left</v-icon>
               </v-list-item-icon>
