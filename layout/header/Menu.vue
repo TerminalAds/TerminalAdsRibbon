@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 import CustomPopup from "../../plugins/popup/customPopup";
 import Tutorials from "../../pages/tutorials";
 
