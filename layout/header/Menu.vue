@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex'
+import {mapGetters} from 'vuex'
 import CustomPopup from "../../plugins/popup/customPopup";
 import Tutorials from "../../pages/tutorials";
 
@@ -84,7 +84,7 @@ export default {
 
   computed: {
     ...mapGetters("ribbon", ["menus", 'DLoading', 'sectionStatus']),
-    ...mapState("menu" ["isShow"]),
+    ...mapGetters("menu" ["isShow"]),
     hasMenu() {
       return !!this.menus.length
     },
