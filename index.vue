@@ -145,6 +145,7 @@ export default {
       this.showReloadPage = true
     }
     this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+    this.$instanceAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     this.DHeaders.Authorization = 'Bearer ' + token
   },
 

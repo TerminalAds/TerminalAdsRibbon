@@ -1,13 +1,13 @@
 <template>
   <div>
     <ul class="menu-nav has-background">
-      <li class="menu-item exact-color">
+      <li class="menu-item exact-color" @click="toggleNavigation()">
         <a :href="homeLink()" aria-haspopup="true" class="menu-link" data-menu-toggle="hover">
           <span class="menu-text"><i class="fas fa-home fa-2x home-icon-color"></i></span>
         </a>
       </li>
 
-      <li class="menu-item exact-color">
+      <li class="menu-item exact-color" @click="toggleNavigation()">
         <v-btn aria-haspopup="true" class="menu-link px-4" dark data-menu-toggle="hover" height="40"
                min-width="40" text @click="$root.$emit('openTuts')">
           <v-icon>mdi-help</v-icon>
@@ -16,7 +16,7 @@
 
       <router-link v-slot="{ href, navigate, isActive, isExactActive }" to="/dashboard">
         <li :class="[isActive && 'menu-item-active', isExactActive && 'menu-item-active']" aria-haspopup="true"
-            class="menu-item" data-menu-toggle="hover">
+            class="menu-item" data-menu-toggle="hover" @click="toggleNavigation()">
           <a :href="href" class="menu-link" @click="navigate">
             <span class="menu-text">داشبورد</span>
           </a>
@@ -57,7 +57,7 @@
               </h3>
               <v-list>
                 <v-list-item v-for="(child, j) in menu.children" :key="j" :to="`/${child.slug}`" class="menu-link px-4"
-                             exact light style="min-height: 32px">
+                             exact light style="min-height: 32px" @click="toggleNavigation()">
                   <v-list-item-icon class="my-3" style="margin-left: 16px">
                     <v-icon color="grey">mdi-circle-small</v-icon>
                   </v-list-item-icon>
