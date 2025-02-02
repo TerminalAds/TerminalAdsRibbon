@@ -84,7 +84,7 @@ export default {
 
   computed: {
     ...mapGetters("ribbon", ["menus", 'DLoading', 'sectionStatus']),
-    ...mapGetters("menu" ["isShow"]),
+    ...mapGetters(["menu/isShow"]),
     hasMenu() {
       return !!this.menus.length
     },
@@ -109,10 +109,10 @@ export default {
       return '/#/' + slug
     },
     closeMenuOnClick() {
-      !this.isShow && this.toggleNavigation()
+      !!this['menu/isShow'] && this.toggleNavigation()
     }
   }
-};
+}
 </script>
 
 <style scoped>
