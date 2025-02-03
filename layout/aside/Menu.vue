@@ -7,9 +7,9 @@
         </div>
       </v-list-item-content>
       <v-list-item-action>
-        <a class="btn btn-xs btn-icon btn-light btn-hover-danger" href="#">
+        <span class="btn btn-xs btn-icon btn-light btn-hover-danger">
           <i class="ki ki-close icon-xs text-muted"></i>
-        </a>
+        </span>
       </v-list-item-action>
     </v-list-item>
 

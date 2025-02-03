@@ -5,7 +5,7 @@
         <h4>آخرین تراکنش ها</h4>
         <span>موجودی شما:</span>
         <span class="float-left">{{ balance !== null && balance >= 0 ? persianNum(currency(balance)) : '---' }}<v-icon
-            v-if="wallet.icon != null && wallet.icon.length > 0" class="ms-2" v-text="wallet.icon"/></span>
+          v-if="wallet.icon != null && wallet.icon.length > 0" class="ms-2" v-text="wallet.icon"/></span>
       </div>
 
       <v-fab-transition>
@@ -16,12 +16,14 @@
         <div v-else-if="transactions.length > 0">
           <div v-for="item in transactions" class="d-flex align-items-center justify-content-between mb-2">
             <div class="d-flex align-items-center mr-2 pt-3">
-              <i :class="item.type === 'withdraw' ? ['text-success','fa-check']:['text-danger','fa-times']"
+              <i :class="item.type === 'withdraw' || item.state === 'increase'
+              ? ['text-success','fa-check']
+              : ['text-danger','fa-times']"
                  class="fa fa-2x"></i>
               <div>
-                <a class="text-dark text-hover-primary pl-2 font-weight-bolder" href="#">
-                  {{ transType(item.type) }}
-                </a>
+                <span class="text-dark text-hover-primary pl-2 font-weight-bolder poi">
+                  {{ transType(item) }}
+                </span>
               </div>
             </div>
             <div v-b-tooltip.hover :title="item.created_at_p"
@@ -92,18 +94,19 @@ export default {
 
 
       this.$DashboardAxios.get('/api/newWallet/latest')
-          .then(({data}) => this.transactions = data.data)
-          .catch(({response}) => console.log('error in get transactions: ', response))
-          .finally(() => this.loading = false)
+        .then(({data}) => this.transactions = data.data)
+        .catch(({response}) => console.log('error in get transactions: ', response))
+        .finally(() => this.loading = false)
     },
     goToTransactions() {
       window.open('https://core.terminalads.com/#/user/transactions')
     },
-    transType(type) {
-      if (type === 'withdraw') {
-        return 'واریز وجه'
-      } else if (type === 'deposit') {
+    transType({state, type}) {
+
+      if (type === 'withdraw' || state === 'decrease') {
         return 'برداشت وجه'
+      } else if (type === 'deposit' || state === 'increase') {
+        return 'واریز وجه'
       } else if (type === 'charge') {
         return 'شارژ کیف پول'
       } else if (type === 'refund') {

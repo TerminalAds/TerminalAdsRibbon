@@ -17,9 +17,13 @@ export default {
 
   data() {
     return {
-      navShow: true,
+      navShow: false,
       mobileShow: false,
     }
+  },
+
+  created() {
+    (['dashboard', 'home'].includes(this.$route.name) && !this.navShow) && (this.toggleMobileMenu())
   },
 
   computed: {

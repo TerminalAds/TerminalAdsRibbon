@@ -40,7 +40,7 @@
         <li v-for="(menu, i) in topMenus" :key="i"
             :class="[ !menu.parent_id ? 'menu-item ' : 'menu-item menu-item menu-item-submenu menu-item-open-dropdown', { 'menu-item-active': hasActiveChildren(menu.slug) } ]"
             :data-menu-toggle="!menu.parent_id ? 'hover' : 'click'" aria-haspopup="true">
-          <a v-if="!menu.children" :href="itemSlug(menu.slug)" class="menu-link">
+          <a v-if="!menu.children" :href="itemSlug(menu.slug)" class="menu-link" @click="closeMenuOnClick()">
             <span class="menu-text"> {{ menu.name }} </span>
           </a>
 
