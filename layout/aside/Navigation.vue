@@ -23,7 +23,7 @@ export default {
   },
 
   created() {
-    (['dashboard', 'home'].includes(this.$route.name) && !this.navShow) && (this.toggleMobileMenu())
+    (['dashboard'].includes(this.$route.name) && !this.navShow) && (this.toggleMobileMenu())
   },
 
   computed: {
