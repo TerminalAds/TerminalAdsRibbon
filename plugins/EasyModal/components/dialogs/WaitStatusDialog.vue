@@ -2,21 +2,21 @@
   <v-dialog v-model="show" :persistent="!closable" :width="loading ? 250 : width"
             @click:outside="$emit('outsideClick')">
     <v-card v-if="loading" class="fill-height">
+      <v-card-title class="text-center justify-center font-weight-bold">
+        {{ i18n.t('Loading.Waiting') }} ...
+      </v-card-title>
 
       <v-card-text class="text-center d-flex flex-column justify-center align-center">
         <!--                <div class="d-flex justify-center mb-3 pt-3 mx-auto">-->
         <!--                    <v-img src="sms.ico" max-height="80" max-width="80" contain/>-->
         <!--                </div>-->
 
-        <p class="font-weight-bold font-size-h4 ">
-          {{ i18n.t('Loading.Waiting') }} ...
-        </p>
-
         <atom-spinner :animation-duration="1000" :size="100" class="mx-auto mt-10" color="primary"/>
       </v-card-text>
 
-      <p class="text-center mb-0 description">{{ i18n.t('Loading.Description') }}</p>
-      <v-divider class="my-0 py-0"/>
+      <p class="text-center description">{{ i18n.t('Loading.Description') }}</p>
+      <v-divider class="my-0 mx-4"/>
+      <v-card-subtitle v-if="!!extraText" class="pa-2 text-center">{{ extraText }}</v-card-subtitle>
     </v-card>
 
     <v-card v-else>
@@ -44,7 +44,8 @@ export default {
     },
     width: {
       default: 500
-    }
+    },
+    extraText: String
   },
 
   data() {

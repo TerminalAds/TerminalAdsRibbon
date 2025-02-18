@@ -1,8 +1,8 @@
 <template>
   <div v-if="dialogShow || isConnectionLostShow">
     <v-row v-if="dialogShow">
-      <wait-status-dialog v-model="isDialogOpened" :closable="!(isLoading || isNotClosable)" :loading="isLoading"
-                          :width="width" @outsideClick="outsideClick">
+      <wait-status-dialog v-model="isDialogOpened" :closable="!(isLoading || isNotClosable)" :extra-text="extraText"
+                          :loading="isLoading" :width="width" @outsideClick="outsideClick">
         <v-card>
           <v-card-title v-if="!isNotClosable" class="pa-2 justify-end">
             <v-btn v-b-tooltip="'بستن'" class="px-0" color="rgb(252,193,199)"
@@ -103,6 +103,7 @@ import {
   Closable,
   Data,
   Description,
+  ExtraText,
   Events,
   Icon,
   Loading,
@@ -219,6 +220,9 @@ export default {
     },
     description() {
       return vx.getters[Description];
+    },
+    extraText() {
+      return vx.getters[ExtraText]
     },
     primaryButtons() {
       return vx.getters[PrimaryButtons];
