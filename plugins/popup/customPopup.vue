@@ -179,6 +179,7 @@ export default {
         }
         this.showLoading = false;
       }
+      this.$emit("action", type);
       if (type !== "close" && this.closeOnConfirm && close)
         this.computedValue = false;
     },
