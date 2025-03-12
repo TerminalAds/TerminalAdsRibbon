@@ -16,7 +16,7 @@
         <div v-else-if="transactions.length > 0">
           <div v-for="item in transactions" class="d-flex align-items-center justify-content-between mb-2">
             <div class="d-flex align-items-center mr-2 pt-3">
-              <i :class="item.type === 'withdraw' || item.state === 'increase'
+              <i :class="item.type === 'deposit' || item.state === 'increase'
               ? ['text-success','fa-check']
               : ['text-danger','fa-times']"
                  class="fa fa-2x"></i>
