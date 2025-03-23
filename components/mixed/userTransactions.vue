@@ -4,8 +4,9 @@
       <div>
         <h4>آخرین تراکنش ها</h4>
         <span>موجودی شما:</span>
-        <span class="float-left">{{ balance !== null && balance >= 0 ? persianNum(currency(balance)) : '---' }}<v-icon
-          v-if="wallet.icon != null && wallet.icon.length > 0" class="ms-2" v-text="wallet.icon"/></span>
+        <span class="float-left">
+          {{ balance !== null && balance >= 0 ? persianNum(currency(Math.floor(balance))) : '---' }}
+          <v-icon v-if="wallet.icon != null && wallet.icon.length > 0" class="ms-2" v-text="wallet.icon"/></span>
       </div>
 
       <v-fab-transition>
