@@ -1,6 +1,7 @@
 import DashboardAxios from "axios";
 import Vuex, {mapActions} from "vuex";
-import store from "./store";
+import ribbon from "./stores/ribbon";
+import phonebook from "./stores/phonebook";
 import money from './Mony.json';
 import VueOffline from 'vue-offline'
 import modal from './plugins/EasyModal/index'
@@ -13,7 +14,8 @@ export default {
     Vue.use(VueOffline)
     Vue.use(modal)
 
-    options.store.registerModule("ribbon", store);
+    options.store.registerModule("ribbon", ribbon);
+    options.store.registerModule("phonebook", phonebook);
 
     Vue.prototype.$instanceAxios = options.axios
     Vue.prototype.$DashboardAxios = DashboardAxios.create({
@@ -23,6 +25,11 @@ export default {
         common: options.headers
       },
     });
+    Vue.prototype.$payamakAxios = options.axios.create({
+      baseURL: 'https://sms-api.terminalads.com/api/',
+      timeout: 15000,
+      headers: options.headers,
+    })
 
     Vue.mixin({
       data: () => ({
@@ -116,9 +123,82 @@ export default {
           }
           return false
         },
-        debounce: (fn, delay) => debounce(fn, delay)
+        debounce: (fn, delay) => debounce(fn, delay),
+        hasPhonebookPermission(value, target = null) {
+          let p
+
+          if (!!target)
+            p = this.isInShareListPhonebook(target) ? target.setting : true
+          else
+            p = options.store.getters['phonebook/phonebookPermissions']
+
+          return typeof p === 'object' ? p[value] : true
+        },
+        isInShareListPhonebook(target) {
+          return target.hasOwnProperty('parent_id')
+        },
+        datetime(input, type, utc = false) {
+          if (!input) return '-';
+
+          if (type === 'datetime') {
+            return `${this.jalalian(input)} ${this.getTime(input)}`;
+          } else {
+            return `${this.jalalian(input)}`
+          }
+        },
+        copyLink(str, isLink = true, message = null) {
+          let link = str
+
+          if (!link.startsWith('http') && isLink)
+            link = 'https://' + link
+
+          try {
+            if (!!navigator.clipboard)
+              navigator.clipboard.writeText(link);
+            else {
+              let textArea = document.createElement("textarea");
+              textArea.value = link;
+
+              // Avoid scrolling to bottom
+              textArea.style.top = "0";
+              textArea.style.left = "0";
+              textArea.style.position = "fixed";
+
+              document.body.appendChild(textArea);
+              textArea.focus();
+              textArea.select();
+
+              try {
+                let successful = document.execCommand('copy');
+                let msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Fallback: Copying text command was ' + msg);
+              } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                this.$toast.error('خطا در رونوشت لینک.')
+              }
+
+              document.body.removeChild(textArea);
+            }
+          } catch (e) {
+            this.$toast.error('خطا در رونوشت لینک.')
+          }
+
+          this.$toast.info(message || 'لینک کپی شد.')
+        },
+        goto(route, query = {}) {
+          this.$router.push({path: "/" + route, query: query})
+        },
+        nowDateTimeString(sp = '-') {
+          let moment = require('moment-jalaali')
+          return moment().format(`YYYY${sp}MM${sp}DD HH:mm:ss`)
+        }
       }
     });
+
+    Array.prototype.removeDuplicateInArray = function (target) {
+      const uniqueTags = new Map(this.map(item => [item[target], item]))
+      return [...uniqueTags.values()]
+    };
 
     window.ribbonCan = (permission) => {
       if (!permission)
