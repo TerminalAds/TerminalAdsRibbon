@@ -128,9 +128,9 @@
 </template>
 
 <script>
-import ContactsEditFields from "@/view/content/contacts/contactsEditFields.vue";
-import ContactsTags from "@/view/content/contacts/contactsTags.vue";
-import {deleteContactFromTag, updateContact} from "@/Utilities/ContactsFunctions";
+import ContactsEditFields from "./fragments/contactsEditFields.vue";
+import ContactsTags from "./fragments/contactsTags.vue";
+import {deleteContactFromTag, updateContact} from "../../assets/js/ContactsFunctions";
 
 export default {
   name: "editContact",
