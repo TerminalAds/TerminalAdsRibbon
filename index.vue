@@ -293,6 +293,10 @@ export default {
             text: this.$t("BUTTONS.Close")
           }
         ])
+      } else if (error.response.status === 401) {
+        // redirect to core and get correct user token
+        const {origin, hash} = window.location;
+        destroyToken(origin, hash.substring(1));
       }
     },
     gotoPanel() {
