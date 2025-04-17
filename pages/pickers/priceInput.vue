@@ -1,8 +1,7 @@
 <template>
-  <v-text-field v-model="input" :error-messages="error !== undefined ? error : []"
+  <v-text-field v-model="input" :error-messages="error !== undefined ? error : []" :label="label ?? 'مبلغ (﷼)'"
                 :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13" :messages="priceString" autofocus
-                class="centered-input" clearable label="مبلغ (﷼)" outlined v-bind="$attrs" @input="handleInput"
-                @keypress="isNumberKey"/>
+                class="centered-input" clearable outlined v-bind="$attrs" @input="handleInput" @keypress="isNumberKey"/>
 </template>
 
 <script>
@@ -59,9 +58,9 @@ export default {
   computed: {
     priceString: function () {
       return !!this.input ? (this.toChar
-          ? Num2persian(this.value)
-          : this.persianNum(this.currency(this.value))) + " ریال"
-          : '';
+        ? Num2persian(this.value)
+        : this.persianNum(this.currency(this.value))) + " ریال"
+        : '';
     }
   },
 
