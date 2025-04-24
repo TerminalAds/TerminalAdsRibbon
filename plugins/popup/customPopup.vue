@@ -26,17 +26,23 @@
       <v-card-title
         class="sticky-top align-center popup-title flex-nowrap pa-2 pa-md-4"
       >
-        <span
-          v-if="!$slots.extension"
-          class="font-size-h4 white--text"
-          v-text="cons.title || 'پاپ آپ'"
-        />
-        <v-spacer v-if="!$slots.extension" />
+        <div
+          class="d-flex row gap-0 align-center align-self-center align-items-center"
+        >
+          <span
+            v-if="!$slots.extension"
+            class="font-size-h4 white--text"
+            v-text="cons.title || 'پاپ آپ'"
+          />
+          <slot v-if="!$slots.extension" name="helpinfo"></slot>
 
-        <slot v-if="rerender" name="extension" />
+          <v-spacer v-if="!$slots.extension" />
 
-        <div v-if="rerender" class="pt-2 pa-md-0">
-          <slot name="title" />
+          <slot v-if="rerender" name="extension" />
+
+          <div v-if="rerender" class="pt-2 pa-md-0">
+            <slot name="title" />
+          </div>
         </div>
 
         <v-btn
