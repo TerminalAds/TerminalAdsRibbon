@@ -27,7 +27,7 @@
         class="sticky-top align-center popup-title flex-nowrap pa-2 pa-md-4"
       >
         <div
-          class="d-flex row gap-0 align-center align-self-center align-items-center"
+          class="d-flex row gap-0 align-center align-self-center align-items-center mx-2"
         >
           <span
             v-if="!$slots.extension"
