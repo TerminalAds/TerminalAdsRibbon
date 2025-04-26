@@ -29,7 +29,7 @@
               <v-icon right>mdi-{{ tab.icon }}</v-icon>
               <span class="font-weight-bold">{{ tab.text }}</span>
             </slot>
-            <slot name="helpinfo"></slot>
+            <slot name="helpinfo" v-bind:tab="tab"></slot>
           </div>
         </v-tab>
       </template>
@@ -76,7 +76,7 @@ export default {
     },
     tabsItemsAttrs: {
       type: Object,
-      default: {},
+      default: () => {},
     },
   },
 
