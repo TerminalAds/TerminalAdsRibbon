@@ -1,306 +1,202 @@
 <template>
-  <help-info-wrapper
-    :info.sync="helpData"
-    :service-name="serviceName"
-    class="warp"
-  >
-    <template>
-      <v-card :loading="loading" flat>
-        <v-card-title>
-          موجودی قابل برداشت:
-          <span class="text--primary mx-2">{{
-            persianNum(currency(Math.floor(balance)))
-          }}</span>
-          <span class="small-font">ریال</span>
+  <v-card :loading="loading" flat>
+    <v-card-title>
+      موجودی قابل برداشت:
+      <span class="text--primary mx-2">{{
+        persianNum(currency(Math.floor(balance)))
+      }}</span>
+      <span class="small-font">ریال</span>
+    </v-card-title>
+
+    <v-card-text>
+      <v-divider />
+      <span class="red--text">کارمزد برداشت از حساب: ۵۰,۰۰۰ ریال می باشد!</span>
+      <v-row class="pa-2" justify="center" no-gutters>
+        <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
+          <price-input v-model="inputBalance" label="مبلغ" to-char />
+        </v-col>
+
+        <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
+          <v-autocomplete
+            v-model="selectedAccount"
+            :items="accounts"
+            :loading="loading"
+            label="انتخاب حساب"
+            outlined
+          >
+            <template v-slot:prepend-inner>
+              <v-img
+                v-if="!!banksPrefix"
+                :src="banksPrefix.icon"
+                contain
+                width="48"
+              />
+            </template>
+
+            <template v-slot:append-item>
+              <div class="mx-4">
+                <v-btn depressed @click="addAccount = true">
+                  <v-icon color="success" left>mdi-plus</v-icon>
+                  افزودن حساب
+                </v-btn>
+              </div>
+            </template>
+
+            <template v-slot:item="data">
+              <v-list-item-avatar>
+                <v-img :src="data.item.icon" />
+              </v-list-item-avatar>
+              <v-list-item-title v-text="data.item.text" />
+              <v-list-item-action>
+                <v-btn
+                  color="#ff475a"
+                  icon
+                  @click.stop="deleteAccount(data.item.id)"
+                >
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </template>
+          </v-autocomplete>
+        </v-col>
+
+        <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
+          <v-divider />
+
+          <v-btn
+            :disabled="!inputBalance || !selectedAccount"
+            :loading="loading"
+            color="success"
+            depressed
+            @click="addWithdraw"
+          >
+            <v-icon left>mdi-plus</v-icon>
+            ثبت برداشت
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
+    <custom-popup
+      v-model="addAccount"
+      :cons="{ title: 'افزدن حساب' }"
+      hide-confirm
+      max-width="600"
+    >
+      <v-card flat>
+        <v-card-title class="red--text">
+          ورود کلیه اطلاعات الزامی است.
         </v-card-title>
 
-        <v-card-text>
-          <v-divider />
-          <span class="red--text"
-            >کارمزد برداشت از حساب: ۵۰,۰۰۰ ریال می باشد!</span
-          >
-          <v-row class="pa-2" justify="center" no-gutters>
-            <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-              <div class="rowinfo">
-                <price-input v-model="inputBalance" label="مبلغ" to-char />
-                <help-info
-                  :element-name="`${serviceName}-${componentName}-inputBalance`"
-                  :service-name="serviceName"
-                  :help-data="helpData"
-                  class="buttoninfo"
-                  label="مبلغ"
+        <v-row class="pa-2" justify="center" no-gutters>
+          <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
+            <v-text-field
+              v-model="obj.ownerName"
+              :rules="[rules.persian]"
+              class="rounded-lg"
+              clear-icon="mdi-close-circle-outline"
+              clearable
+              dense
+              label="نام صاحب حساب"
+              outlined
+            />
+          </v-col>
+
+          <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
+            <v-text-field
+              v-model="obj.ownerLastName"
+              :rules="[rules.persian]"
+              class="rounded-lg"
+              clear-icon="mdi-close-circle-outline"
+              clearable
+              dense
+              label="نام خانوادگی"
+              outlined
+            />
+          </v-col>
+
+          <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
+            <v-text-field
+              v-model="obj.bankName"
+              :rules="[rules.persian]"
+              class="rounded-lg icon-wrapper"
+              clear-icon="mdi-close-circle-outline"
+              clearable
+              dense
+              label="نام بانک"
+              outlined
+            >
+              <template v-slot:append>
+                <v-img
+                  v-if="!!banksPrefix"
+                  :src="banksPrefix.icon"
+                  contain
+                  width="32"
                 />
-              </div>
-            </v-col>
+              </template>
+            </v-text-field>
+          </v-col>
 
-            <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-              <div class="rowinfo">
-                <v-autocomplete
-                  v-model="selectedAccount"
-                  :items="accounts"
-                  :loading="loading"
-                  label="انتخاب حساب"
-                  outlined
-                >
-                  <template v-slot:prepend-inner>
-                    <v-img
-                      v-if="!!banksPrefix"
-                      :src="banksPrefix.icon"
-                      contain
-                      width="48"
-                    />
-                  </template>
+          <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
+            <v-text-field
+              v-model="obj.accountNumber"
+              class="rounded-lg"
+              clear-icon="mdi-close-circle-outline"
+              clearable
+              dense
+              label="شماره حساب"
+              outlined
+              type="number"
+            />
+          </v-col>
 
-                  <template v-slot:append-item>
-                    <div class="mx-4">
-                      <v-btn depressed @click="addAccount = true">
-                        <v-icon color="success" left>mdi-plus</v-icon>
-                        افزودن حساب
-                      </v-btn>
-                    </div>
-                  </template>
+          <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
+            <v-text-field
+              v-model="obj.cardNumber"
+              :rules="[rules.cardNumber]"
+              class="rounded-lg"
+              clear-icon="mdi-close-circle-outline"
+              clearable
+              counter="16"
+              dense
+              label="شماره کارت"
+              outlined
+              type="number"
+            />
+          </v-col>
 
-                  <template v-slot:item="data">
-                    <v-list-item-avatar>
-                      <v-img :src="data.item.icon" />
-                    </v-list-item-avatar>
-                    <v-list-item-title v-text="data.item.text" />
-                    <v-list-item-action>
-                      <v-btn
-                        color="#ff475a"
-                        icon
-                        @click.stop="deleteAccount(data.item.id)"
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </template>
-                </v-autocomplete>
-                <help-info
-                  :element-name="`${serviceName}-${componentName}-selectedAccount`"
-                  :service-name="serviceName"
-                  :help-data="helpData"
-                  class="buttoninfo"
-                  label="انتخاب حساب"
-                />
-              </div>
-            </v-col>
+          <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
+            <v-text-field
+              v-model="obj.sheba"
+              :rules="[rules.sheba]"
+              class="rounded-lg"
+              counter="24"
+              dense
+              label="شماره شبا"
+              outlined
+              suffix="IR"
+              type="number"
+            />
+          </v-col>
 
-            <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-              <v-divider />
-              <div
-                class="rowinfo"
-                style="width: 100% !important"
-                :disabled="!inputBalance || !selectedAccount"
-              >
-                <v-btn
-                  :disabled="!inputBalance || !selectedAccount"
-                  :loading="loading"
-                  color="success"
-                  class="contentinfo"
-                  depressed
-                  @click="addWithdraw"
-                >
-                  <v-icon left>mdi-plus</v-icon>
-                  ثبت برداشت
-                </v-btn>
-                <help-info
-                  :element-name="`${serviceName}-${componentName}-addWithdraw`"
-                  :service-name="serviceName"
-                  :help-data="helpData"
-                  class="buttoninfo"
-                  label="ثبت برداشت"
-                />
-              </div>
-            </v-col>
-          </v-row>
-        </v-card-text>
-
-        <custom-popup
-          v-model="addAccount"
-          :cons="{ title: 'افزدن حساب' }"
-          hide-confirm
-          max-width="600"
-        >
-          <v-card flat>
-            <v-card-title class="red--text">
-              ورود کلیه اطلاعات الزامی است.
-            </v-card-title>
-
-            <v-row class="pa-2" justify="center" no-gutters>
-              <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-                <div class="rowinfo">
-                  <v-text-field
-                    v-model="obj.ownerName"
-                    :rules="[rules.persian]"
-                    class="rounded-lg contentinfo"
-                    clear-icon="mdi-close-circle-outline"
-                    clearable
-                    dense
-                    label="نام صاحب حساب"
-                    outlined
-                  />
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-account-ownerName`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="نام صاحب حساب"
-                  />
-                </div>
-              </v-col>
-
-              <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-                <div class="rowinfo">
-                  <v-text-field
-                    v-model="obj.ownerLastName"
-                    :rules="[rules.persian]"
-                    class="rounded-lg contentinfo"
-                    clear-icon="mdi-close-circle-outline"
-                    clearable
-                    dense
-                    label="نام خانوادگی"
-                    outlined
-                  />
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-account-ownerLastName`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="نام خانوادگی"
-                  />
-                </div>
-              </v-col>
-
-              <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-                <div class="rowinfo">
-                  <v-text-field
-                    v-model="obj.bankName"
-                    :rules="[rules.persian]"
-                    class="rounded-lg icon-wrapper contentinfo"
-                    clear-icon="mdi-close-circle-outline"
-                    clearable
-                    dense
-                    label="نام بانک"
-                    outlined
-                  >
-                    <template v-slot:append>
-                      <v-img
-                        v-if="!!banksPrefix"
-                        :src="banksPrefix.icon"
-                        contain
-                        width="32"
-                      />
-                    </template>
-                  </v-text-field>
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-bankName`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="نام بانک"
-                  />
-                </div>
-              </v-col>
-
-              <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-                <div class="rowinfo">
-                  <v-text-field
-                    v-model="obj.accountNumber"
-                    class="rounded-lg"
-                    clear-icon="mdi-close-circle-outline"
-                    clearable
-                    dense
-                    label="شماره حساب"
-                    outlined
-                    type="number"
-                  />
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-obj-accountNumber`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="شماره حساب"
-                  />
-                </div>
-              </v-col>
-
-              <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-                <div class="rowinfo">
-                  <v-text-field
-                    v-model="obj.cardNumber"
-                    :rules="[rules.cardNumber]"
-                    class="rounded-lg"
-                    clear-icon="mdi-close-circle-outline"
-                    clearable
-                    counter="16"
-                    dense
-                    label="شماره کارت"
-                    outlined
-                    type="number"
-                  />
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-obj-cardNumber`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="شماره کارت"
-                  />
-                </div>
-              </v-col>
-
-              <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-                <div class="rowinfo">
-                  <v-text-field
-                    v-model="obj.sheba"
-                    :rules="[rules.sheba]"
-                    class="rounded-lg contentinfo"
-                    counter="24"
-                    dense
-                    label="شماره شبا"
-                    outlined
-                    suffix="IR"
-                    type="number"
-                  />
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-obj-sheba`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="شماره شبا"
-                  />
-                </div>
-              </v-col>
-
-              <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-                <v-divider />
-                <div class="rowinfo" style="width: 100% !important">
-                  <v-btn
-                    :disabled="canAddAcc"
-                    :loading="addLoading"
-                    color="success"
-                    class="contentinfo"
-                    depressed
-                    @click="addToAccountList"
-                  >
-                    <v-icon left>mdi-plus</v-icon>
-                    افزودن حساب
-                  </v-btn>
-                  <help-info
-                    :element-name="`${serviceName}-${componentName}-obj-sheba`"
-                    :service-name="serviceName"
-                    :help-data="helpData"
-                    class="buttoninfo"
-                    label="شماره شبا"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-          </v-card>
-        </custom-popup>
+          <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
+            <v-divider />
+            <v-btn
+              :disabled="canAddAcc"
+              :loading="addLoading"
+              color="success"
+              block
+              depressed
+              @click="addToAccountList"
+            >
+              <v-icon left>mdi-plus</v-icon>
+              افزودن حساب
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card>
-    </template>
-  </help-info-wrapper>
+    </custom-popup>
+  </v-card>
 </template>
 
 <script>
@@ -316,9 +212,6 @@ export default {
 
   data() {
     return {
-      helpData: [],
-      serviceName: "Qrland",
-      componentName: "withdrawTransactions",
       accounts: [],
       addAccount: false,
       addLoading: false,
