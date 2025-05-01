@@ -83,7 +83,7 @@
                                 @input="onPagination({['birthday_end']: props.birthday_end})"/>
           </v-col>
 
-          <v-col v-if="window.ribbonCan($route.meta.permission)" class="pa-2" cols="12" lg="3" md="4">
+          <v-col v-if="ribbonCan($route.meta.permission)" class="pa-2" cols="12" lg="3" md="4">
             <user-picker v-model="props.user_id" hide-details @input="onPagination({['user_id']: props.user_id})"/>
           </v-col>
 
@@ -328,7 +328,7 @@ export default {
       this.computedLoading = true
 
       deleteContactFromTag({
-        contact: this.deletingItem.id,
+        contact: this.deletingItem.phone,
         tag: this.phoneTag.id,
         deleteFrom: this.groupRadio === 'all' ? this.groupRadio : undefined
       })
@@ -382,7 +382,7 @@ export default {
     fetchFiledTags() {
       this.fieldTagsLoading = true
 
-      this.requestApiGet('contact/tags', {
+      this.$payamakAxios('contact/tags', {
         phoneTag: this.tableProps.phone_tag_ids[0]
       })
         .then(({data}) => this.fieldTagsItems = data.data.map(item => {
@@ -396,6 +396,9 @@ export default {
         .catch(({response}) => console.log('failed to get field tags: ', response))
         .finally(() => this.fieldTagsLoading = false)
     },
+    ribbonCan(gate) {
+      return window.ribbonCan(gate)
+    }
   },
 };
 </script>
