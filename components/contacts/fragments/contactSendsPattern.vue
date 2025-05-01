@@ -18,8 +18,8 @@
           <v-col class="d-flex align-center pa-2" cols="12">
             <pattern-dialog v-model="selectedRow" :text.sync="texts" @reload="(e) => rerender = e"/>
             <v-spacer/>
-            <date-picker v-model="date" :label="$t('FORMS.SendTime')" :min="nowDateTimeString()" auto-submit
-                         display-format="jYYYY-jMM-jDD HH:mm:ss" format="YYYY-MM-DD HH:mm:ss" type="datetime"/>
+            <custom-date-picker v-model="date" :label="$t('FORMS.SendTime')" :min="nowDateTimeString()" auto-submit
+                                display-format="jYYYY-jMM-jDD HH:mm:ss" format="YYYY-MM-DD HH:mm:ss" type="datetime"/>
           </v-col>
 
           <v-col v-if="rerender && !selectedCamp" class="d-flex pa-2" cols="12">
@@ -64,10 +64,10 @@
 </template>
 
 <script>
-import PatternDialog from "@/view/content/pattern/patternDialog.vue";
-import CustomDatePicker from "@/view/content/pickers/custom-date-picker.vue";
-import {sendPatternSms} from "@/Utilities/pattern";
-import GradualList from "@/view/content/gradualSend/gradualList.vue";
+import PatternDialog from "../pattern/patternDialog.vue";
+import CustomDatePicker from "../../../pages/pickers/custom-date-picker.vue";
+import {sendPatternSms} from '../../../assets/js/pattern';
+import GradualList from "../gradualSend/gradualList.vue";
 import {mapGetters, mapState} from "vuex";
 
 export default {

@@ -22,11 +22,16 @@
 </template>
 
 <script>
-import EditContact from "../../pages/contacts/editContact.vue";
+import EditContact from "../editContact.vue";
+import customPopup from "../../../plugins/popup/customPopup.vue";
 
 export default {
   name: "contactsNumberEdit",
-  components: {EditContact},
+
+  components: {
+    EditContact,
+    customPopup
+  },
 
   props: {
     value: [Object, String],

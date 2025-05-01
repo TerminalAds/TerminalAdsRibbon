@@ -1,5 +1,20 @@
 import readXlsxFile from 'read-excel-file'
-import axios from "@/axiosMeth"
+import {getToken} from "./jwt.service";
+
+const api = axios.create({
+  baseURL: 'https://sms-api.terminalads.com/api',
+  timeout: 15000,
+  headers: {
+    common: {
+      Authorization: getToken() ? `Bearer ${getToken()}` : null,
+      Accept: 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "*",
+      "Access-Control-Allow-Headers": "*",
+      'Content-Type': 'application/json',
+    }
+  },
+});
 
 // import {default as  axiose } from "axios";
 
@@ -122,7 +137,7 @@ async function sendSms(from,
                        phoneTags = undefined) {
   // console.log("this is: "+black_list)
   try {
-    let response = await axios.requestApiPost("admin/message/create", {
+    let response = await api.post("/admin/message/create", {
       MsgBody: message,
       To: convertArrayToCsv(to),
       Operator: from,
@@ -153,13 +168,12 @@ async function sendSms(from,
       payload: e.response.data
     }
   }
-
 }
 
 
 async function sendSmsWallet(from, to, message, title, date, operator, shouldBlack, shouldWhite) {
   try {
-    let response = await axios.requestApiPost("admin/message/createWallet", {
+    let response = await api.post("admin/message/createWallet", {
       MsgBody: message,
       To: convertArrayToCsv(to),
       Operator: from,
@@ -188,7 +202,7 @@ async function sendSmsWallet(from, to, message, title, date, operator, shouldBla
 
 
 async function calculatePrice(from, to, towhite, message) {
-  let response = await axios.requestApiPost("admin/message/calculate/price", {
+  let response = await api.post("admin/message/calculate/price", {
     MsgBody: message,
     black: convertArrayToCsv(to),
     white: convertArrayToCsv(towhite),
@@ -199,7 +213,7 @@ async function calculatePrice(from, to, towhite, message) {
 }
 
 async function calculateMultiPrice(from, to, towhite, messages) {
-  let response = await axios.requestApiPost("admin/message/group/calculate/price", {
+  let response = await api.post("admin/message/group/calculate/price", {
     Operator: from,
     messages: messages,
     black: convertArrayToCsv(to),

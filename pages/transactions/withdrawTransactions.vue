@@ -2,35 +2,22 @@
   <v-card :loading="loading" flat>
     <v-card-title>
       موجودی قابل برداشت:
-      <span class="text--primary mx-2">{{
-        persianNum(currency(Math.floor(balance)))
-      }}</span>
+      <span class="text--primary mx-2">{{ persianNum(currency(Math.floor(balance))) }}</span>
       <span class="small-font">ریال</span>
     </v-card-title>
 
     <v-card-text>
-      <v-divider />
+      <v-divider/>
       <span class="red--text">کارمزد برداشت از حساب: ۵۰,۰۰۰ ریال می باشد!</span>
       <v-row class="pa-2" justify="center" no-gutters>
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <price-input v-model="inputBalance" label="مبلغ" to-char />
+          <price-input v-model="inputBalance" label="مبلغ" to-char/>
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <v-autocomplete
-            v-model="selectedAccount"
-            :items="accounts"
-            :loading="loading"
-            label="انتخاب حساب"
-            outlined
-          >
+          <v-autocomplete v-model="selectedAccount" :items="accounts" :loading="loading" label="انتخاب حساب" outlined>
             <template v-slot:prepend-inner>
-              <v-img
-                v-if="!!banksPrefix"
-                :src="banksPrefix.icon"
-                contain
-                width="48"
-              />
+              <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="48"/>
             </template>
 
             <template v-slot:append-item>
@@ -44,15 +31,11 @@
 
             <template v-slot:item="data">
               <v-list-item-avatar>
-                <v-img :src="data.item.icon" />
+                <v-img :src="data.item.icon"/>
               </v-list-item-avatar>
-              <v-list-item-title v-text="data.item.text" />
+              <v-list-item-title v-text="data.item.text"/>
               <v-list-item-action>
-                <v-btn
-                  color="#ff475a"
-                  icon
-                  @click.stop="deleteAccount(data.item.id)"
-                >
+                <v-btn color="#ff475a" icon @click.stop="deleteAccount(data.item.id)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-list-item-action>
@@ -61,15 +44,9 @@
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <v-divider />
-
-          <v-btn
-            :disabled="!inputBalance || !selectedAccount"
-            :loading="loading"
-            color="success"
-            depressed
-            @click="addWithdraw"
-          >
+          <v-divider/>
+          <v-btn :disabled="!inputBalance || !selectedAccount" :loading="loading" block color="success" depressed
+                 @click="addWithdraw">
             <v-icon left>mdi-plus</v-icon>
             ثبت برداشت
           </v-btn>
@@ -77,12 +54,7 @@
       </v-row>
     </v-card-text>
 
-    <custom-popup
-      v-model="addAccount"
-      :cons="{ title: 'افزدن حساب' }"
-      hide-confirm
-      max-width="600"
-    >
+    <custom-popup v-model="addAccount" :cons="{title: 'افزدن حساب'}" hide-confirm max-width="600">
       <v-card flat>
         <v-card-title class="red--text">
           ورود کلیه اطلاعات الزامی است.
@@ -90,105 +62,44 @@
 
         <v-row class="pa-2" justify="center" no-gutters>
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-            <v-text-field
-              v-model="obj.ownerName"
-              :rules="[rules.persian]"
-              class="rounded-lg"
-              clear-icon="mdi-close-circle-outline"
-              clearable
-              dense
-              label="نام صاحب حساب"
-              outlined
-            />
+            <v-text-field v-model="obj.ownerName" :rules="[rules.persian]" class="rounded-lg"
+                          clear-icon="mdi-close-circle-outline" clearable dense label="نام صاحب حساب" outlined/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-            <v-text-field
-              v-model="obj.ownerLastName"
-              :rules="[rules.persian]"
-              class="rounded-lg"
-              clear-icon="mdi-close-circle-outline"
-              clearable
-              dense
-              label="نام خانوادگی"
-              outlined
-            />
+            <v-text-field v-model="obj.ownerLastName" :rules="[rules.persian]" class="rounded-lg"
+                          clear-icon="mdi-close-circle-outline" clearable dense label="نام خانوادگی" outlined/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-            <v-text-field
-              v-model="obj.bankName"
-              :rules="[rules.persian]"
-              class="rounded-lg icon-wrapper"
-              clear-icon="mdi-close-circle-outline"
-              clearable
-              dense
-              label="نام بانک"
-              outlined
-            >
+            <v-text-field v-model="obj.bankName" :rules="[rules.persian]" class="rounded-lg icon-wrapper"
+                          clear-icon="mdi-close-circle-outline" clearable dense label="نام بانک" outlined>
               <template v-slot:append>
-                <v-img
-                  v-if="!!banksPrefix"
-                  :src="banksPrefix.icon"
-                  contain
-                  width="32"
-                />
+                <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="32"/>
               </template>
             </v-text-field>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
-            <v-text-field
-              v-model="obj.accountNumber"
-              class="rounded-lg"
-              clear-icon="mdi-close-circle-outline"
-              clearable
-              dense
-              label="شماره حساب"
-              outlined
-              type="number"
-            />
+            <v-text-field v-model="obj.accountNumber" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable
+                          dense label="شماره حساب" outlined type="number"/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-            <v-text-field
-              v-model="obj.cardNumber"
-              :rules="[rules.cardNumber]"
-              class="rounded-lg"
-              clear-icon="mdi-close-circle-outline"
-              clearable
-              counter="16"
-              dense
-              label="شماره کارت"
-              outlined
-              type="number"
-            />
+            <v-text-field v-model="obj.cardNumber" :rules="[rules.cardNumber]" class="rounded-lg"
+                          clear-icon="mdi-close-circle-outline" clearable counter="16" dense label="شماره کارت" outlined
+                          type="number"/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-            <v-text-field
-              v-model="obj.sheba"
-              :rules="[rules.sheba]"
-              class="rounded-lg"
-              counter="24"
-              dense
-              label="شماره شبا"
-              outlined
-              suffix="IR"
-              type="number"
-            />
+            <v-text-field v-model="obj.sheba" :rules="[rules.sheba]" class="rounded-lg" counter="24" dense
+                          label="شماره شبا" outlined suffix="IR" type="number"/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-            <v-divider />
-            <v-btn
-              :disabled="canAddAcc"
-              :loading="addLoading"
-              color="success"
-              block
-              depressed
-              @click="addToAccountList"
-            >
+            <v-divider/>
+            <v-btn :disabled="canAddAcc" :loading="addLoading" block color="success" depressed
+                   @click="addToAccountList">
               <v-icon left>mdi-plus</v-icon>
               افزودن حساب
             </v-btn>
@@ -200,15 +111,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from 'vuex'
 import PriceInput from "../pickers/priceInput";
 import CustomPopup from "../../plugins/popup/customPopup";
-import { banks } from "../../assets/js/banksInfo";
+import {banks} from "../../assets/js/banksInfo";
 
 export default {
   name: "withdrawTransactions",
 
-  components: { CustomPopup, PriceInput },
+  components: {CustomPopup, PriceInput},
 
   data() {
     return {
@@ -219,44 +130,40 @@ export default {
       inputBalance: 0,
       loading: false,
       obj: {
-        bankName: "",
-        ownerName: "",
-        ownerLastName: "",
-        accountNumber: "",
-        cardNumber: "",
-        sheba: "",
+        bankName: '',
+        ownerName: '',
+        ownerLastName: '',
+        accountNumber: '',
+        cardNumber: '',
+        sheba: '',
       },
       rules: {
-        persian: (v) => this.justPersian(v) || "فقط مجاز به ورود حروف فارسی!",
-        cardNumber: (v) =>
-          v.length === 16 || "تعداد ارقام شماره کارت باید ۱۶ عدد باشد!",
-        sheba: (v) =>
-          v.length === 24 || "تعداد ارقام شماره شبا باید ۲۴ عدد باشد!",
+        persian: v => (this.justPersian(v)) || 'فقط مجاز به ورود حروف فارسی!',
+        cardNumber: v => v.length === 16 || 'تعداد ارقام شماره کارت باید ۱۶ عدد باشد!',
+        sheba: v => v.length === 24 || 'تعداد ارقام شماره شبا باید ۲۴ عدد باشد!'
       },
-      selectedAccount: null,
-    };
+      selectedAccount: null
+    }
   },
 
   mounted() {
-    this.fetch();
-    this.banksInfo = banks;
+    this.fetch()
+    this.banksInfo = banks
   },
 
   computed: {
-    ...mapGetters("ribbon", ["new_wallet"]),
+    ...mapGetters('ribbon', ['new_wallet']),
     balance() {
-      return this.new_wallet.balance;
+      return this.new_wallet.balance
     },
     canAddAcc() {
-      let arr = Object.values(this.obj);
-      return (
-        arr.filter((item) => !!item).length !== arr.length ||
-        typeof this.rules.persian(this.obj.bankName) !== "boolean" ||
-        typeof this.rules.persian(this.obj.ownerName) !== "boolean" ||
-        typeof this.rules.persian(this.obj.ownerLastName) !== "boolean" ||
-        typeof this.rules.cardNumber(this.obj.cardNumber) !== "boolean" ||
-        typeof this.rules.sheba(this.obj.sheba) !== "boolean"
-      );
+      let arr = Object.values(this.obj)
+      return arr.filter(item => !!item).length !== arr.length
+        || typeof this.rules.persian(this.obj.bankName) !== 'boolean'
+        || typeof this.rules.persian(this.obj.ownerName) !== 'boolean'
+        || typeof this.rules.persian(this.obj.ownerLastName) !== 'boolean'
+        || typeof this.rules.cardNumber(this.obj.cardNumber) !== 'boolean'
+        || typeof this.rules.sheba(this.obj.sheba) !== 'boolean'
     },
     // computedCardNumber: {
     //   get() {
@@ -268,134 +175,113 @@ export default {
     // },
     banksPrefix() {
       let arr = this.banksInfo,
-        str = "";
-      if (this.addAccount) str = this.obj.cardNumber;
+        str = ''
+      if (this.addAccount)
+        str = this.obj.cardNumber
       else
-        str = this.accounts?.find(
-          (item) => item.id === this.selectedAccount
-        )?.cardNumber;
+        str = this.accounts?.find(item => item.id === this.selectedAccount)?.cardNumber
 
-      return arr.findPrefix(str);
-    },
+      return arr.findPrefix(str)
+    }
   },
 
   methods: {
-    ...mapActions("ribbon", ["toggleWithdrawDialog"]),
+    ...mapActions('ribbon', ['toggleWithdrawDialog']),
     fetch() {
-      this.loading = true;
+      this.loading = true
 
-      this.$DashboardAxios
-        .get("/api/account")
-        .then(({ data }) => {
+      this.$DashboardAxios.get('/api/account')
+        .then(({data}) => {
           try {
-            this.accounts = data.data.data.map((item) => {
+            this.accounts = data.data.data.map(item => {
               return {
                 ...item,
-                text:
-                  item.bankName +
-                  " - " +
-                  item.ownerName +
-                  " " +
-                  item.ownerLastName,
+                text: item.bankName + ' - ' + item.ownerName + ' ' + item.ownerLastName,
                 value: item.id,
-                icon: this.banksInfo.find((value) =>
-                  value.prefix.includes(item.cardNumber.substring(0, 6))
-                )?.icon,
-              };
-            });
+                icon: this.banksInfo.find(value =>
+                  value.prefix.includes(item.cardNumber.substring(0, 6)))?.icon
+              }
+            })
           } catch (e) {
-            console.error("error in accounts: ", e);
+            console.error('error in accounts: ', e)
           }
         })
-        .catch(({ response }) =>
-          console.error("error in get list of accounts: ", response)
-        )
-        .finally(() => (this.loading = false));
+        .catch(({response}) => console.error('error in get list of accounts: ', response))
+        .finally(() => this.loading = false)
     },
     addWithdraw() {
       if (this.balance < Math.floor(this.inputBalance)) {
-        this.$toast.error("موجودی کیف پول شما کافی نمی باشد!");
-        return;
+        this.$toast.error('موجودی کیف پول شما کافی نمی باشد!')
+        return
       } else if (this.balance < Math.floor(this.inputBalance) + 50000) {
-        this.$toast.error(
-          "مبلغ درخواست برداشت با کسر ۵۰,۰۰۰ ریال کارمزد بیشتر از موجودی کیف پول میباشد!",
-          { timeout: 5000 }
-        );
-        return;
+        this.$toast.error('مبلغ درخواست برداشت با کسر ۵۰,۰۰۰ ریال کارمزد بیشتر از موجودی کیف پول میباشد!', {timeout: 5000})
+        return
       }
 
-      this.loading = true;
-      this.$DashboardAxios
-        .post("/api/transferRequest", {
-          to: this.selectedAccount,
-          amount: Number(this.inputBalance),
-        })
-        .then(({ data }) => {
-          this.$toast.success("درخواست برداشت شما با موفقیت ثبت شد.");
+      this.loading = true
+      this.$DashboardAxios.post('/api/transferRequest', {
+        to: this.selectedAccount,
+        amount: Number(this.inputBalance)
+      })
+        .then(({data}) => {
+          this.$toast.success('درخواست برداشت شما با موفقیت ثبت شد.');
           this.toggleWithdrawDialog(false);
         })
-        .catch(({ response }) => {
-          if (!!response.data.message) this.$toast.error(response.data.message);
-          else this.$toast.error("خطا در ارسال درخواست برداشت از کیف پول!");
-          console.error("error to withdraw: ", response);
+        .catch(({response}) => {
+          if (!!response.data.message)
+            this.$toast.error(response.data.message)
+          else
+            this.$toast.error('خطا در ارسال درخواست برداشت از کیف پول!')
+          console.error('error to withdraw: ', response)
         })
-        .finally(() => (this.loading = false));
+        .finally(() => this.loading = false);
     },
     addToAccountList() {
-      this.addLoading = true;
+      this.addLoading = true
 
-      if (
-        this.obj.ownerName !== this.user.name ||
-        this.obj.ownerLastName !== this.user.lastName
-      ) {
-        return this.$toast.error("حساب وارد شده به نام کاربر نیست!!");
+      if (this.obj.ownerName !== this.user.name || this.obj.ownerLastName !== this.user.lastName) {
+        return this.$toast.error('حساب وارد شده به نام کاربر نیست!!')
       }
 
-      this.$DashboardAxios
-        .post("/api/account", this.obj)
-        .then(({ data }) => {
-          this.selectedAccount = data.data.id;
+      this.$DashboardAxios.post('/api/account', this.obj)
+        .then(({data}) => {
+          this.selectedAccount = data.data.id
           this.obj = {
-            bankName: "",
-            ownerName: "",
-            ownerLastName: "",
-            accountNumber: "",
-            cardNumber: "",
-            sheba: "",
-          };
-          this.addAccount = false;
-          this.fetch();
+            bankName: '',
+            ownerName: '',
+            ownerLastName: '',
+            accountNumber: '',
+            cardNumber: '',
+            sheba: '',
+          }
+          this.addAccount = false
+          this.fetch()
         })
-        .catch(({ response }) =>
-          console.error("error in add account: ", response)
-        )
-        .finally(() => (this.addLoading = false));
+        .catch(({response}) => console.error('error in add account: ', response))
+        .finally(() => this.addLoading = false);
     },
     deleteAccount(id) {
-      if (this.$modal.yesNo("حذف حساب از لیست ؟")) {
-        this.loading = true;
-        this.$DashboardAxios
-          .delete(`/api/account/${id}`)
-          .then(({ data }) => {
-            this.fetch();
+      if (this.$modal.yesNo('حذف حساب از لیست ؟')) {
+        this.loading = true
+        this.$DashboardAxios.delete(`/api/account/${id}`)
+          .then(({data}) => {
+            this.fetch()
           })
-          .catch(({ response }) =>
-            console.error("error in delete account: ", response)
-          )
-          .finally(() => (this.loading = false));
+          .catch(({response}) => console.error('error in delete account: ', response))
+          .finally(() => this.loading = false)
       }
     },
     justPersian(str) {
       var p = /^[\u0620-\u065F\u0671-\u06D5\s]+$/;
-      return p.test(str);
-    },
-  },
-};
+      return p.test(str)
+    }
+  }
+}
 </script>
 
 <style scoped>
 .small-font {
-  font-size: 0.7em !important;
+  font-size: .7em !important;
 }
 
 .v-autocomplete >>> .v-input__prepend-inner,
