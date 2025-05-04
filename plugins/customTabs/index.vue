@@ -1,13 +1,27 @@
 <template>
   <div>
-    <v-tabs v-model="computedTabs" background-color="primary" class="rounded-lg custom-tabs" dark height="52"
-            hide-slider show-arrows v-bind="$attrs" @change="$emit('change', $event)">
-      <slot v-if="$slots.staticTabs" name="staticTabs"/>
+    <v-tabs
+      v-model="computedTabs"
+      background-color="primary"
+      class="rounded-lg custom-tabs"
+      dark
+      height="52"
+      hide-slider
+      show-arrows
+      v-bind="$attrs"
+      @change="$emit('change', $event)"
+    >
+      <slot v-if="$slots.staticTabs" name="staticTabs" />
 
       <template v-else>
-        <v-tab v-for="(tab, i) in tabItems" :key="i" :disabled="getTabItemDisabled(tab)" v-bind="getProps(i)">
-          <div class="cornel-left"/>
-          <div class="cornel-right"/>
+        <v-tab
+          v-for="(tab, i) in tabItems"
+          :key="i"
+          :disabled="getTabItemDisabled(tab)"
+          v-bind="getProps(i)"
+        >
+          <div class="cornel-left" />
+          <div class="cornel-right" />
           <slot name="tab" v-bind:tab="tab">
             <v-icon right>mdi-{{ tab.icon }}</v-icon>
             <span class="font-weight-bold">{{ tab.text }}</span>
@@ -16,14 +30,18 @@
       </template>
     </v-tabs>
 
-    <slot name="middle"/>
+    <slot name="middle" />
 
     <v-tabs-items v-model="computedTabs" v-bind="tabsItemsAttrs">
-      <slot v-if="$slots.staticItems" name="staticItems"/>
+      <slot v-if="$slots.staticItems" name="staticItems" />
 
       <template v-else>
-        <v-tab-item v-for="(item, i) in windowItems" :key="i" v-bind="getProps(i, 'windowProps')">
-          <slot name="item" v-bind:item="item"/>
+        <v-tab-item
+          v-for="(item, i) in windowItems"
+          :key="i"
+          v-bind="getProps(i, 'windowProps')"
+        >
+          <slot name="item" v-bind:item="item" />
         </v-tab-item>
       </template>
     </v-tabs-items>
@@ -39,74 +57,76 @@ export default {
     tabItems: {
       type: [Array, Object],
       default: function () {
-        return [{text: '', icon: ''}]
-      }
+        return [{ text: "", icon: "" }];
+      },
     },
     windowItems: [Array, Object],
     tabProps: {
       type: Object,
-      default: null
+      default: null,
     },
     windowProps: {
       type: Object,
-      default: null
+      default: null,
     },
     tabsItemsAttrs: {
       type: Object,
-      default: {}
-    }
+      default: () => ({}),
+    },
   },
 
   computed: {
     computedTabs: {
       get() {
-        return this.value
+        return this.value;
       },
       set(val) {
-        this.$emit('input', val)
-      }
-    }
+        this.$emit("input", val);
+      },
+    },
   },
 
   methods: {
-    getProps(index, field = 'tabProps') {
-      if (this[field] && (this[field].to || this[field].href || this[field].value)) {
-        let obj = Object.assign({}, this[field])
-        let to = obj.to || obj.href || obj.value
+    getProps(index, field = "tabProps") {
+      if (
+        this[field] &&
+        (this[field].to || this[field].href || this[field].value)
+      ) {
+        let obj = Object.assign({}, this[field]);
+        let to = obj.to || obj.href || obj.value;
 
         if (to) {
-          let str = to.match(/(?<=\:)(.*?)(?=\/)|(?<=\:).*/g)
+          let str = to.match(/(?<=\:)(.*?)(?=\/)|(?<=\:).*/g);
 
           for (let i = 0; i < str.length; i++) {
-            let replace = new RegExp(`:${str[i]}`, 'g')
-            to = to.replace(replace, this.tabItems[index][str[i]])
+            let replace = new RegExp(`:${str[i]}`, "g");
+            to = to.replace(replace, this.tabItems[index][str[i]]);
           }
 
-          if ('to' in obj)
-            obj.to = to
-          else if ('href' in obj)
-            obj.href = to;
-          else
-            obj.value = to
+          if ("to" in obj) obj.to = to;
+          else if ("href" in obj) obj.href = to;
+          else obj.value = to;
 
-          return obj
+          return obj;
         }
       }
 
-      return this[field]
+      return this[field];
     },
     getTabItemDisabled(tab) {
-      if (Object.hasOwn(tab, 'disabled'))
-        return typeof tab.disabled === 'boolean' ? tab.disabled : tab.disabled()
-      return false
-    }
-  }
-}
+      if (Object.hasOwn(tab, "disabled"))
+        return typeof tab.disabled === "boolean"
+          ? tab.disabled
+          : tab.disabled();
+      return false;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 :root {
-  --current-color: '';
+  --current-color: "";
 }
 
 .custom-tabs {
@@ -117,7 +137,7 @@ export default {
 
   .v-tab {
     &:not(.v-tab--active) {
-      transition: transform .3s;
+      transition: transform 0.3s;
 
       &:hover {
         transform: translateY(-4px);
@@ -142,7 +162,7 @@ export default {
 
       .cornel-left::before,
       .cornel-left::after {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         bottom: 0;
@@ -151,7 +171,7 @@ export default {
 
       .cornel-right::before,
       .cornel-right::after {
-        content: '';
+        content: "";
         position: absolute;
         right: 0;
         bottom: 0;
@@ -183,7 +203,8 @@ export default {
   }
 
   @media screen and(max-width: 600px) {
-    .v-slide-group__prev, .v-slide-group__next {
+    .v-slide-group__prev,
+    .v-slide-group__next {
       display: none;
     }
   }
