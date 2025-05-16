@@ -22,10 +22,16 @@
         >
           <div class="cornel-left" />
           <div class="cornel-right" />
-          <slot name="tab" v-bind:tab="tab">
-            <v-icon right>mdi-{{ tab.icon }}</v-icon>
-            <span class="font-weight-bold">{{ tab.text }}</span>
-          </slot>
+          <div
+            class="d-flex row gap-0 align-center align-self-center align-items-center"
+            style="justify-content: center !important"
+          >
+            <slot name="tab" v-bind:tab="tab">
+              <v-icon right>mdi-{{ tab.icon }}</v-icon>
+              <span class="font-weight-bold">{{ tab.text }}</span>
+            </slot>
+            <slot name="helpinfo" v-bind:tab="tab"></slot>
+          </div>
         </v-tab>
       </template>
     </v-tabs>

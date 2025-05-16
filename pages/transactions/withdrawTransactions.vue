@@ -159,11 +159,11 @@ export default {
     canAddAcc() {
       let arr = Object.values(this.obj)
       return arr.filter(item => !!item).length !== arr.length
-          || typeof this.rules.persian(this.obj.bankName) !== 'boolean'
-          || typeof this.rules.persian(this.obj.ownerName) !== 'boolean'
-          || typeof this.rules.persian(this.obj.ownerLastName) !== 'boolean'
-          || typeof this.rules.cardNumber(this.obj.cardNumber) !== 'boolean'
-          || typeof this.rules.sheba(this.obj.sheba) !== 'boolean'
+        || typeof this.rules.persian(this.obj.bankName) !== 'boolean'
+        || typeof this.rules.persian(this.obj.ownerName) !== 'boolean'
+        || typeof this.rules.persian(this.obj.ownerLastName) !== 'boolean'
+        || typeof this.rules.cardNumber(this.obj.cardNumber) !== 'boolean'
+        || typeof this.rules.sheba(this.obj.sheba) !== 'boolean'
     },
     // computedCardNumber: {
     //   get() {
@@ -175,7 +175,7 @@ export default {
     // },
     banksPrefix() {
       let arr = this.banksInfo,
-          str = ''
+        str = ''
       if (this.addAccount)
         str = this.obj.cardNumber
       else
@@ -191,23 +191,23 @@ export default {
       this.loading = true
 
       this.$DashboardAxios.get('/api/account')
-          .then(({data}) => {
-            try {
-              this.accounts = data.data.data.map(item => {
-                return {
-                  ...item,
-                  text: item.bankName + ' - ' + item.ownerName + ' ' + item.ownerLastName,
-                  value: item.id,
-                  icon: this.banksInfo.find(value =>
-                      value.prefix.includes(item.cardNumber.substring(0, 6)))?.icon
-                }
-              })
-            } catch (e) {
-              console.error('error in accounts: ', e)
-            }
-          })
-          .catch(({response}) => console.error('error in get list of accounts: ', response))
-          .finally(() => this.loading = false)
+        .then(({data}) => {
+          try {
+            this.accounts = data.data.data.map(item => {
+              return {
+                ...item,
+                text: item.bankName + ' - ' + item.ownerName + ' ' + item.ownerLastName,
+                value: item.id,
+                icon: this.banksInfo.find(value =>
+                  value.prefix.includes(item.cardNumber.substring(0, 6)))?.icon
+              }
+            })
+          } catch (e) {
+            console.error('error in accounts: ', e)
+          }
+        })
+        .catch(({response}) => console.error('error in get list of accounts: ', response))
+        .finally(() => this.loading = false)
     },
     addWithdraw() {
       if (this.balance < Math.floor(this.inputBalance)) {
@@ -223,18 +223,18 @@ export default {
         to: this.selectedAccount,
         amount: Number(this.inputBalance)
       })
-          .then(({data}) => {
-            this.$toast.success('درخواست برداشت شما با موفقیت ثبت شد.');
-            this.toggleWithdrawDialog(false);
-          })
-          .catch(({response}) => {
-            if (!!response.data.message)
-              this.$toast.error(response.data.message)
-            else
-              this.$toast.error('خطا در ارسال درخواست برداشت از کیف پول!')
-            console.error('error to withdraw: ', response)
-          })
-          .finally(() => this.loading = false);
+        .then(({data}) => {
+          this.$toast.success('درخواست برداشت شما با موفقیت ثبت شد.');
+          this.toggleWithdrawDialog(false);
+        })
+        .catch(({response}) => {
+          if (!!response.data.message)
+            this.$toast.error(response.data.message)
+          else
+            this.$toast.error('خطا در ارسال درخواست برداشت از کیف پول!')
+          console.error('error to withdraw: ', response)
+        })
+        .finally(() => this.loading = false);
     },
     addToAccountList() {
       this.addLoading = true
@@ -244,31 +244,31 @@ export default {
       }
 
       this.$DashboardAxios.post('/api/account', this.obj)
-          .then(({data}) => {
-            this.selectedAccount = data.data.id
-            this.obj = {
-              bankName: '',
-              ownerName: '',
-              ownerLastName: '',
-              accountNumber: '',
-              cardNumber: '',
-              sheba: '',
-            }
-            this.addAccount = false
-            this.fetch()
-          })
-          .catch(({response}) => console.error('error in add account: ', response))
-          .finally(() => this.addLoading = false);
+        .then(({data}) => {
+          this.selectedAccount = data.data.id
+          this.obj = {
+            bankName: '',
+            ownerName: '',
+            ownerLastName: '',
+            accountNumber: '',
+            cardNumber: '',
+            sheba: '',
+          }
+          this.addAccount = false
+          this.fetch()
+        })
+        .catch(({response}) => console.error('error in add account: ', response))
+        .finally(() => this.addLoading = false);
     },
     deleteAccount(id) {
       if (this.$modal.yesNo('حذف حساب از لیست ؟')) {
         this.loading = true
         this.$DashboardAxios.delete(`/api/account/${id}`)
-            .then(({data}) => {
-              this.fetch()
-            })
-            .catch(({response}) => console.error('error in delete account: ', response))
-            .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.fetch()
+          })
+          .catch(({response}) => console.error('error in delete account: ', response))
+          .finally(() => this.loading = false)
       }
     },
     justPersian(str) {

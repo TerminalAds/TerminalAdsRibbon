@@ -20,11 +20,11 @@
       style="margin-left: 12px"
       @click.stop="computedWalletDialog = true"
     >
-      <v-icon class="plus" small> mdi-plus </v-icon>
+      <v-icon class="plus" small> mdi-plus</v-icon>
     </v-btn>
 
     <div v-if="DLoading.wallet" class="flex mb-n1" style="min-height: 12px">
-      <v-skeleton-loader type="text" />
+      <v-skeleton-loader type="text"/>
     </div>
 
     <div
@@ -34,7 +34,7 @@
       style="flex: 1 0 auto"
     >
       <span>اعتبار</span>
-      <v-spacer />
+      <v-spacer/>
       <v-btn
         v-if="!sectionStatus.wallet"
         v-b-tooltip.passive="'بارگزاری مجدد'"
@@ -63,13 +63,13 @@
             : "---"
         }}
       </span>
-      <v-spacer />
+      <v-spacer/>
       <v-icon
         v-if="wallet.icon != null && wallet.icon.length > 0"
         :dark="dark"
         v-text="wallet.icon"
       />
-      <v-spacer />
+      <v-spacer/>
       <v-btn icon small @click.stop="$root.$emit('getWallet')">
         <v-icon small>mdi-reload</v-icon>
       </v-btn>
@@ -99,7 +99,7 @@
       reloadable
       transition="dialog-top-transition"
     >
-      <increase-transactions />
+      <increase-transactions/>
     </custom-popup>
 
     <custom-popup
@@ -111,13 +111,13 @@
       reloadable
       transition="dialog-top-transition"
     >
-      <withdraw-transactions />
+      <withdraw-transactions/>
     </custom-popup>
   </v-card>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import IncreaseTransactions from "./increaseTransactions";
 import CustomPopup from "../../plugins/popup/customPopup";
 import WithdrawTransactions from "./withdrawTransactions";
@@ -127,7 +127,7 @@ const exhale = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export default {
   name: "WalletOpenButton",
 
-  components: { WithdrawTransactions, CustomPopup, IncreaseTransactions },
+  components: {WithdrawTransactions, CustomPopup, IncreaseTransactions},
 
   props: {
     hideInMobile: {
@@ -229,13 +229,13 @@ export default {
 
       inhale && (await exhale(1000));
 
-      this.heartbeats = Array.from({ length: 20 }, this.heartbeat);
+      this.heartbeats = Array.from({length: 20}, this.heartbeat);
 
       this.checking = false;
     },
     walletSocket() {
       this.$echo
-        .private("wallet." + this.user.id)
+        .private("wallet." + this.user?.id)
         .listen(".info", (wall) =>
           this.setNewWallet(wall.balance["$numberDecimal"])
         );
