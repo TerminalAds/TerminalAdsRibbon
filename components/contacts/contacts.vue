@@ -7,6 +7,16 @@
         <v-window-item v-for="n in tagList" :key="n.id">
           <v-card class="phone-list-bg rounded-lg position-relative" flat height="120">
             <v-row align="center" class="fill-height" justify="center" no-gutters>
+              <v-tooltip top>
+                <template v-slot:activator="{on, attrs}">
+                  <v-btn class="me-2" color="white" depressed fab small v-bind="attrs" @click="reloadTable()" v-on="on">
+                    <v-icon>mdi-reload</v-icon>
+                  </v-btn>
+                </template>
+
+                <span>بارگیری مجدد لیست</span>
+              </v-tooltip>
+
               <div class="text-center white--text">
                 <h2>{{ n.name }}</h2>
                 <span v-if="isSharedPhonebook" class="ma-2 font-small">اشتراک گذاشته شده</span>

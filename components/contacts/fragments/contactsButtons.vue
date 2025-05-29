@@ -1,5 +1,13 @@
 <template>
   <div class="text-nowrap">
+    <v-btn icon title="افزودن تاریخچه" @click.stop="showHistory = true">
+      <v-icon>mdi-history</v-icon>
+    </v-btn>
+
+    <custom-popup v-model="showHistory" :cons="{title: 'لیست تاریخچه‌ها'}" hide-confirm max-width="640" reloadable>
+      <show-create-history v-if="showHistory" :item="data"/>
+    </custom-popup>
+
     <v-btn v-if="hasPhonebookPermission('edit')" icon title="ویرایش مخاطب"
            @click="goto(`phonebook/edit/${data.phone}?change=${data.name}`)">
       <v-icon>mdi-pencil-outline</v-icon>
@@ -37,12 +45,21 @@
 </template>
 
 <script>
+import CustomPopup from "../../../plugins/popup/customPopup.vue";
+import ShowCreateHistory from "./showCreateHistory.vue";
+
 export default {
   name: "contactsButtons",
+
+  components: {ShowCreateHistory, CustomPopup},
 
   props: {
     data: Object,
     tag: Object
   },
+
+  data: () => ({
+    showHistory: false
+  })
 }
 </script>
