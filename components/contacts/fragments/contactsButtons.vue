@@ -1,6 +1,6 @@
 <template>
   <div class="text-nowrap">
-    <v-btn icon title="افزودن تاریخچه" @click.stop="showHistory = true">
+    <v-btn v-if="sid === 1" icon title="افزودن تاریخچه" @click.stop="showHistory = true">
       <v-icon>mdi-history</v-icon>
     </v-btn>
 
