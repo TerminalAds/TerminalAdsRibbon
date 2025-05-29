@@ -146,7 +146,7 @@ export default {
 
       params.customer_id = this.item.id
 
-      this.requestApiGetPayamak('contact/history', params)
+      this.$instanceAxios.get('https://file-api.terminalads.com/api/contact/history', params)
         .then(({data}) => this.data = data.data)
         .finally(() => this.loading = false)
     },
@@ -167,7 +167,7 @@ export default {
         contact_id: this.item.id
       }
 
-      this.requestApiPostState('user/history/customer', e)
+      this.$instanceAxios.post('https://file-api.terminalads.com/api/user/history/customer', e)
         .then(({data}) => {
           this.fetch()
           this.createNew = false
