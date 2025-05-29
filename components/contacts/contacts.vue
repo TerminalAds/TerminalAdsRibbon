@@ -196,11 +196,12 @@ export default {
   },
 
   created() {
+    this.selectedTag = this.selected_phonebook_index || 0
     this.$route.name === 'contacts' && this.fetchTags()
   },
 
   computed: {
-    ...mapState('phonebook', ['selectedPhonebook']),
+    ...mapState('phonebook', ['selectedPhonebook', 'selected_phonebook_index']),
     ...mapGetters('phonebook', ['isSharedPhonebook']),
     tableProps: {
       get() {
