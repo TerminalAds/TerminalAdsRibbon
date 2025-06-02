@@ -142,6 +142,7 @@ export default {
             this.setMenus(data.data);
             this.setSectionStatus({field: 'menus', status: true})
             this.items = menus;
+            console.log(this.items,"items for menu")
           })
           .catch(({response}) => {
             this.setSectionStatus({field: 'menus', status: false})
