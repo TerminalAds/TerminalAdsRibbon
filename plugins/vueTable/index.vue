@@ -75,8 +75,8 @@
 
     <v-divider/>
 
-    <vue-table-pagination v-if="data && data.data && !!computedProps" ref="pagination" v-model="computedProps.page"
-                          :data="data" :totalVisible="totalVisible" @input="onPagination">
+    <vue-table-pagination v-if="!!data?.data && data?.last_page > 1 && !!computedProps" ref="pagination"
+                          v-model="computedProps.page" :data="data" :totalVisible="totalVisible" @input="onPagination">
       <template v-slot:per-page>
         <v-select
           v-model="computedProps.length"

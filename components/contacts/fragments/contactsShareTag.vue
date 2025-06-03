@@ -82,7 +82,7 @@
                 <v-card flat>
                   <v-list-item dense @click="contact.delete = !contact.delete">
                     <v-list-item-action class="me-3">
-                      <v-simple-checkbox :value="contact.delete" disabled/>
+                      <v-simple-checkbox :value="contact.delete" @click.stop="contact.delete = !contact.delete"/>
                     </v-list-item-action>
 
                     <v-list-item-content>
@@ -92,7 +92,7 @@
 
                   <v-list-item dense @click="contact.edit = !contact.edit">
                     <v-list-item-action class="me-3">
-                      <v-simple-checkbox :value="contact.edit" disabled/>
+                      <v-simple-checkbox :value="contact.edit" @click.stop="contact.edit = !contact.edit"/>
                     </v-list-item-action>
 
                     <v-list-item-content>
