@@ -92,6 +92,8 @@ export default {
       let menu = this.menus
           .filter((menu) => menu.special === 1
               && ribbonCan(menu.gate));
+
+      console.log('top menus', menu);
       return menu = menu.concat(this.DConfigs.static_top_menu)
     },
   },
