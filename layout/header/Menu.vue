@@ -89,7 +89,9 @@ export default {
       return !!this.menus.length
     },
     topMenus() {
-      let menu = this.menus.filter((menu) => menu.special === 1 && ribbonCan(menu.gate));
+      let menu = this.menus
+          .filter((menu) => menu.special === 1
+              && ribbonCan(menu.gate));
       return menu = menu.concat(this.DConfigs.static_top_menu)
     },
   },

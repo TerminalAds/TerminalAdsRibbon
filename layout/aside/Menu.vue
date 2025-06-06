@@ -137,20 +137,19 @@ export default {
             sid: this.sid
           }
         })
-          .then(({data}) => {
-            const menus = reformatMenuResponse(data.data);
-            this.setMenus(menus);
-            this.setSectionStatus({field: 'menus', status: true})
-            this.items = menus;
-            console.log(this.items,"items for menu")
-          })
-          .catch(({response}) => {
-            this.setSectionStatus({field: 'menus', status: false})
-            if (response.status !== 401) {
-              this.$toast.error('خطایی رخ داده است.');
-            }
-          })
-          .finally(() => this.toggleLoading({field: 'menus', status: false}))
+            .then(({data}) => {
+              const menus = reformatMenuResponse(data.data);
+              this.setMenus(menus);
+              this.setSectionStatus({field: 'menus', status: true})
+              this.items = menus;
+            })
+            .catch(({response}) => {
+              this.setSectionStatus({field: 'menus', status: false})
+              if (response.status !== 401) {
+                this.$toast.error('خطایی رخ داده است.');
+              }
+            })
+            .finally(() => this.toggleLoading({field: 'menus', status: false}))
       } catch (e) {
         this.setSectionStatus({field: 'menus', status: false})
         console.log('catch error: ', e)
