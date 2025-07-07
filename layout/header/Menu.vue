@@ -86,7 +86,7 @@
             class="menu-link"
             target="_blank"
           >
-            <span class="menu-text">{{ menu.name }}</span>
+            <span class="menu-text">{{ menu?.name }}</span>
           </a>
 
           <router-link
