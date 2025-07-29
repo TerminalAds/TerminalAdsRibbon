@@ -24,7 +24,27 @@
           <div class="cornel-right" />
           <div
             class="d-flex row gap-0 align-center align-self-center align-items-center"
-            style="justify-content: center !important"
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              align-content: center;
+              white-space: nowrap;
+              width: auto;
+              max-width: none;
+              justify-content: center !important;
+              width: 100%;
+              max-width: 100%;
+              min-width: 100%;
+              text-align: center;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              align-content: center;
+              flex-wrap: nowrap;
+              padding: 4px 8px !important;
+              margin: 2px;
+            "
           >
             <slot name="tab" v-bind:tab="tab">
               <v-icon right>mdi-{{ tab.icon }}</v-icon>

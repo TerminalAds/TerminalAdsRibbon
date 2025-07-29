@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="computedValue"
+    v-model="computedPopup"
     :hide-overlay="hideOverlay"
     :max-width="maxWidth"
     :persistent="persistent"
@@ -81,7 +81,7 @@
           @click="
             () => {
               onHandler('close');
-              computedValue = false;
+              computedPopup = false;
             }
           "
         >
@@ -155,13 +155,15 @@ export default {
   }),
 
   computed: {
-    computedValue: {
+    computedPopup: {
       get() {
         return this.value;
       },
       set(val) {
-        this.$emit("close");
-        this.$emit("input", val);
+        if (val !== this.value && typeof val === "boolean") {
+          this.$emit("close");
+          this.$emit("input", val);
+        }
       },
     },
   },
@@ -187,7 +189,7 @@ export default {
       }
       this.$emit("action", type);
       if (type !== "close" && this.closeOnConfirm && close)
-        this.computedValue = false;
+        this.computedPopup = false;
     },
     getDisabled(type) {
       if (this.cons.buttons && this.cons.buttons.length > 0) {
