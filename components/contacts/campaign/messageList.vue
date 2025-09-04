@@ -5,26 +5,26 @@
         <v-row v-if="isCampaign" class="mt-2" no-gutters>
           <v-col class="pa-2" cols="12" lg="3" md="4">
             <v-text-field v-model="campName" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable dense
-                          label="نام کمپین" outlined/>
+                          :label="i18n.t('CAMPAIGN.CAMPAIGN_NAME')" outlined/>
           </v-col>
         </v-row>
         <campaign-list-item v-for="(item, i) in computedValue" :key="i + 'msg'" :index="i" :item.sync="item"
                             :loading="i === 0 && loading" :show-delete="computedValue.length > 1"
-                            :title="isCampaign ? 'متن' : 'پیام'" @deleteRow="deleteRow(i)"/>
+                            :title="isCampaign ? i18n.t('CAMPAIGN.TEXT') : i18n.t('CAMPAIGN.MESSAGE')" @deleteRow="deleteRow(i)"/>
       </v-tab-item>
 
       <v-tab-item disabled>
         <campaign-list-item v-for="(item, i) in computedValue" :key="i + 'tracking'" :index="i" :item.sync="item"
                             :loading="i === 0 && loading" :show-delete="computedValue.length > 1"
-                            :title="isCampaign ? 'متن' : 'پیام'" tracking @deleteRow="deleteRow(i)"/>
+                            :title="isCampaign ? i18n.t('CAMPAIGN.TEXT') : i18n.t('CAMPAIGN.MESSAGE')" tracking @deleteRow="deleteRow(i)"/>
       </v-tab-item>
 
       <v-tab-item>
         <v-card :loading="campLoading" class="px-3 pb-3 rounded-lg" outlined>
           <v-card-title class="font-size-h6 pa-2">
-            برای
-            <span class="red--text mx-1">انتخاب کمپین</span>
-            روی ردیف مورد نظر کلیک کنید.
+            {{ i18n.t('CAMPAIGN.FOR') }}
+            <span class="red--text mx-1">{{ i18n.t('CAMPAIGN.SELECT_CAMPAIGN') }}</span>
+            {{ i18n.t('CAMPAIGN.CLICK_ROW') }}
           </v-card-title>
 
           <data-table :columns="columns" :data="data" :orderDir="tableProps.dir" :per-page="[10, 25, 50, 100, 400]"
@@ -38,9 +38,9 @@
       <v-btn :disabled="!canMore" block class="rounded-lg btn-send-sms ma-0"
              depressed width="100%" @click="addRow">
         <v-icon left>mdi-plus</v-icon>
-        افزودن
-        <span class="px-1">{{ isCampaign ? 'متن' : 'پیام' }}</span>
-        جدید
+        {{ i18n.t('BUTTON.ADD') }}
+        <span class="px-1">{{ isCampaign ? i18n.t('CAMPAIGN.TEXT') : i18n.t('CAMPAIGN.MESSAGE') }}</span>
+        {{ i18n.t('CAMPAIGN.NEW') }}
       </v-btn>
     </v-card-actions>
 
@@ -48,7 +48,7 @@
       <v-card-actions class="px-0 justify-end">
         <v-btn :disabled="!canMore" :loading="loading" class="btn-send-sms" @click="addCamp">
           <span class="flaticon2-send-1 icon-md"></span>
-          ثبت کمپین
+          {{ i18n.t('CAMPAIGN.SUBMIT_CAMPAIGN') }}
         </v-btn>
       </v-card-actions>
     </slot>
@@ -60,6 +60,7 @@ import SuggestText from "../SuggestBox/suggestInput.vue";
 import CampaignListItem from "./campaignListItem.vue";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {debounce} from "../../../install";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "messageList",
@@ -88,45 +89,45 @@ export default {
       campName: '',
       columns: [
         {
-          label: 'ردیف',
+          label: i18n.t('GENERAL.ROW'),
           transform: (val) => {
             return this.rowNumber(this.data, val);
           },
         },
         {
-          label: "شناسه",
+          label: i18n.t('GENERAL.ID'),
           name: "id",
           orderable: true,
         },
         {
-          label: 'تاریخ',
+          label: i18n.t('GENERAL.CREATED_AT'),
           name: 'created_at',
           transform: ({data}) => {
             return this.datetime(data.created_at)
           }
         },
         {
-          label: 'ساعت',
+          label: i18n.t('CAMPAIGN.TIME'),
           name: 'created_at_time',
           transform: ({data}) => {
             return this.getTime(data.created_at)
           }
         },
         {
-          label: 'تعداد پیام',
+          label: i18n.t('CAMPAIGN.MESSAGE_COUNT'),
           name: 'text',
           transform: ({data}) => {
             return data.messages.text.length || 0
           }
         },
         {
-          label: 'مجموع پیام (صفحه)',
+          label: i18n.t('CAMPAIGN.PAGE_COUNT'),
           name: 'count',
           transform: ({data}) => {
-            return data.messages.count || '-' + ' صفحه'
+            return data.messages.count || '-' + ' ' + i18n.t('CAMPAIGN.PAGE')
           }
         },
-        {label: "نام کمپین", name: "messages.name", serchable: true,}
+        {label: i18n.t('CAMPAIGN.CAMPAIGN_NAME'), name: "messages.name", serchable: true,}
       ],
       tableProps: {
         search: '',
@@ -137,12 +138,13 @@ export default {
         dir: 'desc',
       },
       translate: {
-        nextButton: 'بعدی',
-        previousButton: 'قبلی',
-        rowsPerPageText: 'تعداد در صفحه',
-        noDataText: 'داده ای برای نمایش وجود ندارد',
-        placeholderSearch: 'جستجو',
+        nextButton: i18n.t('TABLE.NEXT_BUTTON'),
+        previousButton: i18n.t('TABLE.PREVIOUS_BUTTON'),
+        rowsPerPageText: i18n.t('TABLE.ROWS_PER_PAGE_TEXT'),
+        noDataText: i18n.t('TABLE.NO_DATA_TEXT'),
+        placeholderSearch: i18n.t('TABLE.PLACEHOLDER_SEARCH'),
       },
+      i18n
     }
   },
 
@@ -192,16 +194,16 @@ export default {
         this.computedValue = [{
           title: this.$route.meta.title,
           date: this.nowDateTimeString(),
-          text: '\nلغو11',
+          text: '\n' + this.i18n.t('CAMPAIGN.CANCEL_TEXT'),
           lang: '',
           msgCount: 0
         }]
       else if (val === 1)
         this.computedValue = [{
-          title: 'لینک قابل رهگیری',
+          title: this.i18n.t('CAMPAIGN.TRACKABLE_LINK'),
           date: this.nowDateTimeString(),
           link: '',
-          text: '\nexample.ex/any\nلغو11',
+          text: '\nexample.ex/any\n' + this.i18n.t('CAMPAIGN.CANCEL_TEXT'),
           lang: '',
           msgCount: 0
         }]
@@ -237,13 +239,13 @@ export default {
       data.messages.text.forEach((item, i) => {
         this.$toast.clear()
         if (!item) {
-          return this.$toast.warning('لطفا متن/های کمپین انتخابی خود را تصحیح نمایید!', {timeout: 4000})
+          return this.$toast.warning(this.i18n.t('CAMPAIGN.WARNING_TEXT'), {timeout: 4000})
         } else if (!data.messages.title[i]) {
-          return this.$toast.warning('لطفا عنوان/های کمپین انتخابی خود را تصحیح نمایید!', {timeout: 4000})
+          return this.$toast.warning(this.i18n.t('CAMPAIGN.WARNING_TITLE'), {timeout: 4000})
         } else if (!(data.messages.gap[i] >= 0)) {
-          return this.$toast.warning('لطفا فاصله زمانی/های کمپین انتخابی خود را تصحیح نمایید!', {timeout: 4000})
+          return this.$toast.warning(this.i18n.t('CAMPAIGN.WARNING_GAP'), {timeout: 4000})
         } else if (!data.messages.Operator || !data.messages.Operator[i]) {
-          return this.$toast.warning('لطفا اپراتور/های کمپین انتخابی خود را تصحیح نمایید!', {timeout: 4000})
+          return this.$toast.warning(this.i18n.t('CAMPAIGN.WARNING_OPERATOR'), {timeout: 4000})
         }
 
         arr.push({
@@ -270,7 +272,7 @@ export default {
       if (!this.value) return
 
       let obj = {
-        title: `${this.isCampaign ? 'متن' : this.title} ${this.value?.length + 1 || 2}`,
+        title: `${this.isCampaign ? this.i18n.t('CAMPAIGN.TEXT') : this.title} ${this.value?.length + 1 || 2}`,
         [this.isCampaign ? 'gap' : 'date']: this.isCampaign ? null : '',
         text: '\n' + this.sendTextPattern,
         type: 'hour'
@@ -279,7 +281,7 @@ export default {
         obj.link = ''
       }
 
-      if (this.value?.length >= 10) return this.$toast.error('حداکثر 10 مورد میتوان اضافه نمود.')
+      if (this.value?.length >= 10) return this.$toast.error(this.i18n.t('CAMPAIGN.MAX_ITEMS_ERROR'))
       this.computedValue.push(obj);
     },
     deleteRow(index) {
@@ -310,8 +312,6 @@ export default {
     },
     isDomain(str) {
       var regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-      // var without_regex = new RegExp("^([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-
       return !str || regex.test(str) || str.length <= 0
     }
   },

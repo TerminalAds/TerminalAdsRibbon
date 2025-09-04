@@ -3,8 +3,8 @@
     <v-expansion-panel :disabled="!isAllowed" @change="changePanel">
       <v-expansion-panel-header :hide-actions="sendAsGradualModel" class="rounded-lg" color="grey lighten-3">
         <span>
-          <b>ارسال تدریجی</b>
-          <span v-if="!isAllowed" class="mx-2">(برای ارسال با تعداد شماره بیشتر از ۵۰۰ عدد)</span>
+          <b>{{ i18n.t('HEADERS.GRADUAL_SEND') }}</b>
+          <span v-if="!isAllowed" class="mx-2">{{ i18n.t('HEADERS.GRADUAL_SEND_HINT') }}</span>
         </span>
       </v-expansion-panel-header>
 
@@ -13,7 +13,7 @@
           <v-card-title>
             <v-checkbox v-model="sendAsGradualModel" class="ma-0" hide-details>
               <template v-slot:label>
-                <div class="mb-n2">ارسال به صورت تدریجی</div>
+                <div class="mb-n2">{{ i18n.t('CHECKBOX_LABELS.GRADUAL_SENDING') }}</div>
               </template>
             </v-checkbox>
 
@@ -24,13 +24,15 @@
               <v-row no-gutters>
                 <v-col class="pa-2" cols="12" lg="4" md="6">
                   <v-text-field
-                    v-model="gradual.phones_gradual_time"
-                    :max="computedType.max"
-                    :messages="`پس از هر چند ${computedType.text} پیامک ها ارسال شود؟`" :min="1"
-                    :suffix="computedType.text" class="rounded-lg" clearable dense hide-spin-buttons label="فاصله زمانی"
-                    oninput="if (Number(this.value) < this.min) this.value = this.min
+                      v-model="gradual.phones_gradual_time"
+                      :max="computedType.max"
+                      :messages="i18n.t('MESSAGES.SENDING_INTERVAL_QUESTION', { time: computedType.text })"
+                      :min="1"
+                      :suffix="computedType.text" class="rounded-lg" clearable dense hide-spin-buttons
+                      :label="i18n.t('LABELS.TIME_INTERVAL')"
+                      oninput="if (Number(this.value) < this.min) this.value = this.min
                      else if (Number(this.value) > this.max) this.value = this.max"
-                    outlined type="number">
+                      outlined type="number">
                     <template v-slot:append>
                       <v-menu min-width="120" offset-y open-on-focus open-on-hover>
                         <template v-slot:activator="{on, attrs}">
@@ -56,7 +58,8 @@
                 <v-col class="pa-2" cols="12" lg="4" md="6">
                   <v-text-field v-model="gradual.phones_gradual_count" :max="numbersCount" :min="1"
                                 :rules="[rules.count]" class="rounded-lg" clearable dense hide-spin-buttons
-                                hint="تعداد پیامک در هر پارت ارسالی را وارد نمایید." label="تعداد پیامک"
+                                :hint="i18n.t('HINTS.MESSAGE_COUNT_PER_PART')"
+                                :label="i18n.t('LABELS.MESSAGE_COUNT')"
                                 oninput="if (Number(this.value) < this.min) this.value = this.min
                                 else if (Number(this.value) > this.max) this.value = this.max"
                                 outlined type="number"/>
@@ -72,6 +75,7 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
+import i18n from "@/plugins/EasyModal/i18n";
 
 export default {
   name: "gradualList",
@@ -81,13 +85,14 @@ export default {
   },
 
   data: () => ({
+    i18n,
     panels: null,
     timeTypes: [
-      {value: 'min', text: 'دقیقه', min: 1, max: 60},
-      {value: 'hour', text: 'ساعت', min: 1, max: 6},
+      {value: 'min', text: i18n.t('TIME_TYPES.MINUTE'), min: 1, max: 60},
+      {value: 'hour', text: i18n.t('TIME_TYPES.HOUR'), min: 1, max: 6},
     ],
     rules: {
-      count: v => (!!v && Number(v) >= 500) || 'تعداد پیامک در هر پارت نمی‌تواند کمتر از ۵۰۰ باشد!'
+      count: v => (!!v && Number(v) >= 500) || i18n.t('RULES.MESSAGE_COUNT_MIN_LIMIT')
     }
   }),
 

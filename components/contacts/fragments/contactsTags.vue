@@ -3,7 +3,7 @@
     <slot>
       <v-btn v-if="!picker && !!tagList && !!tagList.length" class="mx-1 rounded-lg white--text" color="#FF4400"
              depressed @click="computedValue = true">
-        انتخاب گروه
+        {{ i18n.t('BUTTON.SELECT_GROUP') }}
       </v-btn>
 
       <v-btn v-else-if="picker && !!tagList && !!tagList.length" class="mx-1" color="success" icon outlined
@@ -13,7 +13,7 @@
 
       <v-btn v-else class="mx-1 text-none" color="#FF4400" outlined @click="dialog = true">
         <v-icon left>mdi-plus</v-icon>
-        ایجاد گروه
+        {{ i18n.t('BUTTON.CREATE_GROUP') }}
       </v-btn>
     </slot>
 
@@ -21,14 +21,14 @@
       <v-card :loading="loading" flat>
         <v-card-title>
           <v-text-field v-model="search" append-icon="mdi-magnify" class="rounded-lg" clearable dense hide-details
-                        label="جستجو" outlined/>
+                        :label="i18n.t('FORM_LABELS.SEARCH')" outlined/>
         </v-card-title>
 
         <v-card-title v-if="!addNew" class="justify-end">
           <v-btn class="rounded-lg btn-accept ma-0" depressed min-width="110"
                  @click="dialog = true">
             <v-icon left>mdi-plus</v-icon>
-            افزودن گروه
+            {{ i18n.t('BUTTON.ADD_GROUP') }}
           </v-btn>
         </v-card-title>
 
@@ -67,40 +67,39 @@
       </v-card>
     </custom-popup>
 
-    <custom-popup v-model="dialog" :cons="{title: 'ایجاد گروه جدید'}" hide-confirm max-width="640"
+    <custom-popup v-model="dialog" :cons="{title: i18n.t('POPUP_TITLES.CREATE_NEW_GROUP')}" hide-confirm max-width="640"
                   reloadable @close="closeDialog" @reload="reloadMakeDialog">
       <div class="pa-2">
-        <custom-tabs v-model="tabs" :tab-items="[{text: 'افزودن گروه با نام دلخواه'}, {text: 'انتخاب گروه پیشفرض'}]"
+        <custom-tabs v-model="tabs" :tab-items="[{text: i18n.t('TABS.ADD_CUSTOM_GROUP')}, {text: i18n.t('TABS.SELECT_DEFAULT_GROUP')}]"
                      grow>
           <template v-slot:staticItems>
             <v-tab-item class="pa-2">
               <v-card flat>
                 <v-card-title>
-                  نام مورد نظر خود را وارد نمایید
+                  {{ i18n.t('CARD_TITLES.ENTER_GROUP_NAME') }}
                 </v-card-title>
 
                 <v-card-text>
                   <v-text-field v-model="tagName" autofocus clear-icon="mdi-close-circle-outline" clearable dense
-                                hide-details label="نام گروه" outlined @keydown.enter="addTag"/>
+                                hide-details :label="i18n.t('FORM_LABELS.GROUP_NAME')" outlined @keydown.enter="addTag"/>
                 </v-card-text>
 
                 <v-card-actions class="justify-end">
                   <v-btn class="rounded-lg white--text" color="red" depressed @click="closeDialog">
-                    انصراف
+                    {{ i18n.t('BUTTON.CANCEL') }}
                   </v-btn>
                   <v-btn :loading="loading" class="rounded-lg" color="green" dark depressed @click="addTag">
-                    <span v-if="canEdit">ویرایش</span>
-                    <span v-else>ذخیره</span>
+                    <span v-if="canEdit">{{ i18n.t('BUTTON.EDIT') }}</span>
+                    <span v-else>{{ i18n.t('BUTTON.SAVE') }}</span>
                   </v-btn>
                 </v-card-actions>
               </v-card>
             </v-tab-item>
 
-            <!-- default groups made by admins -->
             <v-tab-item class="pa-2">
               <div v-if="loading" class="text-center pa-4 d-flex flex-column align-center">
                 <v-progress-circular class="mb-2" color="warning" indeterminate size="35" width="5"/>
-                <span>درحال بارگیری دسته‌بندی‌ها...</span>
+                <span>{{ i18n.t('LOADING_MESSAGES.FETCHING_CATEGORIES') }}</span>
               </div>
 
               <template v-else>
@@ -112,10 +111,10 @@
 
                     <v-list-item-action>
                       <v-simple-checkbox
-                        :color="!initIndeterminate(item) ? 'primary' : ''"
-                        :indeterminate="initIndeterminate(item)"
-                        :value="!!tempMakeDefault && !!tempMakeDefault[item.id]"
-                        @click="selectDefault(item)"/>
+                          :color="!initIndeterminate(item) ? 'primary' : ''"
+                          :indeterminate="initIndeterminate(item)"
+                          :value="!!tempMakeDefault && !!tempMakeDefault[item.id]"
+                          @click="selectDefault(item)"/>
                     </v-list-item-action>
                   </v-list-item>
 
@@ -129,7 +128,7 @@
                           {{ child.name }}
                           <v-spacer/>
                           <v-simple-checkbox
-                            :value="!!tempMakeDefault[item.id] && tempMakeDefault[item.id].includes(child.id)"/>
+                              :value="!!tempMakeDefault[item.id] && tempMakeDefault[item.id].includes(child.id)"/>
                         </v-card>
                       </div>
                     </div>
@@ -140,7 +139,7 @@
                   <v-btn :disabled="!tempMakeDefault" :loading="loading"
                          class="rounded-lg white--text" color="green" depressed @click="makeByDefault()">
                     <v-icon left>mdi-content-save-plus</v-icon>
-                    <span>ساخت گروه</span>
+                    <span>{{ i18n.t('BUTTON.CREATE_GROUP_SINGULAR') }}</span>
                   </v-btn>
                 </v-card-actions>
               </template>
@@ -152,11 +151,11 @@
 
     <custom-popup v-model="getGroupNamesDialog" :cons="nameCons" max-width="400">
       <v-card class="pa-4" flat>
-        <v-card-title>انتخاب گروه و زیرگروه</v-card-title>
+        <v-card-title>{{ i18n.t('POPUP_TITLES.SELECT_GROUP_SUBGROUP') }}</v-card-title>
 
         <v-radio-group v-model="groupRadio" dense hide-details>
-          <v-radio label="گروه به همراه زیر گروه ها اضافه شود" value="children"/>
-          <v-radio label="گروه انتخاب شده فقط اضافه شود" value="group"/>
+          <v-radio :label="i18n.t('RADIO_LABELS.GROUP_WITH_SUBGROUPS')" value="children"/>
+          <v-radio :label="i18n.t('RADIO_LABELS.SELECTED_GROUP_ONLY')" value="group"/>
         </v-radio-group>
       </v-card>
     </custom-popup>
@@ -166,6 +165,7 @@
 <script>
 import CustomPopup from "../../../plugins/popup/customPopup.vue";
 import CustomTabs from "../../../plugins/customTabs/index.vue";
+import i18n from "@/plugins/EasyModal/i18n";
 
 export default {
   name: "contactsTags",
@@ -183,8 +183,9 @@ export default {
 
   data() {
     return {
+      i18n,
       cons: {
-        title: 'انتخاب گروه',
+        title: i18n.t('POPUP_TITLES.SELECT_GROUP'),
         buttons: [
           {type: 'submit', handler: this.submitTags},
           {type: 'close', handler: () => this.search = ''},
@@ -204,7 +205,7 @@ export default {
       groupRadio: 'children',
       getGroupNamesDialog: false,
       nameCons: {
-        title: 'ساخت گروه پیشفرض',
+        title: i18n.t('POPUP_TITLES.CREATE_DEFAULT_GROUP'),
         buttons: [
           {type: 'submit', handler: this.initGroups}
         ]
@@ -251,28 +252,28 @@ export default {
       this.loading = true
 
       this.$payamakAxios.get('phoneTag')
-        .then(({data}) => {
-          this.list = data.data
-          this.$emit('update:tagList', data.data)
+          .then(({data}) => {
+            this.list = data.data
+            this.$emit('update:tagList', data.data)
 
-          try {
-            if (this.picker) {
-              let arr = this.tagList?.map(t => t.id) || []
-              this.tempTags = data.data.filter(item => arr.includes(item.id))
+            try {
+              if (this.picker) {
+                let arr = this.tagList?.map(t => t.id) || []
+                this.tempTags = data.data.filter(item => arr.includes(item.id))
+              }
+
+              if (callReload)
+                this.$emit('reload')
+            } catch (e) {
+              console.log(e)
             }
-
-            if (callReload)
-              this.$emit('reload')
-          } catch (e) {
-            console.log(e)
-          }
-        })
-        .catch(({response}) => console.log('failed in get phone tags: ', response))
-        .finally(() => this.loading = false)
+          })
+          .catch(({response}) => console.log('failed in get phone tags: ', response))
+          .finally(() => this.loading = false)
     },
     addTag() {
       let tags = this.list.map(item => item.name.trim());
-      if (tags.includes(this.tagName.trim())) return this.$toast.error('نام تکراری میباشد');
+      if (tags.includes(this.tagName.trim())) return this.$toast.error(this.i18n.t('TOAST.DUPLICATE_NAME'));
 
       if (this.canEdit) {
         this.updateTag();
@@ -283,29 +284,29 @@ export default {
       this.$payamakAxios.post('phoneTag/store', {
         name: this.tagName
       })
-        .then(({data}) => {
-          this.$toast.success('برچسب با موفقیت اضافه شد.');
-          this.fetchTags(true)
-          this.$emit('reload')
-          this.closeDialog()
-        })
-        .catch(({response}) => console.log('failed in store tag: ', response))
-        .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.$toast.success(this.i18n.t('TOAST.TAG_ADDED_SUCCESS'));
+            this.fetchTags(true)
+            this.$emit('reload')
+            this.closeDialog()
+          })
+          .catch(({response}) => console.log('failed in store tag: ', response))
+          .finally(() => this.loading = false)
     },
     async deleteTag(id) {
-      if (await this.$modal.yesNo('تایید حذف گروه؟')) {
+      if (await this.$modal.yesNo(this.i18n.t('MODAL.CONFIRM_DELETE_GROUP'))) {
         this.loading = true
 
         this.$payamakAxios.post('contact/deleteTag', {
           phoneTag: id
         })
-          .then(({data}) => {
-            this.$toast.success('برچسب با موفقیت حذف شد');
-            this.fetchTags(true)
-            this.closeDialog()
-          })
-          .catch(({response}) => console.log('failed to delete tag: ', response))
-          .finally(() => this.loading = false)
+            .then(({data}) => {
+              this.$toast.success(this.i18n.t('TOAST.TAG_DELETED_SUCCESS'));
+              this.fetchTags(true)
+              this.closeDialog()
+            })
+            .catch(({response}) => console.log('failed to delete tag: ', response))
+            .finally(() => this.loading = false)
       }
     },
     editingTag(tag) {
@@ -319,13 +320,13 @@ export default {
       this.$payamakAxios.post(`phoneTag/update/${this.editedTag.id}`, {
         name: this.tagName
       })
-        .then(({data}) => {
-          this.$toast.success('برچسب با موفقیت ویرایش شد');
-          this.fetchTags(true)
-          this.closeDialog()
-        })
-        .catch(({response}) => console.log('failed to delete tag: ', response))
-        .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.$toast.success(this.i18n.t('TOAST.TAG_EDITED_SUCCESS'));
+            this.fetchTags(true)
+            this.closeDialog()
+          })
+          .catch(({response}) => console.log('failed to delete tag: ', response))
+          .finally(() => this.loading = false)
     },
     closeDialog() {
       this.tagName = ''
@@ -361,8 +362,8 @@ export default {
       this.loading = true
 
       this.$payamakAxios.get('phoneTag/groups/get')
-        .then(({data}) => this.defaultGroups = data.data)
-        .finally(() => this.loading = false)
+          .then(({data}) => this.defaultGroups = data.data)
+          .finally(() => this.loading = false)
     },
     selectDefault(item) {
       let obj = this.tempMakeDefault
@@ -417,17 +418,17 @@ export default {
       this.$payamakAxios.post('phoneTag/groups/make', {
         group_id: rec ? ids : arr.flat()
       })
-        .then(({data}) => {
-          this.$toast.success(data.message || 'گروه(های) انتخاب شده با موفقیت اضافه شدند.')
-          this.tempMakeDefault = {}
-          this.dialog = false
-          this.$emit('reload')
-          this.fetchTags()
-        })
-        .catch(({response}) => {
-          this.$toast.error(response?.data?.message || 'خطا در افزودن گروه پیشفرض!')
-        })
-        .finally(() => this.loading = false);
+          .then(({data}) => {
+            this.$toast.success(data.message || this.i18n.t('TOAST.GROUPS_ADDED_SUCCESS'));
+            this.tempMakeDefault = {}
+            this.dialog = false
+            this.$emit('reload')
+            this.fetchTags()
+          })
+          .catch(({response}) => {
+            this.$toast.error(response?.data?.message || this.i18n.t('TOAST.ADD_GROUP_ERROR'));
+          })
+          .finally(() => this.loading = false);
     },
     reloadMakeDialog() {
       this.getDefaultGroups()
@@ -439,7 +440,7 @@ export default {
       let parent = this.tempMakeDefault?.[item.id]
 
       return !!parent
-        && parent?.length !== group.children?.length
+          && parent?.length !== group.children?.length
     }
   }
 }

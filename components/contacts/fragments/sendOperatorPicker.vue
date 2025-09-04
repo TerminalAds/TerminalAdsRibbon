@@ -6,6 +6,7 @@
 
 <script>
 import {mapGetters} from "vuex";
+import i18n from "@/plugins/EasyModal/i18n";
 
 export default {
   name: "sendOperatorPicker",
@@ -14,12 +15,13 @@ export default {
     value: [String, Number],
     label: {
       type: String,
-      default: 'سرشماره'
+      default: i18n.t('PROPS.SOURCE_NUMBER_LABEL')
     }
   },
 
   data() {
     return {
+      i18n,
       defaultNumber: null,
       rules: {
         line: v => !!v || this.$t("ERRORS.NoSelectedLineNumber"),
@@ -70,7 +72,10 @@ export default {
     checkPhoneType(val) {
       this.$emit('change')
       if (val === '123450')
-        this.$modal.info('توجه فرمایید.', 'در زمان  ارسال پیامک با سرشماره "ارسال خبری"  حداقل تعداد بایستی ۱۰۰۰ عدد باشد.');
+        this.$modal.info(
+            this.i18n.t('MODAL.INFO_TITLE'),
+            this.i18n.t('MODAL.INFO_MESSAGE_NEWS_NUMBER', { number: this.i18n.t('SPECIAL_NUMBERS.NEWS_SEND') })
+        );
     },
   }
 }

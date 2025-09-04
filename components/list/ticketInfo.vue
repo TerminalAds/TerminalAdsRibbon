@@ -10,14 +10,14 @@
           <v-col cols="7">
             <h6 class="text-dark font-weight-bolder line-height-lg"
                 style="font-size: 11pt">
-              در هر لحظه با شما هستیم...
+              {{ i18n.t('ticket.text') }}
             </h6>
             <p class="mt-5">
               <a class="text-dark" href="https://core.terminalads.com/#/tickets/create"
                  target="_blank">
-                <span style="font-size: 7pt">  برای ارتباط با تیم پشتیبانی ما تیکت ثبت نمایید</span>
+                <span style="font-size: 7pt">{{i18n.t('ticker.help')}}</span>
                 <br>
-                <span class="btn btn-info py-1 mt-21">ثبت تیکت</span>
+                <span class="btn btn-info py-1 mt-21">{{i18n.t('ticker.register')}}</span>
               </a>
             </p>
           </v-col>
@@ -57,11 +57,11 @@
 <script>
 import {mapGetters} from "vuex";
 import UserPack from "./userPack.vue";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "ticketInfo",
   components: {UserPack},
-
   data() {
     return {
       strokeColor: "#f86573",
@@ -75,6 +75,7 @@ export default {
           data: [20, 22, 30, 28, 25, 26, 30, 28, 22, 24, 25, 35]
         }
       ],
+      i18n
     }
   },
 

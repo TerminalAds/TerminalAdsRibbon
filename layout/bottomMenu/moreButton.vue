@@ -14,7 +14,7 @@
 
         <v-list-item-content>
           <v-list-item-title>
-            سلام {{ username }}
+            {{ i18n.t('hi') }} {{ username }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -26,7 +26,7 @@
 
         <v-list-item-content>
           <v-list-item-title>
-            خروج
+            {{i18n.t('exit')}}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -38,32 +38,27 @@
 import KTQuickUser from "../extras/offcanvas/QuickUser";
 import {mapGetters} from 'vuex'
 import KTExitButton from "../header/ExitButton";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "MoreButton",
-
   components: {KTExitButton, KTQuickUser},
-
   props: {
     icon: String
   },
-
   computed: {
     ...mapGetters('ribbon', ['user']),
     username() {
       return this.user?.name || 'کاربر عزیز'
     }
   },
-
   data: () => ({
-    quLink: null
+    quLink: null,
+    i18n
   }),
-
   methods: {
     closeMenu(e) {
-      if (!e) {
-        // this.setToggle(this.$route.path)
-      }
+
     },
     childMounted() {
       this.quLink = this.$refs.quickUser.quickUserLink()

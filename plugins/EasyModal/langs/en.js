@@ -1,4 +1,5 @@
 export const locale = {
+	dashboard: 'Dashboard',
     Loading: {
         Waiting : "Please Wait",
         Description : "waiting to response",

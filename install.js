@@ -5,6 +5,7 @@ import phonebook from "./stores/phonebook";
 import money from './Mony.json';
 import VueOffline from 'vue-offline'
 import modal from './plugins/EasyModal/index'
+import i18n from "./plugins/EasyModal/i18n";
 
 let timer = null;
 
@@ -41,6 +42,11 @@ export default {
       }),
       methods: {
         ...mapActions("ribbon", ["setWallet"]),
+				changeLanguage(lang){
+					options.onChangeLanguage(lang)
+					i18n.locale=lang;
+					localStorage.setItem('language',lang)
+				},
         setSubTitle(title) {
           store.state.sub_title = title;
         },
@@ -50,6 +56,9 @@ export default {
           return abilities.indexOf(permission + ':active') >= 0 || abilities.indexOf(permission + ':show') >= 0;
         },
         persianNum(input) {
+					if (i18n.locale!=='fa')
+						return;
+					
           try {
             if (input === undefined || input == null) return "";
             let str1 = input.toString().trim();

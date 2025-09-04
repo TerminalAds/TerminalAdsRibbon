@@ -6,27 +6,27 @@
           <v-spacer/>
 
           <h4 class="d-flex flex-center rounded-top">
-            <span class="text-white">نوتیفیکیشن های کاربر</span>
+            <span class="text-white">{{ i18n.t('notification.text') }}</span>
             <span class="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2">
               {{ persianNum(unreadNotif) || 0 }}
-              پیام جدید
+              {{ i18n.t('notification.new') }}
             </span>
           </h4>
 
           <ul
-            class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
-            role="tablist">
+              class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
+              role="tablist">
             <li class="nav-item">
               <a class="nav-link active" data-tab="0" data-toggle="tab" href="#" role="tab"
                  v-on:click="setActiveTab">
-                پیام ها
+                {{ i18n.t('messages') }}
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" data-tab="2" data-toggle="tab" href="#" role="tab"
                  v-on:click="setActiveTab">
-                رویدادها
+                {{ i18n.t('events') }}
               </a>
             </li>
           </ul>
@@ -38,7 +38,7 @@
       <b-tab active class="pa-2">
 
         <div v-if="unreadNotif===0" class="d-flex flex-center text-center text-muted min-h-200px">
-          <br/>پیام جدیدی موجود نیست!
+          <br/>{{ i18n.t('no_new_message') }}
         </div>
 
         <perfect-scrollbar v-else class="scroll pr-7 mr-n7" style="max-height: 40vh; position: relative;">
@@ -60,14 +60,14 @@
           <v-btn color="primary" href="https://core.terminalads.com/#/user/notifications" small target="_blank"
                  text>
             <v-icon class="me-1" small>mdi-eye</v-icon>
-            مشاهده همه
+            {{ i18n.t('show_all') }}
           </v-btn>
         </v-card-actions>
       </b-tab>
 
       <b-tab>
         <div class="d-flex flex-center text-center text-muted min-h-200px">
-          <br/>رویداد جدیدی موجود نیست!
+          <br/>{{ i18n.t('no_new_event') }}
         </div>
       </b-tab>
     </b-tabs>
@@ -80,14 +80,14 @@
 
         <v-card-text v-if="ribbon_can('admin_access')">
           <div v-if="containsKey(dialogData.data,'customerHistory')">
-            <v-btn @click="goToCustomerHistory(dialogData.data.customerHistory.phone)">برو به کاربر</v-btn>
+            <v-btn @click="goToCustomerHistory(dialogData.data.customerHistory.phone)">{{ i18n.t('go_to_user') }}</v-btn>
           </div>
         </v-card-text>
 
         <v-card-actions class="justify-end">
           <v-btn text @click="seenDialog">
             <v-icon class="me-1" small>mdi-check</v-icon>
-            مشاهده کردم
+            {{ i18n.t('watched') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -104,23 +104,21 @@
 
 <script>
 import CustomPopup from "../../../plugins/popup/customPopup";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "KTDropdownNotification",
-
   components: {CustomPopup},
-
   props: {
     value: Number
   },
-
   model: {
     prop: 'value',
     event: 'input'
   },
-
   data() {
     return {
+      i18n,
       tabIndex: 0,
       dialog: false,
       unreadNotif: 0,
@@ -131,11 +129,9 @@ export default {
       }
     };
   },
-
   mounted() {
     this.getNotifications()
   },
-
   methods: {
     containsKey(obj, key) {
       return Object.keys(obj).includes(key);
@@ -173,9 +169,9 @@ export default {
     seenDialog() {
       this.dialog = false;
       this.$DashboardAxios.post('/api/core/seen/notification', {notif_id: this.dialogData.id})
-        .then(({data}) => {
-          this.getNotifications()
-        })
+          .then(({data}) => {
+            this.getNotifications()
+          })
     },
     dialogShow(data) {
       this.dialogData = data;

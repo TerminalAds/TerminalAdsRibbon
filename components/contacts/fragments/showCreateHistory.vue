@@ -3,14 +3,14 @@
     <v-card-title>
       <v-btn v-if="!createNew" class="submit-btn ma-0" @click="createNew = true">
         <v-icon left>mdi-plus</v-icon>
-        ایجاد تاریخچه جدید
+        {{ i18n.t('BUTTON.CREATE_NEW_HISTORY') }}
       </v-btn>
 
       <template v-else>
         <v-spacer/>
         <v-btn :loading="loading" color="red" outlined @click="createNew = false">
           <v-icon>mdi-close</v-icon>
-          بازگشت
+          {{ i18n.t('BUTTON.BACK') }}
         </v-btn>
       </template>
     </v-card-title>
@@ -28,56 +28,50 @@
 
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
-              More info about {{ item.name }}
+              {{ i18n.t('TABLE.MORE_INFO_ABOUT_ITEM', { name: item.name }) }}
             </td>
           </template>
-
-          <!--          <template v-slot:action="{item}">-->
-          <!--            <v-btn class="btn btn-outline-info rounded-pill pa-0" depressed fab small>-->
-          <!--              <v-icon>mdi-format-list-bulleted</v-icon>-->
-          <!--            </v-btn>-->
-          <!--          </template>-->
         </vue-table>
       </v-card-text>
 
       <v-row v-else key="form" class="pa-2" no-gutters>
         <v-col class="pa-2" cols="12" md="6">
           <v-text-field v-model="createFields.title" :error-messages="errors.title" append-icon="mdi-pencil"
-                        class="rounded-lg" clearable dense label="عنوان تاریخچه" outlined/>
+                        class="rounded-lg" clearable dense :label="i18n.t('FORM_LABELS.HISTORY_TITLE')" outlined/>
         </v-col>
 
         <v-col class="pa-2" cols="12" md="6">
           <v-text-field v-model="createFields.step" append-icon="mdi-counter" class="rounded-lg" clearable dense
-                        hide-spin-buttons label="مرحله" outlined type="number"/>
+                        hide-spin-buttons :label="i18n.t('FORM_LABELS.STEP')" outlined type="number"/>
         </v-col>
 
         <v-col class="pa-2" cols="12">
           <custom-date-picker v-model="createFields.added_at" :error-messages="errors.added_at" :max="nowDatetime"
                               append-icon="mdi-calendar-range" class="rounded-lg" dense input-class="created-input"
-                              label="زمان آخرین تماس" outlined/>
+                              :label="i18n.t('FORM_LABELS.LAST_CALL_TIME')" outlined/>
         </v-col>
 
         <v-col class="pa-2" cols="12">
           <v-textarea v-model="createFields.description" :error-messages="errors.description" class="rounded-lg" dense
-                      label="مذاکرات انجام شده" outlined/>
+                      :label="i18n.t('FORM_LABELS.NEGOTIATIONS')" outlined/>
         </v-col>
 
         <v-col class="pa-2" cols="12">
           <custom-date-picker v-model="createFields.remind_date" :error-messages="errors.remind_date" :min="nowDatetime"
                               append-icon="mdi-calendar-range" class="rounded-lg" dense input-class="remind-date-input"
-                              label="زمان یادآوری" nullable outlined/>
+                              :label="i18n.t('FORM_LABELS.REMINDER_TIME')" nullable outlined/>
         </v-col>
 
         <v-col class="pa-2" cols="12">
           <v-textarea v-model="createFields.purpose" :error-messages="errors.purpose" class="rounded-lg" clearable
-                      dense label="موارد پیگیری در تماس بعدی" outlined/>
+                      dense :label="i18n.t('FORM_LABELS.FOLLOW_UP_ITEMS')" outlined/>
         </v-col>
 
         <v-col cols="12">
           <v-card-actions class="justify-end">
             <v-btn :loading="loading" class="btn-accept" depressed @click="createNewOne">
               <v-icon left>mdi-content-save-plus-outline</v-icon>
-              ذخیره تاریخچه
+              {{ i18n.t('BUTTON.SAVE_HISTORY') }}
             </v-btn>
           </v-card-actions>
         </v-col>
@@ -89,6 +83,7 @@
 <script>
 import vueTable from "../../../plugins/vueTable/index.vue";
 import CustomDatePicker from "../../../pages/pickers/custom-date-picker.vue";
+import i18n from "@/plugins/EasyModal/i18n";
 
 export default {
   name: "showCreateHistory",
@@ -100,15 +95,16 @@ export default {
   },
 
   data: () => ({
+    i18n,
     data: {},
     headers: [
-      {value: 'index', text: 'ردیف', sortable: false, align: 'center'},
-      {value: 'title', text: 'عنوان', sortable: false, align: 'center'},
-      {value: 'step', text: 'مرحله', sortable: false, align: 'center'},
-      {value: 'remind_date', text: 'زمان یادآور', sortable: false, align: 'center'},
-      {value: 'created_at_p', text: 'زمان آخرین تماس', sortable: false, align: 'center'},
-      {value: 'savior', text: 'ثبت کننده', sortable: false, align: 'center'},
-      {value: 'action', text: 'مدیریت', sortable: false, align: 'center'},
+      {value: 'index', text: i18n.t('TABLE_HEADERS.ROW'), sortable: false, align: 'center'},
+      {value: 'title', text: i18n.t('TABLE_HEADERS.TITLE'), sortable: false, align: 'center'},
+      {value: 'step', text: i18n.t('TABLE_HEADERS.STEP'), sortable: false, align: 'center'},
+      {value: 'remind_date', text: i18n.t('TABLE_HEADERS.REMINDER_TIME'), sortable: false, align: 'center'},
+      {value: 'created_at_p', text: i18n.t('TABLE_HEADERS.LAST_CALL_TIME'), sortable: false, align: 'center'},
+      {value: 'savior', text: i18n.t('TABLE_HEADERS.RECORDER'), sortable: false, align: 'center'},
+      {value: 'action', text: i18n.t('TABLE_HEADERS.MANAGEMENT'), sortable: false, align: 'center'},
     ],
     tableProps: {
       length: 10,
@@ -147,8 +143,8 @@ export default {
       params.customer_id = this.item.id
 
       this.$instanceAxios.get('https://file-api.terminalads.com/api/contact/history', params)
-        .then(({data}) => this.data = data.data)
-        .finally(() => this.loading = false)
+          .then(({data}) => this.data = data.data)
+          .finally(() => this.loading = false)
     },
     onPagination(e) {
       let props = {
@@ -168,22 +164,22 @@ export default {
       }
 
       this.$instanceAxios.post('https://file-api.terminalads.com/api/user/history/customer', e)
-        .then(({data}) => {
-          this.fetch()
-          this.createNew = false
-        })
-        .catch(({response}) => {
-          if (response?.data?.errors) {
-            this.errors = response.data.errors
+          .then(({data}) => {
+            this.fetch()
+            this.createNew = false
+          })
+          .catch(({response}) => {
+            if (response?.data?.errors) {
+              this.errors = response.data.errors
 
-            for (const error in response.data.errors)
-              this.$toast.error(response.data.errors[error]?.[0])
+              for (const error in response.data.errors)
+                this.$toast.error(response.data.errors[error]?.[0])
 
-          } else
-            this.$toast.error('خطا در افزودن تاریخچه مشتری!');
-          console.log('failed to submit new history: ', response)
-        })
-        .finally(() => this.loading = false)
+            } else
+              this.$toast.error(this.i18n.t('TOAST.ADD_HISTORY_ERROR'));
+            console.log('failed to submit new history: ', response)
+          })
+          .finally(() => this.loading = false)
     }
   }
 }

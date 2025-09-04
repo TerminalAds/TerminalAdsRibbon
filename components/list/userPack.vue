@@ -4,12 +4,12 @@
        style="min-height: 180px; background-position: center">
 
     <div class="card-body d-flex flex-column">
-      <span class="text-white font-weight-bolder font-size-h6">بسته های فعال</span>
+      <span class="text-white font-weight-bolder font-size-h6">{{ i18n.t('package.title') }}</span>
 
       <span v-if="pack && pack.title && pack.expire" class="text-white font-weight-bolder mt-3"
             style="font-size: 8pt" v-text="packTitle"/>
       <span v-else class="text-white font-weight-bolder mt-3"
-            style="font-size: 8pt">شما هیچ بسته فعالی ندارید.</span>
+            style="font-size: 8pt">{{ i18n.t('package.no') }}</span>
 
       <div class="mt-12">
         <b-progress v-b-tooltip.hover="progressTitle" :animated="true" :max="pack.expire" :striped="true"
@@ -22,10 +22,13 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "userPack",
-
+  data(){
+    return{i18n}
+  },
   computed: {
     ...mapGetters("ribbon", ["core"]),
     pack() {
@@ -33,10 +36,6 @@ export default {
     },
     diff() {
       let expireDate = this.pack.expired_at;
-      // let expireDate = new Date('2023-9-22 02:15:00').getTime();
-      // let now = new Date().getTime();
-      // let diff = this.datediff(now, expireDate);
-      // return Math.max(Math.round(100 - (((this.pack.expire - diff) / this.pack.expire) * 100)), 0);
 
       let moment = require('moment-jalaali');
       let now = moment().format('YYYY-MM-DD HH:mm:ss')
@@ -45,7 +44,7 @@ export default {
     },
     expire() {
       let expire_date = this.pack.expired_at
-      // let expire_date = '2023-9-22 02:15:00'
+
       if (!expire_date) {
         return "∞"
       }
@@ -53,16 +52,16 @@ export default {
     },
     packTitle() {
       return this.pack?.title && this.pack.title?.length > 0
-        ? this.pack.title + ' ' + this.pack.expire + ' روزه'
-        : ''
+          ? this.pack.title + ' ' + this.pack.expire + i18n.t('package.day')
+          : ''
     },
     progressTitle() {
       if (this.expire === '∞') {
-        return 'پنل نامحدود'
+        return i18n.t('package.no_limit')
       } else {
         let moment = require('moment-jalaali');
         let ex = moment().to(this.pack.expired_at)
-        return ex.indexOf('پیش') >= 0 ? 'منقضی شده ' + ex : 'انقضا ' + ex + ' دیگر'
+        return ex.indexOf('پیش') >= 0 ? i18n.t('package.expired') + ex : i18n.t('package.expiration') + ex + i18n.t('package.other')
       }
     },
     packVariant() {

@@ -1,18 +1,18 @@
 <template>
   <div class="container-fluid rounded" style="background-color: white">
-    <p class="mt-2 mb-0">انتخاب مبلغ :</p>
+    <p class="mt-2 mb-0">{{ i18n.t('WALLET.SelectAmount') }} :</p>
 
     <v-flex class="flex-column align-items-center mt-4">
       <v-btn-toggle v-model="quickCharge" class="flex-wrap justify-space-around w-100" dense mandatory>
         <v-btn v-for="(price, i) in costs" :key="price.val"
                :class="[price.class, {[price.classHover] : quickCharge === price.val}]" :style="price.style"
                :value="price.val" style="margin: 8px 0 0 8px" @click="data.price=price.val">
-          <span class="d-inline-block">{{ price.val | numericPersianNumber }} ریال</span>
+          <span class="d-inline-block">{{ price.val | numericPersianNumber }} {{ i18n.t('WALLET.Currency') }}</span>
         </v-btn>
 
         <v-btn :class="['btn-charge-wallet', {'btn-charge-wallet-hover' : !quickCharge}]" :value="0"
                style="border-color: rgb(2, 191, 180) !important;margin: 8px 0 0 8px ;">
-          <span class="">{{ $t('WALLET.CustomCharge') }}</span>
+          <span class="">{{ i18n.t('WALLET.CustomCharge') }}</span>
         </v-btn>
       </v-btn-toggle>
     </v-flex>
@@ -20,9 +20,9 @@
     <div>
       <v-expand-transition>
         <div v-if="!quickCharge" class="card p-4 my-4">
-          <h3 class="text-center my-4">{{ $t('WALLET.CustomCharge') }}</h3>
+          <h3 class="text-center my-4">{{ i18n.t('WALLET.CustomCharge') }}</h3>
           <div class="col-md-6 align-self-center">
-            <price-input v-model="data.price" label="مبلغ" text-center="true"/>
+            <price-input v-model="data.price" :label="i18n.t('WALLET.Amount')" text-center="true"/>
             <p v-if="error" class="red--text" style="color: darkred">{{ error }}</p>
             <v-row class="justify-content-center py-3 text-center">
               <v-flex v-for="(cost, index) in costsDefault" :key="index" class="p-2" lg6 md6 sm12 xl6 xs12>
@@ -34,21 +34,20 @@
 
                   {{ cost.val | numericPersianNumber }}
 
-                  <p class="pt-3 pr-1">ریـال</p>
+                  <p class="pt-3 pr-1">{{ i18n.t('WALLET.Currency') }}</p>
                 </v-btn>
               </v-flex>
             </v-row>
           </div>
-
         </div>
       </v-expand-transition>
     </div>
 
-    <p class="mt-4">{{ $t('WALLET.GateWay') }} :</p>
+    <p class="mt-4">{{ i18n.t('WALLET.GateWay') }} :</p>
 
     <div class=" d-flex justify-content-center rounded-lg pa-1 wallet-charge mt-3 py-3">
 
-      <p v-if="!gateways" class="my-10">{{ $t('WALLET.noGateWay') }}</p>
+      <p v-if="!gateways" class="my-10">{{ i18n.t('WALLET.noGateWay') }}</p>
 
       <v-btn-toggle v-else-if="gateways.length" v-model="data.gateway" :mandatory="gateways.length === 1">
         <v-btn v-for="gate in gateways" :key="gate.id" :class="{'activeGateWay' : data.gateway.id === gate.id}"
@@ -77,7 +76,7 @@
     <div class="my-4 d-flex flex-row-reverse">
       <v-btn :disabled="!isValidData" :loading="loading" block class="btn-payment" depressed @click="payment">
         <v-icon class="ml-2">fa-credit-card</v-icon>
-        {{ $t('WALLET.Pay') }}
+        {{ i18n.t('WALLET.Pay') }}
       </v-btn>
     </div>
   </div>
@@ -88,6 +87,7 @@ import {mapActions} from 'vuex'
 import priceInput from "../../pages/pickers/priceInput";
 import {SemipolarSpinner} from 'epic-spinners'
 import IncreaseInApp from "./increaseInApp.vue";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 export default {
   components: {IncreaseInApp, priceInput, SemipolarSpinner},
@@ -162,7 +162,8 @@ export default {
         zarinpal: {img: 'media/gateways/zarinpal.png', name: 'زرین پال'},
         bazar: {img: 'media/gateways/directPay.svg', name: 'پرداخت آزاد'}
       },
-      showInApp: false
+      showInApp: false,
+      i18n
     }
   },
 
@@ -187,7 +188,7 @@ export default {
       if (this.isValidPrice(this.min, this.max)) {
         this.error = "";
       } else {
-        this.error = this.$t('WALLET.PriceNotInRange', {
+        this.error = i18n.t('WALLET.PriceNotInRange', {
           min: this.persianNum(String(this.min).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")),
           max: this.persianNum(String(this.max).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"))
         })
@@ -213,26 +214,11 @@ export default {
         })
         .catch(({response}) => {
           if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
-          else this.$toast.error('ناموفق');
+          else this.$toast.error(i18n.t('WALLET.ErrorGeneral'));
           this.errors = response.data.errors;
           this.gateways = undefined
         })
     },
-    // redirectMelatGateway(link, RefId) {
-    //   const form = document.createElement("form");
-    //   const element1 = document.createElement("input");
-    //
-    //   form.method = "POST";
-    //   form.action = link;
-    //
-    //   element1.value = RefId;
-    //   element1.name = "RefId";
-    //   form.appendChild(element1);
-    //
-    //   document.body.appendChild(form);
-    //
-    //   form.submit();
-    // },
     payment() {
       if (this.data.gateway.driver === 'bazar') {
         this.payBazar()
@@ -244,24 +230,16 @@ export default {
 
       this.loading = true;
       if (this.data.price < this.min) {
-        this.$toast.error('مبلغ وارد شده کمتر از ۲۰۰۰۰۰ تومان است.');
+        this.$toast.error(i18n.t('WALLET.MinAmountError'));
         return;
       }
-      // this.$DashboardAxios.post('https://wallet.terminalads.com/api/transactions/charge', {
-      // let backUrl = this.front_url + '/?token=' + localStorage.getItem('id_token') + '#/payment-callback-new'
       let backUrl = this.front_url + '/#/payment-callback-new'
       this.$DashboardAxios.post('/api/newWallet/charge', {
         amount: this.data.price,
         gateway: this.data.gateway.driver,
-        // ['zarinpal', 'zarinpal2'].includes(this.data.gateway.driver)
-        // ? this.data.gateway.driver
-        // : undefined,
         callbackUrl: backUrl
       })
         .then(({data}) => {
-          // window.location.href = data.data.data.action
-          // window.location.href = data.data.data.url.replace('sandbox.', '')
-          // console.log('href: ', data.data.data.url.replace('sandbox.', ''))
           if (['behpardakhtPublic', 'behpardakht'].includes(this.data.gateway.driver)) {
             this.payBehpardakht(data)
             return
@@ -273,23 +251,23 @@ export default {
           a.click()
         })
         .catch((e) => {
-          this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay'));
+          this.$toast.error(i18n.t('WALLET.ErrorOnRedirectToGateWay'));
         })
         .finally(() => this.loading = false);
     },
     payBazar() {
       if (this.data.price <= 100000)
-        return this.$toast.error('مبلغ کمتر از 10 هزار تومان نمیتواند باشد!')
+        return this.$toast.error(i18n.t('WALLET.MinBazarAmountError'))
 
       this.loading = true
 
       this.$DashboardAxios.get(`https://robot-api.terminalads.com/api/user/bazar?amount=${this.data.price}`)
         .then(({data}) => {
-          this.$toast.info('در صورت پرداخت موفق، 1 الی 3 دقیقه زمان لازم است تا کیف پول شما شارژ شود.', {timeout: 5000})
+          this.$toast.info(i18n.t('WALLET.BazarSuccessInfo'), {timeout: 5000})
           window.open(data.data.redirect, '_blank');
           this.toggleWalletDialog(false);
         })
-        .catch(({response}) => this.$toast.error(this.$t('WALLET.ErrorOnRedirectToGateWay')))
+        .catch(({response}) => this.$toast.error(i18n.t('WALLET.ErrorOnRedirectToGateWay')))
         .finally(() => this.loading = false)
     },
     payBehpardakht(data) {

@@ -34,13 +34,6 @@ export default {
     let token = localStorage.getItem('id_token')
 
     this.links = [
-      // {
-      //   title: 'راهنما',
-      //   href: this.handleHelp,
-      //   icon: 'help',
-      //   type: 'btn',
-      //   limit: false
-      // },
       {
         title: 'تماس باما',
         href: 'https://terminalads.com/contact',
@@ -78,25 +71,6 @@ export default {
         type: 'svg',
         limit: false
       }
-      // {
-      //   title: 'تیکت',
-      //   href: 'https://core.terminalads.com/#/tickets/create',
-      //   icon: 'comments',
-      //   type: 'icon',
-      //   limit: false
-      // }, {
-      //   title: 'فرصت های همکاری',
-      //   href: 'https://terminalads.com/%d8%b9%d8%a7%d9%85%d9%84%db%8c%d8%aa-%d9%81%d8%b1%d9%88%d8%b4/',
-      //   icon: 'handshake',
-      //   type: 'icon',
-      //   limit: false
-      // }, {
-      //   title: 'درباره ما',
-      //   href: 'https://terminalads.com/about',
-      //   icon: 'info-circle',
-      //   type: 'icon',
-      //   limit: false
-      // }
     ]
   },
 

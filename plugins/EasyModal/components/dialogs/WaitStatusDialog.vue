@@ -7,10 +7,6 @@
       </v-card-title>
 
       <v-card-text class="text-center d-flex flex-column justify-center align-center">
-        <!--                <div class="d-flex justify-center mb-3 pt-3 mx-auto">-->
-        <!--                    <v-img src="sms.ico" max-height="80" max-width="80" contain/>-->
-        <!--                </div>-->
-
         <atom-spinner :animation-duration="1000" :size="100" class="mx-auto mt-10" color="primary"/>
       </v-card-text>
 
@@ -32,9 +28,7 @@ import i18n from "../../i18n";
 
 export default {
   name: "WaitStatusDialog",
-
   components: {AtomSpinner},
-
   props: {
     value: [Function, Boolean],
     closable: true,
@@ -47,13 +41,11 @@ export default {
     },
     extraText: String
   },
-
   data() {
     return {
       i18n
     }
   },
-
   computed: {
     show: {
       get() {

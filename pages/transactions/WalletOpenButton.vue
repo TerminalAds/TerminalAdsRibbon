@@ -9,7 +9,7 @@
     @click="changeRoute"
   >
     <v-btn
-      v-b-tooltip.passive="'شارژ کیف پول'"
+      v-b-tooltip.passive="i18n.t('WALLET.CustomCharge')"
       class="price-walletButton px-0"
       color="#6cdb72"
       dark
@@ -29,15 +29,15 @@
 
     <div
       v-else
-      v-b-tooltip.passive="'لیست تراکنش های شما'"
+      v-b-tooltip.passive="i18n.t('WALLET.transactionListTooltip')"
       class="d-flex align-center fill-height"
       style="flex: 1 0 auto"
     >
-      <span>اعتبار</span>
+      <span>{{ i18n.t('WALLET.AmountLabel') }}</span>
       <v-spacer/>
       <v-btn
         v-if="!sectionStatus.wallet"
-        v-b-tooltip.passive="'بارگزاری مجدد'"
+        v-b-tooltip.passive="i18n.t('WALLET.reloadTooltip')"
         height="32"
         icon
         min-height="32"
@@ -76,7 +76,7 @@
     </div>
 
     <v-btn
-      v-b-tooltip.passive="'برداشت از کیف پول'"
+      v-b-tooltip.passive="i18n.t('WALLET.withdrawTooltip')"
       class="price-walletButton px-0 min"
       color="#ff475a"
       dark
@@ -92,7 +92,7 @@
 
     <custom-popup
       v-model="computedWalletDialog"
-      :cons="{ title: 'شارژ کیف پول' }"
+      :cons="{ title: i18n.t('WALLET.CustomCharge') }"
       hide-confirm
       hide-overlay
       max-width="800px"
@@ -104,7 +104,7 @@
 
     <custom-popup
       v-model="computedWithdraw"
-      :cons="{ title: 'برداشت از کیف پول' }"
+      :cons="{ title: i18n.t('WALLET.withdrawTitle') }"
       hide-confirm
       hide-overlay
       max-width="800px"
@@ -121,6 +121,7 @@ import {mapActions, mapGetters} from "vuex";
 import IncreaseTransactions from "./increaseTransactions";
 import CustomPopup from "../../plugins/popup/customPopup";
 import WithdrawTransactions from "./withdrawTransactions";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 const exhale = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -143,6 +144,7 @@ export default {
   data: () => ({
     checking: false,
     heartbeats: [],
+    i18n
   }),
 
   created() {

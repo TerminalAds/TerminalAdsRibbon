@@ -1,4 +1,6 @@
 <script>
+import i18n from "../../plugins/EasyModal/i18n";
+
 export default {
   name: "refreshPage",
 
@@ -7,9 +9,9 @@ export default {
   }),
 
   mounted() {
-    this.$modal.error('خطا در بارگزاری!', 'بارگزاری اطلاعات با خطا مواجه شد! لطفا دوباره تلاش نمایید', undefined,
+    this.$modal.error(i18n.t('loading_error.title'), i18n.t('loading_error.message'), undefined,
         {
-          text: 'تلاش مجدد',
+          text: i18n.t('text'),
           icon: 'reload',
           class: 'success w-100',
           onClick: this.reloadPage

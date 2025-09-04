@@ -7,7 +7,7 @@
         rounded
         @click="showSend = !showSend"
       >
-        ارسال به شماره‌های انتخاب شده
+        {{ i18n.t('FORMS.SEND_TO_SELECTED_NUMBERS') }}
         <v-icon right>mdi-chevron-{{ showSend ? "up" : "down" }}</v-icon>
       </v-btn>
     </v-col>

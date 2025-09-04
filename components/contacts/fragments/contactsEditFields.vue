@@ -30,32 +30,32 @@
       <transition-group class="row no-gutters" name="slide-y-transition" tag="div">
         <v-col v-if="expandedName" key="preName" class="pa-2" cols="12">
           <v-text-field v-model="computedValue.preName" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="پیشوند" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.PREFIX')" outlined/>
         </v-col>
 
         <v-col key="name" class="pa-2" cols="12">
           <v-text-field v-model="computedValue.name" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="نام" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.NAME')" outlined/>
         </v-col>
 
         <v-col v-if="expandedName" key="middleName" class="pa-2" cols="12">
           <v-text-field v-model="computedValue.middleName" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="نام میانی" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.MIDDLENAME')" outlined/>
         </v-col>
 
         <v-col key="lastName" class="pa-2" cols="12">
           <v-text-field v-model="computedValue.lastName" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="نام خانوادگی" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.LASTNAME')" outlined/>
         </v-col>
 
         <v-col v-if="expandedName" key="postName" class="pa-2" cols="12">
           <v-text-field v-model="computedValue.postName" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="پسوند" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.POSTFIX')" outlined/>
         </v-col>
 
         <v-col key="alias" class="pa-2" cols="12">
           <v-text-field v-model="computedValue.alias" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="نام مستعار" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.ALIAS')" outlined/>
         </v-col>
       </transition-group>
 
@@ -73,12 +73,12 @@
       <v-row no-gutters>
         <v-col class="pa-2" cols="12">
           <v-text-field v-model="computedValue.companyName" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="شرکت" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.COMPANY')" outlined/>
         </v-col>
 
         <v-col class="pa-2" cols="12">
           <v-text-field v-model="computedValue.jobTitle" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="عنوان شغلی" outlined/>
+                        clearable dense hide-details :label="i18n.t('CONTACTS.JOBTITLE')" outlined/>
         </v-col>
       </v-row>
     </v-col>
@@ -91,8 +91,8 @@
           <v-text-field v-model="computedValue.phone"
                         :hide-details="typeof rules.phone(computedValue.phone) === 'boolean'" :rules="[rules.phone]"
                         class="rounded-lg phone-field" clear-icon="mdi-close-circle-outline" clearable dense
-                        label="شماره تلفن"
-                        outlined placeholder="مانند: 8070 111 13 (989)(989+)(9)(09)"/>
+                        :label="i18n.t('CONTACTS.PHONE')"
+                        outlined :placeholder="i18n.t('CONTACTS.PHONE_PLACEHOLDER')"/>
         </v-col>
       </v-row>
     </v-col>
@@ -106,12 +106,12 @@
             <v-col class="pe-2 flex">
               <v-text-field v-model="item.email" :hide-details="typeof rules.email(item.email) === 'boolean'"
                             :rules="[rules.email]" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable
-                            dense label="ایمیل" outlined/>
+                            dense :label="i18n.t('CONTACTS.EMAIL')" outlined/>
             </v-col>
 
             <v-col v-if="!!item.email" class="pe-2" style="flex: 0 0 35%;max-width: 35%">
               <v-combobox v-model="item.tag" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable dense
-                          hide-details hide-selected label="عنوان" outlined/>
+                          hide-details hide-selected :label="i18n.t('CONTACTS.TAG')" outlined/>
             </v-col>
           </v-row>
 
@@ -127,7 +127,7 @@
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="pushField('email')">
           <v-icon v-if="!!computedValue.email.length" left>mdi-plus</v-icon>
           <v-icon v-else left>mdi-email-outline</v-icon>
-          افزودن ایمیل
+          {{ i18n.t('CONTACTS.ADD_EMAIL') }}
         </v-btn>
       </div>
     </v-col>
@@ -141,29 +141,29 @@
             <v-col class="pe-2 pb-4" cols="12">
               <v-autocomplete v-model="item.province" :items="provinces" :menu-props="{offsetY: true}"
                               clear-icon="mdi-close-circle-outline" clearable dense hide-details item-value="text"
-                              label="استان" outlined @change="getCities(item.province)"/>
+                              :label="i18n.t('CONTACTS.PROVINCE')" outlined @change="getCities(item.province)"/>
             </v-col>
 
             <v-col class="pe-2 pb-4" cols="12">
               <v-autocomplete v-model="item.city" :disabled="!item.province" :items="cities[item.province]"
                               :loading="cityLoading" :menu-props="{offsetY: true}" clear-icon="mdi-close-circle-outline"
-                              clearable dense hide-details item-value="text" label="شهر" outlined
+                              clearable dense hide-details item-value="text" :label="i18n.t('CONTACTS.CITY')" outlined
                               @focus="getCities(item.province)"/>
             </v-col>
 
             <v-col class="pe-2 pb-4" cols="12">
               <v-text-field v-model="item.address" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                            clearable dense hide-details label="نشانی" outlined/>
+                            clearable dense hide-details :label="i18n.t('CONTACTS.ADDRESS')" outlined/>
             </v-col>
 
             <v-col class="pe-2 pb-4" cols="12">
               <v-text-field v-model="item.postalCode" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                            clearable dense hide-details label="کدپستی" outlined/>
+                            clearable dense hide-details :label="i18n.t('CONTACTS.POSTALCODE')" outlined/>
             </v-col>
 
             <v-col class="pe-2 pb-4" cols="12">
               <v-combobox v-model="item.tag" :items="tagsItem['address']" class="rounded-lg"
-                          clear-icon="mdi-close-circle-outline" clearable dense hide-details hide-selected label="عنوان"
+                          clear-icon="mdi-close-circle-outline" clearable dense hide-details hide-selected :label="i18n.t('CONTACTS.TAG')"
                           outlined/>
             </v-col>
           </v-row>
@@ -180,7 +180,7 @@
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="pushField('address')">
           <v-icon v-if="!!computedValue.address.length" left>mdi-plus</v-icon>
           <v-icon v-else left>mdi-map-marker-outline</v-icon>
-          افزودن نشانی
+          {{ i18n.t('CONTACTS.ADD_ADDRESS') }}
         </v-btn>
       </div>
     </v-col>
@@ -191,19 +191,19 @@
       <v-row no-gutters>
         <v-col class="pa-2" cols="12" md="4">
           <v-text-field v-model="birthday.year" :max="maxYear" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                        clearable dense hide-details label="سال (اختیاری)"
+                        clearable dense hide-details :label="i18n.t('CONTACTS.YEAR_OPTIONAL')"
                         oninput="if (Number(this.value) > this.max) this.value = this.max; else if (Number(this.value) < 1) this.value = 1;"
                         outlined type="number"/>
         </v-col>
 
         <v-col class="pa-2" cols="12" md="6">
           <v-select v-model="birthday.month" :items="months" :menu-props="{ offsetY: true }" class="rounded-lg"
-                    clear-icon="mdi-close-circle-outline" clearable dense hide-details label="ماه" outlined/>
+                    clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('CONTACTS.MONTH')" outlined/>
         </v-col>
 
         <v-col class="pa-2" cols="12" md="2">
           <v-text-field v-model="birthday.day" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable dense
-                        hide-details label="روز" max="31"
+                        hide-details :label="i18n.t('CONTACTS.DAY')" max="31"
                         oninput="if (Number(this.value) > Number(this.max)) this.value = this.max; else if (Number(this.value) < 1) this.value = 1;"
                         outlined type="number"/>
         </v-col>
@@ -218,7 +218,7 @@
       <div class="pe-2">
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="showBirthday = true">
           <v-icon left>mdi-cake-variant-outline</v-icon>
-          افزودن تاریخ تولد
+          {{ i18n.t('CONTACTS.ADD_BIRTHDAY') }}
         </v-btn>
       </div>
     </v-col>
@@ -232,12 +232,12 @@
             <v-col class="pe-2 flex">
               <v-text-field v-model="item.link" :hide-details="typeof rules.website(item.link) === 'boolean'"
                             :rules="[rules.website]" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable
-                            dense label="وب سایت" outlined/>
+                            dense :label="i18n.t('CONTACTS.WEBSITE')" outlined/>
             </v-col>
 
             <v-col v-if="!!item.link" class="pe-2" style="flex: 0 0 35%;max-width: 35%">
               <v-text-field v-model="item.tag" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable dense
-                            hide-details label="عنوان" outlined/>
+                            hide-details :label="i18n.t('CONTACTS.TAG')" outlined/>
             </v-col>
           </v-row>
 
@@ -253,7 +253,7 @@
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="pushField('website')">
           <v-icon v-if="!!computedValue.website.length" left>mdi-plus</v-icon>
           <v-icon v-else left>mdi-link</v-icon>
-          افزودن وب سایت
+          {{ i18n.t('CONTACTS.ADD_WEBSITE') }}
         </v-btn>
       </div>
     </v-col>
@@ -265,13 +265,13 @@
         <div v-for="(item, i) in computedValue.date_times" :key="i" class="position-relative pa-2 pe-10">
           <v-row no-gutters>
             <v-col class="pe-2 flex">
-              <custom-date-picker v-model="item.date" :input-class="`date-input-${i}`" dense hide-details label="تاریخ"
+              <custom-date-picker v-model="item.date" :input-class="`date-input-${i}`" dense hide-details :label="i18n.t('CONTACTS.DATE')"
                                   nullable outlined wrapper-class="rounded-lg"/>
             </v-col>
 
             <v-col v-if="!!item.date" class="pe-2" style="flex: 0 0 35%;max-width: 35%">
               <v-text-field v-model="item.tag" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable
-                            dense hide-details label="عنوان" outlined/>
+                            dense hide-details :label="i18n.t('CONTACTS.TAG')" outlined/>
             </v-col>
           </v-row>
 
@@ -287,7 +287,7 @@
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="pushField('date_times')">
           <v-icon v-if="!!computedValue.date_times.length" left>mdi-plus</v-icon>
           <v-icon v-else left>mdi-view-agenda-outline</v-icon>
-          افزودن تاریخ
+          {{ i18n.t('CONTACTS.ADD_DATE') }}
         </v-btn>
       </div>
     </v-col>
@@ -300,12 +300,12 @@
           <v-row no-gutters>
             <v-col class="pe-2 flex">
               <v-text-field v-model="item.text" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                            clearable dense hide-details label="فیلد سفارشی" outlined/>
+                            clearable dense hide-details :label="i18n.t('CONTACTS.CUSTOM_FIELD')" outlined/>
             </v-col>
 
             <v-col v-if="!!item.text" class="pe-2" style="flex: 0 0 35%;max-width: 35%">
               <v-text-field v-model="item.tag" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable dense
-                            hide-details label="عنوان" outlined/>
+                            hide-details :label="i18n.t('CONTACTS.TAG')" outlined/>
             </v-col>
           </v-row>
 
@@ -321,7 +321,7 @@
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="pushField('custom')">
           <v-icon v-if="!!computedValue.custom.length" left>mdi-plus</v-icon>
           <v-icon v-else left>mdi-view-agenda-outline</v-icon>
-          افزودن فیلد سفارشی
+          {{ i18n.t('CONTACTS.ADD_CUSTOM_FIELD') }}
         </v-btn>
       </div>
     </v-col>
@@ -332,7 +332,7 @@
       <v-row no-gutters>
         <v-col class="pa-2" cols="12">
           <v-textarea v-model="computedValue.description" class="rounded-lg" clear-icon="mdi-close-circle-outline"
-                      clearable dense hide-details label="توضیحات" outlined/>
+                      clearable dense hide-details :label="i18n.t('CONTACTS.NOTE')" outlined/>
         </v-col>
       </v-row>
 
@@ -345,7 +345,7 @@
       <div class="pe-2">
         <v-btn block class="rounded-pill" color="blue lighten-4" depressed @click="showNote = true">
           <v-icon left>mdi-note-outline</v-icon>
-          افزودن یادداشت
+          {{ i18n.t('CONTACTS.ADD_NOTE') }}
         </v-btn>
       </div>
     </v-col>
@@ -354,6 +354,7 @@
 
 <script>
 import CustomDatePicker from "@/view/content/pickers/custom-date-picker.vue";
+import { i18n } from "@/plugins/EasyModal/langs/fa"; // Adjust path as needed
 
 export default {
   name: "contactsEditFields",
@@ -369,11 +370,12 @@ export default {
 
   data() {
     return {
+      i18n,
       expandedName: false,
       tagsItem: {
-        address: ['خانه', 'محل کار', 'سایر موارد'],
-        email: ['خانه', 'محل کار', 'سایر موارد'],
-        website: ['نمایه', 'وبلاگ', 'صفحه اصلی', 'محل کار']
+        address: [i18n.t('CONTACTS.HOME'), i18n.t('CONTACTS.WORK'), i18n.t('CONTACTS.OTHER')],
+        email: [i18n.t('CONTACTS.HOME'), i18n.t('CONTACTS.WORK'), i18n.t('CONTACTS.OTHER')],
+        website: [i18n.t('CONTACTS.PROFILE'), i18n.t('CONTACTS.BLOG'), i18n.t('CONTACTS.HOMEPAGE'), i18n.t('CONTACTS.WORK')]
       },
       types: {
         address: {
@@ -400,43 +402,19 @@ export default {
       provinces: [],
       cities: {},
       cityLoading: false,
-      months: [{
-        value: 1,
-        text: 'فروردین'
-      }, {
-        value: 2,
-        text: 'اردیبهشت'
-      }, {
-        value: 3,
-        text: 'خرداد'
-      }, {
-        value: 4,
-        text: 'تیر'
-      }, {
-        value: 5,
-        text: 'مرداد'
-      }, {
-        value: 6,
-        text: 'شهریور'
-      }, {
-        value: 7,
-        text: 'مهر'
-      }, {
-        value: 8,
-        text: 'آبان'
-      }, {
-        value: 9,
-        text: 'آذر'
-      }, {
-        value: 10,
-        text: 'دی'
-      }, {
-        value: 11,
-        text: 'بهمن'
-      }, {
-        value: 12,
-        text: 'اسفند'
-      },
+      months: [
+        { value: 1, text: i18n.t('MONTH.FARVARDIN') },
+        { value: 2, text: i18n.t('MONTH.ORDIBEHESHT') },
+        { value: 3, text: i18n.t('MONTH.KHORDAD') },
+        { value: 4, text: i18n.t('MONTH.TIR') },
+        { value: 5, text: i18n.t('MONTH.MORDAD') },
+        { value: 6, text: i18n.t('MONTH.SHAHRIVAR') },
+        { value: 7, text: i18n.t('MONTH.MEHR') },
+        { value: 8, text: i18n.t('MONTH.ABAN') },
+        { value: 9, text: i18n.t('MONTH.AZAR') },
+        { value: 10, text: i18n.t('MONTH.DEY') },
+        { value: 11, text: i18n.t('MONTH.BAHMAN') },
+        { value: 12, text: i18n.t('MONTH.ESFAND') },
       ],
       showBirthday: true,
       birthday: {
@@ -447,11 +425,11 @@ export default {
       showNote: true,
       rules: {
         birthday: () => ((!!this.birthday.day && !!this.birthday.month)
-          || (!this.birthday.day && !this.birthday.month)) || 'تاریخ را به صورت صحیح وارد نمایید',
-        year: v => (v.length === 4 || !v.length) || '۴ رقمی',
-        email: v => (this.isEmail(v) || !v) || 'ایمیل به صورت صحیح وارد نمایید',
-        website: v => (this.isDomain(v) || !v) || 'لینک به صورت صحیح وارد نمایید (website.com)',
-        phone: v => this.isPhone(v) || 'شماره تلفن صحیح وارد نماید'
+          || (!this.birthday.day && !this.birthday.month)) || i18n.t('CONTACTS.INVALID_BIRTHDAY'),
+        year: v => (v.length === 4 || !v.length) || i18n.t('CONTACTS.YEAR_4DIGIT'),
+        email: v => (this.isEmail(v) || !v) || i18n.t('CONTACTS.INVALID_EMAIL'),
+        website: v => (this.isDomain(v) || !v) || i18n.t('CONTACTS.INVALID_WEBSITE'),
+        phone: v => this.isPhone(v) || i18n.t('CONTACTS.INVALID_PHONE')
       },
       rerender: true,
     }

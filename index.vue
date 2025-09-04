@@ -67,6 +67,7 @@ import Tutorials from "./pages/tutorials";
 import BottomMenuContainer from "./layout/bottomMenu/container";
 import RefreshPage from "./layout/header/refreshPage";
 import {destroyToken} from "./assets/js/jwt.service";
+import i18n from "./plugins/EasyModal/i18n";
 
 !function () {
   var i = "7WvGxT", a = window, d = document;
@@ -105,15 +106,16 @@ export default {
 
   data() {
     return {
+      i18n,
       qrUrl: '',
       coreBack: 'https://www.sarvland.ir',
       pLandUrl: 'http://localhost:8080/',
       showTuts: false,
       loading: false,
       showReloadPage: false,
-      cons: {
-        title: 'راهنمای سامانه ترمینال تبلیغات'
-      }
+     cons: {
+  title: i18n.t('POPUP_TITLES.SYSTEM_GUIDE')
+}
     }
   },
 
@@ -156,7 +158,6 @@ export default {
     this.$root.$on('getWallet', this.getNewWallet)
     this.$on('offline', () => {
       this.$modal.showConnectionLost({})
-      // this.$toast.error("شما به اینترنت متصل نیستید", {timeout: 5000})
     })
     this.$on('online', () => {
       this.$modal.hideConnectionLost()
@@ -317,7 +318,7 @@ export default {
         .catch(({response}) => {
           if (response.status !== 401) {
             this.setSectionStatus({field: 'user', status: false})
-            this.$toast.error('خطا در دریافت اطلاعات!', {timeout: 5000});
+            this.$toast.error(i18n.t('Error.Title') + ' ' + i18n.t('Error.defaultActionText'), {timeout: 5000});
             this.$DashboardAxios.delete('/api/core/logout')
               .then(({data}) => console.log('logout: ', data))
               .catch(({response}) => console.log('error in logout: ', response))

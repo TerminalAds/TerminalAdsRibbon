@@ -14,12 +14,12 @@
                   </v-btn>
                 </template>
 
-                <span>بارگیری مجدد لیست</span>
+                <span>{{ i18n.t('reload') }}</span>
               </v-tooltip>
 
               <div class="text-center white--text">
                 <h2>{{ n.name }}</h2>
-                <span v-if="isSharedPhonebook" class="ma-2 font-small">اشتراک گذاشته شده</span>
+                <span v-if="isSharedPhonebook" class="ma-2 font-small">{{ i18n.t('shared') }}</span>
               </div>
             </v-row>
 
@@ -31,14 +31,14 @@
                     <v-list-item-icon>
                       <v-icon>mdi-tag-edit-outline</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>ویرایش گروه</v-list-item-title>
+                    <v-list-item-title>{{ i18n.t('group.edit') }}</v-list-item-title>
                   </v-list-item>
 
                   <v-list-item @click="$refs.contactTags.deleteTag(n.id)">
                     <v-list-item-icon>
                       <v-icon color="error">mdi-delete-outline</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>حذف گروه</v-list-item-title>
+                    <v-list-item-title>{{ i18n.t('group.delete') }}</v-list-item-title>
                   </v-list-item>
                 </template>
               </contacts-menu>
@@ -74,7 +74,7 @@
             <v-item class="mx-1 mb-2">
               <v-btn color="success" outlined @click="$refs.contactTags.dialog = true">
                 <v-icon left>mdi-plus</v-icon>
-                افزودن گروه جدید
+                {{ i18n.t('group.add') }}
               </v-btn>
             </v-item>
           </v-item-group>
@@ -90,7 +90,7 @@
     <v-card v-else :loading="loading" class="d-flex flex-column align-center justify-center" flat>
       <v-img aspect-ratio="1" class="rounded-lg" contain src="/media/img/noPhoneTags.jpg" width="160"/>
       <v-card-title>
-        لطفا ابتدا گروه جدید اضافه نمایید.
+        {{ i18n.t('group.first') }}
       </v-card-title>
       <v-card-actions class="justify-center">
         <contacts-tags is-btn @reload="fetchTags"/>
@@ -135,9 +135,9 @@
 
             <v-tab-item>
               <contacts-number-view
-                ref="numberView" v-model="data" :loading="loading || loadPhones" :props.sync="tableProps"
-                @addBulk="importFromBulk" @changePage="(e) => fetchContacts({ ...tableProps, page: e })"
-                @reload="reloadTable"/>
+                  ref="numberView" v-model="data" :loading="loading || loadPhones" :props.sync="tableProps"
+                  @addBulk="importFromBulk" @changePage="(e) => fetchContacts({ ...tableProps, page: e })"
+                  @reload="reloadTable"/>
             </v-tab-item>
 
             <v-tab-item>
@@ -152,7 +152,7 @@
 </template>
 
 <script>
-import {mapGetters, mapState, mapActions} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {debounce} from "../../install";
 import ContactsMenu from "./fragments/contactsMenu.vue";
 import ContactsTags from "./fragments/contactsTags.vue";
@@ -161,6 +161,7 @@ import ContactsTable from "./fragments/contactsTable.vue";
 import NewContact from "./newContact.vue";
 import ContactsNumberView from "./fragments/contactsNumberView.vue";
 import ContactImportFromExcel from "./fragments/contactImportFromExcel.vue";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "contacts",
@@ -172,6 +173,7 @@ export default {
 
   data() {
     return {
+      i18n,
       menu: false,
       data: {},
       loading: false,
@@ -219,13 +221,25 @@ export default {
     },
     tabItems() {
       let arr = [
-        {text: 'لیست', icon: 'format-list-numbered'}
+        {
+          text: i18n.t('list'),
+          icon: 'format-list-numbered'
+        }
       ]
 
       let s_arr = [
-        {text: 'افزودن تکی', icon: 'account-plus'},
-        {text: 'افزودن گروهی', icon: 'phone-plus'},
-        {text: 'افزودن اکسل', icon: 'file-excel'},
+        {
+          text: i18n.t('single_add'),
+          icon: 'account-plus'
+        },
+        {
+          text: i18n.t('mass_add'),
+          icon: 'phone-plus'
+        },
+        {
+          text: i18n.t('excel_add'),
+          icon: 'file-excel'
+        },
       ]
 
       return this.hasPhonebookPermission('add') ? [...arr, ...s_arr] : arr
@@ -255,40 +269,36 @@ export default {
       this.loading = true
 
       this.$payamakAxios.get('phoneTag')
-        .then(({data}) => {
-          this.tagList = data.data
-          this.setPhonebooksList(data.data)
+          .then(({data}) => {
+            this.tagList = data.data
+            this.setPhonebooksList(data.data)
 
-          if (!isNaN(this.selectedPhonebook) && this.selectedPhonebook != null) {
-            const activeIndex = data.data.findIndex(item => item.id === this.selectedPhonebook)
-            this.selectedTag = activeIndex
-            this.setActivePhonebook(activeIndex)
-          } else
-            this.setActivePhonebook(this.selectedTag)
+            if (!isNaN(this.selectedPhonebook) && this.selectedPhonebook != null) {
+              const activeIndex = data.data.findIndex(item => item.id === this.selectedPhonebook)
+              this.selectedTag = activeIndex
+              this.setActivePhonebook(activeIndex)
+            } else
+              this.setActivePhonebook(this.selectedTag)
 
-          this.$nextTick(() => {
-            this.fetchContacts(this.tableProps)
-          });
-        })
-        .catch(({response}) => console.log('failed in get phone tags: ', response))
-        .finally(() => this.loading = false)
+            this.$nextTick(() => {
+              this.fetchContacts(this.tableProps)
+            });
+          })
+          .catch(({response}) => console.log('failed in get phone tags: ', response))
+          .finally(() => this.loading = false)
     },
     fetchContacts(params = this.tableProps) {
       this.loadPhones = true
       this.selectedRows = []
 
       this.$payamakAxios.get('contact', {params})
-        .then(({data}) => this.data = data.data)
-        .catch(({response}) => console.log('error in contacts: ', response))
-        .finally(() => this.loadPhones = false)
+          .then(({data}) => this.data = data.data)
+          .catch(({response}) => console.log('error in contacts: ', response))
+          .finally(() => this.loadPhones = false)
     },
     reloadTable(props) {
       debounce(() => this.fetchContacts(props), 1000);
     },
-    // selectRow(data) {
-    //   this.setSelectedPhonebook(this.tagList[this.selectedTag].id)
-    //   this.goto(`phonebook/edit/${data.phone}?change=${data.name}`)
-    // },
     selectItem(index) {
       this.selectedTag = index;
       this.data = {}
@@ -319,16 +329,16 @@ export default {
         phone: e.join(','),
         phone_tags: [this.tagList[this.selectedTag].id]
       })
-        .then(({data}) => {
-          this.$toast.success(data.message ?? 'با موفقیت اضافه شد');
-          this.fetchContacts()
-          this.$refs.numberView.removeBulks()
-        })
-        .catch(({response}) => {
-          this.$toast.error(response.message ?? 'خطا در افزودن شماره')
-          console.log('failed to add bulk numbers: ', response)
-        })
-        .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.$toast.success(data.message ?? i18n.t('added_successfully'));
+            this.fetchContacts()
+            this.$refs.numberView.removeBulks()
+          })
+          .catch(({response}) => {
+            this.$toast.error(response.message ?? i18n.t('error_add_phone'))
+            console.log('failed to add bulk numbers: ', response)
+          })
+          .finally(() => this.loading = false)
     }
   },
 

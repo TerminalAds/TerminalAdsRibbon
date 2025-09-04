@@ -4,7 +4,7 @@
       <v-card class="rounded-pill d-flex justify-center align-center pa-2" outlined>
         <v-expand-x-transition>
           <v-card v-if="expandedSearch" :width="expandedSearch ? 300 : 0" class="ml-2" flat>
-            <v-text-field v-model="search" dense hide-details label="جستجو" @input="searchInPhones"/>
+            <v-text-field v-model="search" dense hide-details :label="i18n.t('CONTACT_SEARCH.SEARCH')" @input="searchInPhones"/>
           </v-card>
         </v-expand-x-transition>
 
@@ -14,13 +14,13 @@
       </v-card>
 
       <v-btn v-if="!!bulk && !!bulk.length" class="rounded-lg mx-2" color="red" outlined @click="deleteBulkNumbers">
-        حذف شماره‌ها
+        {{ i18n.t('BUTTONS.DELETE_NUMBERS') }}
       </v-btn>
       <v-spacer/>
 
       <v-card flat width="200">
         <v-select v-model="paginate.per_page" :items="[10, 25, 50, 100, 200, 500]" :menu-props="{ offsetY: true }"
-                  class="rounded-lg" dense label="تعداد" outlined/>
+                  class="rounded-lg" dense :label="i18n.t('CONTACT_PAGINATION.PER_PAGE')" outlined/>
       </v-card>
     </v-card-title>
 
@@ -42,18 +42,12 @@
           </template>
 
           <div class="mx-4">
-            <span class="text-decoration-underline">از</span>
+            <span class="text-decoration-underline">{{ i18n.t('CONTACT_PAGINATION.FROM') }}</span>
             {{ value.from }}
-            <span class="text-decoration-underline">تا</span>
-            {{ value.to }}
-            / تعداد
+            <span class="text-decoration-underline">{{ i18n.t('CONTACT_PAGINATION.TO') }}</span>
+            / {{ i18n.t('CONTACT_PAGINATION.TOTAL') }}
             <span class="mx-1 blue--text text-decoration-underline">{{ value.total }}</span>
           </div>
-
-          <!--          <div v-if="!!bulk && !!bulk.length" class="mx-4">-->
-          <!--            ذخیره نشده:-->
-          <!--            <span class="mx-1 blue&#45;&#45;text">{{ bulk.length }}</span>-->
-          <!--          </div>-->
         </v-col>
 
         <v-col v-else class="pa-2 d-flex justify-center align-center" cols="12">
@@ -66,29 +60,27 @@
 
     <template v-else>
       <v-img class="mt-3 mx-auto" contain max-height="150" max-width="150" src="media/empty/add-number-2.png"/>
-
       <p class="mt-2 text-center">
-        <span class="font-weight-bold">{{ $t("LISTS.AddANumber") }}</span>
+        <span class="font-weight-bold">{{ i18n.t("LISTS.AddANumber") }}</span>
       </p>
     </template>
 
     <v-card-actions class="flex-wrap">
-      <v-text-field ref="phoneAdd" v-model="singlePhone" :label="$t('FORMS.DestinationPhone')" :loading="loading"
+      <v-text-field ref="phoneAdd" v-model="singlePhone" :label="i18n.t('FORMS.DestinationPhone')" :loading="loading"
                     :rules="[phoneRule.phone]" class="pe-md-2 rounded-lg" dense hide-details outlined
                     prepend-inner-icon="phone" @keydown.enter="addPhone">
-        <!--        @input="extractPhoneNumbers"-->
         <template v-slot:append>
           <div id="showHand" class="text-primary d-flex" @click="addPhone">
             <v-icon color="blue">mdi-plus-box</v-icon>
-            <span class="d-none d-md-block small my-auto">{{ $t("FORMS.Add") }}</span>
+            <span class="d-none d-md-block small my-auto">{{ i18n.t("FORMS.Add") }}</span>
           </div>
         </template>
       </v-text-field>
 
-      <v-btn id="showHand" v-b-tooltip="'شماره های خودرا کپی کنید و سپس کلیک کنید'" class="btn-upload mx-0"
+      <v-btn id="showHand" v-b-tooltip="i18n.t('TOOLTIP.CopyPhoneNumbers')" class="btn-upload mx-0"
              @click="handleReadClipboard">
         <v-icon>mdi-plus-box-multiple-outline</v-icon>
-        افزودن گروهی
+        {{ i18n.t('BUTTONS.ADD_BULK') }}
       </v-btn>
 
       <input ref="fileInput" accept=".xlsx, .csv, .txt" class="d-none" type="file" @change="getFileContent">
@@ -96,14 +88,14 @@
       <v-btn class="m-2 btn-upload text-info border-info font-weight-bold"
              @click="openFileDialog">
         <span class="flaticon2-file icon-md"></span>
-        {{ $t("FORMS.FromFile") }}
+        {{ i18n.t("BUTTONS.FROM_FILE") }}
       </v-btn>
     </v-card-actions>
 
     <v-card-actions class="justify-end">
       <v-btn :disabled="!bulk || !bulk.length" :loading="loading" class="submit-btn" @click="$emit('addBulk', bulk)">
         <span class="flaticon2-send-1 icon-md"></span>
-        {{ $t("BUTTONS.Save") }}
+        {{ i18n.t("BUTTONS.Save") }}
       </v-btn>
     </v-card-actions>
   </v-card>

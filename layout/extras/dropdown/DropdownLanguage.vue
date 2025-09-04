@@ -46,7 +46,7 @@ export default {
         })
       );
 
-      window.location.reload();
+      changeLanguage(lang)
     },
     isActiveLanguage(current) {
       return this.activeLanguage === current;

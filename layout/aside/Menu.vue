@@ -94,27 +94,22 @@ import {reformatMenuResponse} from "../../assets/js/MenuFunctions";
 
 export default {
   name: "AsideMenu",
-
   props: {
     visible: Boolean
   },
-
   data: () => ({
     items: [],
     rerender: true,
     downloading: false
   }),
-
   mounted() {
     this.$root.$on('getMenus', this.getMenus)
     this.getMenus();
   },
-
   computed: {
     ...mapGetters(["layoutConfig", "getClasses"]),
     ...mapGetters('ribbon', ['DLoading', 'sectionStatus'])
   },
-
   watch: {
     visible(val) {
       if (!val) {
@@ -125,12 +120,10 @@ export default {
       }
     }
   },
-
   methods: {
     ...mapActions("ribbon", ["setMenus", "toggleLoading", "setSectionStatus"]),
     getMenus() {
       this.toggleLoading({field: 'menus', status: true})
-
       try {
         this.$DashboardAxios.get('/api/core/menus', {
           params: {

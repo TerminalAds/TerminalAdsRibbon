@@ -7,7 +7,7 @@
       <v-spacer/>
       <v-btn :disabled="!canSave" :loading="loading" class="btn-accept" depressed rounded @click="saveEdited">
         <v-icon left>fa-save</v-icon>
-        <span class="letter-spacing-none">ذخیره</span>
+        <span class="letter-spacing-none">{{ i18n.t('registration') }}</span>
       </v-btn>
     </v-card-title>
 
@@ -17,6 +17,7 @@
 
 <script>
 import ContactsEditFields from "@/view/content/contacts/contactsEditFields.vue";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "newContact",
@@ -28,6 +29,7 @@ export default {
   },
 
   data: () => ({
+    i18n,
     avatarFile: null,
     canSave: false,
     info: {
@@ -102,8 +104,6 @@ export default {
             obj[key] = false; // Clear booleans
           } else if (Array.isArray(value)) {
             obj[key] = []; // Clear arrays
-            // } else if (valueType === 'object' && value !== null) {
-            //   obj[key] = clearValuesByType(value); // Recursively clear nested objects
           } else {
             // Handle other types or leave unchanged
           }

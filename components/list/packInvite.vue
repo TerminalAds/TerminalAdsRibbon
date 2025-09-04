@@ -14,16 +14,16 @@
       <v-card class="d-flex justify-space-between overflow-hidden rounded-lg fill-height" color="#ddeaf6" flat
               min-height="180">
         <div class="pa-6 d-flex flex-column justify-center text-center flex-grow-1">
-          <h6 style="font-size: 10pt">سامانه را به دوستان خود معرفی کنید.
+          <h6 style="font-size: 10pt">{{ i18n.t('invite.title') }}
             <span class="btn-link text-primary line-height-lg cursor-pointer"
-                  @click.stop="giftDialog = true">هدیه</span>
-            دریافت کنید.
+                  @click.stop="giftDialog = true">{{i18n.t('gift')}}</span>
+            {{i18n.t('invite.get')}}
           </h6>
           <input id="invite.input" v-model="phoneNumber" v-intersect="onIntersect" :disabled="loading" :maxlength="11"
-                 class="form-control" placeholder="شماره را وارد نمایید." @keydown.enter="invite">
+                 class="form-control" :placeholder="i18n.t('invite.phone')" @keydown.enter="invite">
           <v-btn :loading="loading" class="py-1 mt-5 white--text rounded-lg" color="#8950fc" depressed height="30"
                  min-height="30" style="margin-right: auto;" width="100" @click="invite">
-            دعوت کن!
+            {{i18n.t('invite')}}
           </v-btn>
         </div>
 
@@ -52,7 +52,7 @@
         <v-card-actions class="pa-4">
           <v-spacer/>
           <v-btn class="white--text px-3" color="blue lighten-2" depressed @click.stop="giftDialog = false">
-            متوجه شدم
+            {{i18n.t('invite.got_it')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -64,6 +64,7 @@
 import CustomPopup from "../../plugins/popup/customPopup";
 import UserPack from "./userPack.vue";
 import {mapGetters} from "vuex"
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "packInvite",
@@ -72,13 +73,14 @@ export default {
 
   data: () => ({
     cons: {
-      title: 'دریافت هدیه'
+      title: i18n.t('get_gift')
     },
     isIntersecting: false,
     seen: false,
     phoneNumber: '',
     giftDialog: false,
     loading: false,
+    i18n
   }),
 
   computed: {
@@ -88,7 +90,7 @@ export default {
   methods: {
     invite() {
       if (this.phoneNumber === '' || this.phoneNumber.length <= 10 || !this.phoneNumber.startsWith('09')) {
-        this.$toast.error('لطفا شماره صحیح وارد نمایید.')
+        this.$toast.error(i18n.t('gift.wrong_number'))
         this.phoneNumber = ''
         return false;
       }
@@ -96,7 +98,7 @@ export default {
 
       this.$DashboardAxios.get(`/api/core/invite?phone=${this.phoneNumber}`)
         .then(({data}) => {
-          this.$toast.success('پیام دعوت شما با موفقیت ارسال شد.')
+          this.$toast.success(i18n.t('gift.success'))
         })
         .catch(({response}) => {
           if (response.data && response.data.message) {

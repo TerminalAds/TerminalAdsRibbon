@@ -1,21 +1,21 @@
 <template>
   <v-card :loading="loading" flat>
     <v-card-title>
-      موجودی قابل برداشت:
+      {{ i18n.t('WALLET.withdrawableBalance') }}:
       <span class="text--primary mx-2">{{ persianNum(currency(Math.floor(balance))) }}</span>
-      <span class="small-font">ریال</span>
+      <span class="small-font">{{ i18n.t('WALLET.Currency') }}</span>
     </v-card-title>
 
     <v-card-text>
       <v-divider/>
-      <span class="red--text">کارمزد برداشت از حساب: ۵۰,۰۰۰ ریال می باشد!</span>
+      <span class="red--text">{{ i18n.t('WALLET.withdrawFee') }}</span>
       <v-row class="pa-2" justify="center" no-gutters>
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <price-input v-model="inputBalance" label="مبلغ" to-char/>
+          <price-input v-model="inputBalance" :label="i18n.t('WALLET.Amount')" to-char/>
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <v-autocomplete v-model="selectedAccount" :items="accounts" :loading="loading" label="انتخاب حساب" outlined>
+          <v-autocomplete v-model="selectedAccount" :items="accounts" :loading="loading" :label="i18n.t('WALLET.selectAccount')" outlined>
             <template v-slot:prepend-inner>
               <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="48"/>
             </template>
@@ -24,7 +24,7 @@
               <div class="mx-4">
                 <v-btn depressed @click="addAccount = true">
                   <v-icon color="success" left>mdi-plus</v-icon>
-                  افزودن حساب
+                  {{ i18n.t('WALLET.addAccount') }}
                 </v-btn>
               </div>
             </template>
@@ -48,32 +48,32 @@
           <v-btn :disabled="!inputBalance || !selectedAccount" :loading="loading" block color="success" depressed
                  @click="addWithdraw">
             <v-icon left>mdi-plus</v-icon>
-            ثبت برداشت
+            {{ i18n.t('WALLET.submitWithdraw') }}
           </v-btn>
         </v-col>
       </v-row>
     </v-card-text>
 
-    <custom-popup v-model="addAccount" :cons="{title: 'افزدن حساب'}" hide-confirm max-width="600">
+    <custom-popup v-model="addAccount" :cons="{title: i18n.t('WALLET.addAccount')}" hide-confirm max-width="600">
       <v-card flat>
         <v-card-title class="red--text">
-          ورود کلیه اطلاعات الزامی است.
+          {{ i18n.t('WALLET.accountRequiredInfo') }}
         </v-card-title>
 
         <v-row class="pa-2" justify="center" no-gutters>
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
             <v-text-field v-model="obj.ownerName" :rules="[rules.persian]" class="rounded-lg"
-                          clear-icon="mdi-close-circle-outline" clearable dense label="نام صاحب حساب" outlined/>
+                          clear-icon="mdi-close-circle-outline" clearable dense :label="i18n.t('WALLET.ownerName')" outlined/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
             <v-text-field v-model="obj.ownerLastName" :rules="[rules.persian]" class="rounded-lg"
-                          clear-icon="mdi-close-circle-outline" clearable dense label="نام خانوادگی" outlined/>
+                          clear-icon="mdi-close-circle-outline" clearable dense :label="i18n.t('WALLET.ownerLastName')" outlined/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
             <v-text-field v-model="obj.bankName" :rules="[rules.persian]" class="rounded-lg icon-wrapper"
-                          clear-icon="mdi-close-circle-outline" clearable dense label="نام بانک" outlined>
+                          clear-icon="mdi-close-circle-outline" clearable dense :label="i18n.t('WALLET.bankName')" outlined>
               <template v-slot:append>
                 <v-img v-if="!!banksPrefix" :src="banksPrefix.icon" contain width="32"/>
               </template>
@@ -82,18 +82,18 @@
 
           <v-col class="pa-2" cols="12" lg="6" md="9" sm="10">
             <v-text-field v-model="obj.accountNumber" class="rounded-lg" clear-icon="mdi-close-circle-outline" clearable
-                          dense label="شماره حساب" outlined type="number"/>
+                          dense :label="i18n.t('WALLET.accountNumber')" outlined type="number"/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
             <v-text-field v-model="obj.cardNumber" :rules="[rules.cardNumber]" class="rounded-lg"
-                          clear-icon="mdi-close-circle-outline" clearable counter="16" dense label="شماره کارت" outlined
+                          clear-icon="mdi-close-circle-outline" clearable counter="16" dense :label="i18n.t('WALLET.cardNumber')" outlined
                           type="number"/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
             <v-text-field v-model="obj.sheba" :rules="[rules.sheba]" class="rounded-lg" counter="24" dense
-                          label="شماره شبا" outlined suffix="IR" type="number"/>
+                          :label="i18n.t('WALLET.sheba')" outlined suffix="IR" type="number"/>
           </v-col>
 
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
@@ -101,7 +101,7 @@
             <v-btn :disabled="canAddAcc" :loading="addLoading" block color="success" depressed
                    @click="addToAccountList">
               <v-icon left>mdi-plus</v-icon>
-              افزودن حساب
+              {{ i18n.t('WALLET.addAccount') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -115,6 +115,7 @@ import {mapActions, mapGetters} from 'vuex'
 import PriceInput from "../pickers/priceInput";
 import CustomPopup from "../../plugins/popup/customPopup";
 import {banks} from "../../assets/js/banksInfo";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 export default {
   name: "withdrawTransactions",
@@ -129,6 +130,7 @@ export default {
       banksInfo: [],
       inputBalance: 0,
       loading: false,
+      i18n,
       obj: {
         bankName: '',
         ownerName: '',
@@ -138,9 +140,9 @@ export default {
         sheba: '',
       },
       rules: {
-        persian: v => (this.justPersian(v)) || 'فقط مجاز به ورود حروف فارسی!',
-        cardNumber: v => v.length === 16 || 'تعداد ارقام شماره کارت باید ۱۶ عدد باشد!',
-        sheba: v => v.length === 24 || 'تعداد ارقام شماره شبا باید ۲۴ عدد باشد!'
+        persian: v => (this.justPersian(v)) || i18n.t('WALLET.onlyPersian'),
+        cardNumber: v => v.length === 16 || i18n.t('WALLET.cardNumberLength'),
+        sheba: v => v.length === 24 || i18n.t('WALLET.shebaLength')
       },
       selectedAccount: null
     }

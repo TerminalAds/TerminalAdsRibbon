@@ -2,8 +2,8 @@
   <div class="card card-custom card-stretch fill-height">
     <div class="card-body d-flex flex-column px-5">
       <div>
-        <h4>آخرین تراکنش ها</h4>
-        <span>موجودی شما:</span>
+        <h4>{{ i18n.t('last_transaction') }}</h4>
+        <span>{{ i18n.t('your_balance') }}:</span>
         <span class="float-left">
           {{ balance !== null && balance >= 0 ? persianNum(currency(Math.floor(balance))) : '---' }}
           <v-icon v-if="wallet.icon != null && wallet.icon.length > 0" class="ms-2" v-text="wallet.icon"/></span>
@@ -37,7 +37,7 @@
         </div>
 
         <div v-else style="min-height: 9.6rem">
-          <p class="text-danger text-center pt-17"> هنوز تراکنشی برای شما ثبت نشده است!</p>
+          <p class="text-danger text-center pt-17">{{ i18n.t('no_transaction') }}</p>
         </div>
       </v-fab-transition>
 
@@ -45,12 +45,12 @@
         <div class="col-md mt-5">
           <b-btn class="btn btn-link-info mt-5" @click="toggleWalletDialog(true)">
             <i class="fa fa-plus"></i>
-            افزایش موجودی
+            {{ i18n.t('increase_balance') }}
           </b-btn>
           <b-btn class="btn btn-link-success mt-5 d-block" style="font-size: 9pt"
                  @click="goToTransactions">
             <i class="fa fa-eye"></i>
-            لیست تراکنش ها
+            {{ i18n.t('transaction_list') }}
           </b-btn>
         </div>
         <div class="col-md-7">
@@ -65,6 +65,7 @@
 <script>
 import {FingerprintSpinner} from 'epic-spinners'
 import {mapActions, mapGetters} from 'vuex'
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "userTransactions",
@@ -78,6 +79,7 @@ export default {
       loading: false,
       transactions: [],
       url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4HznXqgGC7rvaM8z_AfFnrYfVqf-8NTWQyuZsXhkLiLiiYKsvRLuNp7Tzp1ZtSDn0m8&usqp=CAU'
+      i18n
     };
   },
   mounted() {
@@ -88,16 +90,10 @@ export default {
     fetch() {
       this.loading = true;
 
-      // this.$DashboardAxios.get('/api/transactions/user?length=3&filters=%7B%22type%22:%22%22,%22admin_type%22:null,%22confirmed%22:%22%22,%22date%22:%22%22%7D')
-      //     .then(({data}) => this.transactions = data.data)
-      //     .catch(({response}) => console.log('error in get transactions: ', response))
-      //     .finally(() => this.loading = false)
-
-
       this.$DashboardAxios.get('/api/newWallet/latest')
-        .then(({data}) => this.transactions = data.data)
-        .catch(({response}) => console.log('error in get transactions: ', response))
-        .finally(() => this.loading = false)
+          .then(({data}) => this.transactions = data.data)
+          .catch(({response}) => console.log('error in get transactions: ', response))
+          .finally(() => this.loading = false)
     },
     goToTransactions() {
       window.open('https://core.terminalads.com/#/user/transactions')
@@ -105,22 +101,21 @@ export default {
     transType({state, type}) {
 
       if (type === 'withdraw' || state === 'decrease') {
-        return 'برداشت وجه'
+        return i18n.t('withdraw')
       } else if (type === 'deposit' || state === 'increase') {
-        return 'واریز وجه'
+        return i18n.t('deposit')
       } else if (type === 'charge') {
-        return 'شارژ کیف پول'
+        return i18n.t('charge')
       } else if (type === 'refund') {
-        return 'بازگشت وجه'
+        return i18n.t('refund')
       } else {
-        return 'تراکنش'
+        return i18n.t('transaction')
       }
     }
   },
   computed: {
     ...mapGetters("ribbon", ["wallet", 'new_wallet']),
     balance() {
-      // return this.wallet.balance
       return this.new_wallet.balance
     },
   },

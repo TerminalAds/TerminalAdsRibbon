@@ -1,6 +1,6 @@
 <template>
-  <v-autocomplete :items="list" class="rounded-xl" clearable dark hide-details label="دنبال چه خدمتی هستید؟" outlined
-                  placeholder="نام سرویس مورد نظر خودرا وارد کنید..." prepend-inner-icon="mdi-text-search">
+  <v-autocomplete :items="list" class="rounded-xl" clearable dark hide-details :label="i18n.t('locking_for_service')" outlined
+                  :placeholder="i18n.t('service_name')" prepend-inner-icon="mdi-text-search">
     <template v-slot:append>
       <v-btn class="mt-n2 me-n1" color="rgba(255, 255, 255, .2)" depressed fab small>
         <v-icon>mdi-magnify</v-icon>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import i18n from "../../plugins/EasyModal/i18n";
+
 export default {
   name: "findMenuPage",
 
@@ -35,7 +37,8 @@ export default {
       {id: 11, url: 'https://core-file.terminalads.com'},
       {id: 13, url: 'https://core-digi.terminalads.com'},
       {id: 14, url: 'https://core-graphic.terminalads.com'},
-    ]
+    ],
+    i18n
   }),
 
   mounted() {

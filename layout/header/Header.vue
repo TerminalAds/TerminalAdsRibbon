@@ -7,9 +7,11 @@
 
       <div class="d-flex align-items-center justify-content-between"
            v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }">
+        <KTDropdownLanguage/>
+
         <v-btn v-if="asideEnabled" id="kt_aside_mobile_toggle" dark min-width="32" text @click="toggleNavigation()">
           <v-icon>mdi-menu</v-icon>
-          منو
+          {{ i18n.t('dashboard') }}
         </v-btn>
 
         <div class="d-flex align-items-stretch mr-3">
@@ -45,17 +47,21 @@ import KTLayoutHeaderMenu from "../../assets/js/layout/header-menu.js";
 import KTMenu from "../../layout/header/Menu.vue";
 import KTAside from "../../layout/aside/Aside.vue";
 import KTExitButton from "../../layout/header/ExitButton.vue"
+import i18n from "../../plugins/EasyModal/i18n";
+import KTDropdownLanguage from "../../layout/extras/dropdown/DropdownLanguage.vue"
 
 export default {
   name: "KTHeader",
-
   components: {
     KTTopbar,
     KTMenu,
     KTAside,
-    KTExitButton
+    KTExitButton,
+    KTDropdownLanguage
   },
-
+  data(){
+    return {i18n}
+  },
   mounted() {
     // Init Desktop & Mobile Headers
     KTLayoutHeader.init("kt_header", "kt_header_mobile");

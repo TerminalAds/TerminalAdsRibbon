@@ -8,12 +8,12 @@
       <v-card flat>
         <v-card-text class="pb-0">
           <v-text-field v-model="phone" :loading="loading" :rules="[rules.phone]" append-icon="mdi-phone"
-                        class="rounded-lg" clearable dense label="افزودن شماره تلفن" outlined
+                        class="rounded-lg" clearable dense :label="i18n.t('FORM_LABELS.ADD_PHONE_NUMBER')" outlined
                         @keydown.enter="addPhoneNumber">
             <template v-slot:append-outer>
               <v-btn :disabled="!canSubmit" color="blue" small text @click="addPhoneNumber">
                 <v-icon left small>mdi-plus</v-icon>
-                افزودن
+                {{ i18n.t('BUTTON.ADD') }}
               </v-btn>
             </template>
           </v-text-field>
@@ -27,32 +27,32 @@
           </div>
 
           <v-card-subtitle class="pb-0">
-            با انتخاب هریک از موارد زیر، دسترسی مورد نظر را با دیگران به اشتراک بگذارید.
+            {{ i18n.t('CARD_SUBTITLES.SHARE_INSTRUCTION') }}
           </v-card-subtitle>
 
           <template v-if="!!tag">
             <v-card-title class="pt-0">
-              {{ `انتخاب دسترسی برای دفترچه تلفن ${tag.name}:` }}
+              {{ i18n.t('CARD_TITLES.SELECT_PERMISSIONS', { name: tag.name }) }}
             </v-card-title>
 
             <v-card-text class="d-flex align-center justify-space-around">
-              <v-checkbox v-model="permissions.delete" dense hide-details label="حذف"/>
-              <v-checkbox v-model="permissions.edit" dense hide-details label="ویرایش"/>
-              <v-checkbox v-model="permissions.add" dense hide-details label="افزودن"/>
+              <v-checkbox v-model="permissions.delete" dense hide-details :label="i18n.t('CHECKBOX_LABELS.DELETE')"/>
+              <v-checkbox v-model="permissions.edit" dense hide-details :label="i18n.t('CHECKBOX_LABELS.EDIT')"/>
+              <v-checkbox v-model="permissions.add" dense hide-details :label="i18n.t('CHECKBOX_LABELS.ADD')"/>
             </v-card-text>
           </template>
 
           <v-card-actions class="justify-end">
             <v-btn :disabled="!data || !data.length" class="btn-accept ma-0" depressed @click="shareTag">
               <v-icon left>mdi-content-save-plus-outline</v-icon>
-              ارسال
+              {{ i18n.t('BUTTON.SEND') }}
             </v-btn>
           </v-card-actions>
         </template>
 
         <template v-else-if="!!sharedInfo && !!sharedInfo.length">
           <v-card-title class="pt-0">
-            افرادی که دسترسی دارند
+            {{ i18n.t('CARD_TITLES.PEOPLE_WITH_ACCESS') }}
             <v-spacer/>
             <v-icon>mdi-share-variant-outline</v-icon>
           </v-card-title>
@@ -74,7 +74,7 @@
                       nudge-bottom="20">
                 <template v-slot:activator="{on, attrs}">
                   <v-btn text v-bind="attrs" v-on="on">
-                    ویرایش
+                    {{ i18n.t('BUTTON.EDIT_PERMISSIONS') }}
                     <v-icon right>mdi-chevron-down</v-icon>
                   </v-btn>
                 </template>
@@ -86,7 +86,7 @@
                     </v-list-item-action>
 
                     <v-list-item-content>
-                      <v-list-item-title>حذف</v-list-item-title>
+                      <v-list-item-title>{{ i18n.t('LIST_ITEM_TITLES.DELETE') }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
 
@@ -96,7 +96,7 @@
                     </v-list-item-action>
 
                     <v-list-item-content>
-                      <v-list-item-title>ویرایش</v-list-item-title>
+                      <v-list-item-title>{{ i18n.t('LIST_ITEM_TITLES.EDIT') }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
 
@@ -106,7 +106,7 @@
                     </v-list-item-action>
 
                     <v-list-item-content>
-                      <v-list-item-title>افزودن</v-list-item-title>
+                      <v-list-item-title>{{ i18n.t('LIST_ITEM_TITLES.ADD') }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
 
@@ -114,7 +114,7 @@
                   <v-list-item @click="contact.action = 'delete'">
                     <v-list-item-content>
                       <v-list-item-title>
-                        برداشتن دسترسی
+                        {{ i18n.t('LIST_ITEM_TITLES.REMOVE_ACCESS') }}
                       </v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
@@ -122,7 +122,7 @@
               </v-menu>
 
               <v-btn v-else text @click="contact.action = 'update'">
-                بازگشت
+                {{ i18n.t('BUTTON.GO_BACK') }}
               </v-btn>
             </v-list-item-action>
           </v-list-item>
@@ -130,7 +130,7 @@
           <v-card-actions class="justify-end">
             <v-btn :loading="loading" class="rounded-lg btn-edit ma-0" depressed @click="updateInfo">
               <v-icon left>mdi-content-save-edit-outline</v-icon>
-              ذخیره تغییرات
+              {{ i18n.t('BUTTON.SAVE_CHANGES') }}
             </v-btn>
           </v-card-actions>
         </template>
@@ -140,6 +140,8 @@
 </template>
 
 <script>
+import i18n from "@/plugins/EasyModal/i18n";
+
 export default {
   name: "contactsShareTag",
 
@@ -150,8 +152,9 @@ export default {
 
   data() {
     return {
+      i18n,
       cons: {
-        title: 'اشتراک گذاری دفترچه تلفن',
+        title: i18n.t('POPUP_TITLES.SHARE_PHONEBOOK'),
       },
       phone: '',
       data: [],
@@ -161,7 +164,7 @@ export default {
         delete: false
       },
       rules: {
-        phone: v => (!v || this.isPhone(v)) || 'شماره تلفن صحیح وارد نماید'
+        phone: v => (!v || this.isPhone(v)) || i18n.t('VALIDATION.INVALID_PHONE_NUMBER')
       },
       loading: false,
       sharedInfo: []
@@ -197,21 +200,21 @@ export default {
           phoneTag: this.tag?.id
         }
       })
-        .then(({data}) => {
-          this.sharedInfo = data?.data.removeDuplicateInArray('id')
-            .map(({name, lastName, phone, ...rest}) => {
-              return {
-                user_id: rest.id,
-                phoneTag: rest.phone_tag.parent_id,
-                name,
-                lastName,
-                phone,
-                ...rest.phone_tag.setting,
-                action: 'update'
-              }
-            })
-        })
-        .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.sharedInfo = data?.data.removeDuplicateInArray('id')
+                .map(({name, lastName, phone, ...rest}) => {
+                  return {
+                    user_id: rest.id,
+                    phoneTag: rest.phone_tag.parent_id,
+                    name,
+                    lastName,
+                    phone,
+                    ...rest.phone_tag.setting,
+                    action: 'update'
+                  }
+                })
+          })
+          .finally(() => this.loading = false)
     },
     isPhone(phone) {
       let rgx = new RegExp("^((\\+?98(0?)9|(0?9))[0-9]{2})[0-9]{3}[0-9]{4}$")
@@ -223,30 +226,30 @@ export default {
       this.$payamakAxios.post(`phoneTag/share/${this.tag?.id}`, {
         data: this.data
       })
-        .then(({data}) => {
-          this.$toast.success('دفترچه تلفن با موفقیت به اشتراک گذاشته شد.');
-          this.data = []
-          this.fetchSharedTag()
-        })
-        .catch(({response}) => {
-          if (!!response?.data?.message)
-            this.$toast.error(response.data.message)
-          else
-            this.$toast.error('خطا در اشتراک گذاری دفترچه تلفن!')
-        })
-        .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.$toast.success(this.i18n.t('TOAST.SHARE_SUCCESS'));
+            this.data = []
+            this.fetchSharedTag()
+          })
+          .catch(({response}) => {
+            if (!!response?.data?.message)
+              this.$toast.error(response.data.message)
+            else
+              this.$toast.error(this.i18n.t('TOAST.SHARE_ERROR'))
+          })
+          .finally(() => this.loading = false)
     },
     addPhoneNumber() {
       if (this.canSubmit) {
         if (this.data.findIndex(item => item.phone === this.phone) < 0
-          && this.sharedInfo?.findIndex(item => item.phone === this.phone) < 0) {
+            && this.sharedInfo?.findIndex(item => item.phone === this.phone) < 0) {
           this.data.push({
             phone: this.phone,
             ...this.permissions
           })
           this.phone = ''
         } else
-          this.$toast.info('شماره قبلا وارد شده است!')
+          this.$toast.info(this.i18n.t('TOAST.NUMBER_ALREADY_ADDED'))
       }
     },
     updateInfo() {
@@ -255,15 +258,15 @@ export default {
       this.$payamakAxios.post('phoneTag/share/update', {
         data: this.sharedInfo
       })
-        .then(({data}) => {
-          this.$toast.success('تغییرات با موفقیت ذخیره شدند.')
-          this.fetchSharedTag()
-        })
-        .catch(({response}) => {
-          console.log('failed to update shared phone_tag: ', response)
-          this.$toast.error('خطا در دخیره تغییرات!')
-        })
-        .finally(() => this.loading = false);
+          .then(({data}) => {
+            this.$toast.success(this.i18n.t('TOAST.CHANGES_SAVED_SUCCESS'))
+            this.fetchSharedTag()
+          })
+          .catch(({response}) => {
+            console.log('failed to update shared phone_tag: ', response)
+            this.$toast.error(this.i18n.t('TOAST.CHANGES_SAVE_ERROR'))
+          })
+          .finally(() => this.loading = false);
     }
   }
 }

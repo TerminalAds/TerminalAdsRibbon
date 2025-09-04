@@ -1,7 +1,7 @@
 <template>
   <v-speed-dial v-model="fab" :direction="direction">
     <template v-slot:activator>
-      <v-btn v-b-tooltip.hover="'عملیات'" fab icon x-small @click.stop="fab = !fab">
+      <v-btn v-b-tooltip.hover="i18n.t('actions.operations')" fab icon x-small @click.stop="fab = !fab">
         <v-icon v-if="fab" color="pink darken-1 icon-xl-2x">mdi-close</v-icon>
         <v-icon v-else class="icon-xl-2x" color="black">mdi-dots-vertical</v-icon>
       </v-btn>
@@ -9,7 +9,7 @@
 
     <template v-for="(item, index) in meta.buttons">
       <v-btn v-if="checkCondition(item) && (!item.status || can(item.status))" :key="index"
-             v-b-tooltip.hover.top="item.label" :class="item.class" fab small
+             v-b-tooltip.hover.top="i18n.t('actions.' + item.name)" :class="item.class" fab small
              @click.stop="item.action(data, item.name)">
         <v-icon :class="'fa-' + item.icon" class="px-1 text-center icon-md fa"/>
       </v-btn>
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import i18n from "../../../plugins/EasyModal/i18n";
+
 export default {
   name: "campaignButtonsList",
 
@@ -45,6 +47,7 @@ export default {
       bottom: true,
       left: false,
       transition: 'slide-x-reverse-transition',
+      i18n
     };
   },
 
@@ -68,5 +71,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

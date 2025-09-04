@@ -12,7 +12,7 @@
         @click="goto(`phonebook/edit/${info.phone}?change=${info.name}`)"
       >
         <v-icon left>mdi-pencil-outline</v-icon>
-        <span class="letter-spacing-none">ویرایش مخاطب</span>
+        <span class="letter-spacing-none">{{ i18n.t('edit_contact') }}</span>
       </v-btn>
 
       <v-btn
@@ -23,7 +23,7 @@
         @click="saveEdited"
       >
         <v-icon left>mdi-check</v-icon>
-        <span class="letter-spacing-none">ثبت ویرایش</span>
+        <span class="letter-spacing-none">{{i18n.t('save')}}</span>
       </v-btn>
 
       <template v-if="!hasQuery && hasPhonebookPermission('delete')">
@@ -34,12 +34,8 @@
           @click="deleteContact"
         >
           <v-icon left>mdi-trash-can-outline</v-icon>
-          حذف مخاطب
+          {{i18n.t('delete')}}
         </v-btn>
-
-        <!--        <v-btn icon>-->
-        <!--          <v-icon>mdi-dots-vertical</v-icon>-->
-        <!--        </v-btn>-->
       </template>
     </v-card-title>
 
@@ -63,7 +59,7 @@
       <v-row no-gutters>
         <v-col :md="popup ? 12 : 6" cols="12">
           <v-card-title>
-            اطلاعات تماس
+            {{i18n.t('contact_info')}}
             <v-divider class="mx-2" />
           </v-card-title>
 
@@ -98,7 +94,7 @@
                 @click="
                   goto(`phonebook/edit/${info.phone}?change=${info.name}`)
                 "
-                >افزودن تاریخ تولد</span
+                >{{i18n.t('add_birthday')}}</span
               >
               <span v-else>{{ info.birthday | showBirthday }}</span>
             </div>
@@ -129,7 +125,7 @@
 
         <v-col :md="popup ? 12 : 6" cols="12">
           <v-card-title>
-            دفترچه تلفن‌ها
+            {{i18n.t('contacts')}}
             <v-divider class="mx-3" />
           </v-card-title>
 
@@ -160,14 +156,14 @@
 
           <v-card-text>
             <div class="mb-2">
-              آخرین ویرایش
+              {{i18n.t('last_updated_at')}}
               <span class="px-1 grey--text">
                 . {{ info.updated_at | timeToNow }}</span
               >
             </div>
 
             <div class="mb-2">
-              به مخاطبین اضافه شده
+              {{i18n.t('added_to_contact')}}
               <span class="px-1 grey--text">
                 . {{ info.created_at | timeToNow }}</span
               >
@@ -195,6 +191,7 @@ import {
   deleteContactFromTag,
   updateContact,
 } from "../../assets/js/ContactsFunctions";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "editContact",
@@ -237,6 +234,7 @@ export default {
 
   data: () => ({
     loading: false,
+    i18n,
     info: {
       phone: "",
       avatar: null,
@@ -283,7 +281,6 @@ export default {
       );
     },
   },
-
   methods: {
     getInfo() {
       this.loading = true;
@@ -337,7 +334,7 @@ export default {
         .catch(({ response }) => {
           console.log("error in contacts: ", response);
           if (this.fromAndroid && response.status === 404)
-            this.$toast.error("مخاطب شما ذخیره نشده است.");
+            this.$toast.error(i18n.t('contact_registered'));
         })
         .finally(() => (this.loading = false));
     },
@@ -394,7 +391,7 @@ export default {
         .then(({ data }) => {
           // this.$emit('reload')
           this.goto("phonebook");
-          this.$toast.success("با موفقیت حذف شد");
+          this.$toast.success(i18n.t('successfully_deleted'));
         })
         .catch(({ response }) => {
           console.log("failed to delete contact: ", response);

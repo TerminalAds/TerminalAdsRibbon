@@ -2,8 +2,8 @@
   <v-card flat>
     <v-card-text>
       <div
-        class="bg-white"
-        style="
+          class="bg-white"
+          style="
           max-height: 18rem;
           overflow: auto;
           direction: ltr;
@@ -12,18 +12,16 @@
       >
         <div v-for="group in emojiGroup" :key="group" class="row mx-auto">
           <div class="col-12">
-            <h5>{{ group }}</h5>
-
+            <h5>{{ i18n.t('emoji_group.' + group) }}</h5>
             <hr />
           </div>
-          <!--  -->
 
           <div
-            v-for="emoji in emojis.filter((emoji) => emoji.group === group)"
-            :data-slug="emoji.slug"
-            class="col fa-2x"
-            style="color: black; cursor: pointer"
-            @click="selectEmoji(emoji.icon)"
+              v-for="emoji in emojis.filter((emoji) => emoji.group === group)"
+              :data-slug="emoji.slug"
+              class="col fa-2x"
+              style="color: black; cursor: pointer"
+              @click="selectEmoji(emoji.icon)"
           >
             {{ emoji.icon }}
           </div>
@@ -34,19 +32,20 @@
 </template>
 
 <script>
+import i18n from "../../../plugins/EasyModal/i18n";
+
 export default {
   name: "emojiSelector",
-
   props: {
     inputBox: {
       require: true,
     },
   },
-
   data() {
     return {
       menu: false,
       emojis: require("./emoji.json"),
+      i18n
     };
   },
 

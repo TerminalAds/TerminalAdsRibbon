@@ -1,15 +1,25 @@
 <template>
   <div class="text-nowrap">
-    <v-btn v-if="sid === 1" icon title="افزودن تاریخچه" @click.stop="showHistory = true">
+    <v-btn v-if="sid === 1" icon :title="i18n.t('CONTACTS.ADD_HISTORY')" @click.stop="showHistory = true">
       <v-icon>mdi-history</v-icon>
     </v-btn>
 
-    <custom-popup v-model="showHistory" :cons="{title: 'لیست تاریخچه‌ها'}" hide-confirm max-width="640" reloadable>
+    <custom-popup
+      v-model="showHistory"
+      :cons="{title: i18n.t('CONTACTS.HISTORY_LIST')}"
+      hide-confirm
+      max-width="640"
+      reloadable
+    >
       <show-create-history v-if="showHistory" :item="data"/>
     </custom-popup>
 
-    <v-btn v-if="hasPhonebookPermission('edit')" icon title="ویرایش مخاطب"
-           @click="goto(`phonebook/edit/${data.phone}?change=${data.name}`)">
+    <v-btn
+      v-if="hasPhonebookPermission('edit')"
+      icon
+      :title="i18n.t('CONTACTS.EDIT_CONTACT')"
+      @click="goto(`phonebook/edit/${data.phone}?change=${data.name}`)"
+    >
       <v-icon>mdi-pencil-outline</v-icon>
     </v-btn>
 
@@ -25,19 +35,19 @@
           <v-list-item-icon>
             <v-icon>mdi-account-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>نمایش مخاطب</v-list-item-title>
+          <v-list-item-title>{{ i18n.t('CONTACTS.SHOW_CONTACT') }}</v-list-item-title>
         </v-list-item>
         <v-list-item disabled>
           <v-list-item-icon>
             <v-icon>mdi-printer-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>چاپ</v-list-item-title>
+          <v-list-item-title>{{ i18n.t('GENERAL.PRINT') }}</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="hasPhonebookPermission('delete')" @click="$emit('delete', data)">
           <v-list-item-icon>
             <v-icon>mdi-trash-can-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>حذف</v-list-item-title>
+          <v-list-item-title>{{ i18n.t('GENERAL.DELETE') }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -47,6 +57,7 @@
 <script>
 import CustomPopup from "../../../plugins/popup/customPopup.vue";
 import ShowCreateHistory from "./showCreateHistory.vue";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "contactsButtons",
@@ -59,7 +70,8 @@ export default {
   },
 
   data: () => ({
-    showHistory: false
+    showHistory: false,
+    i18n
   })
 }
 </script>

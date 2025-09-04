@@ -3,11 +3,11 @@
     <v-tabs v-model="tabs" grow>
       <v-tab>
         <v-icon right>mdi-format-list-bulleted</v-icon>
-        لیست
+        {{ i18n.t('TABS.LIST') }}
       </v-tab>
       <v-tab>
         <v-icon right>mdi-plus</v-icon>
-        افزودن
+        {{ i18n.t('TABS.ADD') }}
       </v-tab>
     </v-tabs>
     <v-divider class="mt-0 mx-4"/>
@@ -18,12 +18,12 @@
           <template v-slot:filters="{props, perPage}">
             <v-row no-gutters>
               <v-col class="pa-2" cols="12" lg="1" md="2">
-                <v-select v-model="props.length" :items="perPage" class="rounded-lg" dense hide-details label="تعداد"
+                <v-select v-model="props.length" :items="perPage" class="rounded-lg" dense hide-details :label="i18n.t('TABLE_CONTROLS.COUNT')"
                           outlined/>
               </v-col>
               <v-col class="pa-2" cols="12" lg="4" md="6">
                 <v-text-field v-model="props.search" append-icon="mdi-magnify" class="rounded-lg" clearable dense
-                              hide-details label="جستجو" outlined/>
+                              hide-details :label="i18n.t('TABLE_CONTROLS.SEARCH')" outlined/>
               </v-col>
             </v-row>
           </template>
@@ -53,6 +53,7 @@
 
 <script>
 import ContactGroupCreate from "@/view/pages/contacts/groups/contactGroupCreate.vue";
+import i18n from "@/plugins/EasyModal/i18n";
 
 export default {
   name: "contactGroupList",
@@ -60,15 +61,16 @@ export default {
   components: {ContactGroupCreate},
 
   data: () => ({
+    i18n,
     loading: false,
     tabs: null,
     data: {},
     headers: [
-      {value: 'index', text: 'ردیف', align: 'center', sortable: false},
-      {value: 'id', text: 'شناسه', align: 'center', sortable: false},
-      {value: 'name', text: 'نام گروه', align: 'center', sortable: false},
-      {value: 'parent_id', text: 'والد', align: 'center', sortable: false},
-      {value: 'created_at', text: 'ایجاد', align: 'center', sortable: false},
+      {value: 'index', text: i18n.t('TABLE_HEADERS.ROW'), align: 'center', sortable: false},
+      {value: 'id', text: i18n.t('TABLE_HEADERS.ID'), align: 'center', sortable: false},
+      {value: 'name', text: i18n.t('TABLE_HEADERS.GROUP_NAME'), align: 'center', sortable: false},
+      {value: 'parent_id', text: i18n.t('TABLE_HEADERS.PARENT'), align: 'center', sortable: false},
+      {value: 'created_at', text: i18n.t('TABLE_HEADERS.CREATED_AT'), align: 'center', sortable: false},
     ],
     tableProps: {
       page: 1,
@@ -87,8 +89,8 @@ export default {
       this.loading = true
 
       this.$payamakAxios.get('phoneTag/groups/get', {params})
-        .then(({data}) => this.data = data.data)
-        .finally(() => this.loading = false)
+          .then(({data}) => this.data = data.data)
+          .finally(() => this.loading = false)
     },
     onPagination(e) {
       this.fetchGroups({

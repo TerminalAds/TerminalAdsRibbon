@@ -6,24 +6,23 @@
           <v-alert border="left" color="success" colored-border elevation="2">
             <a class="text-break" download="phonebookExcel.xlsx" href="/assets/xlsx/contacts_save.xlsx">
               <v-icon color="success" right>mdi-download</v-icon>
-              دانلود و استفاده از فایل نمونه اکسل
+              {{ i18n.t('UPLOAD_EXCEL.DOWNLOAD_SAMPLE') }}
             </a>
           </v-alert>
         </v-col>
 
         <v-col class="mt-4" cols="12">
-          <!--          :disabled="!selectedRow || !selectedRow.id"-->
           <v-card id="uploader" ref="uploader"
                   class="mx-auto d-flex justify-center align-center rounded-xl flex-column overflow-hidden" height="200"
                   outlined @click="dragEvent" @dragleave="dragEvent" @dragover="dragEvent" @drop="dragEvent">
             <v-icon size="68" style="opacity: .4">mdi-cloud-upload-outline</v-icon>
-            <v-card-title class="justify-center">آپلود فایل</v-card-title>
+            <v-card-title class="justify-center">{{ i18n.t('UPLOAD_EXCEL.UPLOAD_TITLE') }}</v-card-title>
             <v-card-text class="text-center pt-0 text-break">
-              برای آپلود بکشید و رها کنید یا
+              {{ i18n.t('UPLOAD_EXCEL.DRAG_DROP_TEXT_PART1') }}
               <v-btn class="mx-1" color="primary" min-width="75" small>
-                اینجا
+                {{ i18n.t('UPLOAD_EXCEL.DRAG_DROP_TEXT_PART2') }}
               </v-btn>
-              کلیک کنید
+              {{ i18n.t('UPLOAD_EXCEL.DRAG_DROP_TEXT_PART3') }}
             </v-card-text>
           </v-card>
         </v-col>
@@ -56,7 +55,7 @@
         <v-col class="pa-2 d-none" cols="12" md="6">
           <v-file-input ref="fileInput" v-model="excelFile" :error-messages="errors.input"
                         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        clear-icon="mdi-close-circle-outline" clearable dense label="بارگذاری فایل اکسل"
+                        clear-icon="mdi-close-circle-outline" clearable dense :label="i18n.t('UPLOAD_EXCEL.FILE_INPUT_LABEL')"
                         outlined prepend-icon="" variant="underlined" @change="handleFileUpload"/>
         </v-col>
       </v-row>
@@ -64,13 +63,15 @@
 
     <v-card-actions class="justify-end">
       <v-btn :disabled="!excelFile" :loading="upLoading" class="btn-accept ma-0" depressed @click="sendFile">
-        ارسال
+        {{ i18n.t('GENERAL.SUBMIT') }}
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import i18n from "../../../plugins/EasyModal/i18n";
+
 export default {
   name: "contactImportFromExcel",
 
@@ -83,6 +84,7 @@ export default {
     excelFile: undefined,
     filesPreview: [],
     upLoading: false,
+    i18n
   }),
 
   methods: {
@@ -121,7 +123,7 @@ export default {
 
       this.$payamakAxios.post('contact/store', data)
         .then(({data}) => {
-          this.$toast.success(data?.message || 'با موفقیت اضافه شد');
+          this.$toast.success(data?.message || this.i18n.t('GENERAL.SUCCESSFULLY_ADDED'));
           this.$emit('fetch')
         })
         .catch(({response}) => console.log('failed to add bulk numbers: ', response))

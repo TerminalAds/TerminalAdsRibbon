@@ -12,14 +12,14 @@
           </div>
         </template>
 
-        <span>انتخاب کاربر</span>
+        <span>{{ i18n.t('USER_PICKER.SELECT_USER') }}</span>
       </v-tooltip>
 
       <div v-else @click="dialog = true">
         <slot name="input">
           <v-text-field key="field" ref="input" :error-messages="errors" :value="displayValue"
                         append-icon="mdi-crosshairs" class="cursor-pointer rounded-lg"
-                        clear-icon="mdi-close-circle-outline" clearable dense hide-details label="انتخاب کاربران"
+                        clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.SELECT_USERS')"
                         outlined readonly @click:clear="clearFilter"/>
         </slot>
       </div>
@@ -37,14 +37,14 @@
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
                 <v-text-field v-model="props.search" append-icon="mdi-magnify"
-                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="جستوجو"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.SEARCH')"
                               outlined/>
               </v-col>
             </v-row>
           </template>
 
           <template v-slot:type="{item}">
-            <span>{{ item.type === 'regular' ? 'شخص حقیقی' : 'شخص حقوقی' }}</span>
+            <span>{{ item.type === 'regular' ? i18n.t('USER_PICKER.PERSON') : i18n.t('USER_PICKER.COMPANY') }}</span>
           </template>
         </vue-table>
       </v-card>
@@ -55,6 +55,7 @@
 <script>
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import VueTable from "../../plugins/vueTable/index.vue";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 export default {
   name: "userPicker",
@@ -75,7 +76,7 @@ export default {
     return {
       dialog: false,
       cons: {
-        title: 'انتخاب کاربران',
+        title: i18n.t('USER_PICKER.SELECT_USERS'),
         buttons: [
           {type: 'submit', handler: this.confirm}
         ]
@@ -87,14 +88,15 @@ export default {
       loading: false,
       userInfo: {},
       headers: [
-        {value: 'id', text: 'شناسه', sortable: false, align: 'center'},
-        {value: 'name', text: 'نام', sortable: false, align: 'center'},
-        {value: 'lastName', text: 'نام خانوادگی', sortable: false, align: 'center'},
-        {value: 'username', text: 'نام کاربری', sortable: false, align: 'center'},
-        {value: 'phone', text: 'شماره همراه', sortable: false, align: 'center'},
-        {value: 'type', text: 'نوع کاربر', sortable: false, align: 'center'},
+        {value: 'id', text: i18n.t('USER_PICKER.ID'), sortable: false, align: 'center'},
+        {value: 'name', text: i18n.t('USER_PICKER.NAME'), sortable: false, align: 'center'},
+        {value: 'lastName', text: i18n.t('USER_PICKER.LASTNAME'), sortable: false, align: 'center'},
+        {value: 'username', text: i18n.t('USER_PICKER.USERNAME'), sortable: false, align: 'center'},
+        {value: 'phone', text: i18n.t('USER_PICKER.PHONE'), sortable: false, align: 'center'},
+        {value: 'type', text: i18n.t('USER_PICKER.TYPE'), sortable: false, align: 'center'},
       ],
-      tempSelection: []
+      tempSelection: [],
+      i18n
     }
   },
 

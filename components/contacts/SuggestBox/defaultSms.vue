@@ -3,12 +3,12 @@
     <v-card-text>
       <div class="bg-white" style="max-height: 18rem;overflow: auto">
         <data-table
-          :columns="columns"
-          :data="data"
-          :orderDir="tableProps.dir"
-          :per-page="[10, 25, 50, 100, 400]"
-          :translate="translate"
-          @on-table-props-changed="reloadTable"
+            :columns="columns"
+            :data="data"
+            :orderDir="tableProps.dir"
+            :per-page="[10, 25, 50, 100, 400]"
+            :translate="translate"
+            @on-table-props-changed="reloadTable"
         />
       </div>
     </v-card-text>
@@ -16,8 +16,9 @@
 </template>
 
 <script>
-import {userDefaultList, userDeleteListItem} from "../../../assets/js/defaultSms";
+import { userDefaultList, userDeleteListItem } from "../../../assets/js/defaultSms";
 import useBtn from "./page/component/useBtn";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "defaultSms",
@@ -38,28 +39,29 @@ export default {
 
   data() {
     return {
+      i18n,
       menu: false,
       data: [],
       columns: [
         {
-          label: 'ردیف',
+          label: i18n.t('table.index'),
           transform: (val) => {
             return this.rowNumber(this.data, val);
           },
         },
         {
-          label: 'عنوان',
+          label: i18n.t('table.title'),
           name: 'title',
         },
         {
-          label: 'متن',
+          label: i18n.t('table.text'),
           name: 'text',
           transform(row) {
             return row.data.text.substr(0, 25) + "...";
           }
         },
         {
-          label: 'انتخاب',
+          label: i18n.t('table.select'),
           name: 'select',
           handler: this.useAction,
           component: useBtn,
@@ -75,11 +77,11 @@ export default {
         dir: 'desc',
       },
       translate: {
-        nextButton: 'بعدی',
-        previousButton: 'قبلی',
-        rowsPerPageText: 'تعداد در صفحه',
-        noDataText: 'داده ای برای نمایش وجود ندارد',
-        placeholderSearch: 'جستجو',
+        nextButton: i18n.t('table.next'),
+        previousButton: i18n.t('table.previous'),
+        rowsPerPageText: i18n.t('table.rows_per_page'),
+        noDataText: i18n.t('table.no_data'),
+        placeholderSearch: i18n.t('table.search_placeholder'),
       },
       timer: null,
       loading: false
@@ -112,7 +114,7 @@ export default {
       userDeleteListItem(data.id).then(result => {
         this.getData();
 
-        this.$modal.success('موفقیت', result.data.message);
+        this.$modal.success(i18n.t('modal.success'), result.data.message);
       }).finally(() => {
         this.loading = false;
       });

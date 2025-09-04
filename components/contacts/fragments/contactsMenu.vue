@@ -15,21 +15,21 @@
             <v-list-item-icon>
               <v-icon>mdi-share-variant-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>اشتراک گذاری</v-list-item-title>
+            <v-list-item-title>{{ i18n.t('CONTACT_MENU.SHARE') }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item disabled @click="openPrint">
             <v-list-item-icon>
               <v-icon>mdi-printer-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>چاپ</v-list-item-title>
+            <v-list-item-title>{{ i18n.t('CONTACT_MENU.PRINT') }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item :disabled="downLoading" @click="downloadExcel">
             <v-list-item-icon>
               <v-icon>mdi-file-excel-outline</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>خروجی اکسل</v-list-item-title>
+            <v-list-item-title>{{ i18n.t('CONTACT_MENU.EXCEL_EXPORT') }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="!!selectedIds.length && hasPhonebookPermission('delete')" :disabled="loading"
@@ -38,7 +38,7 @@
               <v-icon v-if="!loading" :color="!selectedIds.length ? '' : 'red'">mdi-delete</v-icon>
               <v-progress-circular v-else color="blue" indeterminate size="24" width="4"/>
             </v-list-item-icon>
-            <v-list-item-title>حذف</v-list-item-title>
+            <v-list-item-title>{{ i18n.t('CONTACT_MENU.DELETE') }}</v-list-item-title>
           </v-list-item>
 
           <slot name="list-item"/>
@@ -53,6 +53,7 @@
 <script>
 import ContactsShareTag from "./contactsShareTag.vue";
 import {mapGetters} from "vuex";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "contactsMenu",
@@ -65,6 +66,7 @@ export default {
   },
 
   data: () => ({
+    i18n,
     menu: false,
     downLoading: false,
     loading: false,
@@ -114,10 +116,10 @@ export default {
         .then(({data}) => {
           this.menu = false
           this.$emit('reload')
-          this.$toast.success('با موفقیت حذف شد.')
+          this.$toast.success(i18n.t('CONTACT_MENU.DELETE_SUCCESS'))
         })
         .catch(({response}) => {
-          this.$toast.error('خطا در حذف مخاطبین!')
+          this.$toast.error(i18n.t('CONTACT_MENU.DELETE_ERROR'))
           console.log('failed to group deleting ids: ', response)
         })
         .finally(() => this.loading = false)

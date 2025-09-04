@@ -5,7 +5,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-badge :content="hasFilter" :value="!!hasFilter" overlap>
             <v-chip :color="!!hasFilter ? 'rgba(0, 21, 84, .2)' : ''" v-bind="attrs" v-on="on">
-              اعمال فیلتر
+              {{ i18n.t('TABLE_CONTROLS.SEARCH') }}
               <v-icon right>mdi-tune</v-icon>
             </v-chip>
           </v-badge>
@@ -17,7 +17,7 @@
               <v-icon>mdi-close</v-icon>
             </v-btn>
 
-            <b>فیلترها</b>
+            <b>{{ i18n.t('TABLE_CONTROLS.SEARCH') }}</b>
           </v-card-title>
 
           <slot name="filters" v-bind="{perPage: perPageItems, props: computedProps || {}}"/>
@@ -25,7 +25,7 @@
           <v-card-actions class="bottom-sticky white justify-end">
             <v-btn :loading="loading" class="rounded-lg" color="success" depressed min-width="50%"
                    @click="sheet = !sheet">
-              اعمال فیلتر
+              {{ i18n.t('TABLE_CONTROLS.SEARCH') }}
             </v-btn>
           </v-card-actions>
         </v-sheet>
@@ -41,16 +41,16 @@
       :items="data.data"
       :itemsPerPage="computedProps ? computedProps.length : 10"
       :loading="computedLoading"
-      :loading-text="$attrs['loading-text'] || 'درحال دریافت اطلاعات...'"
-      :no-data-text="$attrs['no-data-text'] || 'بدون اطلاعات!'"
-      :no-results-text="$attrs['no-results-text'] || 'رکوردی یافت نشد!'"
+      :loading-text="i18n.t('LOADING_MESSAGES.FETCHING_CATEGORIES')"
+      :no-data-text="i18n.t('TABLE.NO_DATA_TEXT')"
+      :no-results-text="i18n.t('NO_DATA.NO_PATTERN')"
       hide-default-footer
       item-key="id"
       selectable-key="id"
       v-bind="$attrs"
       v-on="$listeners">
       <template v-if="$vuetify.breakpoint.mobile" v-slot:header.data-table-select="{isMobile, props, on}">
-        <span class="mx-2">انتخاب همه</span>
+        <span class="mx-2">{{ i18n.t('TABLE_CONTROLS.COUNT') }}</span>
         <v-simple-checkbox :indeterminate="props.indeterminate" :value="props.value" v-on="on"/>
       </template>
 
@@ -84,7 +84,7 @@
           :menu-props="{ offsetY: true }"
           class="ma-2 my-md-0"
           dense
-          label="تعداد نمایش"
+          :label="i18n.t('CONTACT_PAGINATION.PER_PAGE')"
           outlined
           @change="onPagination(true)"
         />
@@ -95,6 +95,7 @@
 
 <script>
 import VueTablePagination from "../../components/vueTable/vueTablePagination.vue";
+import { locale as i18n } from "../EasyModal/langs/fa";
 
 export default {
   name: "index.vue",
@@ -135,17 +136,13 @@ export default {
     return {
       options: {},
       randRef: null,
-      sheet: false
+      sheet: false,
+      i18n
     }
   },
 
   created() {
     this.randRef = Math.floor(Math.random() * (100 - 1) + 1)
-
-    // setTimeout(() => {
-    //   const el = this.$refs[`table-${this.randRef}`]
-    //   console.log(el.$el)
-    // }, 5000)
   },
 
   computed: {

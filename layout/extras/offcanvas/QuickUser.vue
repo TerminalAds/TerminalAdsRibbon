@@ -6,7 +6,7 @@
 
     <v-btn v-else id="kt_quick_user_toggle" v-b-tooltip="'مشاهده پروفایل'" :href="quickUserLink()" :large="large"
            :min-width="large ? '' : '36'" class="px-2 mx-md-1" dark depressed text>
-      <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">سلام</span>
+      <span class="text-white opacity-70 font-weight-bold font-size-base d-none d-md-inline">{{i18n.t('hi')}}</span>
       <span class="text-white opacity-90 font-weight-bolder font-size-base d-none d-md-inline mx-2">
         {{ userName }}
       </span>
@@ -19,21 +19,22 @@
 import {LOGOUT} from "@/core/services/store/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
 import {mapGetters} from 'vuex'
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "KTQuickUser",
-
+  data(){
+    return{i18n}
+  },
   props: {
     large: {
       type: Boolean,
       default: true
     }
   },
-
   mounted() {
     KTLayoutQuickUser.init(this.$refs["kt_quick_user"]);
   },
-
   computed: {
     ...mapGetters('ribbon', ['user', 'DLoading']),
     userImage() {
@@ -42,7 +43,7 @@ export default {
           : require('../../../assets/img/user_avatar.jpeg')
     },
     userName() {
-      return this.user?.name || 'کاربر عزیز'
+      return this.user?.name || i18n.t('user')
     }
   },
 

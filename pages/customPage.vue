@@ -3,10 +3,9 @@
     <div class="title-wrapper pb-2">
       <terminal_title_ribbon>
         <v-card-title class="justify-end pa-0 flex-nowrap">
-          <!--                    <v-btn depressed color="rgba(105, 147, 255, .35)" v-if="tutorialExists" @click="getTutorial"-->
           <v-btn
             v-if="tutorialExists"
-            v-b-tooltip.hover="'راهنما'"
+            v-b-tooltip.hover="i18n.t('BUTTON.GUIDE')"
             :loading="loading"
             class="px-0"
             color="rgb(202,217,255)"
@@ -21,7 +20,7 @@
             <div v-if="showExtraTimer" class="text-nowrap">
               <v-btn
                 v-if="!hasTimer"
-                v-b-tooltip.hover="`شروع: زمان ${timer} دقیقه`"
+                v-b-tooltip.hover="`${i18n.t('BUTTON.START')}: ${i18n.t('LABELS.TIME_INTERVAL')} ${timer} ${isMinute ? i18n.t('TIME_TYPES.MINUTE') : i18n.t('SECOND')}`"
                 class="px-0"
                 color="rgb(158, 255, 250)"
                 depressed
@@ -30,11 +29,10 @@
                 @click="startTimer"
               >
                 <v-icon color="success">mdi-timer-play-outline</v-icon>
-                <!--                    رفرش-->
               </v-btn>
 
               <v-btn
-                v-b-tooltip.hover="'ویرایش'"
+                v-b-tooltip.hover="i18n.t('BUTTON.EDIT')"
                 class="px-0"
                 color="orange lighten-3"
                 depressed
@@ -43,12 +41,11 @@
                 @click="autoReloadDialog = true"
               >
                 <v-icon color="orange">mdi-pencil</v-icon>
-                <!--                    رفرش-->
               </v-btn>
 
               <v-btn
                 v-if="hasTimer"
-                v-b-tooltip.hover="'لغو'"
+                v-b-tooltip.hover="i18n.t('BUTTON.CANCEL')"
                 class="px-0"
                 color="deep-orange lighten-3"
                 depressed
@@ -57,7 +54,6 @@
                 @click="deleteTimer"
               >
                 <v-icon color="deep-orange">mdi-timer-remove-outline</v-icon>
-                <!--                    رفرش-->
               </v-btn>
             </div>
           </v-expand-x-transition>
@@ -72,7 +68,7 @@
             style="margin-right: 8px"
           >
             <v-btn
-              v-b-tooltip.hover="'به‌روزرسانی خودکار'"
+              v-b-tooltip.hover="i18n.t('BUTTON.AUTO_REFRESH')"
               class="px-0"
               color="rgb(215,187,227)"
               depressed
@@ -89,13 +85,11 @@
                   showExtraTimer ? "close" : "timer-refresh-outline"
                 }}</v-icon
               >
-              <!--                    رفرش-->
             </v-btn>
           </v-badge>
 
-          <!--                    <v-btn depressed style="margin-right: 8px" color="rgba(123, 31, 162, .3)"-->
           <v-btn
-            v-b-tooltip.hover="'به‌روزرسانی'"
+            v-b-tooltip.hover="i18n.t('GENERAL.RELOAD')"
             :loading="reloadLoading"
             class="px-0"
             color="rgb(215,187,227)"
@@ -105,12 +99,10 @@
             @click="reloadPage"
           >
             <v-icon color="#7b1fa2">mdi-reload</v-icon>
-            <!--                    رفرش-->
           </v-btn>
 
-          <!--                    <v-btn depressed color="rgba(246, 78, 96, .35)" v-b-tooltip.hover="'بازگشت به صفحه قبلی'"-->
           <v-btn
-            v-b-tooltip.hover="'بازگشت به صفحه قبلی'"
+            v-b-tooltip.hover="i18n.t('BUTTON.BACK')"
             class="px-0"
             color="rgb(252,193,199)"
             depressed
@@ -225,6 +217,7 @@ import TabsTutorial from "../components/tabsTutorial";
 import ItemsTutorial from "../components/itemsTutorial";
 import { AtomSpinner } from "epic-spinners";
 import { mapActions, mapState, mapGetters } from "vuex";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 export default {
   name: "customPage",
@@ -239,7 +232,7 @@ export default {
 
   data() {
     return {
-      cons: { title: "آموزش" },
+      cons: { title: i18n.t("BUTTON.GUIDE") },
       loading: false,
       reloadLoading: false,
       tab: null,
@@ -259,19 +252,20 @@ export default {
       timer: 2,
       timerFun: null,
       rules: {
-        timer: (v) => (!!v && !isNaN(v) && v < 100) || "زمان صحیح وارد نمایید",
+        timer: (v) => (!!v && !isNaN(v) && v < 100) || i18n.t("ERRORS.INVALID_TIMER"),
       },
       autoReloadCons: {
-        title: "تنظیم به‌روزرسانی خودکار",
+        title: i18n.t("BUTTON.AUTO_REFRESH_SETTINGS"),
         buttons: [
           {
             type: "submit",
-            handler: this.startTimer,
+            handler: () => this.startTimer(),
             disabled: () => !this.canSetTimer,
           },
         ],
       },
       isMinute: true,
+      i18n
     };
   },
 

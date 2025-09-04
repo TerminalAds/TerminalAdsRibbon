@@ -5,7 +5,7 @@
     <template v-slot:extension>
       <div>
         <v-btn class="white--text rounded-lg" color="rgba(255, 255, 255, .2)" depressed href="/#/dashboard" large>
-          داشبورد
+          {{ i18n.t('dashboard') }}
         </v-btn>
 
         <v-btn :href="front_url + '/#/contact/list'" class="ms-2 white--text rounded-lg" color="rgba(255, 255, 255, .2)"
@@ -22,6 +22,7 @@ import {mapGetters} from "vuex";
 import KTLayoutHeaderTopbar from "../../assets/js/layout/header-topbar.js";
 import walletButton from '../../pages/transactions/WalletOpenButton';
 import {LOGOUT} from "@/core/services/store/auth.module";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "KTHeaderMobile",
@@ -31,7 +32,8 @@ export default {
   },
 
   data: () => ({
-    unread: 0
+    unread: 0,
+    i18n
   }),
 
   mounted() {

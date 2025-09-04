@@ -218,19 +218,7 @@ function injectDiv(id) {
 }
 
 function CreateVueInstance(el) {
-  // Vue.component('modalllllView' , view)
-  // return new Vue({
-  //     el: "#" + el,
-  //     template : "<viewEasyModal></viewEasyModal>",
-  //     components:{viewEasyModal},
-  //     vuetify,
-  //     store,
-  //     i18n,
-  //
-  // })
-
   return new Vue({
-    i18n
   })
 }
 

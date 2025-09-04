@@ -2,14 +2,13 @@
   <v-row no-gutters>
     <v-col v-if="!isCampaign" class="d-flex pa-2" cols="12">
       <div v-if="generateText" class="col-md-4 rounded p-5 mx-auto" style="background: rgba(193,193,193,0.58)">
-        <p>پیام انتخاب شده: </p>
-
+        <p>{{ i18n.t('PATTERN.SELECTED_MESSAGE') }}</p>
         <p class="font-size-lg" style="white-space: break-spaces" v-text="generateText"></p>
       </div>
 
       <div v-if="computedField.length > 0" class="col-md mr-1 rounded p-5"
            style="background: rgba(193,193,193,0.58)">
-        <p>ورودی های اجباری: </p>
+        <p>{{ i18n.t('PATTERN.REQUIRED_INPUTS') }}</p>
 
         <template v-for="(input, index) in computedField">
           <v-text-field v-if="input.state === 'data'" :key="`${index}-data`" v-model="computedText[index]"
@@ -31,8 +30,8 @@
 
     <v-col v-else-if="isCampaign && value" class="pa-2" cols="12">
       <v-card-title class="justify-center">
-        <span class="grey--text font-size-h6">کمپین انتخاب شده:</span>
-        <span class="primary--text px-2">شناسه {{ value.id }}</span>
+        <span class="grey--text font-size-h6">{{ i18n.t('PATTERN.SELECTED_CAMPAIGN') }}</span>
+        <span class="primary--text px-2">{{ i18n.t('PATTERN.CAMPAIGN_ID') }} {{ value.id }}</span>
       </v-card-title>
 
       <div class="d-flex flex-wrap justify-center">
@@ -49,7 +48,7 @@
 <script>
 import {debounce} from "@/main";
 import InputGenerateMenu from "@/view/content/pattern/inputGenerateMenu.vue";
-
+import i18n from "../../../plugins/EasyModal/i18n";
 export default {
   name: "patternInputsGenerate",
 
@@ -64,18 +63,19 @@ export default {
   },
 
   data: () => ({
+    i18n,
     userInfoItems: [
-      {value: 'preName', text: 'پیشوند'},
-      {value: 'name', text: 'نام'},
-      {value: 'middleName', text: 'نام میانی'},
-      {value: 'lastName', text: 'نام خانوادگی'},
-      {value: 'postName', text: 'پسوند'},
-      {value: 'alias', text: 'نام مستعار'},
-      {value: 'companyName', text: 'شرکت'},
-      {value: 'jobTitle', text: 'عنوان شغلی'},
-      {value: 'phone', text: 'شماره تلفن'},
-      {value: 'birthday', text: 'تاریخ تولد'},
-      {value: 'description', text: 'توضیحات'},
+      {value: 'preName', text: 'PRE_NAME'},
+      {value: 'name', text: 'NAME'},
+      {value: 'middleName', text: 'MIDDLE_NAME'},
+      {value: 'lastName', text: 'LAST_NAME'},
+      {value: 'postName', text: 'POST_NAME'},
+      {value: 'alias', text: 'ALIAS'},
+      {value: 'companyName', text: 'COMPANY'},
+      {value: 'jobTitle', text: 'JOB_TITLE'},
+      {value: 'phone', text: 'PHONE'},
+      {value: 'birthday', text: 'BIRTHDAY'},
+      {value: 'description', text: 'DESCRIPTION'},
     ]
   }),
 

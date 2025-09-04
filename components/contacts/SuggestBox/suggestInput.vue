@@ -6,20 +6,20 @@
         <template v-if="!disabled" v-slot:append-outer>
           <div v-if="$vuetify.breakpoint.smAndUp" class="d-flex flex-column fill-height justify-space-between py-2"
                style="height: 115px">
-            <v-btn class="px-2" style="font-size: 2em" text title="ایموجی" @click="emojiModel = true">
+            <v-btn class="px-2" style="font-size: 2em" text :title="i18n.t('emoji')" @click="emojiModel = true">
               <div class="pt-1">🙂</div>
             </v-btn>
 
-            <v-btn v-if="textSuggest" class="px-2" style="font-size: 2em" text title="مشاور متن (رایگان)"
+            <v-btn v-if="textSuggest" class="px-2" style="font-size: 2em" text :title="i18n.t('text_suggest_free')"
                    @click="defaultModel = true">
               <div>✉️</div>
             </v-btn>
 
-            <v-btn v-else class="px-2" style="font-size: 2em" text title="انتخاب کمپین" @click="$emit('openCamp')">
+            <v-btn v-else class="px-2" style="font-size: 2em" text :title="i18n.t('select_campaign')" @click="$emit('openCamp')">
               <div>✉️</div>
             </v-btn>
 
-            <v-btn v-if="sendPagesTab !== 1" text title="لینک کوتاه" @click="openLink = true">
+            <v-btn v-if="sendPagesTab !== 1" text :title="i18n.t('short_link')" @click="openLink = true">
               <v-icon color="blue lighten-2" large>mdi-link-variant</v-icon>
             </v-btn>
           </div>
@@ -28,21 +28,21 @@
     </v-col>
 
     <v-col v-if="$vuetify.breakpoint.xs" cols="12">
-      <v-btn class="px-2" style="font-size: 2em" text title="ایموجی" @click="emojiModel = true">
+      <v-btn class="px-2" style="font-size: 2em" text :title="i18n.t('emoji')" @click="emojiModel = true">
         <div>🙂</div>
       </v-btn>
 
-      <v-btn v-if="textSuggest" class="px-2" style="font-size: 2em" text title="مشاور متن (رایگان)"
+      <v-btn v-if="textSuggest" class="px-2" style="font-size: 2em" text :title="i18n.t('text_suggest_free')"
              @click="defaultModel = true">
         <div>✉️</div>
       </v-btn>
 
-      <v-btn v-else class="px-2" style="font-size: 2em" text title="انتخاب کمپین" @click="$emit('openCamp')">
+      <v-btn v-else class="px-2" style="font-size: 2em" text :title="i18n.t('select_campaign')" @click="$emit('openCamp')">
         <div>✉️</div>
       </v-btn>
     </v-col>
 
-    <custom-popup v-model="openLink" :cons="{title: 'لینک کوتاه'}" hide-confirm max-width="850">
+    <custom-popup v-model="openLink" :cons="{title: i18n.t('short_link')}" hide-confirm max-width="850">
       <select-short-link v-if="openLink" @close="openLink = false" @select="getShortLink"/>
     </custom-popup>
 
@@ -54,7 +54,7 @@
       <template v-slot:title>
         <v-btn :href="$router.resolve({name:'suggestText'}).href" color="green" depressed
                style="letter-spacing: normal">
-          مشاور متن
+          {{ i18n.t('text_suggest') }}
         </v-btn>
       </template>
       <default-sms v-if="defaultModel" :input-box="$refs.textarea" :title-box="titleInput"
@@ -67,15 +67,6 @@
         <span class="font-weight-bold" v-text="' ' +textInfo.total"></span>
       </p>
 
-      <!--            <p class="mx-2">-->
-      <!--                <span v-text="$t('FORMS.FarsiCharCount')"></span> :-->
-      <!--                <span class="font-weight-bold" v-text="' ' + textInfo.farsi"></span>-->
-      <!--            </p>-->
-
-      <!--            <p class="mx-2">-->
-      <!--                <span v-text="$t('FORMS.EnglishCharCount')"></span> :-->
-      <!--                <span class="font-weight-bold" v-text="' ' + (textInfo.total - textInfo.farsi)"></span>-->
-      <!--            </p>-->
       <v-spacer/>
       <p class="mx-2">
         <span v-text="$t('FORMS.SmsCount')"></span> :
@@ -100,6 +91,7 @@ import SelectShortLink from "../shortLink/selectShortLink.vue";
 import {debounce} from "../../../install";
 import customPopup from "../../../plugins/popup/customPopup.vue";
 import {mapState} from "vuex";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "suggestText",
@@ -127,13 +119,14 @@ export default {
 
   data() {
     return {
+      i18n,
       emojiModel: false,
       defaultModel: false,
       cons: {
-        title: 'انتخاب ایموجی'
+        title: i18n.t('select_emoji')
       },
       cons1: {
-        title: 'متن پیشفرض'
+        title: i18n.t('default_text')
       },
       textInfo: {
         total: 0,
@@ -157,14 +150,6 @@ export default {
 
   computed: {
     ...mapState('locals', ['sendPagesTab']),
-    // computedValue: {
-    //   get() {
-    //     return this.value
-    //   },
-    //   set(val) {
-    //     this.$emit('input', val);
-    //   }
-    // }
   },
 
   watch: {
@@ -196,15 +181,9 @@ export default {
         let index = text.indexOf('لغو11')
 
         this.text =
-          text.slice(0, index) +
-          '\n' + val + '\n' +
-          text.slice(index)
-
-        // this.$forceUpdate()
-        // this.rerender = false
-        // this.$nextTick(() => {
-        //   this.rerender = true
-        // })
+            text.slice(0, index) +
+            '\n' + val + '\n' +
+            text.slice(index)
       }
     }
   }

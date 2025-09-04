@@ -1,16 +1,26 @@
 <template>
-  <v-text-field v-model="input" :error-messages="error !== undefined ? error : []" :label="label ?? 'مبلغ (﷼)'"
-                :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13" :messages="priceString" autofocus
-                class="centered-input" clearable outlined v-bind="$attrs" @input="handleInput" @keypress="isNumberKey"/>
+  <v-text-field
+    v-model="input"
+    :error-messages="error !== undefined ? error : []"
+    :label="label ?? i18n.t('WALLET.Amount') + ' (' + i18n.t('WALLET.Currency') + ')'"
+    :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13"
+    :messages="priceString"
+    autofocus
+    class="centered-input"
+    clearable
+    outlined
+    v-bind="$attrs"
+    @input="handleInput"
+    @keypress="isNumberKey"
+  />
 </template>
 
 <script>
 import Num2persian from 'num2persian';
+import i18n from '../../plugins/EasyModal/i18n';
 
 export default {
   name: "priceInput",
-
-  // props: ['value', 'error', 'label', 'dense', 'readonly', 'textCenter', 'maxLength'],
 
   props: {
     value: [String, Number],
@@ -23,10 +33,11 @@ export default {
   data() {
     return {
       input: this.value,
+      i18n
     }
   },
 
-  created: function (event) {
+  created: function () {
     this.$emit('input', this.convertToRealPrice(this.value + ""))
   },
 
@@ -37,12 +48,10 @@ export default {
   watch: {
     value: function (val) {
       if (val.toString().length > (this.maxLength ?? 10)) {
-
         let fix = "";
         for (let i = 0; i < (this.maxLength ?? 10); i++) {
           fix = fix + "9";
         }
-
         this.$emit('input', this.convertToRealPrice(fix))
         return;
       }
@@ -57,9 +66,10 @@ export default {
 
   computed: {
     priceString: function () {
-      return !!this.input ? (this.toChar
-        ? Num2persian(this.value)
-        : this.persianNum(this.currency(this.value))) + " ریال"
+      return !!this.input
+        ? (this.toChar
+            ? Num2persian(this.value)
+            : this.persianNum(this.currency(this.value))) + " " + this.i18n.t('WALLET.Currency')
         : '';
     }
   },
@@ -95,5 +105,4 @@ export default {
 .centered-input >>> input {
   text-align: center
 }
-
 </style>

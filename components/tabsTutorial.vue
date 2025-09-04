@@ -2,7 +2,6 @@
     <v-tabs v-model="tab" align-with-title grow background-color="transparent" dark color="primary" show-arrows>
         <v-tabs-slider/>
         <v-tab v-for="(item, i) in tabItems" :key="i" v-if="item.condition()">
-            <!--                        <v-icon :color="tab === i ? item.color : ''" class="m-2">mdi-{{ item.icon }}</v-icon>-->
             <v-icon class="m-2">mdi-{{ item.icon }}</v-icon>
             {{ item.title }}
         </v-tab>

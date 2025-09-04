@@ -14,12 +14,15 @@
 </template>
 
 <script>
+import i18n from "../../../plugins/EasyModal/i18n";
+
 export default {
     name: "dashboardBanners",
     data() {
         return {
             banners: [],
-            cycleActive: true
+            cycleActive: true,
+            i18n
         }
     },
     created() {
@@ -30,7 +33,7 @@ export default {
             this.$DashboardAxios.get(`api/core/content?type=banner&sid=${this.sid}`)
                 .then(({data}) => {
                     this.banners = data.data.data
-                }).catch(() => this.$toast.error('خطای رخ داده است'))
+                }).catch(() => this.$toast.error(this.i18n.t('Error.Title')))
         },
 
         hoverEvent(e) {

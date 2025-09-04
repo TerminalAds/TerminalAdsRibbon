@@ -1,9 +1,9 @@
 <template>
   <div v-if="!!data" class="w-100 text-center dir-ltr d-flex align-start py-2 px-6 flex-wrap">
     <v-card class="d-flex" flat max-width="200">
-      <span class="text-no-wrap me-2 mt-md-3">برو به صفحه:</span>
+      <span class="text-no-wrap me-2 mt-md-3">{{ i18n.t('go_to_page') }}:</span>
       <v-text-field :disabled="data.last_page <= 1" :max="Number(data.last_page)"
-                    :messages="`صفحه ${data.current_page} از ${data.last_page}`" :value="page" dense
+                    :messages="`${i18n.t('page')} ${data.current_page} ${i18n.t('from')} ${data.last_page}`" :value="page" dense
                     oninput="this.value = Number(this.value) > this.max ? this.max : Number(this.value) < 1 ? 1 : Number(this.value)"
                     outlined type="number" @keydown.enter="change"/>
     </v-card>
@@ -13,11 +13,11 @@
     </v-card>
 
     <div v-if="data && data.total > 0" class="px-2 py-3">
-      نمایش
+      {{i18n.t("show")}}
       {{ data.from }}
-      تا
+      {{ i18n.t("until") }}
       {{ data.to }}
-      از
+      {{i18n.t("from")}}
       {{ data.total }}
     </div>
 
@@ -31,9 +31,10 @@
 </template>
 
 <script>
+import i18n from "../../plugins/EasyModal/i18n";
+
 export default {
   name: "vueTablePagination",
-
   props: {
     data: [Array, Object],
     hasInput: {
@@ -46,7 +47,9 @@ export default {
       default: 5
     }
   },
-
+  data() {
+    return {i18n}
+  },
   computed: {
     page: {
       get() {
@@ -63,8 +66,8 @@ export default {
       let value = Number(e.target.value)
 
       this.page = value > this.data.last_page
-        ? this.data.last_page
-        : value < 1 ? 1 : value
+          ? this.data.last_page
+          : value < 1 ? 1 : value
     }
   }
 }

@@ -5,9 +5,16 @@
         <div class="px-2" style="direction: ltr">{{ !prepare ? value.phone : value }}</div>
 
         <template v-if="hover">
-          <v-icon v-if="!prepare" title="ویرایش" @click="dialog = true">mdi-pencil-outline</v-icon>
+          <v-icon
+            v-if="!prepare"
+            :title="i18n.t('CONTACT_EDIT.EDIT')"
+            @click="dialog = true"
+          >mdi-pencil-outline</v-icon>
 
-          <v-icon title="حذف" @click="$emit('delete' ,value)">mdi-delete-outline</v-icon>
+          <v-icon
+            :title="i18n.t('CONTACT_EDIT.DELETE')"
+            @click="$emit('delete', value)"
+          >mdi-delete-outline</v-icon>
         </template>
       </v-chip>
     </v-hover>
@@ -17,13 +24,13 @@
         <edit-contact v-if="dialog" :id="value.id" popup/>
       </custom-popup>
     </template>
-
   </div>
 </template>
 
 <script>
 import EditContact from "../editContact.vue";
 import customPopup from "../../../plugins/popup/customPopup.vue";
+import { i18n } from "../../../plugins/EasyModal/langs/fa"; // Adjust import if needed
 
 export default {
   name: "contactsNumberEdit",

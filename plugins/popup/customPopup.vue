@@ -32,7 +32,7 @@
           <span
             v-if="!$slots.extension"
             class="font-size-h4 white--text"
-            v-text="cons.title || 'پاپ آپ'"
+            v-text="cons.title || i18n.t('POPUP_TITLES.SYSTEM_GUIDE')"
           />
           <slot v-if="!$slots.extension" name="helpinfo"></slot>
 
@@ -52,7 +52,7 @@
           color="green lighten-3"
           depressed
           min-width="36"
-          title="تایید"
+          :title="i18n.t('BUTTON.SAVE')"
           @click="onHandler('submit')"
         >
           <v-icon color="green darken-4">mdi-check</v-icon>
@@ -65,7 +65,7 @@
           depressed
           min-width="36"
           style="margin-right: 8px"
-          title="به روزرسانی"
+          :title="i18n.t('GENERAL.RELOAD')"
           @click="reloadPopup"
         >
           <v-icon color="#7b1fa2">mdi-reload</v-icon>
@@ -77,7 +77,7 @@
           color="#fcc1c7"
           depressed
           min-width="36"
-          title="بستن"
+          :title="i18n.t('GENERAL.CANCEL')"
           @click="
             () => {
               onHandler('close');
@@ -117,12 +117,11 @@
 
 <script>
 import { AtomSpinner } from "epic-spinners";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 export default {
   name: "customPopup",
-
   components: { AtomSpinner },
-
   props: {
     closeOnConfirm: {
       type: Boolean,
@@ -152,6 +151,7 @@ export default {
     rerender: true,
     cardHeight: null,
     showLoading: false,
+    i18n
   }),
 
   computed: {

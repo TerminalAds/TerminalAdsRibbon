@@ -48,7 +48,7 @@
 
       <v-card-text class="pb-0">
         <v-text-field :value="data.PAN | displayPanFilter" autocomplete="off" autofocus class="rounded-lg" color="info"
-                      label="شماره کارت" maxlength="19"
+                      :label="i18n.t('INCREASE.PAN')" maxlength="19"
                       onkeyup="if (this.value.replace(/ /g, '').length >= 16)
                         document.getElementById('cvv2').focus()"
                       outlined tabindex="1" @input="updateValue($event)">
@@ -60,7 +60,7 @@
         <v-row class="expire-wrapper position-relative mb-8" no-gutters>
           <v-col class="pe-md-1" cols="12" md="6">
             <v-text-field id="cvv2" v-model="data.CV" :rules="[rules.cv]" class="rounded-lg" color="info" hide-details
-                          label="CVV2" oninput="if (this.value.length >= 4) this.preventDefault()"
+                          :label="i18n.t('INCREASE.CVV2')" oninput="if (this.value.length >= 4) this.preventDefault()"
                           onkeyup="if (this.value.length >= 4)
                             document.getElementById('month').focus()" outlined tabindex="2" type="password"/>
           </v-col>
@@ -71,25 +71,25 @@
                             oninput="if (Number(this.value) > Number(this.max)) this.value = this.max;
                             else if (this.value < 0) this.value = 0"
                             onkeyup="if (this.value.length >= 2)
-                              document.getElementById('year').focus()" placeholder="ماه" tabindex="3"
+                              document.getElementById('year').focus()" :placeholder="i18n.t('INCREASE.MONTH')" tabindex="3"
                             type="number"/>
               <v-divider class="align-self-center" style="height: 70%;min-height: 80%" vertical/>
               <v-text-field id="year" v-model="data.ExpY" class="mx-2" color="info" dense hide-details max="99" min="0"
                             oninput="if (Number(this.value) > Number(this.max)) this.value = this.max;
                             else if (this.value < 0) this.value = 0"
                             onkeyup="if (this.value.length >= 2)
-                              document.getElementById('pin2').focus()" placeholder="سال" tabindex="4" type="number"/>
+                              document.getElementById('pin2').focus()" :placeholder="i18n.t('INCREASE.YEAR')" tabindex="4" type="number"/>
             </v-card>
           </v-col>
         </v-row>
 
         <v-text-field id="pin2" v-model="data.Pin2" autocomplete="new-password" class="rounded-lg rtl"
-                      color="info" label="رمز دوم" outlined tabindex="5" type="password">
+                      color="info" :label="i18n.t('INCREASE.PIN2')" outlined tabindex="5" type="password">
           <template v-slot:append>
             <v-btn :disabled="!canGetOtp || (!!otpCounter && !!otpTimer)" :loading="loading" class="rounded-lg"
                    color="info" depressed tabindex="6" @click="getOtp">
               <template v-if="!otpCounter && !otpTimer">
-                دریافت رمز دوم
+                {{ i18n.t('INCREASE.GET_OTP') }}
               </template>
               <span v-else style="direction: ltr" v-text="computedOtpCounter"/>
             </v-btn>
@@ -100,7 +100,7 @@
       <v-card-actions>
         <v-btn :disabled="!canMore && false" :loading="loading" block class="rounded-lg" color="info" depressed
                tabindex="6" @click="getPublicKey">
-          پرداخت
+          {{ i18n.t('INCREASE.PAY') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -111,6 +111,7 @@
 import crypto from "jsencrypt";
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import {banks} from "../../assets/js/banksInfo";
+import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
 
 export default {
   name: "increaseInApp",
@@ -141,9 +142,10 @@ export default {
       otpCounter: 0,
       otpTimer: undefined,
       loading: false,
+      i18n,
       rules: {
-        cardNumber: v => !!v.trim() && v?.replace(/ /g, '').length === 16 || 'شماره کارت صحیح نمی باشد',
-        cv: v => !!v && v.length >= 3 && v.length <= 4 || 'رمز CVV2 صحیح نیست',
+        cardNumber: v => !!v.trim() && v?.replace(/ /g, '').length === 16 || i18n.t('INCREASE.INVALID_PAN'),
+        cv: v => !!v && v.length >= 3 && v.length <= 4 || i18n.t('INCREASE.INVALID_CVV2'),
       }
     }
   },

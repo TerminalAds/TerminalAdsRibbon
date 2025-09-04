@@ -12,10 +12,6 @@
           </v-card-title>
 
           <v-card-text class="text-center d-flex flex-column justify-center align-center p-0">
-            <!--                        <div class="d-flex justify-content-end mt-1 ml-3 mr-2 mb-0 w-100" v-if="!isNotClosable">-->
-            <!--                            <img class="closeBtn" src="/media/svg/icons/Navigation/Close.svg" @click="closeDialog()">-->
-            <!--                        </div>-->
-
             <div class="d-flex justify-center mb-3 mx-auto">
               <v-img :src="getIcon" contain max-height="112" max-width="112" width="112"/>
             </div>
@@ -48,12 +44,6 @@
               {{ activeAdsBtn.text }}
             </v-btn>
 
-            <!--                        <v-btn block :color="item.color" v-for="(item, i) in adsButtons" :key="item.icon"-->
-            <!--                               :href="item.href" dark>-->
-            <!--                            <v-icon class="me-2">mdi-{{ item.icon ?? 'chevron-left' }}</v-icon>-->
-            <!--                            {{ item.text }}-->
-            <!--                        </v-btn>-->
-
             <v-btn v-for="(item, i) in actionButtons" :key="i" :class="item.class ? item.class : ''"
                    :color="item.color ? item.color : '#3ebd47'" block dark @click="clickOnActions(item)">
               <v-icon class="me-2">mdi-{{ item.icon ? item.icon : 'circle-small' }}</v-icon>
@@ -82,13 +72,6 @@
             <h6 class="primary--text">{{ getConnectionLostTitle }}</h6>
             {{ getConnectionLostSubtitle }}
           </v-card-text>
-
-          <!--                    <v-card-actions>-->
-          <!--                        <v-btn block dark color="#2ccb4c" @click="(getConnectionLostButtonAction)()">-->
-          <!--                            <v-icon class="me-2">mdi-reload</v-icon>-->
-          <!--                            {{ getConnectionLostButtonText }}-->
-          <!--                        </v-btn>-->
-          <!--                    </v-card-actions>-->
         </v-card>
       </v-dialog>
     </v-row>
@@ -113,6 +96,7 @@ import {
   Width
 } from "./store/global";
 import {FulfillingBouncingCircleSpinner, SemipolarSpinner} from 'epic-spinners'
+import i18n from './i18n';
 
 export default {
   name: "viewEasyModal",
@@ -124,78 +108,76 @@ export default {
       isDialogOpened: false,
       isLostShow: false,
       activeAdsBtn: null,
+      i18n,
       adsButtons: [
         {
-          text: 'ارسال پیامک زنده',
+          text: i18n.t('ADS.LIVE_SMS'),
           icon: 'message-text',
           href: 'https://core-sms.terminalads.com',
           color: '#005f73'
         },
         {
-          text: 'خرید بانک اطلاعات مشاغل',
+          text: i18n.t('ADS.BUY_JOB_DB'),
           icon: 'database-check',
           href: 'https://core-info.terminalads.com/#/shop/archives',
           color: '#ae2012'
         },
-        // {text: 'سفارش طراحی لوگو', icon: 'draw', href: '', color: '#0a9396'},
         {
-          text: 'نردبان هوشمند آگهی دیوار',
+          text: i18n.t('ADS.SMART_LADDER'),
           icon: 'stairs-up',
           href: 'https://core-robot.terminalads.com/#/Tools/SmartLadder',
           color: '#fca311'
         },
         {
-          text: 'ارسال پیامک به مشاغل',
+          text: i18n.t('ADS.JOB_SMS'),
           icon: 'wallet-travel',
           href: 'https://core-sms.terminalads.com/#/JobSms',
           color: '#7678ed'
         },
-        // {text: 'سفارش ست اداری', icon: 'paperclip', href: '', color: '#ee9b00'},
         {
-          text: 'سفارش طراحی سایت',
+          text: i18n.t('ADS.WEB_DESIGN'),
           icon: 'web',
           href: 'https://core-digi.terminalads.com/#/site',
           color: '#6a994e'
         },
         {
-          text: 'سفارش سئو سایت',
+          text: i18n.t('ADS.SEO'),
           icon: 'finance',
           href: 'https://core-digi.terminalads.com/#/seo',
           color: '#7b2cbf'
         },
         {
-          text: 'ارسال پیامک از نقشه',
+          text: i18n.t('ADS.MAP_SMS'),
           icon: 'cellphone-marker',
           href: 'https://core-sms.terminalads.com/#/MapSms',
           color: '#0466c8'
         },
         {
-          text: 'نردبان تدریجی آگهی دیوار',
+          text: i18n.t('ADS.GRADUAL_LADDER'),
           icon: 'angle-acute',
           href: 'https://core-robot.terminalads.com/#/Tools/gradualLadder',
           color: '#56ab91'
         },
         {
-          text: 'سفارش سئو سایت',
+          text: i18n.t('ADS.SEO_ALT'),
           icon: 'bullseye-arrow',
           href: 'https://core-digi.terminalads.com/#/seo',
           color: '#85182a'
         },
-        // {text: 'سفارش کارت ویزیت', icon: 'card-account-phone', href: '', color: '#212f45'},
         {
-          text: 'مدیریت و پیشتبانی سایت',
+          text: i18n.t('ADS.SITE_SUPPORT'),
           icon: 'face-agent',
           href: 'https://core-digi.terminalads.com/#/support',
           color: '#058c42'
         },
         {
-          text: 'ارسال پیامک به شهر و استان',
+          text: i18n.t('ADS.CITY_SMS'),
           icon: 'home-city',
           href: 'https://core-sms.terminalads.com/#/CitySms',
           color: '#a68a64'
         },
         {
-          text: 'چت اتوماتیک دیوار',
+          text: i18n.t('ADS.AUTO_CHAT'),
           icon: 'text-recognition',
           href: 'https://core-robot.terminalads.com/#/Tools/autoChats',
           color: '#ff477e'
@@ -242,9 +224,6 @@ export default {
     getIcon() {
       return vx.getters[Icon];
     },
-    // getType() {
-    //     return vx.getters[DialogType]
-    // },
     isConnectionLostShow() {
       this.isLostShow = vx.getters['connectionLost/isShow'];
       return this.isLostShow;
@@ -277,7 +256,6 @@ export default {
     isDialogOpened(val) {
       vx.dispatch(Showing, val)
       let index = this.getCookie('adIndex')
-      // if (['success', 'info', 'wallet'].includes())
 
       if (index && index.length > 0) {
         if (val) {
@@ -303,7 +281,6 @@ export default {
     closeDialog(byUser = true) {
       vx.dispatch(Showing, false)
       if (byUser && this.onClose) {
-        //this.$root.$emit('closeModal')
         (this.onClose)();
       }
     },
