@@ -78,7 +78,7 @@ export default {
       chartOptions: {},
       loading: false,
       transactions: [],
-      url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4HznXqgGC7rvaM8z_AfFnrYfVqf-8NTWQyuZsXhkLiLiiYKsvRLuNp7Tzp1ZtSDn0m8&usqp=CAU'
+      url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD4HznXqgGC7rvaM8z_AfFnrYfVqf-8NTWQyuZsXhkLiLiiYKsvRLuNp7Tzp1ZtSDn0m8&usqp=CAU',
       i18n
     };
   },

@@ -55,8 +55,7 @@
 <script>
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import VueTable from "../../plugins/vueTable/index.vue";
-import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
-
+import i18n from "../../plugins/EasyModal/i18n";
 export default {
   name: "userPicker",
 
