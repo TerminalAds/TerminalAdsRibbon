@@ -60,7 +60,7 @@
           class="d-flex align-center"
       >
         <v-btn class="mx-1" dark text @click="$root.$emit('getMenus')">
-          {{ i18n.t('get menu again') }}
+          {{ i18n.t('get_menu_again') }}
           <v-icon right>mdi-reload</v-icon>
         </v-btn>
       </div>
@@ -84,7 +84,7 @@
               class="menu-link"
               target="_blank"
           >
-            <span class="menu-text">{{ $t(menu?.name) }}</span>
+            <span class="menu-text">{{ i18n.t('MENUS.'+menu?.name) }}</span>
           </a>
 
           <router-link
@@ -94,7 +94,7 @@
               active-class="menu-item-active"
               @click.native="closeMenuOnClick()"
           >
-            <span class="menu-text">{{ $t(menu.name) }}</span>
+            <span class="menu-text">{{ i18n.t('MENUS.'+menu.name) }}</span>
           </router-link>
 
           <v-menu v-else close-on-click offset-y open-on-hover>
@@ -106,13 +106,13 @@
                   v-bind="attrs"
                   v-on="on"
               >
-                {{ $t(menu.name) }}
+                {{ i18n.t('MENUS.'+menu.name) }}
               </v-btn>
             </template>
 
             <v-card flat>
               <h3 class="px-2 pt-3 font-size-h6">
-                {{ $t(menu.name) }}
+                {{ i18n.t('MENUS.'+menu.name) }}
               </h3>
               <v-list>
                 <v-list-item
@@ -128,7 +128,7 @@
                   <v-list-item-icon class="my-3" style="margin-left: 16px">
                     <v-icon color="grey">mdi-circle-small</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title class="py-2" v-text="$t(child.name)"/>
+                  <v-list-item-title class="py-2" v-text="i18n.t('MENUS.'+child.name)"/>
                 </v-list-item>
               </v-list>
             </v-card>

@@ -16,14 +16,14 @@
         <div class="pa-6 d-flex flex-column justify-center text-center flex-grow-1">
           <h6 style="font-size: 10pt">{{ i18n.t('invite.title') }}
             <span class="btn-link text-primary line-height-lg cursor-pointer"
-                  @click.stop="giftDialog = true">{{i18n.t('gift')}}</span>
+                  @click.stop="giftDialog = true">{{i18n.t('invite.gift')}}</span>
             {{i18n.t('invite.get')}}
           </h6>
           <input id="invite.input" v-model="phoneNumber" v-intersect="onIntersect" :disabled="loading" :maxlength="11"
                  class="form-control" :placeholder="i18n.t('invite.phone')" @keydown.enter="invite">
           <v-btn :loading="loading" class="py-1 mt-5 white--text rounded-lg" color="#8950fc" depressed height="30"
                  min-height="30" style="margin-right: auto;" width="100" @click="invite">
-            {{i18n.t('invite')}}
+            {{i18n.t('invite.invite')}}
           </v-btn>
         </div>
 

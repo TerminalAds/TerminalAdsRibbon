@@ -111,7 +111,7 @@
 import crypto from "jsencrypt";
 import CustomPopup from "../../plugins/popup/customPopup.vue";
 import {banks} from "../../assets/js/banksInfo";
-import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "increaseInApp",

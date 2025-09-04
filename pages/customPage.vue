@@ -217,7 +217,7 @@ import TabsTutorial from "../components/tabsTutorial";
 import ItemsTutorial from "../components/itemsTutorial";
 import { AtomSpinner } from "epic-spinners";
 import { mapActions, mapState, mapGetters } from "vuex";
-import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
+import i18n from "../plugins/EasyModal/i18n";
 
 export default {
   name: "customPage",

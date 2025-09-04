@@ -117,7 +117,7 @@
 
 <script>
 import { AtomSpinner } from "epic-spinners";
-import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
+import i18n from "../EasyModal/i18n";
 
 export default {
   name: "customPopup",

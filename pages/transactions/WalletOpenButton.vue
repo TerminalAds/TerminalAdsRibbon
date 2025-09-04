@@ -121,7 +121,7 @@ import {mapActions, mapGetters} from "vuex";
 import IncreaseTransactions from "./increaseTransactions";
 import CustomPopup from "../../plugins/popup/customPopup";
 import WithdrawTransactions from "./withdrawTransactions";
-import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
+import i18n from "../../plugins/EasyModal/i18n";
 
 const exhale = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

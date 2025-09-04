@@ -459,7 +459,8 @@ export const locale = {
 	"TOOLTIP": {
 		"CopyPhoneNumbers": "شماره های خودرا کپی کنید و سپس کلیک کنید",
 		"COPY_LINK": "کپی لینک",
-		"COPY_NUMBER": "کپی شماره"
+		"COPY_NUMBER": "کپی شماره",
+		"SEE_PROFILE":"مشاهده پروفایل"
 	},
 	"CONTACT_EDIT": {
 		"EDIT": "ویرایش",
@@ -818,7 +819,7 @@ export const locale = {
 		transactionListTooltip: "لیست تراکنش های شما",
 		reloadTooltip: "بارگزاری مجدد",
 		withdrawTooltip: "برداشت از کیف پول",
-		AmountLabel: "اعتبار",
+		AmountLabel: "اعتبار ",
 		SelectAmount: "انتخاب مبلغ",
 		Amount: "مبلغ",
 		Currency: "ریال",
@@ -859,5 +860,33 @@ export const locale = {
 		USERNAME: "نام کاربری",
 		PHONE: "شماره همراه",
 		TYPE: "نوع کاربر"
+	},
+	NEWS: {
+		TITLE: "اخبار پیامک لند",
+		VIEW_BUTTON: "مشاهده",
+		NO_NEWS: "خبر تازه ای نیست.",
+		FETCH_ERROR: "خطا در دریافت اخبار!"
+	},
+	MENUS: {
+		QR_TOOL: "ابزار کیوآر",
+		CREATE_DYNAMIC_QR: "ساخت کیوآر داینامیک",
+		QR_MANAGEMENT: "مدیریت کیوآر",
+		QR_MONITORING: "مانیتورینگ کیوآرها",
+		MY_QR_LIST: "لیست کیوآرهای من",
+		PHYSICAL_NFC_ORDERS: "سفارشات کارت فیزیکی و NFC",
+		BULK_QR_GENERATION: "ساخت گروهی کیوآر کد",
+		IMAGE_CREATION_TOKEN: "توکن خلق تصویر",
+		CATEGORIES: "دسته‌بندی",
+		CREATE_DEFAULT_PRODUCT: "ساخت محصول پیشفرض",
+		DOMAINS: "دامنه ها",
+		REMINDERS: "یادآوری",
+		AUTOMATIC_CREATION: "ساخت اتوماتیک",
+		SEND_ADMIN_SMS: "ارسال sms ادمین",
+		UNCREATED_CARDS: "کارت های ساخته نشده",
+		MODELS_LIST: "لیست مدل ها",
+		UPLOAD_CENTER: "آپلود سنتر",
+		INFORMATION_REGISTRATION: "ثبت اطلاعات",
+		TARIFFS: "تعرفه ها",
+		REGISTERED_INFO_LIST: "لیست اطلاعات ثبت شده"
 	}
 }

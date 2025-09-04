@@ -87,7 +87,7 @@ import {mapActions} from 'vuex'
 import priceInput from "../../pages/pickers/priceInput";
 import {SemipolarSpinner} from 'epic-spinners'
 import IncreaseInApp from "./increaseInApp.vue";
-import { locale as i18n } from "@/plugins/EasyModal/langs/fa";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   components: {IncreaseInApp, priceInput, SemipolarSpinner},

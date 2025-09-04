@@ -19,14 +19,14 @@
       <v-list-item-icon>
         <v-icon color="#6cdb72">mdi-home</v-icon>
       </v-list-item-icon>
-      <v-list-item-title>خانه</v-list-item-title>
+      <v-list-item-title>{{ i18n.t('CONTACTS.HOME') }}</v-list-item-title>
     </v-list-item>
 
     <v-list-item link to="/dashboard" @click="toggleMobileMenu()">
       <v-list-item-icon>
         <v-icon color="#6cdb72">widgets</v-icon>
       </v-list-item-icon>
-      <v-list-item-title>داشبورد</v-list-item-title>
+      <v-list-item-title>{{ i18n.t('dashboard') }}</v-list-item-title>
     </v-list-item>
 
     <div v-if="DLoading.menus" class="group-wrapper">
@@ -44,7 +44,7 @@
       <v-list-item>
         <v-list-item-action>
           <v-btn class="mx-1" dark text @click="$root.$emit('getMenus')">
-            دریافت مجدد منو
+            {{i18n.t('get_menu_again')}}
             <v-icon right>mdi-reload</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -58,13 +58,13 @@
             <v-list-item-icon>
               <v-icon>mdi-circle-small</v-icon>
             </v-list-item-icon>
-            <v-list-item-title v-text="item.name"/>
+            <v-list-item-title v-text="i18n.t('MENUS.'+item.name)"/>
           </v-list-item>
 
           <v-list-group v-else v-model="item.selectedItem" :value="getActive(item)" active-class="active-child"
                         color="white" no-action @click="item.selectedItem = true">
             <template v-slot:activator>
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
+              <v-list-item-title>{{ i18n.t('MENUS.'+item.name) }}</v-list-item-title>
             </template>
 
             <v-list-item v-for="(sub, j) in item.children" :key="j" :to="`/${sub.slug}`" color="white" link
@@ -72,7 +72,7 @@
               <v-list-item-icon>
                 <v-icon>mdi-menu-left</v-icon>
               </v-list-item-icon>
-              <v-list-item-title v-text="sub.name"/>
+              <v-list-item-title v-text="i18n.t('MENUS.'+sub.name)"/>
             </v-list-item>
           </v-list-group>
         </div>
@@ -91,6 +91,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import {reformatMenuResponse} from "../../assets/js/MenuFunctions";
+import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
   name: "AsideMenu",
@@ -98,6 +99,7 @@ export default {
     visible: Boolean
   },
   data: () => ({
+    i18n,
     items: [],
     rerender: true,
     downloading: false

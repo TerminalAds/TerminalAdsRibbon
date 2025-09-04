@@ -1,60 +1,44 @@
 <template>
-  <ul class="navi navi-hover py-4">
-    <template v-for="(item, i) in languages">
-      <li
-        class="navi-item"
-        :class="{ 'navi-item-active': isActiveLanguage(item.lang) }"
-        :key="i"
-      >
-        <a
-          href="#"
-          class="navi-link"
-          v-bind:data-lang="item.lang"
-          v-on:click="selectedLanguage"
-        >
-          <span class="symbol symbol-20 mr-3">
-            <img :src="item.flag" alt="" />
-          </span>
-          <span class="navi-text">{{ item.name }}</span>
-        </a>
-      </li>
+  <v-menu offset-y>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn outlined v-bind="attrs" v-on="on">
+        <img :src="current.flag" alt="" width="20" class="mr-2" />
+        {{ current.name }}
+      </v-btn>
     </template>
-  </ul>
+
+    <v-list dense>
+      <v-list-item
+          v-for="lang in languages"
+          :key="lang.lang"
+          @click="select(lang)"
+      >
+        <img :src="lang.flag" alt="" width="20" class="mr-2" />
+        <v-list-item-title>{{ lang.name }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script>
 import i18nService from "@/core/services/i18n.service.js";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
-  name: "KTDropdownLanguage",
-  data() {
-    return {
-      languages: i18nService.languages
-    };
-  },
-  methods: {
-    selectedLanguage(e) {
-      const el = e.target.closest(".navi-link");
-      const lang = el.getAttribute("data-lang");
-
-      i18nService.setActiveLanguage(lang);
-
-      this.$emit(
-        "language-changed",
-        this.languages.find(val => {
-          return val.lang === lang;
-        })
-      );
-
-      changeLanguage(lang)
-    },
-    isActiveLanguage(current) {
-      return this.activeLanguage === current;
+  data: () => ({
+    languages: i18nService.languages,
+    activeLanguage: localStorage.getItem("language") || i18n.locale
+  }),
+  computed: {
+    current() {
+      return this.languages.find(l => l.lang === this.activeLanguage);
     }
   },
-  computed: {
-    activeLanguage() {
-      return i18nService.getActiveLanguage();
+  methods: {
+    select(lang) {
+      this.changeLanguage(lang.lang);
+      this.activeLanguage = lang.lang;
+      this.$emit("language-changed", lang);
     }
   }
 };
