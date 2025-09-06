@@ -95,13 +95,11 @@
 
 <script>
 import VueTablePagination from "../../components/vueTable/vueTablePagination.vue";
-import { locale as i18n } from "../EasyModal/langs/fa";
+import i18n from "../EasyModal/i18n";
 
 export default {
   name: "index.vue",
-
   components: {VueTablePagination},
-
   props: {
     value: [Array, Object],
     data: Object,
@@ -131,7 +129,6 @@ export default {
     // noPagination: Boolean,
     filterOnEnter: Boolean
   },
-
   data() {
     return {
       options: {},
@@ -140,11 +137,9 @@ export default {
       i18n
     }
   },
-
   created() {
     this.randRef = Math.floor(Math.random() * (100 - 1) + 1)
   },
-
   computed: {
     computedValue: {
       get() {
