@@ -53,8 +53,7 @@
 
 <script>
 import ContactGroupCreate from "@/view/pages/contacts/groups/contactGroupCreate.vue";
-import i18n from "@/plugins/EasyModal/i18n";
-
+import i18n from "../../../plugins/EasyModal/i18n";
 export default {
   name: "contactGroupList",
 

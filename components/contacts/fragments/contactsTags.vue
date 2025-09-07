@@ -165,7 +165,7 @@
 <script>
 import CustomPopup from "../../../plugins/popup/customPopup.vue";
 import CustomTabs from "../../../plugins/customTabs/index.vue";
-import i18n from "@/plugins/EasyModal/i18n";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "contactsTags",

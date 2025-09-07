@@ -83,8 +83,7 @@
 <script>
 import vueTable from "../../../plugins/vueTable/index.vue";
 import CustomDatePicker from "../../../pages/pickers/custom-date-picker.vue";
-import i18n from "@/plugins/EasyModal/i18n";
-
+import i18n from "../../../plugins/EasyModal/i18n";
 export default {
   name: "showCreateHistory",
 

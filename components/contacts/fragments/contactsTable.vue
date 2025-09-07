@@ -325,8 +325,7 @@ import ContactSendsPattern from "./contactSendsPattern.vue";
 import CustomPopup from "../../../plugins/popup/customPopup.vue";
 import VueTable from "../../../plugins/vueTable/index.vue";
 import { deleteContactFromTag } from "../../../assets/js/ContactsFunctions";
-import i18n from "@/plugins/EasyModal/i18n";
-
+import i18n from "../../../plugins/EasyModal/i18n";
 export default {
   name: "contactsTable",
 

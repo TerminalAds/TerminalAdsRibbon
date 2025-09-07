@@ -22,11 +22,10 @@
 </template>
 
 <script>
-import i18n from "@/plugins/EasyModal/i18n";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "copyLinkBtn",
-
   props: {
     data: Object,
     name: String,
