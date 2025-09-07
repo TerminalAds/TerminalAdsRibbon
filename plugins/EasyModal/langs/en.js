@@ -867,6 +867,7 @@ export const locale = {
         FETCH_ERROR: "Failed to fetch news!"
     },
     MENUS: {
+        //qr
         QR_TOOL: "QR Tool",
         CREATE_DYNAMIC_QR: "Create Dynamic QR",
         QR_MANAGEMENT: "QR Management",
@@ -886,6 +887,38 @@ export const locale = {
         UPLOAD_CENTER: "Upload Center",
         INFORMATION_REGISTRATION: "Information Registration",
         TARIFFS: "Tariffs",
-        REGISTERED_INFO_LIST: "List of Registered Information"
+        REGISTERED_INFO_LIST: "List of Registered Information",
+        //core
+        "personel": "Personnel",
+        "workReports/create": "Create Work Report",
+        "admin/user-guide": "User Guide",
+        "phonebook": "Customer Club",
+        "contact/list": "Contact Assistant",
+        "admin/transferRequests": "Withdrawal Requests",
+        "admin/wallet": "New Wallet",
+        "admin/cdr": "Call Monitor",
+        "admin/campaign": "Campaign",
+        "admin/message-categories": "Message Categories",
+        "admin/customers": "Customers CRM",
+        "admin/notifications": "Admin Notifications",
+        "admin/user-history/notifications": "User History Notifications",
+        "admin/messages": "Messages",
+        "profile": "Profile",
+        "admin/workReports": "Work Reports Management",
+        "panel": "Buy Panel",
+        "adminDiscounts": "Discounts",
+        "departments": "Departments",
+        "adminTickets": "Ticket Management",
+        "admin/configs": "Settings",
+        "notifications": "Notifications",
+        "user/confirmed": "User Requests",
+        "users": "Users List",
+        "payments": "Payment Gateway",
+        "permission": "Permissions",
+        "panels": "Panels",
+        "category": "Menus",
+        "content": "Content",
+        "role": "Roles",
+        "core/admin": "Core Admin"
     }
 }

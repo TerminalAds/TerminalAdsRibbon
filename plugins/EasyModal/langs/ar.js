@@ -867,6 +867,7 @@ export const locale = {
         FETCH_ERROR: "فشل في جلب الأخبار!"
     },
     MENUS: {
+        //qr
         QR_TOOL: "أداة QR",
         CREATE_DYNAMIC_QR: "إنشاء QR ديناميكي",
         QR_MANAGEMENT: "إدارة QR",
@@ -886,6 +887,38 @@ export const locale = {
         UPLOAD_CENTER: "مركز التحميل",
         INFORMATION_REGISTRATION: "تسجيل المعلومات",
         TARIFFS: "التعريفات",
-        REGISTERED_INFO_LIST: "قائمة المعلومات المسجلة"
+        REGISTERED_INFO_LIST: "قائمة المعلومات المسجلة",
+        //core
+        "personel": "الموظفون",
+        "workReports/create": "تقرير العمل",
+        "admin/user-guide": "دليل المستخدم",
+        "phonebook": "نادي العملاء",
+        "contact/list": "اتصال يار (شكرًا على الاتصال)",
+        "admin/transferRequests": "طلبات السحب",
+        "admin/wallet": "المحفظة الجديدة",
+        "admin/cdr": "مراقبة المكالمات",
+        "admin/campaign": "الحملة",
+        "admin/message-categories": "تصنيفات الرسائل",
+        "admin/customers": "إدارة علاقات العملاء",
+        "admin/notifications": "إشعارات المدير",
+        "admin/user-history/notifications": "إشعارات سجل المستخدمين",
+        "admin/messages": "الرسائل",
+        "profile": "الملف الشخصي",
+        "admin/workReports": "إدارة تقارير العمل",
+        "panel": "شراء الباقة",
+        "adminDiscounts": "الخصومات",
+        "departments": "الأقسام",
+        "adminTickets": "إدارة التذاكر",
+        "admin/configs": "الإعدادات",
+        "notifications": "الإشعارات",
+        "user/confirmed": "طلبات المستخدمين",
+        "users": "قائمة المستخدمين",
+        "payments": "بوابة الدفع",
+        "permission": "الصلاحيات",
+        "panels": "الباقات",
+        "category": "القوائم",
+        "content": "المحتوى",
+        "role": "الأدوار",
+        "core/admin": "إدارة النواة"
     }
 }

@@ -868,6 +868,7 @@ export const locale = {
 		FETCH_ERROR: "خطا در دریافت اخبار!"
 	},
 	MENUS: {
+		//qr
 		QR_TOOL: "ابزار کیوآر",
 		CREATE_DYNAMIC_QR: "ساخت کیوآر داینامیک",
 		QR_MANAGEMENT: "مدیریت کیوآر",
@@ -887,6 +888,38 @@ export const locale = {
 		UPLOAD_CENTER: "آپلود سنتر",
 		INFORMATION_REGISTRATION: "ثبت اطلاعات",
 		TARIFFS: "تعرفه ها",
-		REGISTERED_INFO_LIST: "لیست اطلاعات ثبت شده"
+		REGISTERED_INFO_LIST: "لیست اطلاعات ثبت شده",
+		//code
+		"personel": "پرسنل",
+		"workReports/create": "گزارش کار",
+		"admin/user-guide": "راهنمای کاربر",
+		"phonebook": "باشگاه مشتریان",
+		"contact/list": "تماس یار (تشکر از تماس)",
+		"admin/transferRequests": "درخواست برداشت",
+		"admin/wallet": "کیف پول جدید",
+		"admin/cdr": "مانیتور تماس",
+		"admin/campaign": "کمپین",
+		"admin/message-categories": "دسته بندی پیام ها",
+		"admin/customers": "CRM مشتریان",
+		"admin/notifications": "اعلانات مدیر",
+		"admin/user-history/notifications": "اعلانات تاریخچه کاربران",
+		"admin/messages": "پیام ها",
+		"profile": "پروفایل",
+		"admin/workReports": "مدیریت گزارش کار",
+		"panel": "خرید پنل",
+		"adminDiscounts": "تخفیف ها",
+		"departments": "دپارتمان ها",
+		"adminTickets": "مدیریت تیکت",
+		"admin/configs": "تنظیمات",
+		"notifications": "اعلانات",
+		"user/confirmed": "درخواست های کاربران",
+		"users": "لیست کاربران",
+		"payments": "درگاه پرداخت",
+		"permission": "پرمیشن ها",
+		"panels": "پنل ها",
+		"category": "منوها",
+		"content": "محتوا",
+		"role": "نقش ها",
+		"core/admin": "مدیریت کور"
 	}
 }
