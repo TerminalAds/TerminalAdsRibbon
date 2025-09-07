@@ -354,7 +354,7 @@
 
 <script>
 import CustomDatePicker from "@/view/content/pickers/custom-date-picker.vue";
-import { i18n } from "@/plugins/EasyModal/langs/fa"; // Adjust path as needed
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "contactsEditFields",

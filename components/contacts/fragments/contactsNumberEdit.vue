@@ -30,7 +30,6 @@
 <script>
 import EditContact from "../editContact.vue";
 import customPopup from "../../../plugins/popup/customPopup.vue";
-import { i18n } from "../../../plugins/EasyModal/langs/fa"; // Adjust import if needed
 
 export default {
   name: "contactsNumberEdit",
