@@ -1,54 +1,92 @@
 <template>
-  <v-app-bar app class="app-header" color="transparent" extension-height="56" fixed flat height="80">
-    <div id="kt_header" ref="kt_header" class="header d-flex justify-content-between" v-bind:class="headerClasses">
+  <v-app-bar
+    app
+    class="app-header"
+    color="transparent"
+    extension-height="56"
+    fixed
+    flat
+    height="80"
+  >
+    <div
+      id="kt_header"
+      ref="kt_header"
+      class="header d-flex justify-content-between"
+      v-bind:class="headerClasses"
+    >
       <div class="d-none d-md-block">
-        <KTAside v-if="asideEnabled"/>
+        <KTAside v-if="asideEnabled" />
       </div>
 
-      <div class="d-flex align-items-center justify-content-between"
-           v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }">
-        <KTDropdownLanguage/>
+      <div
+        class="d-flex align-items-center justify-content-between"
+        v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }"
+      >
+        <KTDropdownLanguage />
 
-        <v-btn v-if="asideEnabled" id="kt_aside_mobile_toggle" dark min-width="32" text @click="toggleNavigation()">
+        <v-btn
+          v-if="asideEnabled"
+          id="kt_aside_mobile_toggle"
+          dark
+          min-width="32"
+          text
+          @click="toggleNavigation()"
+        >
           <v-icon>mdi-menu</v-icon>
-          {{ i18n.t('dashboard') }}
+          {{ i18n.t("dashboard") }}
         </v-btn>
 
         <div class="d-flex align-items-stretch mr-3">
           <div class="header-logo">
             <router-link to="/">
-              <img :src="DConfigs.header_logo" alt="Logo" class="logo-default max-h-40px"/>
-              <img :src="DConfigs.header_logo" alt="Logo" class="logo-sticky max-h-40px"/>
+              <img
+                :src="DConfigs.header_logo"
+                alt="Logo"
+                class="logo-default max-h-40px"
+              />
+              <img
+                :src="DConfigs.header_logo"
+                alt="Logo"
+                class="logo-sticky max-h-40px"
+              />
             </router-link>
           </div>
 
-          <div ref="kt_header_menu_wrapper" class="header-menu-wrapper header-menu-wrapper-left">
-            <div v-if="headerMenuEnabled" id="kt_header_menu" ref="kt_header_menu"
-                 class="header-menu header-menu-mobile" v-bind:class="headerMenuClasses">
-              <KTMenu/>
+          <div
+            ref="kt_header_menu_wrapper"
+            class="header-menu-wrapper header-menu-wrapper-left"
+          >
+            <div
+              v-if="headerMenuEnabled"
+              id="kt_header_menu"
+              ref="kt_header_menu"
+              class="header-menu header-menu-mobile"
+              v-bind:class="headerMenuClasses"
+            >
+              <KTMenu />
             </div>
           </div>
         </div>
 
-        <KTTopbar/>
+        <KTTopbar />
       </div>
       <div class="hiddenIn990 d-flex align-items-center ml-5">
-        <KTExitButton/>
+        <KTExitButton />
       </div>
     </div>
   </v-app-bar>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 import KTTopbar from "../../layout/header/Topbar.vue";
 import KTLayoutHeader from "../../assets/js/layout/header.js";
 import KTLayoutHeaderMenu from "../../assets/js/layout/header-menu.js";
 import KTMenu from "../../layout/header/Menu.vue";
 import KTAside from "../../layout/aside/Aside.vue";
-import KTExitButton from "../../layout/header/ExitButton.vue"
+import KTExitButton from "../../layout/header/ExitButton.vue";
 import i18n from "../../plugins/EasyModal/i18n";
-import KTDropdownLanguage from "../../layout/extras/dropdown/DropdownLanguage.vue"
+import KTDropdownLanguage from "../../layout/extras/dropdown/DropdownLanguage.vue";
 
 export default {
   name: "KTHeader",
@@ -57,10 +95,10 @@ export default {
     KTMenu,
     KTAside,
     KTExitButton,
-    KTDropdownLanguage
+    KTDropdownLanguage,
   },
-  data(){
-    return {i18n}
+  data() {
+    return { i18n };
   },
   mounted() {
     // Init Desktop & Mobile Headers
@@ -74,7 +112,7 @@ export default {
 
     const headerRef = this.$refs["kt_header"];
 
-    headerRef.querySelectorAll("a[class='menu-link']").forEach(item => {
+    headerRef.querySelectorAll("a[class='menu-link']").forEach((item) => {
       item.addEventListener("click", () => {
         KTLayoutHeaderMenu.getOffcanvas().hide();
       });
@@ -123,22 +161,25 @@ export default {
      */
     widthFluid() {
       return this.layoutConfig("header.self.width") === "fluid";
-    }
+    },
   },
 
   methods: {
     toggleSecondMenu: function () {
-      const a = document.getElementById('kt_content')
-      const b = document.getElementById('kt_aside')
-      if (a.classList.contains('flex-column') && b.classList.contains('d-md-none')) {
-        b.classList.remove('d-md-none');
-        a.classList.remove('flex-column');
-      } else if (b.classList.contains('d-block')) {
-        b.classList.add('d-md-none');
-        a.classList.add('flex-column');
+      const a = document.getElementById("kt_content");
+      const b = document.getElementById("kt_aside");
+      if (
+        a.classList.contains("flex-column") &&
+        b.classList.contains("d-md-none")
+      ) {
+        b.classList.remove("d-md-none");
+        a.classList.remove("flex-column");
+      } else if (b.classList.contains("d-block")) {
+        b.classList.add("d-md-none");
+        a.classList.add("flex-column");
       }
     },
-  }
+  },
 };
 </script>
 
@@ -159,7 +200,7 @@ export default {
 }
 
 .header {
-  background-image: url('/media/bg/bg-10.jpg');
+  background-image: url("/media/bg/bg-10.jpg");
   background-position: top;
   background-size: cover;
   width: 100%;

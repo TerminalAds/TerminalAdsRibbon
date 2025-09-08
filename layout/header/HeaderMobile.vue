@@ -1,16 +1,36 @@
 <template>
-  <v-app-bar app color="transparent" dense elevate-on-scroll fixed flat src="media/bg/bg-10.jpg">
-    <walletButton style="flex-basis: 100%"/>
+  <v-app-bar
+    app
+    color="transparent"
+    dense
+    elevate-on-scroll
+    fixed
+    flat
+    src="media/bg/bg-10.jpg"
+  >
+    <walletButton style="flex-basis: 100%" />
 
     <template v-slot:extension>
       <div>
-        <v-btn class="white--text rounded-lg" color="rgba(255, 255, 255, .2)" depressed href="/#/dashboard" large>
-          {{ i18n.t('dashboard') }}
+        <v-btn
+          class="white--text rounded-lg"
+          color="rgba(255, 255, 255, .2)"
+          depressed
+          href="/#/dashboard"
+          large
+        >
+          {{ i18n.t("dashboard_origin") }}
         </v-btn>
 
-        <v-btn :href="front_url + '/#/contact/list'" class="ms-2 white--text rounded-lg" color="rgba(255, 255, 255, .2)"
-               depressed large target="_blank">
-          تماس یار (تشکر از تماس)
+        <v-btn
+          :href="front_url + '/#/contact/list'"
+          class="ms-2 white--text rounded-lg"
+          color="rgba(255, 255, 255, .2)"
+          depressed
+          large
+          target="_blank"
+        >
+          {{ $t("contact/list") }}
         </v-btn>
       </div>
     </template>
@@ -18,10 +38,10 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 import KTLayoutHeaderTopbar from "../../assets/js/layout/header-topbar.js";
-import walletButton from '../../pages/transactions/WalletOpenButton';
-import {LOGOUT} from "@/core/services/store/auth.module";
+import walletButton from "../../pages/transactions/WalletOpenButton";
+import { LOGOUT } from "@/core/services/store/auth.module";
 import i18n from "../../plugins/EasyModal/i18n";
 
 export default {
@@ -33,7 +53,7 @@ export default {
 
   data: () => ({
     unread: 0,
-    i18n
+    i18n,
   }),
 
   mounted() {
@@ -43,10 +63,8 @@ export default {
 
   methods: {
     onLogout() {
-      this.$store
-        .dispatch(LOGOUT)
-        .then(() => window.location.reload());
-    }
+      this.$store.dispatch(LOGOUT).then(() => window.location.reload());
+    },
   },
 
   computed: {
@@ -78,9 +96,9 @@ export default {
      */
     asideEnabled() {
       return !!this.layoutConfig("aside.self.display");
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -93,7 +111,7 @@ export default {
 }
 
 .v-app-bar :deep(.v-toolbar__image) {
-  transition: opacity .15s ease-in;
+  transition: opacity 0.15s ease-in;
   opacity: 0;
 }
 

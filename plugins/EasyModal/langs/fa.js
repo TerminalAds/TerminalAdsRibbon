@@ -1,4 +1,5 @@
 export const locale = {
+	dashboard_origin:'داشبورد',
 	dashboard: 'منو',
 	get_menu_again: 'دریافت مجدد منو',
 	loading_error: {
