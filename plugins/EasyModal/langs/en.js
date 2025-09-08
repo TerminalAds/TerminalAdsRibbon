@@ -1,5 +1,5 @@
 export const locale = {
-    "dashboard": "Dashboard",
+    "dashboard": "menu",
     "get_menu_again": "Get Menu Again",
     "loading_error": {
         "title": "Loading Error!",

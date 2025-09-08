@@ -1,5 +1,5 @@
 export const locale = {
-	dashboard: 'داشبورد',
+	dashboard: 'منو',
 	get_menu_again: 'دریافت مجدد منو',
 	loading_error: {
 		title: 'خطا در بارگزاری!',
