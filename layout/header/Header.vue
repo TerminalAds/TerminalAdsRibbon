@@ -33,7 +33,7 @@
           @click="toggleNavigation()"
         >
           <v-icon>mdi-menu</v-icon>
-          {{ i18n.t("dashboard") }}
+          {{ i18n.t("menu") }}
         </v-btn>
 
         <div class="d-flex align-items-stretch mr-3">

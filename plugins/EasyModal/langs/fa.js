@@ -1,6 +1,6 @@
 export const locale = {
 	dashboard_origin:'داشبورد',
-	dashboard: 'منو',
+	menu: 'منو',
 	get_menu_again: 'دریافت مجدد منو',
 	loading_error: {
 		title: 'خطا در بارگزاری!',

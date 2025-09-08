@@ -1,6 +1,6 @@
 export const locale = {
     dashboard_origin: 'لوحة التحكم',
-    dashboard: 'قائمة',
+    menu: 'قائمة',
     get_menu_again: 'احصل على القائمة مرة أخرى',
     loading_error: {
         title: 'خطأ في التحميل!',
