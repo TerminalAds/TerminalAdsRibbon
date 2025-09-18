@@ -1,12 +1,40 @@
 <template>
   <v-list v-if="rerender" dark>
+    <custom-popup v-model="openPaymentUrlLink"
+                  :cons="{title:'لینک پرداخت'}"
+                  hide-overlay
+                  hide-confirm
+                  max-width="500"
+                  transition="dialog-bottom-transition">
+      <v-card class="p-5">
+        <v-text-field
+            dense
+            label="شماره کاربر"
+            outlined
+            class="centered-input"
+            v-model="userPhone"
+            :rules="[phoneRule]"
+        />
+
+        <price-input v-model="amount" :label="i18n.t('WALLET.Amount')" text-center="true"/>
+
+        <div class="row col justify-content-end mx-auto">
+
+          <v-btn @click="sendLink" color="green" class="mr-auto" :loading="loading">
+            <v-icon class="ml-2">mdi-send</v-icon>
+            ارسال
+          </v-btn>
+        </div>
+      </v-card>
+    </custom-popup>
+
     <v-list-item @click="toggleMobileMenu()">
       <v-list-item-content>
         <div class="text-center">
           <img
-            :src="DConfigs.header_logo"
-            alt="Logo"
-            class="logo-default max-h-40px"
+              :src="DConfigs.header_logo"
+              alt="Logo"
+              class="logo-default max-h-40px"
           />
         </div>
       </v-list-item-content>
@@ -17,7 +45,7 @@
       </v-list-item-action>
     </v-list-item>
 
-    <v-divider style="background-color: rgba(255, 255, 255, 0.3)" />
+    <v-divider style="background-color: rgba(255, 255, 255, 0.3)"/>
 
     <v-list-item :href="homeLink()" link @click="toggleMobileMenu()">
       <v-list-item-icon>
@@ -39,7 +67,7 @@
           <v-icon>mdi-circle-small</v-icon>
         </v-list-item-icon>
         <v-list-item-title>
-          <v-skeleton-loader class="mb-n1" type="text" />
+          <v-skeleton-loader class="mb-n1" type="text"/>
         </v-list-item-title>
       </v-list-item>
     </div>
@@ -59,45 +87,46 @@
       <template v-for="(item, i) in items">
         <div v-if="!!item" :key="`item-${i}`" class="group-wrapper">
           <v-list-item
-            v-if="!item.children"
-            :to="`/${item.slug}`"
-            link
-            @click="toggleMobileMenu()"
+              v-if="!item.children"
+              :to="`/${item.slug}`"
+              link
+              @click="toggleMobileMenu()"
           >
             <v-list-item-icon>
               <v-icon>mdi-circle-small</v-icon>
             </v-list-item-icon>
-            <v-list-item-title v-text="i18n.t('MENUS.' + item.name)" />
+            <v-list-item-title v-text="i18n.t('MENUS.' + item.name)"/>
           </v-list-item>
 
           <v-list-group
-            v-else
-            v-model="item.selectedItem"
-            :value="getActive(item)"
-            active-class="active-child"
-            color="white"
-            no-action
-            @click="item.selectedItem = true"
+              v-else
+              v-model="item.selectedItem"
+              :value="getActive(item)"
+              active-class="active-child"
+              color="white"
+              no-action
+              @click="item.selectedItem = true"
           >
             <template v-slot:activator>
               <v-list-item-title>{{
-                i18n.t("MENUS." + item.name)
-              }}</v-list-item-title>
+                  i18n.t("MENUS." + item.name)
+                }}
+              </v-list-item-title>
             </template>
 
             <v-list-item
-              v-for="(sub, j) in item.children"
-              :key="j"
-              :to="`/${sub.slug}`"
-              color="white"
-              link
-              style="padding-right: 32px"
-              @click="toggleMobileMenu()"
+                v-for="(sub, j) in item.children"
+                :key="j"
+                :to="`/${sub.slug}`"
+                color="white"
+                link
+                style="padding-right: 32px"
+                @click="toggleMobileMenu()"
             >
               <v-list-item-icon>
                 <v-icon>mdi-menu-left</v-icon>
               </v-list-item-icon>
-              <v-list-item-title v-text="i18n.t('MENUS.' + sub.name)" />
+              <v-list-item-title v-text="i18n.t('MENUS.' + sub.name)"/>
             </v-list-item>
           </v-list-group>
         </div>
@@ -110,16 +139,26 @@
       </v-list-item-icon>
       <v-list-item-title>دانلود دورسان‌دسک</v-list-item-title>
     </v-list-item>
+
+    <v-list-item link @click="openPaymentUrlLink=true" v-if="ribbon_can('send_payment_link')">
+      <v-list-item-icon>
+        <v-icon color="#ff5b94">mdi-hand-coin</v-icon>
+      </v-list-item-icon>
+      <v-list-item-title>لینک پرداخت</v-list-item-title>
+    </v-list-item>
   </v-list>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { reformatMenuResponse } from "../../assets/js/MenuFunctions";
+import {mapActions, mapGetters} from "vuex";
+import {reformatMenuResponse} from "../../assets/js/MenuFunctions";
 import i18n from "../../plugins/EasyModal/i18n";
+import CustomPopup from "../../plugins/popup/customPopup.vue";
+import priceInput from "../../pages/pickers/priceInput.vue";
 
 export default {
   name: "AsideMenu",
+  components: {priceInput, CustomPopup},
   props: {
     visible: Boolean,
   },
@@ -128,6 +167,14 @@ export default {
     items: [],
     rerender: true,
     downloading: false,
+    loading: false,
+    openPaymentUrlLink: false,
+    userPhone: undefined,
+    amount: 0,
+    phoneRule: (v) => {
+      const pattern = /^09\d{9}$/;
+      return pattern.test(v) || 'شماره موبایل معتبر نمی‌باشد';
+    }
   }),
   mounted() {
     this.$root.$on("getMenus", this.getMenus);
@@ -150,30 +197,30 @@ export default {
   methods: {
     ...mapActions("ribbon", ["setMenus", "toggleLoading", "setSectionStatus"]),
     getMenus() {
-      this.toggleLoading({ field: "menus", status: true });
+      this.toggleLoading({field: "menus", status: true});
       try {
         this.$DashboardAxios
-          .get("/api/core/menus", {
-            params: {
-              sid: this.sid,
-            },
-          })
-          .then(({ data }) => {
-            const menus = reformatMenuResponse(data.data);
-            console.log("menus", menus);
-            this.setMenus(menus);
-            this.setSectionStatus({ field: "menus", status: true });
-            this.items = menus;
-          })
-          .catch(({ response }) => {
-            this.setSectionStatus({ field: "menus", status: false });
-            if (response.status !== 401) {
-              this.$toast.error("خطایی رخ داده است.");
-            }
-          })
-          .finally(() => this.toggleLoading({ field: "menus", status: false }));
+            .get("/api/core/menus", {
+              params: {
+                sid: this.sid,
+              },
+            })
+            .then(({data}) => {
+              const menus = reformatMenuResponse(data.data);
+              console.log("menus", menus);
+              this.setMenus(menus);
+              this.setSectionStatus({field: "menus", status: true});
+              this.items = menus;
+            })
+            .catch(({response}) => {
+              this.setSectionStatus({field: "menus", status: false});
+              if (response.status !== 401) {
+                this.$toast.error("خطایی رخ داده است.");
+              }
+            })
+            .finally(() => this.toggleLoading({field: "menus", status: false}));
       } catch (e) {
-        this.setSectionStatus({ field: "menus", status: false });
+        this.setSectionStatus({field: "menus", status: false});
         console.log("catch error: ", e);
       }
     },
@@ -182,8 +229,8 @@ export default {
     },
     getActive(item) {
       let activate = item.children
-        ?.map((a) => a.slug)
-        .includes(this.$route.path.substring(1));
+          ?.map((a) => a.slug)
+          .includes(this.$route.path.substring(1));
       return (item.selectedItem = activate);
     },
     downloadDorsandesk() {
@@ -199,6 +246,9 @@ export default {
         this.downloading = false;
       }, 2000);
     },
+    sendLink() {
+
+    }
   },
 };
 </script>
@@ -206,5 +256,9 @@ export default {
 <style scoped>
 .group-wrapper >>> .active-child {
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.centered-input >>> input {
+  text-align: center
 }
 </style>
