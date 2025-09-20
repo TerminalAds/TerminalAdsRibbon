@@ -20,7 +20,13 @@
             <div v-if="showExtraTimer" class="text-nowrap">
               <v-btn
                 v-if="!hasTimer"
-                v-b-tooltip.hover="`${i18n.t('BUTTON.START')}: ${i18n.t('LABELS.TIME_INTERVAL')} ${timer} ${isMinute ? i18n.t('TIME_TYPES.MINUTE') : i18n.t('SECOND')}`"
+                v-b-tooltip.hover="
+                  `${i18n.t('BUTTON.START')}: ${i18n.t(
+                    'LABELS.TIME_INTERVAL'
+                  )} ${timer} ${
+                    isMinute ? i18n.t('TIME_TYPES.MINUTE') : i18n.t('SECOND')
+                  }`
+                "
                 class="px-0"
                 color="rgb(158, 255, 250)"
                 depressed
@@ -138,7 +144,7 @@
 
     <custom-popup
       v-model="tDialog"
-      :cons="cons"
+      :cons="{ title: i18n.t('BUTTON.GUIDE') }"
       :loading.sync="loadingTuts"
       hide-confirm
       max-width="800"
@@ -168,21 +174,24 @@
       max-width="450"
     >
       <v-card flat>
-        <v-card-title>زمان مورد نظر خود را وارد نمایید:</v-card-title>
-        <v-card-subtitle
-          >پس از تعیین زمان، این صفحه در زمان انتخاب شده همیشه رفرش
-          میشود.</v-card-subtitle
-        >
+        <v-card-title>{{ i18n.t("AUTO_REFRESH_POPUP.TITLE") }}</v-card-title>
+        <v-card-subtitle>{{
+          i18n.t("AUTO_REFRESH_POPUP.SUBTITLE")
+        }}</v-card-subtitle>
 
         <v-card-text>
           <v-text-field
             v-model="timer"
             :rules="[rules.timer]"
-            :suffix="isMinute ? 'دقیقه' : 'ثانیه'"
+            :suffix="
+              isMinute
+                ? i18n.t('TIME_TYPES.MINUTE')
+                : i18n.t('TIME_TYPES.SECOND')
+            "
             append-outer-icon="mdi-timer-cog-outline"
             dense
             hide-spin-buttons
-            label="زمان"
+            :label="i18n.t('AUTO_REFRESH_POPUP.TIME_LABEL')"
             outlined
             type="number"
             @click:append-outer="isMinute = !isMinute"
@@ -196,7 +205,7 @@
         id="modal-scrollable"
         :title="totalPopup[0] ? totalPopup[0].title : ''"
         ok-only
-        ok-title="تایید"
+        :ok-title="i18n.t('MODAL.OK_TITLE')"
         scrollable
         @ok="nextPopup"
       >
@@ -232,7 +241,6 @@ export default {
 
   data() {
     return {
-      cons: { title: i18n.t("BUTTON.GUIDE") },
       loading: false,
       reloadLoading: false,
       tab: null,
@@ -251,21 +259,8 @@ export default {
       showExtraTimer: false,
       timer: 2,
       timerFun: null,
-      rules: {
-        timer: (v) => (!!v && !isNaN(v) && v < 100) || i18n.t("ERRORS.INVALID_TIMER"),
-      },
-      autoReloadCons: {
-        title: i18n.t("BUTTON.AUTO_REFRESH_SETTINGS"),
-        buttons: [
-          {
-            type: "submit",
-            handler: () => this.startTimer(),
-            disabled: () => !this.canSetTimer,
-          },
-        ],
-      },
       isMinute: true,
-      i18n
+      i18n,
     };
   },
 
@@ -291,6 +286,24 @@ export default {
   computed: {
     ...mapState("ribbon", ["autoReload"]),
     ...mapGetters("ribbon", ["hasTimer", "timerHasTime"]),
+    rules() {
+      return {
+        timer: (v) =>
+          (!!v && !isNaN(v) && v < 100) || this.i18n.t("ERRORS.INVALID_TIMER"),
+      };
+    },
+    autoReloadCons() {
+      return {
+        title: this.i18n.t("BUTTON.AUTO_REFRESH_SETTINGS"),
+        buttons: [
+          {
+            type: "submit",
+            handler: () => this.startTimer(),
+            disabled: () => !this.canSetTimer,
+          },
+        ],
+      };
+    },
     title() {
       return this.$route.meta.title ?? "";
     },
@@ -395,9 +408,7 @@ export default {
 
       let timer = this.isMinute ? this.timer * 60 : this.timer;
       timer = timer * 1000;
-
-      this.$toast.info("به‌روزرسانی خودکار شروع شد.");
-
+      this.$toast.info(this.i18n.t("TOAST.AUTO_REFRESH_STARTED"));
       this.timerFun = setInterval(() => {
         if (this.autoReload.route !== this.$route.path) this.deleteTimer();
         else if (!this.reloadLoading) {
