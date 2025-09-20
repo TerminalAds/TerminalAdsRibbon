@@ -286,6 +286,7 @@ export default {
   computed: {
     ...mapState("ribbon", ["autoReload"]),
     ...mapGetters("ribbon", ["hasTimer", "timerHasTime"]),
+
     rules() {
       return {
         timer: (v) =>
@@ -305,7 +306,7 @@ export default {
       };
     },
     title() {
-      return this.$route.meta.title ?? "";
+      return this.i18n.t(this.$route.meta.title) ?? "";
     },
     canSetTimer() {
       return typeof this.rules.timer(this.timer) === "boolean";
