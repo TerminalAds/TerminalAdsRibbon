@@ -1,27 +1,36 @@
 <template>
-  <div v-if="$route.meta.has_ribbon" class="po-rel" style="height: 44px; max-width: 100vw">
+  <div
+    v-if="$route.meta.has_ribbon"
+    class="po-rel"
+    style="height: 44px; max-width: 100vw"
+  >
     <div class="ribbon">
-      <div class="cheat-div"/>
-      <div class="cheat-div-left"/>
+      <div class="cheat-div" />
+      <div class="cheat-div-left" />
       <div class="ribbon3 text-center d-flex">
-                <span id="ribbon.text.wrapper" ref="ribbonText" class="ribbon-text-wrapper me-1">
-                     <span id="ribbon.text">{{ title }} {{ subTitle }}</span>
-                </span>
-        <v-spacer/>
-        <slot name="default"/>
+        <span
+          id="ribbon.text.wrapper"
+          ref="ribbonText"
+          class="ribbon-text-wrapper me-1"
+        >
+          <span id="ribbon.text">{{ title }} {{ subTitle }}</span>
+        </span>
+        <v-spacer />
+        <slot name="default" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
+import i18n from "./plugins/EasyModal/i18n";
 
 export default {
   name: "terminal_title_ribbon",
 
   data: () => ({
-    status: 0
+    status: 0,
   }),
 
   mounted() {
@@ -31,42 +40,41 @@ export default {
   computed: {
     ...mapGetters("ribbon", ["sub_title"]),
     title() {
-      return this.$route.meta.title ?? "";
+      return i18n.t(this.$route.meta.title) ?? "";
     },
     subTitle() {
       return this.sub_title ?? "";
     },
     haveFeature() {
       return this.tutorial?.features;
-    }
-
+    },
   },
 
   methods: {
     checkTextOverflow() {
-      if (this.status > 1) return
+      if (this.status > 1) return;
 
       this.$nextTick(() => {
-        let wrapper = document.getElementById('ribbon.text.wrapper')
-        let text = document.getElementById('ribbon.text')
+        let wrapper = document.getElementById("ribbon.text.wrapper");
+        let text = document.getElementById("ribbon.text");
 
         if (wrapper) {
-          let wrapperCliW = wrapper.getClientRects()[0].width
-          let textCliW = text.getClientRects()[0].width
+          let wrapperCliW = wrapper.getClientRects()[0].width;
+          let textCliW = text.getClientRects()[0].width;
 
           if (wrapperCliW >= textCliW) {
             setTimeout(() => {
-              this.status += 1
-              this.checkTextOverflow()
-            }, 5000)
+              this.status += 1;
+              this.checkTextOverflow();
+            }, 5000);
           } else if (wrapperCliW < textCliW) {
-            text.classList.add('set-transition')
+            text.classList.add("set-transition");
           }
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -153,11 +161,10 @@ export default {
   z-index: 2;
 }
 
-
 .ribbon3:before,
 .ribbon3:after {
   position: absolute;
-  content: '';
+  content: "";
   width: 4px;
   height: 4px;
   background-color: transparent;
@@ -186,7 +193,7 @@ export default {
 
 .ribbon-text-wrapper >>> span {
   display: inline-block;
-  transition: all .1s linear;
+  transition: all 0.1s linear;
 }
 
 .set-transition {
