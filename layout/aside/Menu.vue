@@ -20,7 +20,8 @@
 
         <div class="row col justify-content-end mx-auto">
 
-          <v-btn @click="sendLink" color="green" class="mr-auto" :loading="loading">
+          <v-btn @click="sendLink" color="green" class="mr-auto" :loading="loading"
+                 :disabled="!userPhone && amount===0">
             <v-icon class="ml-2">mdi-send</v-icon>
             ارسال
           </v-btn>
@@ -247,7 +248,20 @@ export default {
       }, 2000);
     },
     sendLink() {
+      this.downloading = true;
 
+      this.$instanceAxios.post('https://robot-api.terminalads.com/api/user/bazar/payment/link', {
+        "amount": this.amount,
+        "phone": this.userPhone
+      }).then(() => {
+        this.$toast.info('لینک پرداخت با موفقیت ارسال شد!')
+      }).catch(({response}) => {
+        if (response.status === 404) {
+          this.$toast.error('کاربر موردنظر پیدا نشد!')
+        }
+      }).finally(() => {
+        this.loading = false;
+      });
     }
   },
 };
