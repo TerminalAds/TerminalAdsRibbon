@@ -6,7 +6,11 @@
       group
       mandatory
     >
-      <div v-for="(item, i) in btnGroup" :key="i" class="btn-toggle-holder">
+      <div
+        v-for="(item, i) in btnGroupfilter"
+        :key="i"
+        class="btn-toggle-holder"
+      >
         <v-btn
           v-if="item.index === 2"
           :aria-label="i18n.t(item.title)"
@@ -117,7 +121,41 @@ export default {
       },
     ];
   },
-
+  computed: {
+    btnGroupfilter() {
+      if (this.i18n.locale === "fa") return this.btnGroup;
+      else
+        return [
+          {
+            link: this.handleMenu,
+            icon: "menu-open",
+            title: "MENU_ITEMS.TEXT_INPUT",
+            index: 0,
+          },
+          { link: null, icon: "", title: "", index: 1 },
+          {
+            link: "https://core.terminalads.com",
+            icon: "home",
+            title: "HOME",
+            index: 2,
+          },
+          {
+            link: null,
+            icon: "bell",
+            title: "notification.text",
+            component: "NotifyMenu",
+            index: 3,
+          },
+          {
+            link: null,
+            icon: "dots-vertical",
+            title: "BUTTONS.FROM_FILE",
+            component: "MoreButton",
+            index: 4,
+          },
+        ];
+    },
+  },
   methods: {
     handleCLick(item, i) {
       this.index = i;
