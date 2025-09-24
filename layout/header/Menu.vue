@@ -14,7 +14,11 @@
         </a>
       </li>
 
-      <li class="menu-item exact-color" @click="closeMenuOnClick()">
+      <li
+        class="menu-item exact-color"
+        @click="closeMenuOnClick()"
+        v-if="i18n.locale === 'fa'"
+      >
         <v-btn
           aria-haspopup="true"
           class="menu-link px-4"

@@ -2,12 +2,25 @@
   <v-card flat class="pa-2 pb-10">
     <div class="swiper mySwiper pa-4">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" style="user-select: none" v-for="(item, i) in guidence" :key="i">
-          <div class="text-center cardStyle pa-2"
-               :class="activeProject === item.value ? ' cardActive' : ''"
-               @click="getPages(item.sid, item.value)">
-            <img :src="item.img" alt="" style="width: 50px">
-            <p class="mt-4 font-weight-bold">{{ item.name }}</p>
+        <div
+          class="swiper-slide"
+          style="user-select: none"
+          v-for="(item, i) in guidence"
+          :key="i"
+        >
+          <div
+            class="text-center cardStyle pa-2"
+            :class="activeProject === item.value ? ' cardActive' : ''"
+            @click="getPages(item.sid, item.value)"
+          >
+            <img :src="item.img" alt="" style="width: 50px" />
+            <p class="mt-4 font-weight-bold">
+              {{
+                "MENUS." + item.name !== i18n.t("MENUS." + item.name)
+                  ? i18n.t("MENUS." + item.name)
+                  : item.name
+              }}
+            </p>
           </div>
         </div>
       </div>
@@ -25,46 +38,91 @@
 
     <v-row no-gutters justify="center">
       <v-col cols="12" md="3" class="pa-2">
-        <v-card flat class="transparent" style="position: sticky;top: 78px">
-          <v-btn @click="goTo(x.id,x.slug)" :key="x.slug" v-for="(x, index) in pages"
-                 :class="{'bg-indigo btnActive' : isActive === x.slug}"
-                 class="font-weight-bold btnStyles bg-white mb-2 col-md text-center"
-                 style="border-color: navy!important;letter-spacing: unset">
-            {{ x.name }}
+        <v-card flat class="transparent" style="position: sticky; top: 78px">
+          <v-btn
+            v-show="x.slug !== null && x.slug !== undefined"
+            @click="goTo(x.id, x.slug)"
+            :key="x.slug"
+            v-for="x in pages"
+            :class="{ 'bg-indigo btnActive': isActive === x.slug }"
+            class="font-weight-bold btnStyles bg-white mb-2 col-md text-center"
+            style="border-color: navy !important; letter-spacing: unset"
+          >
+            {{
+              "MENUS." + x.name !== i18n.t("MENUS." + x.name)
+                ? i18n.t("MENUS." + x.name)
+                : x.name
+            }}
           </v-btn>
         </v-card>
       </v-col>
 
       <v-col cols="12" md="8" class="pa-0 pa-md-2">
-        <v-card class="cardMine" min-height="230" style="position: sticky; top: 78px">
-          <v-card-title class="sticky-top align-center popup-title pa-2 pa-md-4">
-            <tabs-tutorial v-model="tabModel" :tab-items="tabItems"/>
-            <v-progress-linear v-show="!tutorials && showLoading" indeterminate color="primary"/>
+        <v-card
+          class="cardMine"
+          min-height="230"
+          style="position: sticky; top: 78px"
+        >
+          <v-card-title
+            class="sticky-top align-center popup-title pa-2 pa-md-4"
+          >
+            <tabs-tutorial v-model="tabModel" :tab-items="tabItems" />
+            <v-progress-linear
+              v-show="!tutorials && showLoading"
+              indeterminate
+              color="primary"
+            />
           </v-card-title>
 
           <v-card-text class="px-0">
-            <items-tutorial v-model="tabModel" :items.sync="tabItems" no-call :called-tuts="tutorials"/>
+            <items-tutorial
+              v-model="tabModel"
+              :items.sync="tabItems"
+              no-call
+              :called-tuts="tutorials"
+            />
           </v-card-text>
 
-          <v-speed-dial direction="top" absolute left bottom transition="slide-y-reverse-transition">
+          <v-speed-dial
+            direction="top"
+            absolute
+            left
+            bottom
+            transition="slide-y-reverse-transition"
+          >
             <template v-slot:activator>
               <v-btn dark fab bottom small color="indigo">
                 <v-icon>mdi-phone</v-icon>
               </v-btn>
             </template>
-            <v-btn small class="text-white font-weight-bold" color="green" target="_blank"
-                   href="https://wa.me/982191017077">
+            <v-btn
+              small
+              class="text-white font-weight-bold"
+              color="green"
+              target="_blank"
+              href="https://wa.me/982191017077"
+            >
               <v-icon class="ml-2">mdi-whatsapp</v-icon>
-              {{ i18n.t('TUTORIALS.WHATSAPP_SUPPORT') }}
+              {{ i18n.t("TUTORIALS.WHATSAPP_SUPPORT") }}
             </v-btn>
-            <v-btn small class="text-white px-5 font-weight-bold" color="primary" href="tel:021-91017077">
+            <v-btn
+              small
+              class="text-white px-5 font-weight-bold"
+              color="primary"
+              href="tel:021-91017077"
+            >
               <v-icon class="ml-2">mdi-phone</v-icon>
-              {{ persianNum('021-91017077') }}
+              {{ persianNum("021-91017077") }}
             </v-btn>
-            <v-btn small class="text-white text-dark px-7 font-weight-bold" color="warning"
-                   href="https://core.terminalads.com/#/tickets/create" target="_blank">
+            <v-btn
+              small
+              class="text-white text-dark px-7 font-weight-bold"
+              color="warning"
+              href="https://core.terminalads.com/#/tickets/create"
+              target="_blank"
+            >
               <v-icon class="ml-2">mdi-chat</v-icon>
-              {{ i18n.t('TUTORIALS.TICKET_SUPPORT') }}
+              {{ i18n.t("TUTORIALS.TICKET_SUPPORT") }}
             </v-btn>
           </v-speed-dial>
         </v-card>
@@ -76,11 +134,11 @@
 <script>
 import TabsTutorial from "../components/tabsTutorial";
 import ItemsTutorial from "../components/itemsTutorial";
-import {FreeMode, Navigation, Swiper} from 'swiper';
+import { FreeMode, Navigation, Swiper } from "swiper";
 import "swiper/swiper-bundle.min.css";
 import i18n from "../plugins/EasyModal/i18n";
 
-let swiper = null
+let swiper = null;
 
 export default {
   name: "tutorials",
@@ -89,7 +147,7 @@ export default {
     loading: Boolean,
   },
 
-  components: {ItemsTutorial, TabsTutorial},
+  components: { ItemsTutorial, TabsTutorial },
 
   data() {
     return {
@@ -97,9 +155,9 @@ export default {
       showLoading: false,
       tab: 0,
       tabModel: 0,
-      isActive: '',
+      isActive: "",
       serverId: null,
-      activeProject: 'terminal',
+      activeProject: "terminal",
       guidence: [],
       guidList: [
         // {name: 'سامانه فروشگاه آنلاین شخصی', value: 'shopOnline'},
@@ -120,12 +178,12 @@ export default {
       tutorials: null,
       tabItems: [],
       pages: [],
-      i18n
-    }
+      i18n,
+    };
   },
 
   mounted() {
-    this.getPageList()
+    this.getPageList();
 
     swiper = new Swiper(`.swiper`, {
       // Optional parameters
@@ -138,120 +196,124 @@ export default {
       breakpoints: {
         1920: {
           slidesPerView: 5.4,
-          spaceBetween: 20
+          spaceBetween: 20,
         },
         1264: {
           slidesPerView: 4.4,
-          spaceBetween: 20
+          spaceBetween: 20,
         },
         960: {
           slidesPerView: 3.3,
-          spaceBetween: 20
+          spaceBetween: 20,
         },
         600: {
           slidesPerView: 2.2,
         },
         320: {
           slidesPerView: 1.1,
-        }
+        },
       },
       // remove unused modules if needed
       modules: [Navigation, FreeMode],
       // Navigation arrows if needed
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
       },
-    })
+    });
   },
 
   watch: {
     loading(val) {
-      this.showLoading = val
+      this.showLoading = val;
     },
     showLoading(val) {
-      this.$emit('update:loading', val)
-    }
+      this.$emit("update:loading", val);
+    },
   },
 
   beforeMount() {
     this.guidList = [
       {
-        name: 'سامانه ترمینال تبلیغات',
-        value: 'terminal',
-        sid: '1',
-        img: require('../assets/img/guids/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png')
+        name: "سامانه ترمینال تبلیغات",
+        value: "terminal",
+        sid: "1",
+        img: require("../assets/img/guids/s5wXoRhzyw9PkGXA8qnIL2yvA3TPiXhwsFrwjmeX.png"),
       },
       {
-        name: 'سامانه ارسال پیامک هدفمند',
-        sid: '2',
-        value: 'sms',
-        img: require('../assets/img/guids/payamak-land.png')
-
+        name: "سامانه ارسال پیامک هدفمند",
+        sid: "2",
+        value: "sms",
+        img: require("../assets/img/guids/payamak-land.png"),
       },
       {
-        name: 'سامانه تولید QR داینامیک',
-        sid: '3',
-        value: 'qrCode',
-        img: require('../assets/img/guids/qr-land.png')
-
+        name: "سامانه تولید QR داینامیک",
+        sid: "3",
+        value: "qrCode",
+        img: require("../assets/img/guids/qr-land.png"),
       },
       {
-        name: 'سامانه مدیریت‌آگهی‌تبلیغاتی',
-        value: 'rbLand',
-        sid: '4',
-        img: require('../assets/img/guids/robot-land.png')
+        name: "سامانه مدیریت‌آگهی‌تبلیغاتی",
+        value: "rbLand",
+        sid: "4",
+        img: require("../assets/img/guids/robot-land.png"),
       },
       {
-        name: 'سامانه بانک اطلاعات مشاغل کشور',
-        value: 'info',
-        sid: '10',
-        img: require('../assets/img/guids/info-land.png')
+        name: "سامانه بانک اطلاعات مشاغل کشور",
+        value: "info",
+        sid: "10",
+        img: require("../assets/img/guids/info-land.png"),
       },
       {
-        name: 'سامانه مدیریت‌آنلاین فایل املاک',
-        value: 'realEstate',
-        sid: '11',
-        img: require('../assets/img/guids/estate-land.png')
+        name: "سامانه مدیریت‌آنلاین فایل املاک",
+        value: "realEstate",
+        sid: "11",
+        img: require("../assets/img/guids/estate-land.png"),
       },
       {
-        name: 'سامانه خدمات طراحی گرافیکی و ویدئو',
-        value: 'geraphic',
-        sid: '14',
-        img: require('../assets/img/guids/graphic-land-mix.png')
+        name: "سامانه خدمات طراحی گرافیکی و ویدئو",
+        value: "geraphic",
+        sid: "14",
+        img: require("../assets/img/guids/graphic-land-mix.png"),
       },
       {
-        name: 'سامانه طراحی،پشتیبانی و سئوسایت',
-        value: 'digi',
-        sid: '13',
-        img: require('../assets/img/guids/web-land-1.png')
+        name: "سامانه طراحی،پشتیبانی و سئوسایت",
+        value: "digi",
+        sid: "13",
+        img: require("../assets/img/guids/web-land-1.png"),
       },
-    ]
+    ];
   },
 
   methods: {
     getPageList() {
-      this.showLoading = true
-      this.$DashboardAxios.get('/api/contentService')
-          .then(({data}) => {
-            let list = []
-            if (data.data && data.data.length > 0) {
-              list = data.data.sort((a, b) => a - b);
-              this.guidence = this.guidList.filter((item) => list.includes(Number(item.sid)))
-              let index = this.guidence.findIndex(item => Number(item.sid) === Number(this.sid))
-              index = index >= 0 ? index : 0
-              this.activeProject = this.guidence[index].value
-              if (this.$vuetify.breakpoint.smAndDown)
-                this.carouselModel = index
-              this.getPages(this.guidence[index].sid, this.activeProject)
+      this.showLoading = true;
+      this.$DashboardAxios
+        .get("/api/contentService")
+        .then(({ data }) => {
+          let list = [];
+          if (data.data && data.data.length > 0) {
+            list = data.data.sort((a, b) => a - b);
+            this.guidence = this.guidList.filter((item) =>
+              list.includes(Number(item.sid))
+            );
+            let index = this.guidence.findIndex(
+              (item) => Number(item.sid) === Number(this.sid)
+            );
+            index = index >= 0 ? index : 0;
+            this.activeProject = this.guidence[index].value;
+            if (this.$vuetify.breakpoint.smAndDown) this.carouselModel = index;
+            this.getPages(this.guidence[index].sid, this.activeProject);
 
-              setTimeout(() => {
-                swiper.slideTo(index, 500, false)
-              }, 1000)
-            }
-          })
-          .catch(({response}) => console.log('error in get category server list: ', response))
-          .finally(() => this.showLoading = false)
+            setTimeout(() => {
+              swiper.slideTo(index, 500, false);
+            }, 1000);
+          }
+        })
+        .catch(({ response }) =>
+          console.log("error in get category server list: ", response)
+        )
+        .finally(() => (this.showLoading = false));
     },
     // array_move(arr, old_index, new_index) {
     //     if (new_index >= arr.length) {
@@ -265,47 +327,54 @@ export default {
     // },
     goTo(categoryID, value) {
       this.isActive = value;
-      this.getContent(categoryID)
+      this.getContent(categoryID);
     },
     getPages(id, value) {
-      this.showLoading = true
+      this.showLoading = true;
       this.activeProject = value;
-      this.serverId = id
-      this.tutorials = null
-      this.tabModel = 0
-      this.pages = []
-      this.$DashboardAxios.get(`/api/categoryContent?sid=${id}`)
-          .then(({data}) => {
-            let visible = []
-            let pages = data.data.filter((item) => !item.gate || this.ribbon_can(item.gate))
-            for (let p in pages) {
-              if (pages[p].meta_title
-                  && pages[p].meta_title === 'admin'
-                  && !this.ribbon_can('admin_access'))
-                continue
-              visible.push(pages[p])
-            }
-            if (visible?.length > 0) {
-              //     let index = visible.findIndex(item => item.sort_order == 1)
-              //     if (index > 0)
-              //         visible = this.array_move(visible, 0, index)
-              this.goTo(visible[0].id, visible[0].slug)
-            }
-            this.pages = visible
-          })
-          .finally(() => this.showLoading = false)
+      this.serverId = id;
+      this.tutorials = null;
+      this.tabModel = 0;
+      this.pages = [];
+      this.$DashboardAxios
+        .get(`/api/categoryContent?sid=${id}`)
+        .then(({ data }) => {
+          let visible = [];
+          let pages = data.data.filter(
+            (item) => !item.gate || this.ribbon_can(item.gate)
+          );
+          for (let p in pages) {
+            if (
+              pages[p].meta_title &&
+              pages[p].meta_title === "admin" &&
+              !this.ribbon_can("admin_access")
+            )
+              continue;
+            visible.push(pages[p]);
+          }
+          if (visible?.length > 0) {
+            //     let index = visible.findIndex(item => item.sort_order == 1)
+            //     if (index > 0)
+            //         visible = this.array_move(visible, 0, index)
+            this.goTo(visible[0].id, visible[0].slug);
+          }
+          this.pages = visible;
+        })
+        .finally(() => (this.showLoading = false));
     },
     getContent(categoryId) {
-      this.showLoading = true
-      this.tutorials = null
-      this.$DashboardAxios(`/api/categoryTutorial?sid=${this.serverId}&category_id=${categoryId}`)
-          .then(({data}) => {
-            this.tutorials = data.data
-          })
-          .finally(() => this.showLoading = false)
+      this.showLoading = true;
+      this.tutorials = null;
+      this.$DashboardAxios(
+        `/api/categoryTutorial?sid=${this.serverId}&category_id=${categoryId}`
+      )
+        .then(({ data }) => {
+          this.tutorials = data.data;
+        })
+        .finally(() => (this.showLoading = false));
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -316,7 +385,7 @@ export default {
 
 .bg-indigo {
   background-color: #1c0152 !important;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .cardMine {
@@ -337,7 +406,7 @@ export default {
 
 .btnStyles {
   border-radius: 15px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   box-shadow: 5px 5px 5px #7e8299;
   border: 2px solid #1c0152 !important;
   letter-spacing: unset;
@@ -349,34 +418,33 @@ export default {
 
 .btnActive {
   border-radius: 15px;
-  background-color: #FFFFFF;
-  color: #F49D1A;
+  background-color: #ffffff;
+  color: #f49d1a;
   box-shadow: 5px 5px 5px #7e8299;
 }
 
 .cardStyle {
   border-radius: 15px;
   color: #1c0152;
-  background-color: #FFFFFF;
-  box-shadow: 8px 5px 10px #F49D1A;
+  background-color: #ffffff;
+  box-shadow: 8px 5px 10px #f49d1a;
 }
 
 .cardStyle:hover {
   box-shadow: 8px 5px 10px #7e8299;
   background-color: #1c0152;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .cardActive {
   box-shadow: 8px 5px 10px #7e8299 !important;
   background-color: #1c0152 !important;
-  color: #F49D1A !important;
-
+  color: #f49d1a !important;
 }
 
 .popup-title {
   background-size: cover !important;
-  background: linear-gradient(to left, #089D88 0%, #03BACF 51%, #514A9D 100%);
+  background: linear-gradient(to left, #089d88 0%, #03bacf 51%, #514a9d 100%);
   word-break: break-word;
   z-index: 0 !important;
 }

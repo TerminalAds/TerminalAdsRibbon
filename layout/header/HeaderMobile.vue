@@ -30,7 +30,7 @@
           large
           target="_blank"
         >
-          {{ $t("contact/list") }}
+          {{ i18n.t("contact/list") }}
         </v-btn>
       </div>
     </template>

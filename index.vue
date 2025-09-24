@@ -1,64 +1,84 @@
 <template>
-  <v-app v-show="$store.getters['global/isLoaded']" class="d-flex flex-column flex-root"
-         style="background: transparent !important;">
+  <v-app
+    v-show="$store.getters['global/isLoaded']"
+    class="d-flex flex-column flex-root"
+    style="background: transparent !important"
+  >
+    <KTHeader v-if="$vuetify.breakpoint.mdAndUp" />
+    <KTHeaderMobile v-else :dialog.sync="showTuts" />
 
-    <KTHeader v-if="$vuetify.breakpoint.mdAndUp"/>
-    <KTHeaderMobile v-else :dialog.sync="showTuts"/>
-
-    <Loader v-if="loaderEnabled" v-bind:logo="loaderLogo"/>
+    <Loader v-if="loaderEnabled" v-bind:logo="loaderLogo" />
 
     <div class="d-flex flex-row flex-column-fluid page">
       <div id="kt_wrapper" class="d-flex flex-column flex-row-fluid wrapper">
+        <rail-navigation
+          v-if="$vuetify.breakpoint.mdAndUp && i18n.locale === 'fa'"
+        />
 
-        <rail-navigation v-if="$vuetify.breakpoint.mdAndUp"/>
-
-        <div id="kt_content" :class="{'content-dense': $route.name === 'dashboard'}" class="content">
-          <div :class="{'container-fluid': contentFluid, container: !contentFluid}">
+        <div
+          id="kt_content"
+          :class="{ 'content-dense': $route.name === 'dashboard' }"
+          class="content"
+        >
+          <div
+            :class="{
+              'container-fluid': contentFluid,
+              container: !contentFluid,
+            }"
+          >
             <div class="d-block d-md-none">
-              <KTAside v-if="asideEnabled"/>
+              <KTAside v-if="asideEnabled" />
             </div>
 
             <v-main>
               <transition name="fade-in-up">
-                <custom-page v-if="!$route.meta.main_page"/>
-                <router-view v-else/>
+                <custom-page v-if="!$route.meta.main_page" />
+                <router-view v-else />
               </transition>
             </v-main>
           </div>
         </div>
 
-        <v-spacer/>
-        <KTFooter/>
+        <v-spacer />
+        <KTFooter />
       </div>
     </div>
 
-    <easy-modal/>
-    <navigation/>
-    <KTScrollTop/>
-    <refresh-page v-if="showReloadPage"/>
+    <easy-modal />
+    <navigation />
+    <KTScrollTop />
+    <refresh-page v-if="showReloadPage" />
 
-    <bottom-menu-container v-if="$vuetify.breakpoint.smAndDown"/>
+    <bottom-menu-container v-if="$vuetify.breakpoint.smAndDown" />
 
-    <custom-popup v-model="showTuts" :cons="cons" :loading.sync="loading" hide-confirm max-width="1240">
-      <tutorials v-if="showTuts" :loading.sync="loading"/>
+    <custom-popup
+      v-model="showTuts"
+      :cons="cons"
+      :loading.sync="loading"
+      hide-confirm
+      max-width="1240"
+    >
+      <tutorials v-if="showTuts" :loading.sync="loading" />
     </custom-popup>
   </v-app>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import KTAside from "./layout/aside/Aside.vue";
 import KTHeader from "./layout/header/Header.vue";
 import KTHeaderMobile from "./layout/header/HeaderMobile.vue";
-import KTFooter from "./layout/footer/Footer"
+import KTFooter from "./layout/footer/Footer";
 import HtmlClass from "@/core/services/htmlclass.service";
 import KTStickyToolbar from "./layout/extras/StickyToolbar.vue";
 import KTScrollTop from "./layout/extras/ScrollTop";
 import Loader from "./layout/content/Loader.vue";
 import RailNavigation from "./layout/content/RailNavigation";
 import navigation from "./layout/aside/Navigation";
-import {ADD_BODY_CLASSNAME, REMOVE_BODY_CLASSNAME} from "@/core/services/store/htmlclass.module.js";
-
+import {
+  ADD_BODY_CLASSNAME,
+  REMOVE_BODY_CLASSNAME,
+} from "@/core/services/store/htmlclass.module.js";
 import modal from "./components/modals/modal";
 import CustomPage from "./pages/customPage";
 import easyModal from "./plugins/EasyModal/view";
@@ -66,21 +86,8 @@ import CustomPopup from "./plugins/popup/customPopup";
 import Tutorials from "./pages/tutorials";
 import BottomMenuContainer from "./layout/bottomMenu/container";
 import RefreshPage from "./layout/header/refreshPage";
-import {destroyToken} from "./assets/js/jwt.service";
+import { destroyToken } from "./assets/js/jwt.service";
 import i18n from "./plugins/EasyModal/i18n";
-
-!function () {
-  var i = "7WvGxT", a = window, d = document;
-
-  function g() {
-    var g = d.createElement("script"), s = "https://www.goftino.com/widget/" + i,
-      l = localStorage.getItem("goftino_" + i);
-    g.async = !0, g.src = l ? s + "?o=" + l : s;
-    d.getElementsByTagName("head")[0].appendChild(g);
-  }
-
-  "complete" === d.readyState ? g() : a.attachEvent ? a.attachEvent("onload", g) : a.addEventListener("load", g, !1);
-}();
 
 export default {
   name: "index",
@@ -107,62 +114,74 @@ export default {
   data() {
     return {
       i18n,
-      qrUrl: '',
-      coreBack: 'https://www.sarvland.ir',
-      pLandUrl: 'http://localhost:8080/',
+      qrUrl: "",
+      coreBack: "https://www.sarvland.ir",
+      pLandUrl: "http://localhost:8080/",
       showTuts: false,
       loading: false,
       showReloadPage: false,
-     cons: {
-  title: i18n.t('POPUP_TITLES.SYSTEM_GUIDE')
-}
-    }
+      cons: {
+        title: i18n.t("POPUP_TITLES.SYSTEM_GUIDE"),
+      },
+    };
   },
 
   beforeMount() {
-    this.initLocalStorageValues()
+    this.initLocalStorageValues();
     this.$instanceAxios.interceptors.response.use(
-      response => Promise.resolve(response),
-      error => {
+      (response) => Promise.resolve(response),
+      (error) => {
         this.handleResponse(error);
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
-    )
+    );
     this.$DashboardAxios.interceptors.response.use(
-      response => Promise.resolve(response),
-      error => {
+      (response) => Promise.resolve(response),
+      (error) => {
         this.handleResponse(error);
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
-    )
+    );
 
     this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
 
     HtmlClass.init(this.layoutConfig());
 
-    let token = null
-    token = localStorage.getItem('id_token');
+    let token = null;
+    token = localStorage.getItem("id_token");
 
     if (!token || token.length <= 0) {
-      this.showReloadPage = true
+      this.showReloadPage = true;
     }
-    this.$DashboardAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-    this.$instanceAxios.defaults.headers.common['Authorization'] = 'Bearer ' + token
-    this.DHeaders.Authorization = 'Bearer ' + token
+    this.$DashboardAxios.defaults.headers.common["Authorization"] =
+      "Bearer " + token;
+    this.$instanceAxios.defaults.headers.common["Authorization"] =
+      "Bearer " + token;
+    this.DHeaders.Authorization = "Bearer " + token;
+  },
+
+  watch: {
+    "i18n.locale"(newLang) {
+      if (newLang === "fa") {
+        this.loadGoftino();
+      } else {
+        this.removeGoftino();
+      }
+    },
   },
 
   mounted() {
-    this.$root.$on('closeModal', () => this.showReloadPage = false)
-    this.$root.$on('openTuts', () => this.showTuts = true)
-    this.$root.$on('reFetch', this.fetch)
-    this.$root.$on('getWallet', this.getNewWallet)
-    this.$on('offline', () => {
-      this.$modal.showConnectionLost({})
-    })
-    this.$on('online', () => {
-      this.$modal.hideConnectionLost()
-    })
-    this.fetchVpn()
+    this.$root.$on("closeModal", () => (this.showReloadPage = false));
+    this.$root.$on("openTuts", () => (this.showTuts = true));
+    this.$root.$on("reFetch", this.fetch);
+    this.$root.$on("getWallet", this.getNewWallet);
+    this.$on("offline", () => {
+      this.$modal.showConnectionLost({});
+    });
+    this.$on("online", () => {
+      this.$modal.hideConnectionLost();
+    });
+    this.fetchVpn();
 
     setTimeout(() => {
       this.$store.dispatch(REMOVE_BODY_CLASSNAME, "page-loading");
@@ -170,11 +189,16 @@ export default {
 
     this.fetch();
     this.setTutorials();
-    this.updateService({sid: this.sid})
+    this.updateService({ sid: this.sid });
 
-    this.$vuetify.icons.values.clear = 'mdi-close-circle-outline'
-    this.$vuetify.icons.values.saveNew = 'mdi-content-save-plus-outline'
-    this.$vuetify.icons.values.saveConfig = 'mdi-content-save-cog-outline'
+    this.$vuetify.icons.values.clear = "mdi-close-circle-outline";
+    this.$vuetify.icons.values.saveNew = "mdi-content-save-plus-outline";
+    this.$vuetify.icons.values.saveConfig = "mdi-content-save-cog-outline";
+
+    // Load Goftino initially if locale is 'fa'
+    if (this.i18n.locale === "fa") {
+      this.loadGoftino();
+    }
   },
 
   computed: {
@@ -182,217 +206,243 @@ export default {
       "isAuthenticated",
       "breadcrumbs",
       "pageTitle",
-      "layoutConfig"
+      "layoutConfig",
     ]),
-    ...mapGetters('tutorial', [
-      'popups',
-      'popupSlugs',
-    ]),
-    /**
-     * Check if the page loader is enabled
-     * @returns {boolean}
-     */
+    ...mapGetters("tutorial", ["popups", "popupSlugs"]),
     loaderEnabled() {
       return !/false/.test(this.layoutConfig("loader.type"));
     },
-
-    /**
-     * Check if container width is fluid
-     * @returns {boolean}
-     */
     contentFluid() {
       return this.layoutConfig("content.width") === "fluid";
     },
-
-    /**
-     * Page loader logo image using require() function
-     * @returns {string}
-     */
     loaderLogo() {
-      return this.DConfigs.header_logo
+      return this.DConfigs.header_logo;
     },
-
-    /**
-     * Check if the left aside menu is enabled
-     * @returns {boolean}
-     */
     asideEnabled() {
       return !!this.layoutConfig("aside.self.display");
     },
-
-    /**
-     * Set the right toolbar display
-     * @returns {boolean}
-     */
     toolbarDisplay() {
-      // return !!this.layoutConfig("toolbar.display");
       return true;
     },
-
-    /**
-     * Set the subheader display
-     * @returns {boolean}
-     */
     subheaderDisplay() {
       return !!this.layoutConfig("subheader.display");
-    }
+    },
   },
 
   methods: {
+    loadGoftino() {
+      // Prevent loading if already loaded
+      if (document.getElementById("goftino-script")) {
+        return;
+      }
+
+      const goftinoId = "7WvGxT";
+      const script = document.createElement("script");
+      script.id = "goftino-script";
+      script.async = true;
+      const goftinoUrl = `https://www.goftino.com/widget/${goftinoId}`;
+      const localStorageKey = `goftino_${goftinoId}`;
+      const localStorageValue = localStorage.getItem(localStorageKey);
+      script.src = localStorageValue
+        ? `${goftinoUrl}?o=${localStorageValue}`
+        : goftinoUrl;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    },
+
+    removeGoftino() {
+      // Remove Goftino script if it exists
+      const script = document.getElementById("goftino-script");
+      if (script) {
+        script.remove();
+      }
+      // Optionally, clean up any Goftino-related DOM elements or iframes
+      const goftinoElements = document.querySelectorAll(
+        "[id^='goftino_'], [class^='goftino_']"
+      );
+      goftinoElements.forEach((el) => el.remove());
+    },
+
     initLocalStorageValues() {
-      if (localStorage.getItem('firstLogin')) {
-        localStorage.removeItem('firstLogin')
-        window.location.reload()
+      if (localStorage.getItem("firstLogin")) {
+        localStorage.removeItem("firstLogin");
+        window.location.reload();
       }
 
-      if (localStorage.getItem('inviteCode')) {
-        localStorage.removeItem('inviteCode')
+      if (localStorage.getItem("inviteCode")) {
+        localStorage.removeItem("inviteCode");
       }
 
-      if (localStorage.getItem('redirect')) {
-        let redirect = localStorage.getItem('redirect')
-        let arrayUrl = redirect.split(".com")
-        let second = arrayUrl[0] + "/?token=" + localStorage.getItem('id_token')
-        arrayUrl.shift()
-        let finalUrl = ""
+      if (localStorage.getItem("redirect")) {
+        let redirect = localStorage.getItem("redirect");
+        let arrayUrl = redirect.split(".com");
+        let second =
+          arrayUrl[0] + "/?token=" + localStorage.getItem("id_token");
+        arrayUrl.shift();
+        let finalUrl = "";
         arrayUrl.forEach(function (item) {
-          finalUrl += item
-        })
-        window.location = second + finalUrl
-        localStorage.removeItem('redirect')
+          finalUrl += item;
+        });
+        window.location = second + finalUrl;
+        localStorage.removeItem("redirect");
       }
     },
+
     handleResponse(error) {
-      // if (error.response.status === 404) {
-      //     this.$modal.error('خطا', error.response.data.message ?? 'درخواست مورد نظر یافت نشد', undefined, {
-      //         text: this.$t("BUTTONS.BuyAPlane"),
-      //         class: 'success w-100',
-      //         onClick: this.gotoPanel
-      //     }, [{
-      //         text: this.$t("BUTTONS.OK")
-      //     }])
-      // } else
       if (error.response.status === 403) {
-        this.$modal.error(this.$t("ERRORS.NoAccess"),
+        this.$modal.error(
+          this.$t("ERRORS.NoAccess"),
           this.$t("ERRORS.PleasebyeAPlane"),
           undefined,
           {
             text: this.$t("BUTTONS.BuyAPlane"),
-            class: 'success w-100',
-            onClick: this.gotoPanel
+            class: "success w-100",
+            onClick: this.gotoPanel,
           },
-          [{
-            text: this.$t("BUTTONS.OK")
-          }])
+          [
+            {
+              text: this.$t("BUTTONS.OK"),
+            },
+          ]
+        );
       } else if (error.response.status === 402) {
-        this.$modal.wallet(this.$t("ERRORS.NoAccountCharge"), this.$t("ERRORS.PleaseChargeYourAccount"), undefined, {
-          text: this.$t("BUTTONS.AccountCharge"),
-          class: 'success w-100',
-          onClick: this.toggleWalletDialog(true)
-        }, [
+        this.$modal.wallet(
+          this.$t("ERRORS.NoAccountCharge"),
+          this.$t("ERRORS.PleaseChargeYourAccount"),
+          undefined,
           {
-            text: this.$t("BUTTONS.Close")
-          }
-        ])
+            text: this.$t("BUTTONS.AccountCharge"),
+            class: "success w-100",
+            onClick: this.toggleWalletDialog(true),
+          },
+          [
+            {
+              text: this.$t("BUTTONS.Close"),
+            },
+          ]
+        );
       } else if (error.response.status === 401) {
-        // redirect to core and get correct user token
-        const {origin, hash} = window.location;
+        const { origin, hash } = window.location;
         destroyToken(origin, hash.substring(1));
       }
     },
+
     gotoPanel() {
-      window.location.href = 'https://core.terminalads.com/#/panel'
+      window.location.href = "https://core.terminalads.com/#/panel";
     },
-    ...mapActions('tutorial', ['setTutorials']),
-    ...mapActions('ribbon', ['setCore', 'toggleWalletDialog', 'setNewWallet', 'toggleLoading', 'setSectionStatus', 'updateService']),
+
+    ...mapActions("tutorial", ["setTutorials"]),
+    ...mapActions("ribbon", [
+      "setCore",
+      "toggleWalletDialog",
+      "setNewWallet",
+      "toggleLoading",
+      "setSectionStatus",
+      "updateService",
+    ]),
+
     fetch() {
-      this.toggleLoading({field: 'user', status: true})
+      this.toggleLoading({ field: "user", status: true });
 
-      this.$DashboardAxios.get('/api/core')
-        .then(({data}) => {
-          this.setCore(data.data)
-          this.setWalletData(data.data.wallet)
-          this.setSectionStatus({field: 'user', status: true})
-          // this.fetchTuts()
+      this.$DashboardAxios
+        .get("/api/core")
+        .then(({ data }) => {
+          this.setCore(data.data);
+          this.setWalletData(data.data.wallet);
+          this.setSectionStatus({ field: "user", status: true });
         })
-        .catch(({response}) => {
+        .catch(({ response }) => {
           if (response.status !== 401) {
-            this.setSectionStatus({field: 'user', status: false})
-            this.$toast.error(i18n.t('Error.Title') + ' ' + i18n.t('Error.defaultActionText'), {timeout: 5000});
-            this.$DashboardAxios.delete('/api/core/logout')
-              .then(({data}) => console.log('logout: ', data))
-              .catch(({response}) => console.log('error in logout: ', response))
+            this.setSectionStatus({ field: "user", status: false });
+            this.$toast.error(
+              i18n.t("Error.Title") + " " + i18n.t("Error.defaultActionText"),
+              { timeout: 5000 }
+            );
+            this.$DashboardAxios
+              .delete("/api/core/logout")
+              .then(({ data }) => console.log("logout: ", data))
+              .catch(({ response }) =>
+                console.log("error in logout: ", response)
+              )
               .finally(() => {
-                destroyToken()
-              })
+                destroyToken();
+              });
           }
         })
         .finally(() => {
-          this.toggleLoading({field: 'user', status: false})
-          this.getNewWallet()
-        })
+          this.toggleLoading({ field: "user", status: false });
+          this.getNewWallet();
+        });
     },
-    getNewWallet() {
-      this.loading = true
-      this.toggleLoading({field: 'wallet', status: true})
 
-      this.$DashboardAxios.post('https://wallet.terminalads.com/api/wallet', {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('id_token')}`,
-          Accept: 'application/json',
-          "Access-Control-Allow-Origin": "*",
-          'Content-Type': 'application/json',
-        }
-      })
-        .then(({data}) => {
-          this.setNewWallet(Number(data.data.balance.$numberDecimal))
-          this.setSectionStatus({field: 'wallet', status: true})
+    getNewWallet() {
+      this.loading = true;
+      this.toggleLoading({ field: "wallet", status: true });
+
+      this.$DashboardAxios
+        .post(
+          "https://wallet.terminalads.com/api/wallet",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("id_token")}`,
+              Accept: "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(({ data }) => {
+          this.setNewWallet(Number(data.data.balance.$numberDecimal));
+          this.setSectionStatus({ field: "wallet", status: true });
         })
-        .catch(({response}) => {
+        .catch(({ response }) => {
           if (response.status !== 401) {
-            this.setSectionStatus({field: 'wallet', status: false})
+            this.setSectionStatus({ field: "wallet", status: false });
           }
         })
         .finally(() => {
-          this.loading = false
-          this.toggleLoading({field: 'wallet', status: false})
-        })
+          this.loading = false;
+          this.toggleLoading({ field: "wallet", status: false });
+        });
     },
+
     fetchVpn() {
-      let vpn = localStorage.getItem('vpn')
+      let vpn = localStorage.getItem("vpn");
       try {
-        if (vpn) vpn = JSON.parse(vpn)
-        if (typeof vpn !== 'boolean') vpn = false
+        if (vpn) vpn = JSON.parse(vpn);
+        if (typeof vpn !== "boolean") vpn = false;
       } catch (e) {
-        vpn = false
-        console.log("can't parse the tuts:", e)
+        vpn = false;
+        console.log("can't parse the vpn:", e);
       }
-      if (this.$vuetify.breakpoint.mdAndUp) vpn = false
+      if (this.$vuetify.breakpoint.mdAndUp) vpn = false;
 
       if (!vpn) {
         setTimeout(() => {
-          this.$DashboardAxios.get('/api/checkVpn')
-            .then(({data}) => {
-              if (data.data?.iso_code_2 && data.data.iso_code_2 !== 'IR') {
+          this.$DashboardAxios
+            .get("/api/checkVpn")
+            .then(({ data }) => {
+              if (data.data?.iso_code_2 && data.data.iso_code_2 !== "IR") {
                 let obj = {
                   closable: true,
-                  type: 'VPN',
-                  title: 'فیلترشکن شما فعال است',
-                  subtitle: 'برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید',
-                }
-                this.$modal.showConnectionLost(obj)
-                localStorage.setItem('vpn', 'true')
+                  type: "VPN",
+                  title: "فیلترشکن شما فعال است",
+                  subtitle:
+                    "برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید",
+                };
+                this.$modal.showConnectionLost(obj);
+                localStorage.setItem("vpn", "true");
               }
             })
-            .catch(({response}) => {
+            .catch(({ response }) => {
               if (response?.data?.message) {
-                console.log('error in get vpn status: ', response.data.message)
+                console.log("error in get vpn status: ", response.data.message);
               }
-            })
-        }, 1500)
+            });
+        }, 1500);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -416,7 +466,7 @@ export default {
 }
 
 .v-navigation-drawer {
-  background-image: /*linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),*/ url('/media/bg/bg-menu.jpg');
+  background-image: url("/media/bg/bg-menu.jpg");
   background-size: 256px 100%;
   background-repeat: no-repeat;
 }
