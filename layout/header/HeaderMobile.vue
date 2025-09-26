@@ -12,6 +12,17 @@
 
     <template v-slot:extension>
       <div>
+        <KTDropdownLanguage
+          class="ss"
+          style="
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: white solid 1px;
+            margin-right: 8px;
+            margin-left: 8px;
+          "
+        />
         <v-btn
           class="white--text rounded-lg"
           color="rgba(255, 255, 255, .2)"
@@ -30,7 +41,7 @@
           large
           target="_blank"
         >
-          {{ i18n.t("contact/list") }}
+          {{ i18n.t("contactlist") }}
         </v-btn>
       </div>
     </template>
@@ -43,12 +54,14 @@ import KTLayoutHeaderTopbar from "../../assets/js/layout/header-topbar.js";
 import walletButton from "../../pages/transactions/WalletOpenButton";
 import { LOGOUT } from "@/core/services/store/auth.module";
 import i18n from "../../plugins/EasyModal/i18n";
+import KTDropdownLanguage from "../../layout/extras/dropdown/DropdownLanguage.vue";
 
 export default {
   name: "KTHeaderMobile",
 
   components: {
     walletButton,
+    KTDropdownLanguage,
   },
 
   data: () => ({
@@ -118,5 +131,13 @@ export default {
 .app-bar-img >>> .v-responsive__content {
   display: flex;
   align-items: center;
+}
+:deep(.ss .v-btn) {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  border: white solid 1px !important;
+  margin-right: 8px !important;
+  margin-left: 8px !important;
 }
 </style>

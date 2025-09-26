@@ -1052,7 +1052,7 @@ export const locale = {
     "workReports/create": "تقرير العمل",
     "admin/user-guide": "دليل المستخدم",
     phonebook: "نادي العملاء",
-    "contact/list": "اتصال يار (شكرًا على الاتصال)",
+    contactlist: "اتصال يار (شكرًا على الاتصال)",
     "admin/transferRequests": "طلبات السحب",
     "admin/wallet": "المحفظة الجديدة",
     "admin/cdr": "مراقبة المكالمات",

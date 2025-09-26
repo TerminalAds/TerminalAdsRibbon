@@ -1049,7 +1049,7 @@ export const locale = {
     "workReports/create": "گزارش کار",
     "admin/user-guide": "راهنمای کاربر",
     phonebook: "باشگاه مشتریان",
-    "contact/list": "تماس یار (تشکر از تماس)",
+    contactlist: "تماس یار (تشکر از تماس)",
     "admin/transferRequests": "درخواست برداشت",
     "admin/wallet": "کیف پول جدید",
     "admin/cdr": "مانیتور تماس",

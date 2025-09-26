@@ -1050,7 +1050,7 @@ export const locale = {
     "workReports/create": "Create Work Report",
     "admin/user-guide": "User Guide",
     phonebook: "Customer Club",
-    "contact/list": "Contact Assistant",
+    contactlist: "Contact Assistant",
     "admin/transferRequests": "Withdrawal Requests",
     "admin/wallet": "New Wallet",
     "admin/cdr": "Call Monitor",
