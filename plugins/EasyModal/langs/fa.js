@@ -546,6 +546,7 @@ export const locale = {
     SUCCESSFULLY_ADDED: "با موفقیت اضافه شد",
     RELOAD: "بارگیری مجدد",
     CANCEL: "لغو",
+    SUCCESSFULLY_DOWNLOADED: "با موفقیت دانلود شد",
   },
   UPLOAD_EXCEL: {
     DOWNLOAD_SAMPLE: "دانلود و استفاده از فایل نمونه اکسل",
@@ -878,6 +879,7 @@ export const locale = {
     FETCH_ERROR: "خطا در دریافت اخبار!",
   },
   MENUS: {
+    CONTACT_LIST: "لیست تماس‌ها",
     FINDPREFIX: "جستجوی پیشوند",
     // سامانه‌ها
     TICKET_REGISTRATION: "ثبت تیکت",
