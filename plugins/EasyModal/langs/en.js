@@ -1051,6 +1051,7 @@ export const locale = {
     "admin/user-guide": "User Guide",
     phonebook: "Customer Club",
     contactlist: "Contact Assistant",
+    "contact/list": "Contact Assistant",
     "admin/transferRequests": "Withdrawal Requests",
     "admin/wallet": "New Wallet",
     "admin/cdr": "Call Monitor",

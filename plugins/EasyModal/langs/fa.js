@@ -1052,6 +1052,7 @@ export const locale = {
     "admin/user-guide": "راهنمای کاربر",
     phonebook: "باشگاه مشتریان",
     contactlist: "تماس یار (تشکر از تماس)",
+    "contact/list": "تماس یار (تشکر از تماس)",
     "admin/transferRequests": "درخواست برداشت",
     "admin/wallet": "کیف پول جدید",
     "admin/cdr": "مانیتور تماس",
