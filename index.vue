@@ -291,7 +291,7 @@ export default {
       if (error.response.status === 403) {
         this.$modal.error(
           this.$t("ERRORS.NoAccess"),
-          this.$t("ERRORS.PleasebyeAPlane"),
+          this.$t("ERRORS.PleaseBuyAPlane"),
           undefined,
           {
             text: this.$t("BUTTONS.BuyAPlane"),
@@ -354,7 +354,7 @@ export default {
           if (response.status !== 401) {
             this.setSectionStatus({ field: "user", status: false });
             this.$toast.error(
-              i18n.t("Error.Title") + " " + i18n.t("Error.defaultActionText"),
+              i18n.t("ERRORS.Title") + " " + i18n.t("ERRORS.DefaultActionText"),
               { timeout: 5000 }
             );
             this.$DashboardAxios
@@ -426,9 +426,8 @@ export default {
                 let obj = {
                   closable: true,
                   type: "VPN",
-                  title: "فیلترشکن شما فعال است",
-                  subtitle:
-                    "برای بهتر شدن سرعت سامانه، فیلترشکن (vpn) خود را خاموش نمایید",
+                  title: this.$t("ERRORS.VpnDetectedTitle"),
+                  subtitle: this.$t("ERRORS.VpnDetectedSubtitle"),
                 };
                 this.$modal.showConnectionLost(obj);
                 localStorage.setItem("vpn", "true");
