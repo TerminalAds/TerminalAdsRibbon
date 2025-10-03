@@ -182,14 +182,7 @@ export const locale = {
     download: "دانلود",
     deactive: "غیرفعال",
   },
-  general: {
-    row: "ردیف",
-    id: "شناسه",
-    back: "بازگشت",
-    manage: "مدیریت",
-    SENDING: "درحال ارسال",
-    RELOAD: "بارگیری مجدد",
-  },
+
   shortLink: {
     freeShorten: 'لینک‌های خود را "رایگان" کوتاه کنید.',
     clickToSelect: "برای انتخاب، روی لینک مورد نظر کلیک کنید.",
@@ -386,7 +379,60 @@ export const locale = {
     MaxPhoneLimit: "شما نمی توانید بیشتر از 50000 شماره اضافه کنید.",
     NoSelectedLineNumber: "سرشماره‌ای انتخاب نشده است.",
     INVALID_TIMER: "زمان صحیح وارد نمایید",
+    PhoneIsNotValid: "شماره تلفن معتبر نیست",
+    MaxPhoneLimit: "شما نمی‌توانید بیشتر از ۵۰۰۰۰ شماره اضافه کنید.",
+    NoSelectedLineNumber: "سرشماره‌ای انتخاب نشده است.",
+    INVALID_TIMER: "زمان صحیح وارد نمایید",
+    NoAccess: "دسترسی ندارید",
+    PleaseBuyAPlane: "لطفاً یک طرح خریداری کنید",
+    NoAccountCharge: "موجودی حساب کافی نیست",
+    PleaseChargeYourAccount: "لطفاً حساب خود را شارژ کنید",
+    Unauthorized: "عدم دسترسی: لطفاً دوباره وارد شوید",
+    ServerError: "خطای سرور رخ داده است، لطفاً بعداً تلاش کنید",
+    NetworkError: "خطای شبکه: لطفاً اتصال اینترنت خود را بررسی کنید",
+    InvalidInput: "ورودی نامعتبر است",
+    SessionExpired: "جلسه شما منقضی شده است، لطفاً دوباره وارد شوید",
+    TokenInvalid: "توکن نامعتبر است",
+    VpnDetected: "فیلترشکن شما فعال است، لطفاً آن را خاموش کنید",
+    RequestTimeout: "درخواست شما منقضی شد، لطفاً دوباره تلاش کنید",
+    DuplicateEntry: "این مورد قبلاً ثبت شده است",
   },
+
+  BUTTONS: {
+    BuyAPlane: "خرید طرح",
+    AccountCharge: "شارژ حساب",
+    OK: "تأیید",
+    Close: "بستن",
+    Cancel: "لغو",
+    Retry: "تلاش مجدد",
+    Login: "ورود",
+    Logout: "خروج",
+    Save: "ذخیره",
+    Submit: "ارسال",
+  },
+  GENERAL: {
+    row: "ردیف",
+    id: "شناسه",
+    back: "بازگشت",
+    manage: "مدیریت",
+    SENDING: "درحال ارسال",
+    RELOAD: "بارگیری مجدد",
+    PRINT: "چاپ",
+    DELETE: "حذف",
+    SUBMIT: "ارسال",
+    SUCCESSFULLY_ADDED: "با موفقیت اضافه شد",
+    RELOAD: "بارگیری مجدد",
+    CANCEL: "لغو",
+    SUCCESSFULLY_DOWNLOADED: "با موفقیت دانلود شد",
+    Loading: "در حال بارگذاری...",
+    NoData: "داده‌ای یافت نشد",
+    Welcome: "خوش آمدید",
+    Profile: "پروفایل",
+    Settings: "تنظیمات",
+    Wallet: "کیف پول",
+    Dashboard: "داشبورد",
+  },
+
   NOTICES: {
     Attention: "توجه فرمایید",
     MinimumSendWarning:
@@ -539,15 +585,7 @@ export const locale = {
     BAHMAN: "بهمن",
     ESFAND: "اسفند",
   },
-  GENERAL: {
-    PRINT: "چاپ",
-    DELETE: "حذف",
-    SUBMIT: "ارسال",
-    SUCCESSFULLY_ADDED: "با موفقیت اضافه شد",
-    RELOAD: "بارگیری مجدد",
-    CANCEL: "لغو",
-    SUCCESSFULLY_DOWNLOADED: "با موفقیت دانلود شد",
-  },
+
   UPLOAD_EXCEL: {
     DOWNLOAD_SAMPLE: "دانلود و استفاده از فایل نمونه اکسل",
     UPLOAD_TITLE: "آپلود فایل",
@@ -646,6 +684,10 @@ export const locale = {
     ADD_PHONE_NUMBER: "افزودن شماره تلفن",
   },
   TOAST: {
+    Success: "عملیات با موفقیت انجام شد",
+    Error: "خطایی رخ داده است",
+    Warning: "هشدار: لطفاً ورودی‌ها را بررسی کنید",
+    AUTO_REFRESH_STARTED: "به‌روزرسانی خودکار شروع شد.",
     DEFAULT_GROUP_SUCCESS: "گروه پیشفرض با موفقیت اضافه شد.",
     DEFAULT_GROUP_ERROR: "خطا در افزودن گروه پیشفرض!",
     ADD_HISTORY_ERROR: "خطا در افزودن تاریخچه مشتری!",
@@ -730,6 +772,11 @@ export const locale = {
     NEWS_SEND: "ارسال خبری",
   },
   POPUP_TITLES: {
+    SYSTEM_GUIDE: "راهنمای سیستم",
+    ERROR: "خطا",
+    WARNING: "هشدار",
+    SUCCESS: "موفقیت",
+    CONFIRM: "تأیید",
     SELECT_GROUP: "انتخاب گروه",
     CREATE_NEW_GROUP: "ایجاد گروه جدید",
     SELECT_GROUP_SUBGROUP: "انتخاب گروه و زیرگروه",
@@ -1123,9 +1170,7 @@ export const locale = {
   MODAL: {
     OK_TITLE: "تایید",
   },
-  TOAST: {
-    AUTO_REFRESH_STARTED: "به‌روزرسانی خودکار شروع شد.",
-  },
+
   ROUTE: {
     TITLES: {
       DASHBOARD: "داشبورد",
