@@ -376,6 +376,9 @@ export const locale = {
     INVALID_LINK: "Enter a valid link",
   },
   ERRORS: {
+    VpnDetectedTitle: "Turn off your VPN",
+    VpnDetectedSubtitle:
+      "This will help the system work better and provide you with a better experience.",
     PhoneIsNotValid: "The phone number is not valid",
     MaxPhoneLimit: "You cannot add more than 50,000 numbers",
     NoSelectedLineNumber: "No line number selected",

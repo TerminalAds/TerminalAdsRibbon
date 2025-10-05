@@ -375,6 +375,9 @@ export const locale = {
     INVALID_LINK: "لینک صحیح وارد نمایید",
   },
   ERRORS: {
+    VpnDetectedTitle: "VPN خود را خاموش کنید",
+    VpnDetectedSubtitle:
+      "این کار باعث می‌شود سامانه بهتر عمل کند و شما تجربه بهتری داشته باشید.",
     PhoneIsNotValid: "شماره تلفن معتبر نیست",
     MaxPhoneLimit: "شما نمی توانید بیشتر از 50000 شماره اضافه کنید.",
     NoSelectedLineNumber: "سرشماره‌ای انتخاب نشده است.",

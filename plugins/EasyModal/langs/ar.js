@@ -526,6 +526,9 @@ export const locale = {
     ESFAND: "ديسمبر",
   },
   ERRORS: {
+    VpnDetectedTitle: "أغلق شبكتك الافتراضية الخاصة",
+    VpnDetectedSubtitle:
+      "سيساعد هذا النظام على العمل بشكل أفضل ويوفر لك تجربة أفضل.",
     PhoneIsNotValid: "رقم الهاتف غير صالح",
     MaxPhoneLimit: "لا يمكنك إضافة أكثر من 50000 رقم.",
     NoSelectedLineNumber: "لم يتم اختيار رقم مصدر.",
