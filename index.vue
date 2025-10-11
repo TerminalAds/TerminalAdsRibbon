@@ -290,33 +290,33 @@ export default {
     handleResponse(error) {
       if (error.response.status === 403) {
         this.$modal.error(
-          this.$t("ERRORS.NoAccess"),
-          this.$t("ERRORS.PleaseBuyAPlane"),
+          i18n.t("ERRORS.NoAccess"),
+          i18n.t("ERRORS.PleaseBuyAPlane"),
           undefined,
           {
-            text: this.$t("BUTTONS.BuyAPlane"),
+            text: i18n.t("BUTTONS.BuyAPlane"),
             class: "success w-100",
             onClick: this.gotoPanel,
           },
           [
             {
-              text: this.$t("BUTTONS.OK"),
+              text: i18n.t("BUTTONS.OK"),
             },
           ]
         );
       } else if (error.response.status === 402) {
         this.$modal.wallet(
-          this.$t("ERRORS.NoAccountCharge"),
-          this.$t("ERRORS.PleaseChargeYourAccount"),
+          i18n.t("ERRORS.NoAccountCharge"),
+          i18n.t("ERRORS.PleaseChargeYourAccount"),
           undefined,
           {
-            text: this.$t("BUTTONS.AccountCharge"),
+            text: i18n.t("BUTTONS.AccountCharge"),
             class: "success w-100",
             onClick: this.toggleWalletDialog(true),
           },
           [
             {
-              text: this.$t("BUTTONS.Close"),
+              text: i18n.t("BUTTONS.Close"),
             },
           ]
         );
@@ -426,8 +426,8 @@ export default {
                 let obj = {
                   closable: true,
                   type: "VPN",
-                  title: this.$t("ERRORS.VpnDetectedTitle"),
-                  subtitle: this.$t("ERRORS.VpnDetectedSubtitle"),
+                  title: i18n.t("ERRORS.VpnDetectedTitle"),
+                  subtitle: i18n.t("ERRORS.VpnDetectedSubtitle"),
                 };
                 this.$modal.showConnectionLost(obj);
                 localStorage.setItem("vpn", "true");
