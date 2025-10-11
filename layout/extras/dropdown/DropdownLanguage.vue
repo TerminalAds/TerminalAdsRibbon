@@ -2,10 +2,10 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        outlined
-        v-bind="attrs"
-        v-on="on"
-        style="
+          outlined
+          v-bind="attrs"
+          v-on="on"
+          style="
           background-color: rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.2);
           color: white;
@@ -14,18 +14,18 @@
           margin-left: 8px;
         "
       >
-        <img :src="current.flag" alt="" width="20" class="mr-2" />
+        <img :src="current.flag" alt="" width="20" class="mr-2"/>
         {{ current.name }}
       </v-btn>
     </template>
 
     <v-list dense>
       <v-list-item
-        v-for="lang in languages"
-        :key="lang.lang"
-        @click="select(lang)"
+          v-for="lang in languages"
+          :key="lang.lang"
+          @click="select(lang)"
       >
-        <img :src="lang.flag" alt="" width="20" class="mr-2" />
+        <img :src="lang.flag" alt="" width="20" class="mr-2"/>
         <v-list-item-title>{{ lang.name }}</v-list-item-title>
       </v-list-item>
     </v-list>
@@ -35,11 +35,12 @@
 <script>
 import i18nService from "@/core/services/i18n.service.js";
 import i18n from "../../../plugins/EasyModal/i18n";
+import {getLanguageCookie} from "../../../utils/languageCookie";
 
 export default {
   data: () => ({
     languages: i18nService.languages,
-    activeLanguage: localStorage.getItem("language") || i18n.locale,
+    activeLanguage: getLanguageCookie() || i18n.locale,
   }),
   computed: {
     current() {
