@@ -92,7 +92,11 @@
             class="menu-link"
             target="_blank"
           >
-            <span class="menu-text">{{ i18n.t("MENUS." + menu?.name) }}</span>
+            <span class="menu-text">{{
+              "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
+                ? i18n.t("MENUS." + menu?.name)
+                : menu?.name
+            }}</span>
           </a>
 
           <router-link
@@ -102,7 +106,11 @@
             active-class="menu-item-active"
             @click.native="closeMenuOnClick()"
           >
-            <span class="menu-text">{{ i18n.t("MENUS." + menu.name) }}</span>
+            <span class="menu-text">{{
+              "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
+                ? i18n.t("MENUS." + menu?.name)
+                : menu?.name
+            }}</span>
           </router-link>
 
           <v-menu v-else close-on-click offset-y open-on-hover>
@@ -114,13 +122,21 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                {{ i18n.t("MENUS." + menu.name) }}
+                {{
+                  "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
+                    ? i18n.t("MENUS." + menu?.name)
+                    : menu?.name
+                }}
               </v-btn>
             </template>
 
             <v-card flat>
               <h3 class="px-2 pt-3 font-size-h6">
-                {{ i18n.t("MENUS." + menu.name) }}
+                {{
+                  "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
+                    ? i18n.t("MENUS." + menu?.name)
+                    : menu?.name
+                }}
               </h3>
               <v-list>
                 <v-list-item
@@ -138,7 +154,11 @@
                   </v-list-item-icon>
                   <v-list-item-title
                     class="py-2"
-                    v-text="i18n.t('MENUS.' + child.name)"
+                    v-text="
+                      'MENUS.' + child.name !== i18n.t('MENUS.' + child.name)
+                        ? i18n.t('MENUS.' + child.name)
+                        : child.name
+                    "
                   />
                 </v-list-item>
               </v-list>

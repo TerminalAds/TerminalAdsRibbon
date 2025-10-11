@@ -7,7 +7,7 @@
         rounded
         @click="showSend = !showSend"
       >
-        {{ i18n.t('FORMS.SEND_TO_SELECTED_NUMBERS') }}
+        {{ i18n.t("FORMS.SEND_TO_SELECTED_NUMBERS") }}
         <v-icon right>mdi-chevron-{{ showSend ? "up" : "down" }}</v-icon>
       </v-btn>
     </v-col>
@@ -34,7 +34,7 @@
             <v-spacer />
             <custom-date-picker
               v-model="date"
-              :label="$t('FORMS.SendTime')"
+              :label="i18n.t('FORMS.SendTime')"
               :min="nowDateTimeString()"
               auto-submit
               display-format="jYYYY-jMM-jDD HH:mm:ss"
@@ -130,7 +130,7 @@
                 @click="sendPattern"
               >
                 <span class="flaticon2-send-1 icon-md"></span>
-                {{ $t("FORMS.Send") }}
+                {{ i18n.t("FORMS.Send") }}
               </v-btn>
             </v-card-actions>
           </v-col>
@@ -147,6 +147,7 @@ import { sendPatternSms } from "../../../assets/js/pattern";
 import GradualList from "../gradualSend/gradualList.vue";
 import { mapGetters, mapState } from "vuex";
 import saveSteps from "@/view/pages/contacts/saveSteps.vue";
+import i18n from "../../../plugins/EasyModal/i18n";
 
 export default {
   name: "contactSendsPattern",
@@ -159,6 +160,7 @@ export default {
   },
 
   data: () => ({
+    i18n,
     dialog: false,
     loading: false,
     showSend: false,
