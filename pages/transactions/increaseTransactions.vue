@@ -79,6 +79,15 @@
         {{ i18n.t('WALLET.Pay') }}
       </v-btn>
     </div>
+
+    <form method="post" :action="paymentForm.action" style="display: none">
+
+      <div v-for="(value,key) in paymentForm.inputs" :key="key">
+        <input type="text" :name="key" :value="value">
+      </div>
+
+      <input type="submit" ref="paymentFormSubmitBtn">
+    </form>
   </div>
 </template>
 
@@ -163,7 +172,11 @@ export default {
         bazar: {img: 'media/gateways/directPay.svg', name: 'پرداخت آزاد'}
       },
       showInApp: false,
-      i18n
+      i18n,
+      paymentForm: {
+        action: undefined,
+        inputs: {}
+      }
     }
   },
 
@@ -174,9 +187,9 @@ export default {
   computed: {
     isValidData() {
       return !!(this.gateways ? this.gateways.length : false)
-        && this.data.price
-        && this.isValidPrice(this.min, this.max)
-        && !!this.data.gateway && !!Object.keys(this.data.gateway).length
+          && this.data.price
+          && this.isValidPrice(this.min, this.max)
+          && !!this.data.gateway && !!Object.keys(this.data.gateway).length
     }
   },
 
@@ -205,19 +218,19 @@ export default {
     },
     getGateways() {
       this.$DashboardAxios.get('/api/core/gateways')
-        .then(({data}) => {
-          if (data) {
-            this.gateways = data.data
-          } else {
+          .then(({data}) => {
+            if (data) {
+              this.gateways = data.data
+            } else {
+              this.gateways = undefined
+            }
+          })
+          .catch(({response}) => {
+            if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
+            else this.$toast.error(i18n.t('WALLET.ErrorGeneral'));
+            this.errors = response.data.errors;
             this.gateways = undefined
-          }
-        })
-        .catch(({response}) => {
-          if (response.data != null && response.data.message != null) this.$toast.error(response.data.message);
-          else this.$toast.error(i18n.t('WALLET.ErrorGeneral'));
-          this.errors = response.data.errors;
-          this.gateways = undefined
-        })
+          })
     },
     payment() {
       if (this.data.gateway.driver === 'bazar') {
@@ -238,22 +251,19 @@ export default {
         amount: this.data.price,
         gateway: this.data.gateway.driver,
         callbackUrl: backUrl
-      })
-        .then(({data}) => {
-          if (['behpardakhtPublic', 'behpardakht'].includes(this.data.gateway.driver)) {
-            this.payBehpardakht(data)
-            return
-          }
+      }).then(({data}) => {
+        if (['behpardakhtPublic', 'behpardakht'].includes(this.data.gateway.driver)) {
+          this.payBehpardakht(data.data.data)
+          return
+        }
 
-          let a = document.createElement('a');
-          a.href = data.data.data.action
-          a.target = '_blank'
-          a.click()
-        })
-        .catch((e) => {
-          this.$toast.error(i18n.t('WALLET.ErrorOnRedirectToGateWay'));
-        })
-        .finally(() => this.loading = false);
+        let a = document.createElement('a');
+        a.href = data.data.data.action
+        a.target = '_blank'
+        a.click()
+      }).catch((e) => {
+        this.$toast.error(i18n.t('WALLET.ErrorOnRedirectToGateWay'));
+      }).finally(() => this.loading = false);
     },
     payBazar() {
       if (this.data.price <= 100000)
@@ -262,26 +272,23 @@ export default {
       this.loading = true
 
       this.$DashboardAxios.get(`https://robot-api.terminalads.com/api/user/bazar?amount=${this.data.price}`)
-        .then(({data}) => {
-          this.$toast.info(i18n.t('WALLET.BazarSuccessInfo'), {timeout: 5000})
-          window.open(data.data.redirect, '_blank');
-          this.toggleWalletDialog(false);
-        })
-        .catch(({response}) => this.$toast.error(i18n.t('WALLET.ErrorOnRedirectToGateWay')))
-        .finally(() => this.loading = false)
+          .then(({data}) => {
+            this.$toast.info(i18n.t('WALLET.BazarSuccessInfo'), {timeout: 5000})
+            window.open(data.data.redirect, '_blank');
+            this.toggleWalletDialog(false);
+          })
+          .catch(({response}) => this.$toast.error(i18n.t('WALLET.ErrorOnRedirectToGateWay')))
+          .finally(() => this.loading = false)
     },
     payBehpardakht(data) {
-      var form = document.createElement("form");
-      form.setAttribute("method", "POST");
-      form.setAttribute("action", "https://bpm.shaparak.ir/pgwchannel/startpay.mellat");
-      form.setAttribute("target", "_self");
-      var hiddenField = document.createElement("input");
-      hiddenField.setAttribute("name", "RefId");
-      hiddenField.setAttribute("value", data?.data?.data?.input?.RefId);
-      form.appendChild(hiddenField);
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
+      this.paymentForm = {
+        action: data.action,
+        inputs: data.inputs
+      }
+
+      this.$nextTick(() => {
+        this.$refs.paymentFormSubmitBtn.click()
+      });
     },
     getGateWayImage(gatewayDriver) {
       switch (gatewayDriver) {
@@ -323,11 +330,6 @@ export default {
 </style>
 
 <style scoped>
-/*.fa-credit-card {*/
-/*  color: blue!important;*/
-/*  text-decoration: none!important;*/
-/*  transition: 0.7s!important;*/
-/*}*/
 
 .activeGateWay {
   border-radius: 1rem !important;
