@@ -168,6 +168,8 @@ export default {
         this.removeGoftino();
       }
     },
+    deep: true,
+    immediate: true,
   },
 
   mounted() {
