@@ -41,7 +41,7 @@
           large
           target="_blank"
         >
-          {{ i18n.t("contactlist") }}
+          {{ i18n.t("router.contactList") }}
         </v-btn>
       </div>
     </template>

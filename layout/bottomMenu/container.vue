@@ -95,7 +95,7 @@ export default {
       {
         link: this.handleMenu,
         icon: "menu-open",
-        title: "MENU_ITEMS.TEXT_INPUT",
+        title: "menu",
         index: 0,
       },
       { link: this.handleHelp, icon: "help", title: "BUTTON.GUIDE", index: 1 },
@@ -115,7 +115,7 @@ export default {
       {
         link: null,
         icon: "dots-vertical",
-        title: "BUTTONS.FROM_FILE",
+        title: "BUTTONS.More",
         component: "MoreButton",
         index: 4,
       },
@@ -129,7 +129,7 @@ export default {
           {
             link: this.handleMenu,
             icon: "menu-open",
-            title: "MENU_ITEMS.TEXT_INPUT",
+            title: "menu",
             index: 0,
           },
           { link: null, icon: "", title: "", index: 1 },
@@ -149,7 +149,7 @@ export default {
           {
             link: null,
             icon: "dots-vertical",
-            title: "BUTTONS.FROM_FILE",
+            title: "BUTTONS.More",
             component: "MoreButton",
             index: 4,
           },

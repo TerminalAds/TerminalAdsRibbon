@@ -565,6 +565,8 @@ export const locale = {
     Logout: "تسجيل الخروج",
     Save: "حفظ",
     Submit: "إرسال",
+    FROM_FILE: "من لف",
+    More: "المزید",
   },
   TOAST: {
     AUTO_REFRESH_STARTED: "بدأ التحديث التلقائي.",

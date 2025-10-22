@@ -402,6 +402,10 @@ export const locale = {
   },
 
   BUTTONS: {
+    DELETE_NUMBERS: "حذف شماره‌ها",
+    ADD_BULK: "افزودن گروهی",
+    FROM_FILE: "از فایل",
+    More: "بیشتر",
     BuyAPlane: "خرید طرح",
     AccountCharge: "شارژ حساب",
     OK: "تأیید",
@@ -490,11 +494,6 @@ export const locale = {
   CONTACT_SEARCH: {
     SEARCH: "جستجو",
     ADD_NUMBER: "شماره اضافه کنید",
-  },
-  BUTTONS: {
-    DELETE_NUMBERS: "حذف شماره‌ها",
-    ADD_BULK: "افزودن گروهی",
-    FROM_FILE: "از فایل",
   },
   CONTACT_PAGINATION: {
     PER_PAGE: "تعداد در هر صفحه",
@@ -1283,7 +1282,7 @@ export const locale = {
     },
   },
   qr_management: "مدیریت Qr",
-router: {
+  router: {
     dashboard: "داشبورد",
     contacts: "باشگاه مشتریان",
     editContact: "ویرایش مشتری",

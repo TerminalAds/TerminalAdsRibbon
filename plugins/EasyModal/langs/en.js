@@ -430,6 +430,7 @@ export const locale = {
     Logout: "Logout",
     Save: "Save",
     Submit: "Submit",
+    More: "More",
   },
   TOAST: {},
   GENERAL: {},
