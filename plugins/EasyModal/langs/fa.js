@@ -1372,4 +1372,7 @@ export const locale = {
     changePassword: "تغییر رمز عبور",
     newWallet: "کیف پول جدید",
   },
+  ticket: {
+    text: "ثبت تیکت",
+  },
 };
