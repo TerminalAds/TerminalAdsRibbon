@@ -356,7 +356,7 @@ export default {
           if (response.status !== 401) {
             this.setSectionStatus({ field: "user", status: false });
             this.$toast.error(
-              i18n.t("ERRORS.Title") + " " + i18n.t("ERRORS.DefaultActionText"),
+              i18n.t("ERROR.Title") + " " + i18n.t("ERROR.DefaultActionText"),
               { timeout: 5000 }
             );
             this.$DashboardAxios
