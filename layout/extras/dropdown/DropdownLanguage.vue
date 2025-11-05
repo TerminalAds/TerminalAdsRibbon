@@ -2,10 +2,10 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-          outlined
-          v-bind="attrs"
-          v-on="on"
-          style="
+        outlined
+        v-bind="attrs"
+        v-on="on"
+        style="
           background-color: rgba(255, 255, 255, 0.2);
           border-color: rgba(255, 255, 255, 0.2);
           color: white;
@@ -14,19 +14,24 @@
           margin-left: 8px;
         "
       >
-        <img :src="current.flag" alt="" width="20" class="mr-2"/>
+        <img :src="current.flag" alt="" width="20" class="mr-2" />
         {{ current.name }}
       </v-btn>
     </template>
 
     <v-list dense>
       <v-list-item
-          v-for="lang in languages"
-          :key="lang.lang"
-          @click="select(lang)"
+        v-for="lang in translatedLanguages"
+        :key="lang.lang"
+        @click="select(lang)"
       >
-        <img :src="lang.flag" alt="" width="20" class="mr-2"/>
-        <v-list-item-title>{{ lang.name }}</v-list-item-title>
+        <img :src="lang.flag" alt="" width="20" class="mr-2" />
+        <v-list-item-content>
+          <v-list-item-title>{{ lang.name }}</v-list-item-title>
+          <v-list-item-subtitle class="text--secondary">
+            {{ lang.subtitle }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -35,7 +40,7 @@
 <script>
 import i18nService from "@/core/services/i18n.service.js";
 import i18n from "../../../plugins/EasyModal/i18n";
-import {getLanguageCookie} from "../../../utils/languageCookie";
+import { getLanguageCookie } from "../../../utils/languageCookie";
 
 export default {
   data: () => ({
@@ -45,6 +50,20 @@ export default {
   computed: {
     current() {
       return this.languages.find((l) => l.lang === this.activeLanguage);
+    },
+    translatedLanguages() {
+      return this.languages.map((lang) => {
+        const translatedName = this.$t(`language.lang.${lang.lang}`);
+        // Fallback: if translation missing, use native name or lang code
+        const subtitle =
+          translatedName !== `language.lang.${lang.lang}`
+            ? translatedName
+            : lang.name;
+        return {
+          ...lang,
+          subtitle: subtitle,
+        };
+      });
     },
   },
   methods: {
