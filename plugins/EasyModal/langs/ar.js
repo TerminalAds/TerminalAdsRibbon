@@ -1174,6 +1174,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL: "إنشاء رمز QR لعجلة الحظ",
       DASHBOARD: "لوحة التحكم",
       ADMIN_QR_DOMAINS: "مراقبة النطاقات",
       ADMIN_TOGETHER_TOKEN: "مراقبة الرموز",

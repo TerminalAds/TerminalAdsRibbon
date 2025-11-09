@@ -1172,6 +1172,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL: "Şans Çarkı QR Kodu Oluştur",
       DASHBOARD: "Gösterge Paneli",
       ADMIN_QR_DOMAINS: "Alan Adı İzleme",
       ADMIN_TOGETHER_TOKEN: "Token İzleme",

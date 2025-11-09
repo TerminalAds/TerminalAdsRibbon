@@ -1175,6 +1175,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL: "ساخت کیو آر چرخونه شانس",
       DASHBOARD: "داشبورد",
       ADMIN_QR_DOMAINS: "مانیتورینگ دامنه‌ها",
       ADMIN_TOGETHER_TOKEN: "مانیتورینگ توکن‌ها",

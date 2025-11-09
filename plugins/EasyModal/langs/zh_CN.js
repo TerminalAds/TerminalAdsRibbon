@@ -1164,6 +1164,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL: "创建运气转盘二维码",
       DASHBOARD: "仪表板",
       ADMIN_QR_DOMAINS: "域名监控",
       ADMIN_TOGETHER_TOKEN: "令牌监控",

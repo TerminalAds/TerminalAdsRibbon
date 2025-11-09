@@ -1183,6 +1183,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL: "Ստեղծել QR կոդ բախտի անիվի համար",
       DASHBOARD: "Վահանակ",
       ADMIN_QR_DOMAINS: "Դոմենների մոնիտորինգ",
       ADMIN_TOGETHER_TOKEN: "Տոկենների մոնիտորինգ",

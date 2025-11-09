@@ -1272,6 +1272,7 @@ export const locale = {
   },
   qr_management: "QR 管理",
   router: {
+    QR_LUCK_WHEEL: "建立運氣轉盤 QR 碼",
     dashboard: "儀表板",
     contacts: "客戶俱樂部",
     editContact: "編輯客戶",

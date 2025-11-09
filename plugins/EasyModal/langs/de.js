@@ -1187,6 +1187,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL: "QR-Code für Glücksrad erstellen",
       DASHBOARD: "Tableau de bord",
       ADMIN_QR_DOMAINS: "Surveillance des domaines",
       ADMIN_TOGETHER_TOKEN: "Surveillance des tokens",
