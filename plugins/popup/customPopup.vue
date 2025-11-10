@@ -32,7 +32,7 @@
           <span
             v-if="!$slots.extension"
             class="font-size-h4 white--text"
-            v-text="cons.title || i18n.t('POPUP_TITLES.SYSTEM_GUIDE')"
+            v-html="titleWithIcon"
           />
           <slot v-if="!$slots.extension" name="helpinfo"></slot>
 
@@ -151,10 +151,18 @@ export default {
     rerender: true,
     cardHeight: null,
     showLoading: false,
-    i18n
+    i18n,
   }),
 
   computed: {
+    titleWithIcon() {
+      if (!this.cons.title) return this.i18n.t("POPUP_TITLES.SYSTEM_GUIDE");
+      if (this.cons.icon) {
+        return `<i class="v-icon mdi mdi-${this.cons.icon} mr-2"></i>${this.cons.title}`;
+      }
+
+      return this.cons.title;
+    },
     computedPopup: {
       get() {
         return this.value;
