@@ -1174,6 +1174,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL_Edit: "Редактировать колесо удачи",
       QR_LUCK_WHEEL: "Создать QR-код для колеса удачи",
       DASHBOARD: "Панель управления",
       ADMIN_QR_DOMAINS: "Мониторинг доменов",

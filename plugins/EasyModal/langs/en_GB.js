@@ -1173,6 +1173,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL_Edit: "Edit Luck Wheel",
       QR_LUCK_WHEEL: "Create QR Luck Wheel",
       DASHBOARD: "Dashboard",
       ADMIN_QR_DOMAINS: "Domain Monitoring",

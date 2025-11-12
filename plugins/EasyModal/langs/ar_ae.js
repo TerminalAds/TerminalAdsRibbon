@@ -1176,6 +1176,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_LUCK_WHEEL_Edit: "تعديل دولاب الحظ",
       QR_LUCK_WHEEL: "سوي كود QR لدريشة الحظ",
       DASHBOARD: "لوحة التحكم",
       ADMIN_QR_DOMAINS: "مراقبة النطاقات",
