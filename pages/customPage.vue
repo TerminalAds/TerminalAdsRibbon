@@ -265,12 +265,6 @@ export default {
   },
 
   mounted() {
-    console.log("i18n instance:", this.i18n);
-    console.log("Current locale:", this.i18n.locale);
-    console.log(
-      "Translation for QR_OTHERS:",
-      this.i18n.t("ROUTE.TITLES.QR_OTHERS")
-    );
     this.project_title = document.title.split(" -")[0];
     this.allTutorials();
 
@@ -375,7 +369,6 @@ export default {
         );
 
         if (this.totalPopup?.length > 0) this.$bvModal.show("modal-scrollable");
-        console.log("watchRoute: title value:", this.title);
         document.title =
           this.project_title +
           (this.title !== "" ? ` - ${this.title} ${this.subTitle ?? ""}` : "");
