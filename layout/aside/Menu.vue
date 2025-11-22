@@ -267,7 +267,7 @@ export default {
       this.downloading = true;
 
       const el = document.createElement("a");
-      el.href = `https://core.terminalads.com/assets/application/DorsanDesk.msi`;
+      el.href = `${this.$coreApi}/assets/application/DorsanDesk.msi`;
       el.setAttribute("download", "DorsanDesk.msi");
       el.setAttribute("target", "_blank");
       el.click();
@@ -280,7 +280,7 @@ export default {
       this.loading = true;
 
       this.$instanceAxios
-        .post("https://robot-api.terminalads.com/api/user/bazar/payment/link", {
+        .post(`${this.$robotApi}/user/bazar/payment/link`, {
           amount: this.amount,
           phone: this.userPhone,
         })

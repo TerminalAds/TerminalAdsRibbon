@@ -329,7 +329,7 @@ export default {
     },
 
     gotoPanel() {
-      window.location.href = "https://core.terminalads.com/#/panel";
+      window.location.href = this.ir("https://core.terminalads.com/#/panel");
     },
 
     ...mapActions("tutorial", ["setTutorials"]),
@@ -382,7 +382,7 @@ export default {
 
       this.$DashboardAxios
         .post(
-          "https://wallet.terminalads.com/api/wallet",
+          this.ir("https://wallet.terminalads.com/api/wallet"),
           {},
           {
             headers: {

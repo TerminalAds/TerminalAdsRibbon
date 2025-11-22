@@ -21,7 +21,7 @@
             <p class="mt-5">
               <a
                 class="text-dark"
-                href="https://core.terminalads.com/#/tickets/create"
+                :href="`${$coreApi}/#/tickets/create`"
                 target="_blank"
               >
                 <span style="font-size: 7pt">{{ i18n.t("ticker.help") }}</span>

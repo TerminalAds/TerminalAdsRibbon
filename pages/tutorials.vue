@@ -118,7 +118,7 @@
               small
               class="text-white text-dark px-7 font-weight-bold"
               color="warning"
-              href="https://core.terminalads.com/#/tickets/create"
+              :href="`${$coreApi}/#/tickets/create`"
               target="_blank"
             >
               <v-icon class="ml-2">mdi-chat</v-icon>

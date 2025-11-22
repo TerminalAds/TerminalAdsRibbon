@@ -1,19 +1,39 @@
 <template>
   <div v-if="dialogShow || isConnectionLostShow">
     <v-row v-if="dialogShow">
-      <wait-status-dialog v-model="isDialogOpened" :closable="!(isLoading || isNotClosable)" :extra-text="extraText"
-                          :loading="isLoading" :width="width" @outsideClick="outsideClick">
+      <wait-status-dialog
+        v-model="isDialogOpened"
+        :closable="!(isLoading || isNotClosable)"
+        :extra-text="extraText"
+        :loading="isLoading"
+        :width="width"
+        @outsideClick="outsideClick"
+      >
         <v-card>
           <v-card-title v-if="!isNotClosable" class="pa-2 justify-end">
-            <v-btn v-b-tooltip="'بستن'" class="px-0" color="rgb(252,193,199)"
-                   depressed min-width="36" @click="closeDialog()">
+            <v-btn
+              v-b-tooltip="'بستن'"
+              class="px-0"
+              color="rgb(252,193,199)"
+              depressed
+              min-width="36"
+              @click="closeDialog()"
+            >
               <v-icon class="text-danger">mdi-close</v-icon>
             </v-btn>
           </v-card-title>
 
-          <v-card-text class="text-center d-flex flex-column justify-center align-center p-0">
+          <v-card-text
+            class="text-center d-flex flex-column justify-center align-center p-0"
+          >
             <div class="d-flex justify-center mb-3 mx-auto">
-              <v-img :src="getIcon" contain max-height="112" max-width="112" width="112"/>
+              <v-img
+                :src="getIcon"
+                contain
+                max-height="112"
+                max-width="112"
+                width="112"
+              />
             </div>
 
             <p class="font-weight-bold font-size-h4 mt-2">
@@ -24,29 +44,64 @@
               {{ description }}
             </p>
 
-            <v-textarea v-if="getData" v-model="getData" class="mt-0 pt-1 mb-0 pb-0 mx-2 w-100" filled
-                        hide-details readonly/>
+            <v-textarea
+              v-if="getData"
+              v-model="getData"
+              class="mt-0 pt-1 mb-0 pb-0 mx-2 w-100"
+              filled
+              hide-details
+              readonly
+            />
 
-            <div class="d-flex flex-wrap justify-content-center align-center mb-0 w-100 px-2">
-              <v-btn v-for="(b, i) in primaryButtons" :key="i"
-                     :class="['mx-2 mt-5 mb-0 white--text', b.class ? b.class : '']"
-                     :color="b.color"
-                     @click="clickOnActions(b)">
-                <v-icon class="me-2">mdi-{{ b.icon ? b.icon : 'check' }}</v-icon>
+            <div
+              class="d-flex flex-wrap justify-content-center align-center mb-0 w-100 px-2"
+            >
+              <v-btn
+                v-for="(b, i) in primaryButtons"
+                :key="i"
+                :class="['mx-2 mt-5 mb-0 white--text', b.class ? b.class : '']"
+                :color="b.color"
+                @click="clickOnActions(b)"
+              >
+                <v-icon class="me-2"
+                  >mdi-{{ b.icon ? b.icon : "check" }}</v-icon
+                >
                 {{ b.text }}
               </v-btn>
             </div>
           </v-card-text>
 
-          <v-card-actions class="flex-column mt-2 justify-center action-wrapper">
-            <v-btn v-if="activeAdsBtn" :color="activeAdsBtn.color" :href="computedAdsHref" block dark target="_blank">
-              <v-icon class="me-2">mdi-{{ activeAdsBtn.icon ? activeAdsBtn.icon : 'chevron-left' }}</v-icon>
+          <v-card-actions
+            class="flex-column mt-2 justify-center action-wrapper"
+          >
+            <v-btn
+              v-if="activeAdsBtn"
+              :color="activeAdsBtn.color"
+              :href="computedAdsHref"
+              block
+              dark
+              target="_blank"
+            >
+              <v-icon class="me-2"
+                >mdi-{{
+                  activeAdsBtn.icon ? activeAdsBtn.icon : "chevron-left"
+                }}</v-icon
+              >
               {{ activeAdsBtn.text }}
             </v-btn>
 
-            <v-btn v-for="(item, i) in actionButtons" :key="i" :class="item.class ? item.class : ''"
-                   :color="item.color ? item.color : '#3ebd47'" block dark @click="clickOnActions(item)">
-              <v-icon class="me-2">mdi-{{ item.icon ? item.icon : 'circle-small' }}</v-icon>
+            <v-btn
+              v-for="(item, i) in actionButtons"
+              :key="i"
+              :class="item.class ? item.class : ''"
+              :color="item.color ? item.color : '#3ebd47'"
+              block
+              dark
+              @click="clickOnActions(item)"
+            >
+              <v-icon class="me-2"
+                >mdi-{{ item.icon ? item.icon : "circle-small" }}</v-icon
+              >
               {{ item.text }}
             </v-btn>
           </v-card-actions>
@@ -55,18 +110,34 @@
     </v-row>
 
     <v-row v-if="isConnectionLostShow">
-      <v-dialog v-model='isLostShow' :persistent="!isConnectClosable" width="250">
+      <v-dialog
+        v-model="isLostShow"
+        :persistent="!isConnectClosable"
+        width="250"
+      >
         <v-card flat width="100%">
           <v-card-title v-if="isConnectClosable" class="pa-2 justify-end">
-            <v-btn v-b-tooltip="'بستن'" class="px-0" color="rgb(252,193,199)"
-                   depressed min-width="36" @click="isLostShow = false">
+            <v-btn
+              v-b-tooltip="'بستن'"
+              class="px-0"
+              color="rgb(252,193,199)"
+              depressed
+              min-width="36"
+              @click="isLostShow = false"
+            >
               <v-icon class="text-danger">mdi-close</v-icon>
             </v-btn>
           </v-card-title>
-          <v-card-text class="d-flex flex-column justify-center align-center pt-4 text-center">
+          <v-card-text
+            class="d-flex flex-column justify-center align-center pt-4 text-center"
+          >
             <div class="d-flex justify-center mb-3 mx-auto">
-              <img :src="getIcon" alt="" loading="eager"
-                   style="width: 112px;max-width: 112px;max-height: 112px"/>
+              <img
+                :src="getIcon"
+                alt=""
+                loading="eager"
+                style="width: 112px; max-width: 112px; max-height: 112px"
+              />
             </div>
 
             <h6 class="primary--text">{{ getConnectionLostTitle }}</h6>
@@ -79,8 +150,8 @@
 </template>
 
 <script>
-import vx from './store/index'
-import WaitStatusDialog from './components/dialogs/WaitStatusDialog'
+import vx from "./store/index";
+import WaitStatusDialog from "./components/dialogs/WaitStatusDialog";
 import {
   ActionButtons,
   Closable,
@@ -93,15 +164,22 @@ import {
   PrimaryButtons,
   Showing,
   Title,
-  Width
+  Width,
 } from "./store/global";
-import {FulfillingBouncingCircleSpinner, SemipolarSpinner} from 'epic-spinners'
-import i18n from './i18n';
+import {
+  FulfillingBouncingCircleSpinner,
+  SemipolarSpinner,
+} from "epic-spinners";
+import i18n from "./i18n";
 
 export default {
   name: "viewEasyModal",
 
-  components: {WaitStatusDialog, FulfillingBouncingCircleSpinner, SemipolarSpinner},
+  components: {
+    WaitStatusDialog,
+    FulfillingBouncingCircleSpinner,
+    SemipolarSpinner,
+  },
 
   data() {
     return {
@@ -111,91 +189,91 @@ export default {
       i18n,
       adsButtons: [
         {
-          text: i18n.t('ADS.LIVE_SMS'),
-          icon: 'message-text',
-          href: 'https://core-sms.terminalads.com',
-          color: '#005f73'
+          text: i18n.t("ADS.LIVE_SMS"),
+          icon: "message-text",
+          href: this.$corepayamakApi,
+          color: "#005f73",
         },
         {
-          text: i18n.t('ADS.BUY_JOB_DB'),
-          icon: 'database-check',
-          href: 'https://core-info.terminalads.com/#/shop/archives',
-          color: '#ae2012'
+          text: i18n.t("ADS.BUY_JOB_DB"),
+          icon: "database-check",
+          href: this.$services[10] + "/#/shop/archives",
+          color: "#ae2012",
         },
         {
-          text: i18n.t('ADS.SMART_LADDER'),
-          icon: 'stairs-up',
-          href: 'https://core-robot.terminalads.com/#/Tools/SmartLadder',
-          color: '#fca311'
+          text: i18n.t("ADS.SMART_LADDER"),
+          icon: "stairs-up",
+          href: this.$robotCoreApi + "/#/Tools/SmartLadder",
+          color: "#fca311",
         },
         {
-          text: i18n.t('ADS.JOB_SMS'),
-          icon: 'wallet-travel',
-          href: 'https://core-sms.terminalads.com/#/JobSms',
-          color: '#7678ed'
+          text: i18n.t("ADS.JOB_SMS"),
+          icon: "wallet-travel",
+          href: this.$services[2] + "/#/JobSms",
+          color: "#7678ed",
         },
         {
-          text: i18n.t('ADS.WEB_DESIGN'),
-          icon: 'web',
-          href: 'https://core-digi.terminalads.com/#/site',
-          color: '#6a994e'
+          text: i18n.t("ADS.WEB_DESIGN"),
+          icon: "web",
+          href: this.$services[13] + "/#/site",
+          color: "#6a994e",
         },
         {
-          text: i18n.t('ADS.SEO'),
-          icon: 'finance',
-          href: 'https://core-digi.terminalads.com/#/seo',
-          color: '#7b2cbf'
+          text: i18n.t("ADS.SEO"),
+          icon: "finance",
+          href: this.$services[13] + "/#/seo",
+          color: "#7b2cbf",
         },
         {
-          text: i18n.t('ADS.MAP_SMS'),
-          icon: 'cellphone-marker',
-          href: 'https://core-sms.terminalads.com/#/MapSms',
-          color: '#0466c8'
+          text: i18n.t("ADS.MAP_SMS"),
+          icon: "cellphone-marker",
+          href: this.$services[2] + "/#/MapSms",
+          color: "#0466c8",
         },
         {
-          text: i18n.t('ADS.GRADUAL_LADDER'),
-          icon: 'angle-acute',
-          href: 'https://core-robot.terminalads.com/#/Tools/gradualLadder',
-          color: '#56ab91'
+          text: i18n.t("ADS.GRADUAL_LADDER"),
+          icon: "angle-acute",
+          href: this.$services[4] + "/#/Tools/gradualLadder",
+          color: "#56ab91",
         },
         {
-          text: i18n.t('ADS.SEO_ALT'),
-          icon: 'bullseye-arrow',
-          href: 'https://core-digi.terminalads.com/#/seo',
-          color: '#85182a'
+          text: i18n.t("ADS.SEO_ALT"),
+          icon: "bullseye-arrow",
+          href: this.$services[13] + "/#/seo",
+          color: "#85182a",
         },
         {
-          text: i18n.t('ADS.SITE_SUPPORT'),
-          icon: 'face-agent',
-          href: 'https://core-digi.terminalads.com/#/support',
-          color: '#058c42'
+          text: i18n.t("ADS.SITE_SUPPORT"),
+          icon: "face-agent",
+          href: this.$services[13] + "/#/support",
+          color: "#058c42",
         },
         {
-          text: i18n.t('ADS.CITY_SMS'),
-          icon: 'home-city',
-          href: 'https://core-sms.terminalads.com/#/CitySms',
-          color: '#a68a64'
+          text: i18n.t("ADS.CITY_SMS"),
+          icon: "home-city",
+          href: this.$services[2] + "/#/CitySms",
+          color: "#a68a64",
         },
         {
-          text: i18n.t('ADS.AUTO_CHAT'),
-          icon: 'text-recognition',
-          href: 'https://core-robot.terminalads.com/#/Tools/autoChats',
-          color: '#ff477e'
+          text: i18n.t("ADS.AUTO_CHAT"),
+          icon: "text-recognition",
+          href: this.$services[4] + "/#/Tools/autoChats",
+          color: "#ff477e",
         },
-      ]
-    }
+      ],
+    };
   },
 
   computed: {
     dialogShow() {
       this.isDialogOpened = vx.getters.isShow;
-      return vx.getters.isShow
+      return vx.getters.isShow;
     },
     isLoading() {
-      return vx.getters[Loading]
+      return vx.getters[Loading];
     },
     isNotClosable() {
-      return vx.getters[Closable]
+      return vx.getters[Closable];
     },
     title() {
       return vx.getters[Title];
@@ -204,19 +282,19 @@ export default {
       return vx.getters[Description];
     },
     extraText() {
-      return vx.getters[ExtraText]
+      return vx.getters[ExtraText];
     },
     primaryButtons() {
       return vx.getters[PrimaryButtons];
     },
     onClose() {
-      return vx.getters[Events.Close]
+      return vx.getters[Events.Close];
     },
     width() {
-      return vx.getters[Width]
+      return vx.getters[Width];
     },
     actionButtons() {
-      return vx.getters[ActionButtons]
+      return vx.getters[ActionButtons];
     },
     getData() {
       return vx.getters[Data];
@@ -225,63 +303,63 @@ export default {
       return vx.getters[Icon];
     },
     isConnectionLostShow() {
-      this.isLostShow = vx.getters['connectionLost/isShow'];
+      this.isLostShow = vx.getters["connectionLost/isShow"];
       return this.isLostShow;
     },
     getConnectionLostTitle() {
-      return vx.getters['connectionLost/title'];
+      return vx.getters["connectionLost/title"];
     },
     getConnectionLostSubtitle() {
-      return vx.getters['connectionLost/subtitle'];
+      return vx.getters["connectionLost/subtitle"];
     },
     isConnectClosable() {
-      return vx.getters['connectionLost/closable']
+      return vx.getters["connectionLost/closable"];
     },
     getConnectionLostButtonText() {
-      return vx.getters['connectionLost/button'];
+      return vx.getters["connectionLost/button"];
     },
     getConnectionLostButtonAction() {
-      return vx.getters['connectionLost/onClick'];
+      return vx.getters["connectionLost/onClick"];
     },
     computedAdsHref() {
-      let token = '?token=' + localStorage.getItem('id_token')
-      if (this.activeAdsBtn.href.indexOf('/#/') > -1) {
-        return this.activeAdsBtn.href.replace('/#/', `/${token}#/`)
+      let token = "?token=" + localStorage.getItem("id_token");
+      if (this.activeAdsBtn.href.indexOf("/#/") > -1) {
+        return this.activeAdsBtn.href.replace("/#/", `/${token}#/`);
       }
-      return this.activeAdsBtn.href + token
-    }
+      return this.activeAdsBtn.href + token;
+    },
   },
 
   watch: {
     isDialogOpened(val) {
-      vx.dispatch(Showing, val)
-      let index = this.getCookie('adIndex')
+      vx.dispatch(Showing, val);
+      let index = this.getCookie("adIndex");
 
       if (index && index.length > 0) {
         if (val) {
-          index = Number(index)
+          index = Number(index);
           if (index >= this.adsButtons.length) {
-            index = 0
-            this.setCookie('adIndex', 0)
+            index = 0;
+            this.setCookie("adIndex", 0);
           }
           this.activeAdsBtn = this.adsButtons[index];
-          this.setCookie('adIndex', ++index)
+          this.setCookie("adIndex", ++index);
         }
       } else {
-        this.activeAdsBtn = this.adsButtons[0]
-        this.setCookie('adIndex', 0)
+        this.activeAdsBtn = this.adsButtons[0];
+        this.setCookie("adIndex", 0);
       }
     },
     isLostShow(val) {
-      vx.dispatch("connectionLost/showing", val)
+      vx.dispatch("connectionLost/showing", val);
     },
   },
 
   methods: {
     closeDialog(byUser = true) {
-      vx.dispatch(Showing, false)
+      vx.dispatch(Showing, false);
       if (byUser && this.onClose) {
-        (this.onClose)();
+        this.onClose();
       }
     },
     runButtonEvent(event) {
@@ -302,9 +380,9 @@ export default {
       if (item.onClick) {
         item.onClick();
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -317,7 +395,7 @@ export default {
 }
 
 .action-wrapper {
-  border-top: .1em gray dotted;
+  border-top: 0.1em gray dotted;
 }
 
 .action-wrapper >>> .v-btn {

@@ -100,7 +100,7 @@ export default {
       },
       { link: this.handleHelp, icon: "help", title: "BUTTON.GUIDE", index: 1 },
       {
-        link: "https://core.terminalads.com",
+        link: this.$coreApi,
         icon: "home",
         title: "HOME",
         index: 2,
@@ -134,7 +134,7 @@ export default {
           },
           { link: null, icon: "", title: "", index: 1 },
           {
-            link: "https://core.terminalads.com",
+            link: this.$coreApi,
             icon: "home",
             title: "HOME",
             index: 2,
