@@ -65,6 +65,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Vue from "vue";
+import { ir } from "./check_domain_ir";
 import KTAside from "./layout/aside/Aside.vue";
 import KTHeader from "./layout/header/Header.vue";
 import KTHeaderMobile from "./layout/header/HeaderMobile.vue";
@@ -329,7 +331,7 @@ export default {
     },
 
     gotoPanel() {
-      window.location.href = this.ir("https://core.terminalads.com/#/panel");
+      window.location.href = ir("https://core.terminalads.com/#/panel");
     },
 
     ...mapActions("tutorial", ["setTutorials"]),
@@ -382,7 +384,7 @@ export default {
 
       this.$DashboardAxios
         .post(
-          this.ir("https://wallet.terminalads.com/api/wallet"),
+          ir("https://wallet.terminalads.com/api/wallet"),
           {},
           {
             headers: {

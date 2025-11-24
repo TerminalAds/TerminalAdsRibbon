@@ -71,7 +71,7 @@ export default {
         .then(() => window.location.replace(`${this.$sarveLandFront}`));
     },
     quickUserLink() {
-      return `${this.front_url}/#/profile/my-profile`;
+      return `${this.$coreApi}/#/profile/my-profile`;
     },
   },
 };

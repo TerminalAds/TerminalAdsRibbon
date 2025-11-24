@@ -34,7 +34,7 @@
         </v-btn>
 
         <v-btn
-          :href="front_url + '/#/contact/list'"
+          :href="$coreApi + '/#/contact/list'"
           class="ms-2 white--text rounded-lg"
           color="rgba(255, 255, 255, .2)"
           depressed

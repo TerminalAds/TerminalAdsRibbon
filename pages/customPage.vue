@@ -336,7 +336,7 @@ export default {
     },
     allTutorials() {
       this.loading = true;
-      Axios.get(`${this.core_url}/api/allTutorials`, {
+      Axios.get(`${this.$coreApi3}/api/allTutorials`, {
         headers: this.DHeaders,
         params: {
           sid: this.sid,

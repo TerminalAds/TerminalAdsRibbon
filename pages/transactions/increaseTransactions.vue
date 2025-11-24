@@ -324,7 +324,7 @@ export default {
         this.$toast.error(i18n.t("WALLET.MinAmountError"));
         return;
       }
-      let backUrl = this.front_url + "/#/payment-callback-new";
+      let backUrl = this.$coreApi + "/#/payment-callback-new";
       this.$DashboardAxios
         .post("/api/newWallet/charge", {
           amount: this.data.price,

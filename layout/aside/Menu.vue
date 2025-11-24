@@ -255,7 +255,7 @@ export default {
       }
     },
     homeLink() {
-      return this.front_url || "/";
+      return this.$coreApi || "/";
     },
     getActive(item) {
       let activate = item.children

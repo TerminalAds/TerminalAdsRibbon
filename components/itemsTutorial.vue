@@ -7,7 +7,10 @@
     <v-tabs-items v-if="tutorial" v-model="tab" class="pa-0 pa-md-4">
       <v-tab-item v-if="tutorial && haveFeature">
         <v-card flat>
-          <v-card-text class="pa-2 pa-md-4" v-html="tutorial.features"></v-card-text>
+          <v-card-text
+            class="pa-2 pa-md-4"
+            v-html="tutorial.features"
+          ></v-card-text>
         </v-card>
       </v-tab-item>
 
@@ -17,20 +20,25 @@
             {{ tutorial.title }}
           </v-card-title>
 
-          <v-card-text class="pa-2 pa-md-4" v-html="tutorial.description"/>
+          <v-card-text class="pa-2 pa-md-4" v-html="tutorial.description" />
         </v-card>
       </v-tab-item>
 
       <v-tab-item v-if="hasQuestions && tutorial !== null" class="pa-2">
         <v-expansion-panels flat>
-          <v-expansion-panel v-for="(item, i) in tutorial.extras" :key="i"
-                             class="grey lighten-2 mb-2">
-            <v-expansion-panel-header class="font-size-h4 font-weight-bold text-break">
+          <v-expansion-panel
+            v-for="(item, i) in tutorial.extras"
+            :key="i"
+            class="grey lighten-2 mb-2"
+          >
+            <v-expansion-panel-header
+              class="font-size-h4 font-weight-bold text-break"
+            >
               {{ item.question }}
             </v-expansion-panel-header>
 
             <v-expansion-panel-content class="pt-2 font-size-h6 text-break">
-              <div v-html="item.answer"/>
+              <div v-html="item.answer" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -50,9 +58,8 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 import Axios from "axios";
-
 
 export default {
   name: "itemsTutorial",
@@ -61,7 +68,7 @@ export default {
     value: Number,
     noCall: Boolean,
     calledTuts: [Object, Array],
-    loading: Boolean
+    loading: Boolean,
   },
 
   data: () => ({
@@ -74,17 +81,14 @@ export default {
   }),
 
   beforeCreate() {
-    if (!localStorage.getItem('popup'))
-      localStorage.setItem('popup', "[]");
+    if (!localStorage.getItem("popup")) localStorage.setItem("popup", "[]");
   },
 
   mounted() {
-    if (!this.noCall)
-      this.getTutorial();
-    else
-      this.setTutorials(this.calledTuts)
+    if (!this.noCall) this.getTutorial();
+    else this.setTutorials(this.calledTuts);
 
-    this.tabItems = this.fillItems
+    this.tabItems = this.fillItems;
   },
 
   computed: {
@@ -95,79 +99,85 @@ export default {
     fillItems() {
       return [
         {
-          title: 'معرفی نامه',
-          icon: 'subtitles',
-          color: 'pink',
-          condition: () => this.tutorial !== null && this.haveFeature
+          title: "معرفی نامه",
+          icon: "subtitles",
+          color: "pink",
+          condition: () => this.tutorial !== null && this.haveFeature,
         },
         {
-          title: 'راهنما',
-          icon: 'account',
-          color: 'green',
-          condition: () => this.tutorial !== null
+          title: "راهنما",
+          icon: "account",
+          color: "green",
+          condition: () => this.tutorial !== null,
         },
         {
-          title: 'سوالات متداول',
-          icon: 'help-circle-outline',
-          color: 'indigo',
-          condition: () => this.hasQuestions && this.tutorial !== null
+          title: "سوالات متداول",
+          icon: "help-circle-outline",
+          color: "indigo",
+          condition: () => this.hasQuestions && this.tutorial !== null,
         },
         {
-          title: 'راهنمای ادمین',
-          icon: 'shield-account-outline',
-          color: 'blue',
-          condition: () => this.ribbon_can('admin_access') && this.adminTutorial
+          title: "راهنمای ادمین",
+          icon: "shield-account-outline",
+          color: "blue",
+          condition: () =>
+            this.ribbon_can("admin_access") && this.adminTutorial,
         },
-      ]
+      ];
     },
   },
 
   watch: {
     value(val) {
-      this.tab = val
+      this.tab = val;
     },
     tab(val) {
-      this.$emit('input', val)
+      this.$emit("input", val);
     },
     tabItems(val) {
-      this.$emit('update:items', val)
+      this.$emit("update:items", val);
     },
     calledTuts(val) {
-      this.setTutorials(val)
-      this.tabItems = this.fillItems
+      this.setTutorials(val);
+      this.tabItems = this.fillItems;
     },
     showLoading(val) {
-      this.$emit('update:loading', val)
-    }
+      this.$emit("update:loading", val);
+    },
   },
 
   methods: {
     getTutorial() {
-      let slug = '';
+      let slug = "";
 
       if (Object.keys(this.$route.params).length) {
-        let route = this.$route.path.split("/")
+        let route = this.$route.path.split("/");
         let splicedStr = route.slice(0, route.length - 1).join("/");
         slug = splicedStr.substring(1);
       } else {
         slug = this.$route.path.substring(1);
-
       }
 
       this.showLoading = true;
-      Axios.post(`${this.core_url}/api/contentTutorial`, {
-        slug: slug,
-        sid: this.sid,
-      }, {
-        headers: this.DHeaders
-      }).then(({data}) => {
-        this.setTutorials(data)
-      }).finally(() => {
-        this.showLoading = false
-      });
+      Axios.post(
+        `${this.$coreApi3}/api/contentTutorial`,
+        {
+          slug: slug,
+          sid: this.sid,
+        },
+        {
+          headers: this.DHeaders,
+        }
+      )
+        .then(({ data }) => {
+          this.setTutorials(data);
+        })
+        .finally(() => {
+          this.showLoading = false;
+        });
     },
     setTutorials(data) {
-      this.showLoading = true
+      this.showLoading = true;
       this.tab = 0;
       this.tutorial = null;
       this.adminTutorial = null;
@@ -175,43 +185,41 @@ export default {
 
       if (data && data.length > 0)
         data.forEach((a) => {
-
-          if (a.privilege_type === 'user') {
-            a.extras !== null ? this.hasQuestions = true : false;
+          if (a.privilege_type === "user") {
+            a.extras !== null ? (this.hasQuestions = true) : false;
 
             if (!!a.extras)
               try {
                 let ext = JSON.parse(a.extras);
 
-                if (typeof ext === "string")
-                  ext = JSON.parse(ext);
+                if (typeof ext === "string") ext = JSON.parse(ext);
 
                 // if (this.tutorial.id > 253) {
                 this.tutorial = {
                   ...a,
-                  extras: ext
+                  extras: ext,
                 };
                 // this.tutorial.extras = ext
                 // } else {
                 //   this.tutorial.extras = JSON.parse(JSON.parse(a.extras))
                 // }
               } catch (e) {
-                console.log(e)
+                console.log(e);
               }
           } else {
             this.adminTutorial = a;
-            a.extras !== null ? this.hasQuestions = true : false;
+            a.extras !== null ? (this.hasQuestions = true) : false;
           }
-        })
+        });
 
-      this.tabItems = []
+      this.tabItems = [];
       this.$nextTick(() => {
-        this.tabItems = this.fillItems
-        this.showLoading = false
-      })
-    }
+        this.tabItems = this.fillItems;
+        this.showLoading = false;
+      });
+    },
   },
-}
+};
 </script>
 
 <style scoped>

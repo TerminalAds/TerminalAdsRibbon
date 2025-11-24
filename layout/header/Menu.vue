@@ -197,7 +197,7 @@ export default {
   },
   methods: {
     homeLink() {
-      return this.front_url;
+      return this.$coreApi;
     },
     hasActiveChildren(match) {
       if (!match || match.length <= 0) return false;

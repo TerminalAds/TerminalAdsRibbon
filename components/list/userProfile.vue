@@ -67,7 +67,7 @@ export default {
   }),
   methods: {
     changeProfile() {
-      window.open(`${this.front_url}/#/profile/my-profile`);
+      window.open(`${this.$coreApi}/#/profile/my-profile`);
     },
   },
   computed: {
