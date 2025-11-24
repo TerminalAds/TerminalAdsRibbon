@@ -48,12 +48,17 @@ export default {
   mounted() {
     this.getAllMenus();
   },
-
+  computed: {
+    services() {
+      return this.$services || {};
+    },
+  },
   methods: {
     getAllMenus() {
       const allowedServices = [1, 2, 3, 4, 5, 10, 11, 13, 14];
-      const arr = this.services.map((item) => item.id);
-
+      const userHasAccessTo = Object.keys(this.services)
+        .map(Number)
+        .filter((id) => allowedServices.includes(id));
       this.$instanceAxios
         .get(`${this.$coreApi2}/category/get-all-limited`)
         .then(({ data }) => {
@@ -62,7 +67,7 @@ export default {
               (item) =>
                 !!item.slug &&
                 !!/[A-Za-z]+/.test(item.slug) &&
-                allowedServices.includes(item.service_id)
+                userHasAccessTo.includes(item.service_id)
             )
             .map((item) => ({
               value: item.id,
