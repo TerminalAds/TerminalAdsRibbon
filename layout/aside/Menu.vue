@@ -202,7 +202,11 @@ export default {
     userPhone: undefined,
     amount: 0,
     phoneRule: (v) => {
-      const pattern = /^09\d{9}$/;
+      if (!v) return "شماره موبایل الزامی است";
+
+      // const pattern = /^09\d{9}$/;
+      const pattern = /^\d{8,15}$/;
+
       return pattern.test(v) || "شماره موبایل معتبر نمی‌باشد";
     },
   }),
