@@ -187,7 +187,13 @@ export default {
       isLostShow: false,
       activeAdsBtn: null,
       i18n,
-      adsButtons: [
+      activeAdsBtn: null,
+    };
+  },
+  mounted() {},
+  computed: {
+    adsButtons() {
+      return [
         {
           text: i18n.t("ADS.LIVE_SMS"),
           icon: "message-text",
@@ -260,11 +266,8 @@ export default {
           href: this.$services[4] + "/#/Tools/autoChats",
           color: "#ff477e",
         },
-      ],
-    };
-  },
-
-  computed: {
+      ];
+    },
     dialogShow() {
       this.isDialogOpened = vx.getters.isShow;
       return vx.getters.isShow;
