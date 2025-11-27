@@ -33,7 +33,7 @@
                 role="tab"
                 v-on:click="setActiveTab"
               >
-                {{ i18n.t("messages") }}
+                {{ i18n.t("notification.messages") }}
               </a>
             </li>
 
@@ -46,7 +46,7 @@
                 role="tab"
                 v-on:click="setActiveTab"
               >
-                {{ i18n.t("events") }}
+                {{ i18n.t("notification.events") }}
               </a>
             </li>
           </ul>
@@ -60,7 +60,7 @@
           v-if="unreadNotif === 0"
           class="d-flex flex-center text-center text-muted min-h-200px"
         >
-          <br />{{ i18n.t("no_new_message") }}
+          <br />{{ i18n.t("notification.no_new_message") }}
         </div>
 
         <perfect-scrollbar
@@ -98,14 +98,14 @@
             text
           >
             <v-icon class="me-1" small>mdi-eye</v-icon>
-            {{ i18n.t("show_all") }}
+            {{ i18n.t("notification.show_all") }}
           </v-btn>
         </v-card-actions>
       </b-tab>
 
       <b-tab>
         <div class="d-flex flex-center text-center text-muted min-h-200px">
-          <br />{{ i18n.t("no_new_event") }}
+          <br />{{ i18n.t("notification.no_new_event") }}
         </div>
       </b-tab>
     </b-tabs>
