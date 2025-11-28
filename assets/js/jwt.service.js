@@ -20,6 +20,14 @@ export const destroyToken = (origin, hash) => {
   if (url.searchParams.has("lang")) {
     setLanguageCookie(url.searchParams.get("lang"));
   }
+  const isAlreadyInLoginWithCallback =
+    window.location.hash.includes("#/login") &&
+    (url.searchParams.has("call_back_origin") ||
+      url.searchParams.has("call_back_hash"));
+
+  if (isAlreadyInLoginWithCallback) {
+    return;
+  }
   const loginUrl = Vue.prototype.$coreLogin;
   !!origin && !!hash
     ? window.location.replace(
@@ -29,7 +37,6 @@ export const destroyToken = (origin, hash) => {
       window.location.origin === "https://core.terminalads.ir"
     ? window.location.reload()
     : window.location.replace(loginUrl);
-
 };
 
 export default { getToken, saveToken, destroyToken };
