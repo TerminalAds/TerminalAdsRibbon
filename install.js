@@ -1,4 +1,4 @@
-import DashboardAxios from "axios";
+// import DashboardAxios from "axios";
 import Vuex, { mapActions } from "vuex";
 import ribbon from "./stores/ribbon";
 import phonebook from "./stores/phonebook";
@@ -7,7 +7,8 @@ import VueOffline from "vue-offline";
 import modal from "./plugins/EasyModal/index";
 import i18n from "./plugins/EasyModal/i18n";
 import { setLanguageCookie } from "./utils/languageCookie";
-
+import axiosLib from "axios";
+const axios = axiosLib.default || axiosLib;
 let timer = null;
 
 export default {
@@ -18,16 +19,19 @@ export default {
 
     options.store.registerModule("ribbon", ribbon);
     options.store.registerModule("phonebook", phonebook);
-
+    const rootAxios =
+      options.axios && typeof options.axios.create === "function"
+        ? options.axios
+        : axios;
     Vue.prototype.$instanceAxios = options.axios;
-    Vue.prototype.$DashboardAxios = DashboardAxios.create({
+    Vue.prototype.$DashboardAxios = axios.create({
       baseURL: options.core_url,
       timeout: 15000,
       headers: {
         common: options.headers,
       },
     });
-    Vue.prototype.$payamakAxios = options.axios.create({
+    Vue.prototype.$payamakAxios = rootAxios.create({
       baseURL: Vue.prototype.$payamakApi,
       timeout: 15000,
       headers: options.headers,
