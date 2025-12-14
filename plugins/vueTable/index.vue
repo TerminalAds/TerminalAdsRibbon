@@ -66,6 +66,8 @@
       selectable-key="id"
       v-bind="$attrs"
       v-on="$listeners"
+      @click:row="handleRowClick"
+      class="row-pointer"
     >
       <template
         v-if="$vuetify.breakpoint.mobile"
@@ -245,6 +247,9 @@ export default {
   },
 
   methods: {
+    handleRowClick(item, row) {
+      this.$emit("row-clicked", item);
+    },
     onPagination(immediately = false) {
       if (!immediately && this.computedProps.page === this.data?.current_page)
         return;
@@ -279,5 +284,13 @@ export default {
 .bottom-sticky {
   position: sticky;
   bottom: 0;
+}
+.row-pointer >>> tbody tr {
+  cursor: pointer;
+}
+
+.row-pointer >>> tbody tr:hover,
+.row-pointer >>> tbody tr:active {
+  background-color: #f5f5f5 !important;
 }
 </style>

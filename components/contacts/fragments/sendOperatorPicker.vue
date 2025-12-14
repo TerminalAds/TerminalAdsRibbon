@@ -11,7 +11,19 @@
     outlined
     prepend-inner-icon="sms"
     @change="checkPhoneType"
-  />
+  >
+    <template v-slot:item="{ item }">
+      <span v-html="item.text"></span>
+    </template>
+
+    <template v-slot:selection="{ item }">
+      <span v-html="item.text"></span>
+    </template>
+
+    <template v-slot:no-data>
+      <span class="mx-2">شما هیچ شماره ای ندارید!</span>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script>
