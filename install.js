@@ -8,6 +8,7 @@ import modal from "./plugins/EasyModal/index";
 import i18n from "./plugins/EasyModal/i18n";
 import { setLanguageCookie } from "./utils/languageCookie";
 import axiosLib from "axios";
+import { ir } from "./check_domain_ir";
 const axios = axiosLib.default || axiosLib;
 let timer = null;
 
@@ -25,7 +26,7 @@ export default {
         : axios;
     Vue.prototype.$instanceAxios = options.axios;
     Vue.prototype.$DashboardAxios = axios.create({
-      baseURL: options.core_url,
+      baseURL: ir(options.core_url),
       timeout: 15000,
       headers: {
         common: options.headers,
