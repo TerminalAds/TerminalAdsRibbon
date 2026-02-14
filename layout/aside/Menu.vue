@@ -241,7 +241,6 @@ export default {
           })
           .then(({ data }) => {
             const menus = reformatMenuResponse(data.data);
-            console.log("menus", menus);
             this.setMenus(menus);
             this.setSectionStatus({ field: "menus", status: true });
             this.items = menus;

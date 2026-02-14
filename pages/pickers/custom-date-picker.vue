@@ -123,7 +123,7 @@ export default {
         if (isTime)
           return value
             .map((item) =>
-              moment(`${date_str} ${item}`).format(this.getJFormat)
+              moment(`${date_str} ${item}`).format(this.getJFormat),
             )
             .join(", ");
 
@@ -162,7 +162,6 @@ export default {
       return dates?.map((item) => moment(item).format("YYYY-MM-DD"));
     },
     clearInput() {
-      console.log("value: ", this.value);
       this.computedValuePicker = "";
     },
   },
