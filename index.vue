@@ -135,14 +135,14 @@ export default {
       (error) => {
         this.handleResponse(error);
         return Promise.reject(error);
-      }
+      },
     );
     this.$DashboardAxios.interceptors.response.use(
       (response) => Promise.resolve(response),
       (error) => {
         this.handleResponse(error);
         return Promise.reject(error);
-      }
+      },
     );
 
     this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");
@@ -164,7 +164,7 @@ export default {
 
   watch: {
     "i18n.locale"(newLang) {
-      if (newLang === "fa") {
+      if (newLang === "fa" && !window.location.href.includes("assistantchat")) {
         this.loadGoftino();
       } else {
         this.removeGoftino();
@@ -261,7 +261,7 @@ export default {
       }
       // Optionally, clean up any Goftino-related DOM elements or iframes
       const goftinoElements = document.querySelectorAll(
-        "[id^='goftino_'], [class^='goftino_']"
+        "[id^='goftino_'], [class^='goftino_']",
       );
       goftinoElements.forEach((el) => el.remove());
     },
@@ -306,7 +306,7 @@ export default {
             {
               text: i18n.t("BUTTONS.OK"),
             },
-          ]
+          ],
         );
       } else if (error.response.status === 402) {
         this.$modal.wallet(
@@ -322,7 +322,7 @@ export default {
             {
               text: i18n.t("BUTTONS.Close"),
             },
-          ]
+          ],
         );
       } else if (error.response.status === 401) {
         const { origin, hash } = window.location;
@@ -359,13 +359,13 @@ export default {
             this.setSectionStatus({ field: "user", status: false });
             this.$toast.error(
               i18n.t("ERROR.Title") + " " + i18n.t("ERROR.DefaultActionText"),
-              { timeout: 5000 }
+              { timeout: 5000 },
             );
             this.$DashboardAxios
               .delete("/api/core/logout")
               .then(({ data }) => console.log("logout: ", data))
               .catch(({ response }) =>
-                console.log("error in logout: ", response)
+                console.log("error in logout: ", response),
               )
               .finally(() => {
                 destroyToken();
@@ -393,7 +393,7 @@ export default {
               "Access-Control-Allow-Origin": "*",
               "Content-Type": "application/json",
             },
-          }
+          },
         )
         .then(({ data }) => {
           this.setNewWallet(Number(data.data.balance.$numberDecimal));
