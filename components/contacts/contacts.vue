@@ -275,6 +275,9 @@
                 "
               />
             </v-tab-item>
+            <v-tab-item>
+              <list-award-game v-if="tabs === 4" />
+            </v-tab-item>
           </template>
         </template>
       </custom-tabs>
@@ -293,6 +296,7 @@ import NewContact from "./newContact.vue";
 import ContactsNumberView from "./fragments/contactsNumberView.vue";
 import ContactImportFromExcel from "./fragments/contactImportFromExcel.vue";
 import i18n from "../../plugins/EasyModal/i18n";
+import listAwardGame from "../awardGame/listAwardGame.vue";
 
 export default {
   name: "contacts",
@@ -305,6 +309,7 @@ export default {
     ContactsTags,
     ContactsMenu,
     CustomTabs,
+    listAwardGame,
   },
 
   data() {
@@ -376,6 +381,7 @@ export default {
           text: i18n.t("excel_add"),
           icon: "file-excel",
         },
+        { text: "لیست جوایز", icon: "gift" },
       ];
 
       return this.hasPhonebookPermission("add") ? [...arr, ...s_arr] : arr;
@@ -419,7 +425,7 @@ export default {
             this.selectedPhonebook != null
           ) {
             const activeIndex = data.data.findIndex(
-              (item) => item.id === this.selectedPhonebook
+              (item) => item.id === this.selectedPhonebook,
             );
             this.selectedTag = activeIndex;
             this.setActivePhonebook(activeIndex);
@@ -430,7 +436,7 @@ export default {
           });
         })
         .catch(({ response }) =>
-          console.log("failed in get phone tags: ", response)
+          console.log("failed in get phone tags: ", response),
         )
         .finally(() => (this.loading = false));
     },

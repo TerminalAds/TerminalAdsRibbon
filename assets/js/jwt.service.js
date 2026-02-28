@@ -12,6 +12,9 @@ export const saveToken = (token) => {
 };
 
 export const destroyToken = (origin, hash) => {
+  if (window.location.href.includes("assistantchat")) {
+    return null;
+  }
   const url = new URL(location.href);
   window.localStorage.removeItem(ID_TOKEN_KEY);
   localStorage.removeItem("reloaded");
@@ -31,7 +34,7 @@ export const destroyToken = (origin, hash) => {
   const loginUrl = Vue.prototype.$coreLogin;
   !!origin && !!hash
     ? window.location.replace(
-        `${loginUrl}?call_back_origin=${origin}&call_back_hash=${hash}`
+        `${loginUrl}?call_back_origin=${origin}&call_back_hash=${hash}`,
       )
     : window.location.origin === "https://core.terminalads.com" ||
       window.location.origin === "https://core.terminalads.ir"
