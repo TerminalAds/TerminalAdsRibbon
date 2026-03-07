@@ -292,7 +292,7 @@ export default {
     },
 
     handleResponse(error) {
-      if (error.response.status === 403) {
+      if (error?.response?.status === 403) {
         this.$modal.error(
           i18n.t("ERRORS.NoAccess"),
           i18n.t("ERRORS.PleaseBuyAPlane"),
@@ -308,7 +308,7 @@ export default {
             },
           ],
         );
-      } else if (error.response.status === 402) {
+      } else if (error?.response?.status === 402) {
         this.$modal.wallet(
           i18n.t("ERRORS.NoAccountCharge"),
           i18n.t("ERRORS.PleaseChargeYourAccount"),
@@ -324,7 +324,7 @@ export default {
             },
           ],
         );
-      } else if (error.response.status === 401) {
+      } else if (error?.response?.status === 401) {
         const { origin, hash } = window.location;
         destroyToken(origin, hash.substring(1));
       }
@@ -355,7 +355,7 @@ export default {
           this.setSectionStatus({ field: "user", status: true });
         })
         .catch(({ response }) => {
-          if (response.status !== 401) {
+          if (response?.status !== 401) {
             this.setSectionStatus({ field: "user", status: false });
             this.$toast.error(
               i18n.t("ERROR.Title") + " " + i18n.t("ERROR.DefaultActionText"),
@@ -400,7 +400,7 @@ export default {
           this.setSectionStatus({ field: "wallet", status: true });
         })
         .catch(({ response }) => {
-          if (response.status !== 401) {
+          if (response?.status !== 401) {
             this.setSectionStatus({ field: "wallet", status: false });
           }
         })
