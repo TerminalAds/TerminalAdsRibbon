@@ -1,64 +1,70 @@
 <template>
-  <custom-popup v-model="dialog" :cons="{ title: i18n.t('POPUP.TITLE_OR_BUTTON_TEXT') }">
+  <custom-popup
+    v-model="dialog"
+    :cons="{ title: i18n.t('POPUP.TITLE_OR_BUTTON_TEXT') }"
+  >
     <template v-slot:activator>
       <v-btn
-          :class="
+        :class="
           !!value && !!Object.keys(value).length ? 'btn-edit' : 'btn-refund'
         "
-          :loading="loading"
-          class="ma-0"
-          style="letter-spacing: normal"
+        :loading="loading"
+        class="ma-0"
+        style="letter-spacing: normal"
       >
         <v-icon class="me-2">mdi-plus</v-icon>
-        <span v-if="!!value && !!Object.keys(value).length"
-        >{{ i18n.t('POPUP.BUTTON_EDIT_TEXT') }}</span
-        >
-        <span v-else>{{ i18n.t('POPUP.TITLE_OR_BUTTON_TEXT') }}</span>
+        <span v-if="!!value && !!Object.keys(value).length">{{
+          i18n.t("POPUP.BUTTON_EDIT_TEXT")
+        }}</span>
+        <span v-else>{{ i18n.t("POPUP.TITLE_OR_BUTTON_TEXT") }}</span>
       </v-btn>
     </template>
 
     <v-card :loading="loading" class="pa-4" flat>
       <v-card-title class="pa-2">
         <v-btn
-            :href="$router.resolve({ name: 'text.user.list' }).href"
-            class="btn-refund"
+          :href="$router.resolve({ name: 'text.user.list' }).href"
+          class="btn-refund"
         >
           <v-icon class="me-2">mdi-plus</v-icon>
-          {{ i18n.t('BUTTON.REGISTER_NEW_PATTERN') }}
+          {{ i18n.t("BUTTON.REGISTER_NEW_PATTERN") }}
         </v-btn>
 
         <v-btn
-            :href="$router.resolve({ name: 'user.campaign' }).href"
-            class="btn-send-sms"
+          :href="$router.resolve({ name: 'user.campaign' }).href"
+          class="btn-send-sms"
         >
           <v-icon class="me-2">mdi-plus</v-icon>
-          {{ i18n.t('BUTTON.REGISTER_NEW_CAMPAIGN') }}
+          {{ i18n.t("BUTTON.REGISTER_NEW_CAMPAIGN") }}
         </v-btn>
       </v-card-title>
 
       <custom-tabs
-          v-model="tabs"
-          :tab-items="[{ text: i18n.t('TABS.SELECT_PATTERN') }, { text: i18n.t('TABS.SELECT_CAMPAIGN') }]"
-          grow
+        v-model="tabs"
+        :tab-items="[
+          { text: i18n.t('TABS.SELECT_PATTERN') },
+          { text: i18n.t('TABS.SELECT_CAMPAIGN') },
+        ]"
+        grow
       >
         <template v-slot:staticItems>
           <v-tab-item class="py-4">
             <data-table
-                :columns="columns"
-                :data="data"
-                :per-page="[10, 25, 50, 100, 400]"
-                :translate="translate"
-                @row-clicked="selectRow"
-                @on-table-props-changed="reloadTable"
+              :columns="columns"
+              :data="data"
+              :per-page="[10, 25, 50, 100, 400]"
+              :translate="translate"
+              @row-clicked="selectRow"
+              @on-table-props-changed="reloadTable"
             />
 
             <v-card
-                v-if="(!data.data || !data.data.length) && !loading"
-                class="text-muted text-center font-size-h3 d-flex align-center justify-center"
-                flat
-                height="200"
+              v-if="(!data.data || !data.data.length) && !loading"
+              class="text-muted text-center font-size-h3 d-flex align-center justify-center"
+              flat
+              height="200"
             >
-              {{ i18n.t('NO_DATA.NO_PATTERN') }}
+              {{ i18n.t("NO_DATA.NO_PATTERN") }}
             </v-card>
           </v-tab-item>
 
@@ -93,25 +99,27 @@ export default {
     dialog: false,
     columns: [
       {
-        label: i18n.t('TABLE.ID'),
+        label: i18n.t("TABLE.ID"),
         name: "id",
         orderable: true,
       },
       {
-        label: i18n.t('TABLE.TYPE'),
+        label: i18n.t("TABLE.TYPE"),
         name: "type",
         orderable: true,
         transform: ({ data }) => {
-          return data.type === "pattern" ? i18n.t('TABLE.PATTERN') : i18n.t('TABLE.STATIC');
+          return data.type === "pattern"
+            ? i18n.t("TABLE.PATTERN")
+            : i18n.t("TABLE.STATIC");
         },
       },
       {
-        label: i18n.t('TABLE.TITLE'),
+        label: i18n.t("TABLE.TITLE"),
         name: "title",
         orderable: true,
       },
       {
-        label: i18n.t('TABLE.TEXT'),
+        label: i18n.t("TABLE.TEXT"),
         name: "content",
         transform: ({ data }) => {
           return data.content.substr(0, 70) + "...";
@@ -119,22 +127,22 @@ export default {
         orderable: true,
       },
       {
-        label: i18n.t('TABLE.STATUS'),
+        label: i18n.t("TABLE.STATUS"),
         name: "active",
         transform: ({ data }) => {
           return data.active === 0
-              ? `<p class="badge badge-danger">${i18n.t('TABLE.REJECTED')}</p>`
-              : `<p class="badge badge-success">${i18n.t('TABLE.ACCEPTED')}</p>`;
+            ? `<p class="badge badge-danger">${i18n.t("TABLE.REJECTED")}</p>`
+            : `<p class="badge badge-success">${i18n.t("TABLE.ACCEPTED")}</p>`;
         },
         orderable: true,
       },
     ],
     translate: {
-      nextButton: i18n.t('TABLE.NEXT_BUTTON'),
-      previousButton: i18n.t('TABLE.PREVIOUS_BUTTON'),
-      rowsPerPageText: i18n.t('TABLE.ROWS_PER_PAGE_TEXT'),
-      noDataText: i18n.t('TABLE.NO_DATA_TEXT'),
-      placeholderSearch: i18n.t('TABLE.PLACEHOLDER_SEARCH'),
+      nextButton: i18n.t("TABLE.NEXT_BUTTON"),
+      previousButton: i18n.t("TABLE.PREVIOUS_BUTTON"),
+      rowsPerPageText: i18n.t("TABLE.ROWS_PER_PAGE_TEXT"),
+      noDataText: i18n.t("TABLE.NO_DATA_TEXT"),
+      placeholderSearch: i18n.t("TABLE.PLACEHOLDER_SEARCH"),
     },
     tableProps: {
       search: "",
@@ -156,9 +164,9 @@ export default {
     window.history.replaceState({}, "pattern", "/#/patternSms");
 
     if (
-        queries &&
-        typeof queries === "object" &&
-        Object.keys(queries).length > 0
+      queries &&
+      typeof queries === "object" &&
+      Object.keys(queries).length > 0
     ) {
       if (!!queries.link && !!queries.pattern) {
         this.getData({ ...this.tableProps, Uid: queries.pattern }).then(() => {
@@ -168,7 +176,7 @@ export default {
 
           setTimeout(() => {
             this.computedValue = this.data?.data?.find(
-                (item) => item.id == queries.pattern
+              (item) => item.id == queries.pattern,
             );
             this.$nextTick(() => {
               this.$emit("reload", true);
@@ -218,10 +226,10 @@ export default {
         ...query,
         active: 1,
       })
-          .then(({ data }) => {
-            this.data = data;
-          })
-          .finally(() => (this.loading = false));
+        .then(({ data }) => {
+          this.data = data;
+        })
+        .finally(() => (this.loading = false));
     },
     selectRow(data) {
       const id = data.id;
@@ -237,9 +245,8 @@ export default {
       this.dialog = false;
     },
     selectCamp(data) {
-      console.log(data, "message-list");
       const obj = this.$refs["message-list"]?.data?.data.find(
-          (item) => item.id === data
+        (item) => item.id === data,
       );
       delete obj.id;
 

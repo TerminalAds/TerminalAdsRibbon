@@ -131,7 +131,6 @@ export default {
           let dataToken = url.split("=")[1];
           if (dataToken) {
             saveToken(dataToken);
-            console.log("token set: ", dataToken);
             // this.$store.commit('isAuthenticated', true);
             return document.URL.substr(end);
           }
@@ -182,9 +181,7 @@ export default {
               try {
                 let successful = document.execCommand("copy");
                 let msg = successful ? "successful" : "unsuccessful";
-                console.log("Fallback: Copying text command was " + msg);
               } catch (err) {
-                console.error("Fallback: Oops, unable to copy", err);
                 this.$toast.error("خطا در رونوشت لینک.");
               }
 

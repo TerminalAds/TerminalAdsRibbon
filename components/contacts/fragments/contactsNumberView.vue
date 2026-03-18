@@ -322,7 +322,6 @@ export default {
           this.$toast.success("با موفقیت حذف شد");
         })
         .catch(({ response }) => {
-          console.log("failed to delete contact: ", response);
           if (response?.data?.message) this.$toast.error(response.data.message);
         })
         .finally(() => (this.loading = false));
@@ -489,7 +488,6 @@ export default {
       if (!!this.bulk?.length) {
         this.paginate.current_page = 1;
       } else if (!!this.value?.data?.length) {
-        console.log("props: ", this.props, this.search);
         this.computedProps.phone = this.search;
 
         setTimeout(() => {

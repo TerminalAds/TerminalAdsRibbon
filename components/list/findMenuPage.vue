@@ -78,8 +78,6 @@ export default {
         });
     },
     itemClickHandler(menuItem) {
-      console.log("menu item: ", menuItem);
-
       const token = localStorage.getItem("id_token");
       const baseUrl = this.$services[menuItem.sid];
       let finalUrl;

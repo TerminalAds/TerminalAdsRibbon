@@ -230,7 +230,7 @@ export default {
         },
         {
           value: "VideoGallery",
-          name: "گالری فیلم",
+          name: "گالری ویدئو",
           icon: "video",
         },
         {

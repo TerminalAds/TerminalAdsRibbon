@@ -103,6 +103,7 @@
       :cons="{ title: i18n.t('short_link') }"
       hide-confirm
       max-width="850"
+      reloadable
     >
       <select-short-link
         v-if="openLink"

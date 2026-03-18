@@ -292,7 +292,7 @@ export default {
     },
 
     handleResponse(error) {
-      if (error?.response?.status === 403) {
+      if (!!error?.response && error?.response?.status === 403) {
         this.$modal.error(
           i18n.t("ERRORS.NoAccess"),
           i18n.t("ERRORS.PleaseBuyAPlane"),
@@ -354,8 +354,9 @@ export default {
           this.setWalletData(data.data.wallet);
           this.setSectionStatus({ field: "user", status: true });
         })
-        .catch(({ response }) => {
-          if (response?.status !== 401) {
+        .catch((error) => {
+          const response = error?.response;
+          if (!!response?.status && response?.status !== 401) {
             this.setSectionStatus({ field: "user", status: false });
             this.$toast.error(
               i18n.t("ERROR.Title") + " " + i18n.t("ERROR.DefaultActionText"),
@@ -364,9 +365,9 @@ export default {
             this.$DashboardAxios
               .delete("/api/core/logout")
               .then(({ data }) => console.log("logout: ", data))
-              .catch(({ response }) =>
-                console.log("error in logout: ", response),
-              )
+              .catch((error) => {
+                const response = error.response;
+              })
               .finally(() => {
                 destroyToken();
               });
@@ -399,8 +400,9 @@ export default {
           this.setNewWallet(Number(data.data.balance.$numberDecimal));
           this.setSectionStatus({ field: "wallet", status: true });
         })
-        .catch(({ response }) => {
-          if (response?.status !== 401) {
+        .catch((error) => {
+          const response = error?.response;
+          if (!!response?.status && response?.status !== 401) {
             this.setSectionStatus({ field: "wallet", status: false });
           }
         })
@@ -417,7 +419,6 @@ export default {
         if (typeof vpn !== "boolean") vpn = false;
       } catch (e) {
         vpn = false;
-        console.log("can't parse the vpn:", e);
       }
       if (this.$vuetify.breakpoint.mdAndUp) vpn = false;
 
@@ -437,7 +438,8 @@ export default {
                 localStorage.setItem("vpn", "true");
               }
             })
-            .catch(({ response }) => {
+            .catch((error) => {
+              const response = error?.response;
               if (response?.data?.message) {
                 console.log("error in get vpn status: ", response.data.message);
               }

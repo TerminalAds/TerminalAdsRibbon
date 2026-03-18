@@ -504,7 +504,6 @@ export default {
       console.log("toggleSelection value: ", value);
     },
     changeFieldTag(value) {
-      console.log("changeFieldTag value: ", value);
 
       if (!value?.filter((item) => item.indexOf("date") >= 0)?.length) {
         this.computedProps["datetimes_start"] = undefined;

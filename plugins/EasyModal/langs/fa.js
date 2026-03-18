@@ -1209,7 +1209,7 @@ export const locale = {
       QR_NAME_EDIT_APPLICATION: "ارائه اپلیکیشن",
       QR_NAME_EDIT_APPOINTMENT: "ویرایش نوبت‌دهی",
       QR_NAME_EDIT_PHOTO: "ویرایش گالری عکس",
-      QR_NAME_EDIT_VIDEO: "ویرایش گالری فیلم",
+      QR_NAME_EDIT_VIDEO: "ویرایش گالری ویدئو",
       QR_NAME_EDIT_VOICE: "ویرایش گالری صوتی",
       QR_NAME_EDIT_FEEDBACK: "ویرایش گالری بازخورد",
       QR_NAME_CONSULTATION_QR_EDIT: "ویرایش فرم درخواست",

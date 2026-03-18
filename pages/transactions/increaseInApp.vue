@@ -370,7 +370,6 @@ export default {
         .then(({ data }) => this.charge(data.data.key))
         .catch(({ response }) => {
           this.loading = false;
-          console.log("error in get public key: ", response);
         });
     },
     charge(key) {

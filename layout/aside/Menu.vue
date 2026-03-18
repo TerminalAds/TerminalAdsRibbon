@@ -254,7 +254,6 @@ export default {
           .finally(() => this.toggleLoading({ field: "menus", status: false }));
       } catch (e) {
         this.setSectionStatus({ field: "menus", status: false });
-        console.log("catch error: ", e);
       }
     },
     homeLink() {
