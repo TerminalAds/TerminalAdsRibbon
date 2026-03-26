@@ -123,7 +123,7 @@ export default {
 <style scoped>
 .railNav {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   left: 0;
   background: transparent !important;
 }
