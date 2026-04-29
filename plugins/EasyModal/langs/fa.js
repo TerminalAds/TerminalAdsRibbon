@@ -1175,6 +1175,14 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_PDF: "گالری پی دی اف",
+      QR_NAME_EDIT_PDF: "ویرایش گالری پی دی اف",
+      QR_MULTICART: "کیوار مولتی کارت",
+      QR_MULTICART_EDIT: "ویرایش مولتی کارت کیوار",
+      QR_NAME_PRODUCTPRO: "ویرایش معرفی محصول پرو",
+      QR_PRODUCTPRO: "معرفی محصول پرو",
+      QR_LUCK_WHEEL_Edit: "ویرایش گردونه شانس",
+      QR_NAME_EDIT_CATALOG: "ویرایش کاتالوگ",
       QR_LUCK_WHEEL_Edit: "ویرایش گردونه شانس",
       QR_LUCK_WHEEL: "ساخت کیو آر گردونه شانس",
       DASHBOARD: "داشبورد",

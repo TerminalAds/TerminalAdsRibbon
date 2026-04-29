@@ -183,7 +183,7 @@ export default {
       ],
       tableProps: {
         search: "",
-        filters: {},
+        // filters: {},
         status: "accept",
         length: 10,
         column: "id",
@@ -282,7 +282,7 @@ export default {
       this.$emit("update:loading", true);
       this.campLoading = true;
 
-      this.requestApiGet("campaign/list", params)
+      this.requestApiGet("campaign/list", { params })
         .then(({ data }) => (this.data = data))
         .catch(({ response }) => console.log("error in res: ", response))
         .finally(() => {
