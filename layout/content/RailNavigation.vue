@@ -103,7 +103,6 @@ export default {
 
   methods: {
     handleClick(item) {
-      console.log("event: ", item);
       if (item.type === "btn") {
         let btn = document.createElement("button");
         btn.addEventListener("click", item.href);

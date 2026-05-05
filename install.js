@@ -18,8 +18,12 @@ export default {
     Vue.use(VueOffline);
     Vue.use(modal);
 
-    options.store.registerModule("ribbon", ribbon);
-    options.store.registerModule("phonebook", phonebook);
+    if (!options.store.hasModule("ribbon")) {
+      options.store.registerModule("ribbon", ribbon);
+    }
+    if (!options.store.hasModule("phonebook")) {
+      options.store.registerModule("phonebook", phonebook);
+    }
     const rootAxios =
       options.axios && typeof options.axios.create === "function"
         ? options.axios

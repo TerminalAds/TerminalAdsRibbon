@@ -153,7 +153,7 @@ export default {
 
   mounted() {
     let classes = window.document.querySelectorAll(
-      ".price-wallet .v-input__control .v-text-field__slot *"
+      ".price-wallet .v-input__control .v-text-field__slot *",
     );
     for (let c of classes) {
       c.classList.add("on-scroll-shoed");
@@ -236,11 +236,13 @@ export default {
       this.checking = false;
     },
     walletSocket() {
-      this.$echo
-        .private("wallet." + this.user?.id)
-        .listen(".info", (wall) =>
-          this.setNewWallet(wall.balance["$numberDecimal"])
-        );
+      if (this.$echo && this.user && this.user?.id) {
+        this.$echo
+          .private("wallet." + this.user?.id)
+          .listen(".info", (wall) =>
+            this.setNewWallet(wall?.balance["$numberDecimal"]),
+          );
+      }
     },
   },
 };

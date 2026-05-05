@@ -217,7 +217,6 @@ export default {
     // items: {
     //   deep: true,
     //   handler(val) {
-    //     console.log(val, "itemss");
     //     this.selectedRow = val;
     //   },
     // },

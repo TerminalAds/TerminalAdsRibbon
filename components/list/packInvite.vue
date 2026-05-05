@@ -65,7 +65,7 @@
           <img
             alt=""
             class="img-fluid"
-            src="https://cdn.dribbble.com/users/1247188/screenshots/8699871/media/4676a06d00a58fe9678d80fe1f8bd776.jpg?compress=1&resize=400x300"
+            src="https://cdn.terminalads.com/4676a06d00a58fe9678d80fe1f8bd776.jpg"
             style="max-height: 120px; object-fit: contain; width: 150px"
           />
         </div>
@@ -204,7 +204,7 @@ export default {
             event.preventDefault();
           }
         },
-        false
+        false,
       );
     },
   },
