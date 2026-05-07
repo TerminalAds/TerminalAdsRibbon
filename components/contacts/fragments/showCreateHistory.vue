@@ -220,7 +220,7 @@ export default {
     createNew: false,
     createFields: {
       added_at: "",
-      customer_id: null,
+      // customer_id: null,
       description: "",
       purpose: "",
       remind_date: "",
@@ -245,10 +245,10 @@ export default {
     fetch(params = this.tableProps) {
       this.loading = true;
 
-      params.customer_id = this.item.id;
+      // params.customer_id = this.item.id;
 
       this.$instanceAxios
-        .get(`${this.$fileApi2}contact/history`, { params })
+        .get(`${this.$payamakApi2}contact/history/${this.item.id}`, { params })
         .then(({ data }) => (this.data = data.data))
         .finally(() => (this.loading = false));
     },
@@ -265,12 +265,12 @@ export default {
 
       let e = {
         ...this.createFields,
-        customer_id: this.item.user_id,
+        // customer_id: this.item.user_id,
         contact_id: this.item.id,
       };
 
       this.$instanceAxios
-        .post(`${this.$fileApi2}user/history/customer`, e)
+        .post(`${this.$payamakApi2}contact/history`, e)
         .then(({ data }) => {
           this.fetch();
           this.createNew = false;
