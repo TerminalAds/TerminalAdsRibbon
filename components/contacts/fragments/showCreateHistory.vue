@@ -37,6 +37,10 @@
             {{ item.index + 1 + (data.current_page - 1) * data.per_page }}
           </template>
 
+          <template v-slot:created_at_p="{ item }">
+            {{ datetime(item.created_at_p, "datetime") }}
+          </template>
+
           <template v-slot:remind_date="{ item }">
             {{ datetime(item.remind_date, "datetime") }}
           </template>
