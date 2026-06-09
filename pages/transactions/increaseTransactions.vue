@@ -276,10 +276,10 @@ export default {
       } else {
         this.error = i18n.t("WALLET.PriceNotInRange", {
           min: this.persianNum(
-            String(this.min).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+            String(this.min).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
           ),
           max: this.persianNum(
-            String(this.max).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"),
+            String(this.max).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
           ),
         });
       }
@@ -334,7 +334,7 @@ export default {
         .then(({ data }) => {
           if (
             ["behpardakhtPublic", "behpardakht","sep"].includes(
-              this.data.gateway.driver,
+              this.data.gateway.driver
             )
           ) {
             this.payBehpardakht(data.data.data);
@@ -366,13 +366,9 @@ export default {
           window.open(data.data.redirect, "_blank");
           this.toggleWalletDialog(false);
         })
-        .catch(({ response }) => {
-          if (response?.status === 400) {
-            this.$toast.error(response?.message);
-          } else {
-            this.$toast.error(i18n.t("WALLET.ErrorOnRedirectToGateWay"));
-          }
-        })
+        .catch(({ response }) =>
+          this.$toast.error(i18n.t("WALLET.ErrorOnRedirectToGateWay"))
+        )
         .finally(() => (this.loading = false));
     },
     payBehpardakht(data) {
@@ -396,6 +392,8 @@ export default {
           return "media/gateways/parsian.png";
         case "mellat":
           return "media/gateways/mellat.png";
+        case "sep":
+          return "media/gateways/sep.png";
         case "top":
           return require("../../assets/img/gateways/inAppPayment.png");
         case "behpardakht":
