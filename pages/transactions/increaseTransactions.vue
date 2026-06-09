@@ -240,6 +240,8 @@ export default {
       gateObj: {
         zarinpal: { img: "media/gateways/zarinpal.png", name: "زرین پال" },
         bazar: { img: "media/gateways/directPay.svg", name: "پرداخت آزاد" },
+        sep: { img: "media/gateways/sep.png", name: "سپ" },
+
       },
       showInApp: false,
       i18n,
@@ -332,7 +334,11 @@ export default {
           callbackUrl: backUrl,
         })
         .then(({ data }) => {
-          if (
+          console.log(this.data,"data on wallet")
+          console.log( ["behpardakhtPublic", "behpardakht","sep"].includes(
+              this.data.gateway.driver
+            ))
+           if (
             ["behpardakhtPublic", "behpardakht","sep"].includes(
               this.data.gateway.driver
             )
