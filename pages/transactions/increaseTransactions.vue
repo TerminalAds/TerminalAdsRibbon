@@ -333,7 +333,7 @@ export default {
         })
         .then(({ data }) => {
           if (
-            ["behpardakhtPublic", "behpardakht"].includes(
+            ["behpardakhtPublic", "behpardakht","sep"].includes(
               this.data.gateway.driver,
             )
           ) {
