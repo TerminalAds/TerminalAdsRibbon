@@ -42,12 +42,15 @@
       <custom-tabs
         v-model="tabs"
         :tab-items="[
-          { text: i18n.t('TABS.SELECT_PATTERN') },
-          { text: i18n.t('TABS.SELECT_CAMPAIGN') },
+          { text: 'انتخاب پترن من', icon: 'mdi-card-account-details-outline' },
+          { text: 'انتخاب کمپین من', icon: 'mdi-bullhorn-outline' },
+          { text: 'انتخاب پترن عمومی', icon: 'mdi-card-account-details-star-outline' },
+          { text: 'انتخاب کمپین عمومی', icon: 'mdi-bullhorn-variant-outline' }
         ]"
         grow
       >
         <template v-slot:staticItems>
+          <!-- 0: User Pattern -->
           <v-tab-item class="py-4">
             <data-table
               :columns="columns"
@@ -68,8 +71,35 @@
             </v-card>
           </v-tab-item>
 
+          <!-- 1: User Campaign -->
           <v-tab-item class="py-4">
-            <message-list ref="message-list" :camp-id.sync="campId" />
+            <message-list ref="message-list-user" :camp-id.sync="campId" api-type="user" />
+          </v-tab-item>
+
+          <!-- 2: Public Pattern -->
+          <v-tab-item class="py-4">
+            <data-table
+              :columns="columns"
+              :data="data"
+              :per-page="[10, 25, 50, 100, 400]"
+              :translate="translate"
+              @row-clicked="selectRow"
+              @on-table-props-changed="reloadTable"
+            />
+
+            <v-card
+              v-if="(!data.data || !data.data.length) && !loading"
+              class="text-muted text-center font-size-h3 d-flex align-center justify-center"
+              flat
+              height="200"
+            >
+              {{ i18n.t("NO_DATA.NO_PATTERN") }}
+            </v-card>
+          </v-tab-item>
+
+          <!-- 3: Public Campaign -->
+          <v-tab-item class="py-4">
+            <message-list ref="message-list-public" :camp-id.sync="campId" api-type="public" />
           </v-tab-item>
         </template>
       </custom-tabs>
@@ -214,6 +244,12 @@ export default {
     campId(val) {
       this.selectCamp(val);
     },
+    tabs(val) {
+      if (val === 0 || val === 2) {
+        this.tableProps.search = ""; 
+        this.getData();
+      }
+    }
   },
 
   methods: {
@@ -222,7 +258,9 @@ export default {
       this.search = query.search;
       this.loading = true;
 
-      await this.requestApiGet("text", {
+      const apiPath = this.tabs === 2 ? "text/public" : "text/user";
+
+      await this.requestApiGet(apiPath, {
         ...query,
         active: 1,
       })
@@ -245,9 +283,12 @@ export default {
       this.dialog = false;
     },
     selectCamp(data) {
-      const obj = this.$refs["message-list"]?.data?.data.find(
+      const refName = this.tabs === 3 ? "message-list-public" : "message-list-user";
+      const obj = this.$refs[refName]?.data?.data?.find(
         (item) => item.id === data,
       );
+      
+      if(!obj) return;
       delete obj.id;
 
       this.computedValue = {
@@ -263,5 +304,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
