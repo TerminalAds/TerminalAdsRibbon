@@ -1175,6 +1175,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      DIGI: "مونیتورینگ قیمت‌گذار دیجی‌کالا",
       QR_PDF: "گالری پی دی اف",
       QR_NAME_EDIT_PDF: "ویرایش گالری پی دی اف",
       QR_MULTICART: "کیوار مولتی کارت",
@@ -1183,7 +1184,6 @@ export const locale = {
       QR_PRODUCTPRO: "معرفی محصول پرو",
       QR_LUCK_WHEEL_Edit: "ویرایش گردونه شانس",
       QR_NAME_EDIT_CATALOG: "ویرایش کاتالوگ",
-      QR_LUCK_WHEEL_Edit: "ویرایش گردونه شانس",
       QR_LUCK_WHEEL: "ساخت کیو آر گردونه شانس",
       DASHBOARD: "داشبورد",
       ADMIN_QR_DOMAINS: "مانیتورینگ دامنه‌ها",
@@ -1288,7 +1288,7 @@ export const locale = {
       AUTO_CREATE: "ساخت اتوماتیک کیوآر",
       QR_CREATE: "ساخت کیوآر",
       HISTORY_REMINDER: "مونیتورینگ یادآوری",
-      BOOK: "مونیتورینگ یادآوری",
+      BOOK: "مونیتورینگ یادآوری"
     },
   },
   qr_management: "مدیریت Qr",

@@ -1172,6 +1172,14 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+            DIGI: "Digikala Fiyat Monitörü",
+      QR_PDF: "PDF Galerisi",
+      QR_NAME_EDIT_PDF: "PDF Galerisini Düzenle",
+      QR_MULTICART: "Çoklu QR Kartı",
+      QR_MULTICART_EDIT: "Çoklu QR Kartını Düzenle",
+      QR_PRODUCTPRO: "Ürün Tanıtımı (Pro)",
+      QR_NAME_PRODUCTPRO: "Ürün Tanıtımını Düzenle (Pro)",
+      QR_NAME_EDIT_CATALOG: "Kataloğu Düzenle",
       QR_LUCK_WHEEL_Edit: "Şans Çarkını Düzenle",
       QR_LUCK_WHEEL: "Şans Çarkı QR Kodu Oluştur",
       DASHBOARD: "Gösterge Paneli",
@@ -1277,7 +1285,7 @@ export const locale = {
       AUTO_CREATE: "Otomatik QR Oluştur",
       QR_CREATE: "QR Oluştur",
       HISTORY_REMINDER: "Hatırlatma İzleme",
-      BOOK: "Hatırlatma İzleme",
+      BOOK: "Hatırlatma İzleme"
     },
   },
   qr_management: "QR Yönetimi",

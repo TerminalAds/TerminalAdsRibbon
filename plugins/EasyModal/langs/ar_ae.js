@@ -1176,7 +1176,15 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+           DIGI: "متابعة تسعير ديجي كالا",
+      QR_PDF: "معرض PDF",
+      QR_NAME_EDIT_PDF: "تعديل معرض PDF",
+      QR_MULTICART: "QR بطاقة متعددة",
+      QR_MULTICART_EDIT: "تعديل بطاقة QR المتعددة",
+      QR_NAME_PRODUCTPRO: "تعديل تقديم المنتج برو",
+      QR_PRODUCTPRO: "تقديم المنتج برو",
       QR_LUCK_WHEEL_Edit: "تعديل دولاب الحظ",
+      QR_NAME_EDIT_CATALOG: "تعديل الكتالوج",
       QR_LUCK_WHEEL: "سوي كود QR لدريشة الحظ",
       DASHBOARD: "لوحة التحكم",
       ADMIN_QR_DOMAINS: "مراقبة النطاقات",
@@ -1281,7 +1289,7 @@ export const locale = {
       AUTO_CREATE: "إنشاء QR تلقائي",
       QR_CREATE: "إنشاء QR",
       HISTORY_REMINDER: "مراقبة التذكير",
-      BOOK: "مراقبة التذكير",
+      BOOK: "مراقبة التذكير"
     },
   },
   qr_management: "إدارة QR",

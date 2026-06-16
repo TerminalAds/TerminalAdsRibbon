@@ -1164,6 +1164,14 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+            DIGI: "Digikala 定价监控",
+      QR_PDF: "PDF图库",
+      QR_NAME_EDIT_PDF: "编辑PDF图库",
+      QR_MULTICART: "多重QR卡",
+      QR_MULTICART_EDIT: "编辑多重QR卡",
+      QR_PRODUCTPRO: "产品介绍 (专业版)",
+      QR_NAME_PRODUCTPRO: "编辑产品介绍 (专业版)",
+      QR_NAME_EDIT_CATALOG: "编辑目录",
       QR_LUCK_WHEEL_Edit: "编辑幸运转盘",
       QR_LUCK_WHEEL: "创建运气转盘二维码",
       DASHBOARD: "仪表板",
@@ -1269,7 +1277,7 @@ export const locale = {
       AUTO_CREATE: "自动 QR 创建",
       QR_CREATE: "创建 QR",
       HISTORY_REMINDER: "提醒监控",
-      BOOK: "提醒监控",
+      BOOK: "提醒监控"
     },
   },
   qr_management: "QR 管理",

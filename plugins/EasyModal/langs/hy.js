@@ -1183,6 +1183,14 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+            DIGI: "Digikala-ի գնագոյացման մոնիտորինգ",
+      QR_PDF: "PDF պատկերասրահ",
+      QR_NAME_EDIT_PDF: "Խմբագրել PDF պատկերասրահը",
+      QR_MULTICART: "Բազմակի QR քարտ",
+      QR_MULTICART_EDIT: "Խմբագրել բազմակի QR քարտը",
+      QR_PRODUCTPRO: "Ապրանքի ներկայացում (Պրո)",
+      QR_NAME_PRODUCTPRO: "Խմբագրել ապրանքի ներկայացումը (Պրո)",
+      QR_NAME_EDIT_CATALOG: "Խմբագրել կատալոգը",
       QR_LUCK_WHEEL_Edit: "Խմբագրել հաջողության անիվը",
       QR_LUCK_WHEEL: "Ստեղծել QR կոդ բախտի անիվի համար",
       DASHBOARD: "Վահանակ",
@@ -1288,7 +1296,7 @@ export const locale = {
       AUTO_CREATE: "Ավտոմատ QR ստեղծում",
       QR_CREATE: "QR ստեղծում",
       HISTORY_REMINDER: "Հիշեցումների մոնիտորինգ",
-      BOOK: "Հիշեցումների մոնիտորինգ",
+      BOOK: "Հիշեցումների մոնիտորինգ"
     },
   },
   qr_management: "QR կառավարում",

@@ -1187,8 +1187,17 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-      QR_LUCK_WHEEL_Edit: "Glücksrad bearbeiten",
-      QR_LUCK_WHEEL: "QR-Code für Glücksrad erstellen",
+           DIGI: "Suivi des prix Digikala",
+      QR_PDF: "Galerie PDF",
+      QR_NAME_EDIT_PDF: "Modifier la galerie PDF",
+      QR_MULTICART: "Carte QR multiple",
+      QR_MULTICART_EDIT: "Modifier la carte QR multiple",
+      QR_PRODUCTPRO: "Présentation de produit (Pro)",
+      QR_NAME_PRODUCTPRO: "Modifier la présentation de produit (Pro)",
+      QR_NAME_EDIT_CATALOG: "Modifier le catalogue",
+      QR_LUCK_WHEEL_Edit: "Modifier la roue de la fortune",
+      QR_LUCK_WHEEL: "Créer un QR de roue de la fortune",
+      // -------------------------------------
       DASHBOARD: "Tableau de bord",
       ADMIN_QR_DOMAINS: "Surveillance des domaines",
       ADMIN_TOGETHER_TOKEN: "Surveillance des tokens",
@@ -1292,7 +1301,7 @@ export const locale = {
       AUTO_CREATE: "Création automatique de QR",
       QR_CREATE: "Créer un QR",
       HISTORY_REMINDER: "Surveillance des rappels",
-      BOOK: "Surveillance des rappels",
+      BOOK: "Surveillance des rappels"
     },
   },
   qr_management: "Gestion QR",

@@ -1173,6 +1173,15 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+            DIGI: "Digikala Pricing Monitor",
+      QR_PDF: "PDF Gallery",
+      QR_NAME_EDIT_PDF: "Edit PDF Gallery",
+      QR_MULTICART: "Multiple QR Card",
+      QR_MULTICART_EDIT: "Edit Multiple QR Card",
+      QR_PRODUCTPRO: "Product Introduction (Pro)",
+      QR_NAME_PRODUCTPRO: "Edit Product Introduction (Pro)",
+      QR_NAME_EDIT_CATALOG: "Edit Catalogue",
+      // ------------------
       QR_LUCK_WHEEL_Edit: "Edit Luck Wheel",
       QR_LUCK_WHEEL: "Create QR Luck Wheel",
       DASHBOARD: "Dashboard",
@@ -1278,7 +1287,7 @@ export const locale = {
       AUTO_CREATE: "Automatic QR Creation",
       QR_CREATE: "Create QR",
       HISTORY_REMINDER: "Reminder Monitoring",
-      BOOK: "Reminder Monitoring",
+      BOOK: "Reminder Monitoring"
     },
   },
   qr_management: "QR Management",
