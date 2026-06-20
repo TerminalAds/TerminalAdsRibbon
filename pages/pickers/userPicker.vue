@@ -45,7 +45,7 @@
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
                 <v-text-field v-model="localFilters.name" append-icon="mdi-magnify"
-                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="نام"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.NAME')"
                               outlined
                               @click:append="applySearch(props)"
                               @keyup.enter="applySearch(props)"/>
@@ -53,7 +53,7 @@
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
                 <v-text-field v-model="localFilters.lastName" append-icon="mdi-magnify"
-                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="نام خانوادگی"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.LASTNAME')"
                               outlined
                               @click:append="applySearch(props)"
                               @keyup.enter="applySearch(props)"/>
@@ -61,7 +61,7 @@
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
                 <v-text-field v-model="localFilters.id" append-icon="mdi-magnify" type="number"
-                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="شناسه"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.ID')"
                               outlined
                               @click:append="applySearch(props)"
                               @keyup.enter="applySearch(props)"/>
