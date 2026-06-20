@@ -29,16 +29,42 @@
       <v-card :loading="loading" class="transparent pa-4" flat>
         <vue-table v-model="tempSelection" :data="userInfo" :headers="headers" :loading.sync="loading"
                    item-key="id" show-select @change="onPagination">
-          <template v-slot:filters="{perPage, props}">
+         <template v-slot:filters="{perPage, props}">
             <v-row no-gutters>
               <v-col class="pa-2" cols="12" md="4" sm="6">
                 <v-select v-model="props.length" :items="perPage" dense hide-details outlined/>
               </v-col>
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
-                <v-text-field v-model="props.search" append-icon="mdi-magnify"
+                <v-text-field v-model="localFilters.search" append-icon="mdi-magnify" 
                               clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.SEARCH')"
-                              outlined/>
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.name" append-icon="mdi-magnify"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="نام"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.lastName" append-icon="mdi-magnify"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="نام خانوادگی"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.id" append-icon="mdi-magnify" type="number"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details label="شناسه"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"/>
               </v-col>
             </v-row>
           </template>
@@ -73,6 +99,12 @@ export default {
 
   data() {
     return {
+       localFilters: {
+        search: null,
+        name: null,
+        lastName: null,
+        id: null
+      },
       dialog: false,
       cons: {
         title: i18n.t('USER_PICKER.SELECT_USERS'),
@@ -129,6 +161,28 @@ export default {
   },
 
   methods: {
+    applySearch(props) {
+      props.search = this.localFilters.search;
+      props.name = this.localFilters.name;
+      props.lastName = this.localFilters.lastName;
+      props.id = this.localFilters.id;
+      
+      this.$nextTick(() => {
+        this.reloadTable();
+      });
+    },
+
+    clearFilter() {
+      this.localFilters = { search: null, name: null, lastName: null, id: null };
+      
+      this.$nextTick(() => {
+        this.$emit('input', [])
+        this.reloadTable()
+        setTimeout(() => {
+          this.$emit('confirm')
+        }, 100)
+      })
+    },
     getUserInfo(params = this.tableProps) {
       this.loading = true
 
