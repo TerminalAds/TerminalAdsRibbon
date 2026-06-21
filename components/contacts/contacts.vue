@@ -210,8 +210,9 @@
             <v-divider v-if="!loading || !loadPhones" class="mt-0 mb-1" />
             <v-progress-linear v-else indeterminate />
 
-            <contacts-table
-              v-if="!!tagList.length"
+           <template v-if="!loadPhones">
+              <contacts-table
+                v-if="data && data.data && data.data.length > 0"  
               v-model="selectedRows"
               :data="data"
               :loading.sync="loadPhones"
@@ -235,6 +236,7 @@
                   i18n.t("LISTS.AddANumber")
                 }}</span>
               </p>
+            </template>
             </template>
           </v-tab-item>
 
