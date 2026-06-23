@@ -133,6 +133,7 @@ async function sendSms(
   shortcamp_id,
   gap_type,
   gap_time,
+  support_operators,
   with_gradual = false,
   gradual_item = undefined,
   phoneTags = undefined
@@ -156,6 +157,8 @@ async function sendSms(
       with_gradual,
       ...gradual_item,
       phoneTags,
+      support_operators,
+
     });
 
     return {
