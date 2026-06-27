@@ -247,7 +247,7 @@ export default {
           })
           .catch(({ response }) => {
             this.setSectionStatus({ field: "menus", status: false });
-            if (response.status !== 401) {
+            if (response?.status !== 401) {
               this.$toast.error("خطایی رخ داده است.");
             }
           })

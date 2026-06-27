@@ -1183,7 +1183,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-            DIGI: "Digikala-ի գնագոյացման մոնիտորինգ",
+      "QR_LINK_PRO": "QR Link Pro",
+      DIGI: "Digikala-ի գնագոյացման մոնիտորինգ",
       QR_PDF: "PDF պատկերասրահ",
       QR_NAME_EDIT_PDF: "Խմբագրել PDF պատկերասրահը",
       QR_MULTICART: "Բազմակի QR քարտ",

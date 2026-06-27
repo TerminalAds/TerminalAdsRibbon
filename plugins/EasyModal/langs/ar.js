@@ -1174,7 +1174,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-          DIGI:"مراقبة مسعّر ديجي كالا",
+      "QR_LINK_PRO": "كيوار لينك برو",
+      DIGI:"مراقبة مسعّر ديجي كالا",
       QR_PDF: "معرض PDF",
       QR_NAME_EDIT_PDF: "تعديل معرض PDF",
       QR_MULTICART: "بطاقة QR متعددة",
