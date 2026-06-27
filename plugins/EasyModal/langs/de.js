@@ -1187,6 +1187,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+            QR_CARD_VISIT_PRO:"Pro-Visitenkarte",
+      "QR_NAME_EDIT_PRO": "Edit Pro Pro-Visitenkarte",
       "QR_LINK_PRO": "QR Link Pro",
       DIGI: "Suivi des prix Digikala",
       QR_PDF: "Galerie PDF",

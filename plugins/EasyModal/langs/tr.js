@@ -1172,6 +1172,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_CARD_VISIT_PRO:"Pro Bağlantı QR Kodunu",
       "QR_NAME_EDIT_PRO": "Pro Bağlantı QR Kodunu Düzenle",
       "QR_LINK_PRO": "QR Link Pro",
       DIGI: "Digikala Fiyat Monitörü",

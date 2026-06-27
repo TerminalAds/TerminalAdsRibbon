@@ -1175,7 +1175,9 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-      QR_NAME_EDIT_PRO:"ویرایش کیوار کد پرو",
+      QR_CARD_VISIT_PRO:"گارت ویزیت پرو",
+      QR_LINK_EDIT_pro:"ویرایش کیوار لینک پرو",
+      QR_NAME_EDIT_PRO:"ویرایش کارت ویزیت پرو",
       QR_LINK_PRO:"کیوار لینک پرو",
       DIGI: "مونیتورینگ قیمت‌گذار دیجی‌کالا",
       QR_PDF: "گالری پی دی اف",
