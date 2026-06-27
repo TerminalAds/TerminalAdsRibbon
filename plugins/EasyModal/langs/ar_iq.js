@@ -1169,7 +1169,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-            QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
+      QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
       QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
       "QR_NAME_EDIT_PRO": "تعديل رمز الاستجابة السريعة للرابط برو",
       "QR_LINK_PRO": "كيوار لينك برو",
