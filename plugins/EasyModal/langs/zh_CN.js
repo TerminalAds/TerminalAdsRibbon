@@ -1164,7 +1164,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-            DIGI: "Digikala 定价监控",
+      "QR_LINK_PRO": "QR Link Pro",
+      DIGI: "Digikala 定价监控",
       QR_PDF: "PDF图库",
       QR_NAME_EDIT_PDF: "编辑PDF图库",
       QR_MULTICART: "多重QR卡",
