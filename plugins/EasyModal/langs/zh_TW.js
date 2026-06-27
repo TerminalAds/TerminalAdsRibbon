@@ -1164,6 +1164,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_PRO": "編輯 Pro 連結 QR 碼",
       "QR_LINK_PRO": "QR Link Pro",
       DIGI: "Digikala 定價監控",
       QR_PDF: "PDF圖庫",

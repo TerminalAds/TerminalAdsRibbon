@@ -1174,6 +1174,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_PRO": "تعديل رمز الاستجابة السريعة للرابط برو",
       "QR_LINK_PRO": "كيوار لينك برو",
       DIGI:"مراقبة مسعّر ديجي كالا",
       QR_PDF: "معرض PDF",

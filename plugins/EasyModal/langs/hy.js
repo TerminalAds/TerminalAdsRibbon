@@ -1183,6 +1183,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_PRO": "Խմբագրել Pro Հղման QR Կոդը",
       "QR_LINK_PRO": "QR Link Pro",
       DIGI: "Digikala-ի գնագոյացման մոնիտորինգ",
       QR_PDF: "PDF պատկերասրահ",

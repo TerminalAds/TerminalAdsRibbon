@@ -1174,6 +1174,7 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_PRO": "Изменить QR-код ссылки Pro",
       "QR_LINK_PRO": "QR Link Pro",
       DIGI: "Мониторинг ценообразования Digikala",
       QR_PDF: "Галерея PDF",
