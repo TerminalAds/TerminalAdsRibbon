@@ -3,18 +3,22 @@
     <div class="title-wrapper pb-2">
       <terminal_title_ribbon>
         <v-card-title class="justify-end pa-0 flex-nowrap">
+          
           <v-btn
-            v-if="tutorialExists"
-            v-b-tooltip.hover="i18n.t('BUTTON.GUIDE')"
-            :loading="loading"
-            class="px-0"
-            color="rgb(202,217,255)"
-            depressed
-            min-width="36"
-            @click="tDialog = true"
-          >
-            <v-icon class="jump" color="#6993ff" small>mdi-help</v-icon>
-          </v-btn>
+              v-if="tutorialExists"
+              id="tutorial-help-btn"
+              ref="helpBtn"
+              v-b-tooltip.hover="i18n.t('BUTTON.GUIDE')"
+              :loading="loading"
+              class="px-0"
+              color="rgb(202,217,255)"
+              depressed
+              min-width="36"
+              @click="openTutorial"
+              :class="{ 'attention-pulse': btnPulse }"
+            >
+              <v-icon class="jump" color="#6993ff" small>mdi-help</v-icon>
+            </v-btn>
 
           <v-expand-x-transition>
             <div v-if="showExtraTimer" class="text-nowrap">
@@ -142,32 +146,10 @@
       />
     </v-card>
 
-    <custom-popup
-      v-model="tDialog"
-      :cons="{ title: i18n.t('BUTTON.GUIDE') }"
-      :loading.sync="loadingTuts"
-      hide-confirm
-      max-width="800"
-      scrollable
-    >
-      <!--            <custom-popup v-model="tDialog" scrollable max-width="800" :cons="cons" v-if="tutorialExists" hide-confirm>-->
-      <template v-slot:extension>
-        <tabs-tutorial
-          v-if="routeChanged && tDialog"
-          v-model="tab"
-          :tab-items="tabItems"
-          class="popup-tuts"
+    <tutorial-modal 
+          v-if="routeChanged"
+          v-model="tDialog" 
         />
-      </template>
-
-      <items-tutorial
-        v-if="routeChanged && tDialog"
-        v-model="tab"
-        :items.sync="tabItems"
-        :loading.sync="loadingTuts"
-      />
-    </custom-popup>
-
     <custom-popup
       v-model="autoReloadDialog"
       :cons="autoReloadCons"
@@ -227,6 +209,7 @@ import ItemsTutorial from "../components/itemsTutorial";
 import { AtomSpinner } from "epic-spinners";
 import { mapActions, mapState, mapGetters } from "vuex";
 import i18n from "../plugins/EasyModal/i18n";
+import TutorialModal from "./TutorialModal";
 
 export default {
   name: "customPage",
@@ -237,10 +220,13 @@ export default {
     CustomPopup,
     Terminal_title_ribbon,
     AtomSpinner,
+    TutorialModal
   },
 
   data() {
     return {
+      showHelpTooltip: false,
+      btnPulse: false, 
       loading: false,
       reloadLoading: false,
       tab: null,
@@ -315,7 +301,20 @@ export default {
     },
   },
   watch: {
-    "$i18n.locale": {
+ tDialog(newValue) {
+      if (!newValue) {
+        setTimeout(() => {
+          this.btnPulse = true;
+          // this.$root.$emit('bv::show::tooltip', 'tutorial-help-btn');
+          
+          setTimeout(() => {
+            this.btnPulse = false;
+            // this.$root.$emit('bv::hide::tooltip', 'tutorial-help-btn');
+          }, 1000); 
+        }, 250);
+      }
+    },
+        "$i18n.locale": {
       handler() {
         this.$forceUpdate();
       },
@@ -324,6 +323,44 @@ export default {
   },
   methods: {
     ...mapActions("ribbon", ["setTimer", "stopTimer"]),
+    checkAndAutoOpenTutorial() {
+      if (!this.tutorialExists) return;
+
+      const pageId = this.$route.name || this.$route.path;
+      const seenTutorials = JSON.parse(localStorage.getItem('seen_tutorials') || '{}');
+
+      if (!seenTutorials[pageId]) {
+        setTimeout(() => {
+          if (this.$refs.helpBtn) {
+            this.openTutorial();
+            seenTutorials[pageId] = true;
+            localStorage.setItem('seen_tutorials', JSON.stringify(seenTutorials));
+          }
+        }, 500); 
+      }
+    },
+    openTutorial() {
+      const btn = this.$refs.helpBtn.$el || this.$refs.helpBtn;
+      const rect = btn.getBoundingClientRect();
+      
+      const screenCenterX = window.innerWidth / 2;
+      const screenCenterY = window.innerHeight / 2;
+      
+      const btnCenterX = rect.left + (rect.width / 2);
+      const btnCenterY = rect.top + (rect.height / 2);
+      
+      const deltaX = btnCenterX - screenCenterX;
+      const deltaY = btnCenterY - screenCenterY;
+      
+      document.documentElement.style.setProperty('--deltaX', `${deltaX}px`);
+      document.documentElement.style.setProperty('--deltaY', `${deltaY}px`);
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.tDialog = true;
+        });
+      });
+    },
     reloadPage() {
       this.rerender = false;
       this.reloadLoading = true;
@@ -388,6 +425,7 @@ export default {
 
       this.$nextTick(() => {
         this.routeChanged = true;
+        this.checkAndAutoOpenTutorial(); 
       });
 
       document.title =
@@ -441,39 +479,17 @@ export default {
 
 <style scoped>
 @keyframes jump {
-  0% {
-    transform: scale(1.1);
-  }
-  10% {
-    transform: scale(1.8) rotateY(0);
-  }
-  20% {
-    transform: scale(1.1);
-  }
-  30% {
-    transform: scale(1.8) rotateY(-180deg);
-  }
-  40% {
-    transform: scale(1.1);
-  }
-  50% {
-    transform: scale(1.8) rotateY(0);
-  }
-  60% {
-    transform: scale(1.1);
-  }
-  70% {
-    transform: scale(1.8) rotateY(-180deg);
-  }
-  80% {
-    transform: scale(1.1);
-  }
-  90% {
-    transform: scale(1.8) rotateY(0);
-  }
-  100% {
-    transform: scale(1.1);
-  }
+  0% { transform: scale(1.1); }
+  10% { transform: scale(1.8) rotateY(0); }
+  20% { transform: scale(1.1); }
+  30% { transform: scale(1.8) rotateY(-180deg); }
+  40% { transform: scale(1.1); }
+  50% { transform: scale(1.8) rotateY(0); }
+  60% { transform: scale(1.1); }
+  70% { transform: scale(1.8) rotateY(-180deg); }
+  80% { transform: scale(1.1); }
+  90% { transform: scale(1.8) rotateY(0); }
+  100% { transform: scale(1.1); }
 }
 
 .jump {
@@ -487,5 +503,23 @@ export default {
 
 .popup-tuts {
   max-width: calc(100% - 44px);
+}
+.attention-pulse {
+  animation: btn-absorb-pulse 0.9s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+@keyframes btn-absorb-pulse {
+  0% { 
+    transform: scale(1); 
+    box-shadow: 0 0 0 0 rgb(0, 30, 255); 
+  }
+  40% { 
+    transform: scale(1.4); 
+    box-shadow: 0 0 0 15px  rgba(0, 30, 255, 0.204); 
+  }
+  100% { 
+    transform: scale(1); 
+    box-shadow: 0 0 0 0 rgba(0, 30, 255, 0.149); 
+  }
 }
 </style>

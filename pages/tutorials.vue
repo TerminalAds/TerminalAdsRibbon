@@ -67,6 +67,7 @@
             class="sticky-top align-center popup-title pa-2 pa-md-4"
           >
             <tabs-tutorial v-model="tabModel" :tab-items="tabItems" />
+            
             <v-progress-linear
               v-show="!tutorials && showLoading"
               indeterminate
