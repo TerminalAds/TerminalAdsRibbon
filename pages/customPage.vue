@@ -1,6 +1,6 @@
 <template>
   <v-card flat>
-    <div class="title-wrapper pb-2">
+        <div class="title-wrapper pb-2"  v-if="$route.meta.has_ribbon && $route.query.gateway !== 'true'">
       <terminal_title_ribbon>
         <v-card-title class="justify-end pa-0 flex-nowrap">
           
