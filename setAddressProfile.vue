@@ -6,9 +6,10 @@
     max-width="550"
     :hide-close="!setedAddress"
     @close="closePopup"
-    persistent
+    :hide-confirm="!setedAddress"
+    :persistent="!setedAddress"
   >
-    <v-form v-if="!setedAddress" ref="addressForm" v-model="valid" lazy-validation class="pa-4">
+    <v-form v-if="!setedAddress" ref="addressForm" v-model="valid" lazy-validation class="pa-6">
       <v-text-field
         v-model="postalCode"
         label="کد پستی"
@@ -38,6 +39,17 @@
           v => !v || /^[\u0600-\u06FF\s\u200C0-9۰-۹،\-\/\\.]+$/.test(v) || 'لطفاً آدرس را با کیبورد فارسی وارد کنید'
         ]"
       ></v-textarea>
+
+      <!-- دکمه سابمیت داخل فرم -->
+      <v-btn
+
+        class="mt-4 btn-get-code"
+        :loading="loading"
+        :disabled="!valid || !address || !postalCode"
+        @click="submitAddress"
+      >
+        ثبت آدرس/ کدپستی
+      </v-btn>
     </v-form>
 
     <v-card v-else class="pa-4 text-center" flat>
@@ -72,7 +84,7 @@ export default {
       loading: false,
       address: "",
       postalCode: "",
-      setedAddress: false, // متغیر کنترل وضعیت ثبت آدرس
+      setedAddress: false, 
     };
   },
   computed: {
@@ -85,17 +97,11 @@ export default {
       },
     },
     popupConfig() {
-      // اگر آدرس ثبت شده باشد، دکمه ذخیره را در پاپ‌آپ مخفی می‌کنیم
       return {
         title: "ثبت آدرس و کد پستی",
         icon: "map-marker",
-        buttons: this.setedAddress ? [] : [
-          {
-            type: "submit",
-            handler: this.submitAddress,
-            disabled: () => !this.valid || !this.address || !this.postalCode,
-          },
-        ],
+        // آرایه باتن‌ها را خالی می‌گذاریم تا کامپوننت پدری دکمه‌ای نسازد
+        buttons: []
       };
     },
   },
@@ -105,7 +111,6 @@ export default {
       if (this.$refs.addressForm) {
         this.$refs.addressForm.reset();
       }
-      // بازنشانی وضعیت در صورت نیاز برای باز شدن مجدد پاپ‌آپ در آینده
       setTimeout(() => {
          this.setedAddress = false;
       }, 300);
