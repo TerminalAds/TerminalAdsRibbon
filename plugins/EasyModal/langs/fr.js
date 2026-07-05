@@ -1197,7 +1197,8 @@ export const locale = {
     TITLES: {
       QR_CARD_VISIT_PRO:"le code QR du lien Pro",
       "QR_NAME_EDIT_PRO": "Modifier le code QR du lien Pro",
-      "QR_LINK_PRO": "QR Link Pro",
+      "QR_LINK_EDIT_PRO": "Modifier le QR de l'Assistant de clic SEO",
+      "QR_LINK_PRO": "QR de l'Assistant de clic SEO",
       DIGI: "Suivi des prix Digikala",
       QR_PDF: "Galerie PDF",
       QR_NAME_EDIT_PDF: "Modifier la galerie PDF",

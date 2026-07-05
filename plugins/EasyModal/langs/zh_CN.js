@@ -1166,8 +1166,9 @@ export const locale = {
     TITLES: {
       QR_CARD_VISIT_PRO:"编辑 Pro 链接 QR",
       "QR_NAME_EDIT_PRO": "编辑 Pro 链接 QR 码",
-        "QR_LINK_PRO": "QR Link Pro",
-      DIGI: "Digikala 定价监控",
+      "QR_LINK_EDIT_PRO": "编辑SEO点击助手二维码",
+      "QR_LINK_PRO": "SEO点击助手二维码",
+        DIGI: "Digikala 定价监控",
       QR_PDF: "PDF图库",
       QR_NAME_EDIT_PDF: "编辑PDF图库",
       QR_MULTICART: "多重QR卡",

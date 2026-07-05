@@ -1174,7 +1174,8 @@ export const locale = {
     TITLES: {
       QR_CARD_VISIT_PRO:"Pro Bağlantı QR Kodunu",
       "QR_NAME_EDIT_PRO": "Pro Bağlantı QR Kodunu Düzenle",
-      "QR_LINK_PRO": "QR Link Pro",
+      "QR_LINK_EDIT_PRO": "SEO Tıklama Asistanı QR'ını Düzenle",
+      "QR_LINK_PRO": "SEO Tıklama Asistanı QR",
       DIGI: "Digikala Fiyat Monitörü",
       QR_PDF: "PDF Galerisi",
       QR_NAME_EDIT_PDF: "PDF Galerisini Düzenle",

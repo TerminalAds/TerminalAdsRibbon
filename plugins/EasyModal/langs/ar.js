@@ -1176,7 +1176,8 @@ export const locale = {
     TITLES: {
       QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
       "QR_NAME_EDIT_PRO": "تعديل رمز الاستجابة السريعة للرابط برو",
-      "QR_LINK_PRO": "كيوار لينك برو",
+       "QR_LINK_EDIT_PRO": "تعديل كيوآر مساعد النقر للسيو",
+      "QR_LINK_PRO": "كيوآر مساعد النقر للسيو",
       DIGI:"مراقبة مسعّر ديجي كالا",
       QR_PDF: "معرض PDF",
       QR_NAME_EDIT_PDF: "تعديل معرض PDF",
