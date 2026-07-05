@@ -47,7 +47,7 @@ export default {
 
   watch: {
     value: function (val) {
-      if (val.toString().length > (this.maxLength ?? 10)) {
+      if (val?.toString()?.length > (this.maxLength ?? 10)) {
         let fix = "";
         for (let i = 0; i < (this.maxLength ?? 10); i++) {
           fix = fix + "9";
@@ -76,11 +76,11 @@ export default {
 
   methods: {
     convertToHumanReadablePrice(input) {
-      return (this.english(input.toString())).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+      return (this.english(input?.toString()))?.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     },
 
     convertToRealPrice(input) {
-      return parseInt(this.english(input ? (input.toString()).replace(/,/g, '') : '0'))
+      return parseInt(this.english(input ? (input?.toString())?.replace(/,/g, '') : '0'))
     },
 
     handleInput(e) {
