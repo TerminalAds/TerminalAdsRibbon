@@ -17,7 +17,7 @@
         dense
         :rules="[
           v => !!v || 'وارد کردن کد پستی الزامی است',
-          v => (!!v && v?.trim()?.length === 10) || 'کدپستی باید 10 رقم باشد',
+          v => (!!v && toEnglishDigits(v).length === 10) || 'کدپستی باید 10 رقم باشد',
           v => {
               if (!v) return true;
               const englishCode = this.toEnglishDigits(v.trim());
@@ -27,6 +27,7 @@
         @keypress="isNumericKey"
         maxlength="10"
       ></v-text-field>
+
       <v-textarea
         v-model="address"
         label="آدرس"
@@ -40,15 +41,58 @@
         ]"
       ></v-textarea>
 
-      <!-- دکمه سابمیت داخل فرم -->
-      <v-btn
+      <!-- سوییچ پرونده مالیاتی -->
+      <v-switch 
+        v-model="Ptax" 
+        label="دارای پرونده مالیاتی هستم" 
+        inset 
+        dense
+        class="mt-0"
+      ></v-switch>
 
-        class="mt-4 btn-get-code"
+      <v-expand-transition>
+        <div v-if="Ptax">
+          <v-row dense>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                v-model="registration_number"
+                label="شناسه ملی سازمانی"
+                outlined
+                dense
+                @keypress="isNumericKey"
+                :rules="Ptax ? [
+                  v => !!v || 'وارد کردن شناسه ملی الزامی است',
+                  v => (!!v && toEnglishDigits(v).length === 11) || 'باید 11 رقم باشد'
+                ] : []"
+                maxlength="11"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                v-model="economic_code"
+                label="کد اقتصادی"
+                outlined
+                dense
+                @keypress="isNumericKey"
+                :rules="Ptax ? [
+                  v => !!v || 'وارد کردن کد اقتصادی الزامی است',
+                  v => (!!v && (toEnglishDigits(v).length === 11 || toEnglishDigits(v).length === 12)) || 'باید 11 یا 12 رقم باشد'
+                ] : []"
+                maxlength="12"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </div>
+      </v-expand-transition>
+
+      <v-btn
+        class="mt-4 btn-get-code rounded-lg"
         :loading="loading"
-        :disabled="!valid || !address || !postalCode"
+        :disabled="!valid"
         @click="submitAddress"
-      >
-        ثبت آدرس/ کدپستی
+        block
+      ><v-icon small>mdi-content-save-check</v-icon>
+        ثبت اطلاعات
       </v-btn>
     </v-form>
 
@@ -80,27 +124,25 @@ export default {
   },
   data() {
     return {
+      Ptax: true, 
       valid: false,
       loading: false,
       address: "",
       postalCode: "",
       setedAddress: false, 
+      registration_number: '',
+      economic_code: '',
     };
   },
   computed: {
     dialog: {
-      get() {
-        return this.value;
-      },
-      set(val) {
-        this.$emit("input", val);
-      },
+      get() { return this.value; },
+      set(val) { this.$emit("input", val); },
     },
     popupConfig() {
       return {
-        title: "ثبت آدرس و کد پستی",
+        title: "تکمیل اطلاعات پرونده و آدرس",
         icon: "map-marker",
-        // آرایه باتن‌ها را خالی می‌گذاریم تا کامپوننت پدری دکمه‌ای نسازد
         buttons: []
       };
     },
@@ -116,10 +158,10 @@ export default {
       }, 300);
     },
     toEnglishDigits(str) {
-      if (!str) return str;
+      if (!str) return "";
       const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
       const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
-      let result = str;
+      let result = String(str);
       for (let i = 0; i < 10; i++) {
         result = result.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
       }
@@ -132,21 +174,26 @@ export default {
       try {
         let token = jwtService.getToken(); 
         
+        const payload = {
+          address: this.address.trim(),
+          postalCode: this.toEnglishDigits(this.postalCode),
+        };
+
+        if (this.Ptax) {
+          payload.economic_code = this.toEnglishDigits(this.economic_code);
+          payload.registration_number = this.toEnglishDigits(this.registration_number);
+        }
+
         let res = await axios.post(
           `https://api.terminalads.com/api/confirmprofile/fast`,
+          payload,
           {
-            address: this.toEnglishDigits(this.address),
-            postalCode: Number(this.toEnglishDigits(this.postalCode)),
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
         if (res.status === 200 || res.status === 201) {
-          this.$toast.success("آدرس با موفقیت ثبت شد.");
+          this.$toast.success("اطلاعات با موفقیت ثبت شد.");
           this.setedAddress = true;
           this.$emit("success"); 
         }
@@ -158,19 +205,11 @@ export default {
       }
     },
     isNumericKey(evt) {
-      let persianChars = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-      evt = evt ? evt : window.event;
       let charCode = evt.which ? evt.which : evt.keyCode;
-      if (
-        charCode > 31 &&
-        (charCode < 48 || charCode > 57) &&
-        (charCode < 96 || charCode > 105) &&
-        persianChars.indexOf(evt.key) === -1
-      ) {
-        evt.preventDefault();
-      } else {
-        return true;
-      }
+      if (charCode >= 48 && charCode <= 57) return true; // 0-9
+      if (charCode >= 1632 && charCode <= 1641) return true; // Persian 0-9
+      evt.preventDefault();
+      return false;
     },
   },
 };
