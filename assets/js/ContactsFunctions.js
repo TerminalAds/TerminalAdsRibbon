@@ -11,10 +11,10 @@ let axiosApi = axios.create({
 export function deleteContactFromTag({ contact, tag, deleteFrom }) {
   return new Promise((resolve, reject) => {
     axiosApi
-      .delete(`contact/${contact}`, {
+      .delete(`contact/${contact}`, { params:{
         deleteFrom,
         phone_tag: tag,
-      })
+      }})
       .then((data) => resolve(data))
       .catch((err) => {
         reject(err);

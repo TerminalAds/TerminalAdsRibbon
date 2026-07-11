@@ -522,14 +522,16 @@ export default {
     deleteItem() {
       this.computedLoading = true;
 
-      deleteContactFromTag({
-        contact: this.deletingItem.phone,
+      return deleteContactFromTag({
+        contact: this.deletingItem.id,
         tag: this.phoneTag.id,
         deleteFrom: this.groupRadio === "all" ? this.groupRadio : undefined,
       })
         .then(({ data }) => {
           this.$toast.success(this.i18n.t("TOAST.SUCCESSFULLY_DELETED"));
           this.deletingItem = {};
+          this.computedLoading = false
+          this.deleteDialog = false;
           this.$emit("reload");
         })
         .catch(({ response }) => {
