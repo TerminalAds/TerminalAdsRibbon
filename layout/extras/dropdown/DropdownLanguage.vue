@@ -14,8 +14,8 @@
           margin-left: 8px;
         "
       >
-        <img :src="current.flag" alt="" width="20" class="mr-2" />
-        {{ current.name }}
+        <img v-if="current?.flag" :src="current?.flag" alt="" width="20" class="mr-2" />
+        {{ current?.name }}
       </v-btn>
     </template>
 
@@ -25,9 +25,9 @@
         :key="lang.lang"
         @click="select(lang)"
       >
-        <img :src="lang.flag" alt="" width="20" class="mr-2" />
+        <img v-if="lang?.flag" :src="lang?.flag" alt="" width="20" class="mr-2" />
         <v-list-item-content>
-          <v-list-item-title>{{ lang.name }}</v-list-item-title>
+          <v-list-item-title>{{ lang?.name }}</v-list-item-title>
           <v-list-item-subtitle class="text--secondary">
             {{ lang.subtitle }}
           </v-list-item-subtitle>

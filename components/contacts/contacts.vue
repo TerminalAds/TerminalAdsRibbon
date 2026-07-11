@@ -76,8 +76,8 @@
       </v-window>
 
       <v-card
-        :disabled="loading || loadPhones"
-        :loading="loading || loadPhones"
+        :disabled="loading"
+        :loading="loading"
         class="d-flex justify-center justify-md-space-between pa-2"
         flat
       >
