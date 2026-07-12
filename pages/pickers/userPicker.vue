@@ -40,7 +40,8 @@
                               clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.SEARCH')"
                               outlined
                               @click:append="applySearch(props)"
-                              @keyup.enter="applySearch(props)"/>
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
               </v-col>
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
@@ -48,7 +49,8 @@
                               clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.NAME')"
                               outlined
                               @click:append="applySearch(props)"
-                              @keyup.enter="applySearch(props)"/>
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
               </v-col>
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
@@ -56,7 +58,8 @@
                               clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.LASTNAME')"
                               outlined
                               @click:append="applySearch(props)"
-                              @keyup.enter="applySearch(props)"/>
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
               </v-col>
 
               <v-col class="pa-2" cols="12" md="4" sm="6">
@@ -64,7 +67,8 @@
                               clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.ID')"
                               outlined
                               @click:append="applySearch(props)"
-                              @keyup.enter="applySearch(props)"/>
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
               </v-col>
             </v-row>
           </template>
