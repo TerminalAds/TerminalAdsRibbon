@@ -114,7 +114,12 @@ export default {
       },
       tableProps: {
         page: 1,
-        length: 10
+        length: 10,
+        search:"",
+        id: "",
+        name: "",
+        lastName: "",
+
       },
       loading: false,
       userInfo: {},
@@ -162,22 +167,27 @@ export default {
 
   methods: {
     applySearch(props) {
-      props.search = this.localFilters.search;
-      props.name = this.localFilters.name;
-      props.lastName = this.localFilters.lastName;
-      props.id = this.localFilters.id;
+      this.tableProps.search = this.localFilters.search;
+      this.tableProps.name = this.localFilters.name;
+      this.tableProps.lastName = this.localFilters.lastName;
+      this.tableProps.id = this.localFilters.id;
       
       this.$nextTick(() => {
-        this.reloadTable();
+        this.reloadTable(this.tableProps);
       });
     },
 
     clearFilter() {
       this.localFilters = { search: null, name: null, lastName: null, id: null };
       
+      this.tableProps.search = null;
+      this.tableProps.name = null;
+      this.tableProps.lastName = null;
+      this.tableProps.id = null;
+
       this.$nextTick(() => {
         this.$emit('input', [])
-        this.reloadTable()
+        this.reloadTable(this.tableProps)
         setTimeout(() => {
           this.$emit('confirm')
         }, 100)
