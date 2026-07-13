@@ -1173,6 +1173,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_GIFT": "Edit Gift QR Code",
+      "QR_GIFT": "Gift QR Code",
       electronic_business_card_pro:"visit Card PRO",
       QR_CARD_VISIT_PRO:"Pro Card Vist QR Code",
       "QR_NAME_EDIT_PRO": "Edit Pro Card Visit QR Code",

@@ -1164,6 +1164,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+    "QR_NAME_EDIT_GIFT": "編輯禮物QR碼",
+     "QR_GIFT": "禮物QR碼",
       QR_CARD_VISIT_PRO:"編輯 Pro 連結 QR",
       "QR_NAME_EDIT_PRO": "編輯 Pro 連結 QR 碼",
       "QR_LINK_EDIT_PRO": "編輯SEO點擊助手QR碼",

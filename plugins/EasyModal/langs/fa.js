@@ -81,12 +81,12 @@ export const locale = {
   service_name: "نام سرویس مورد نظر خودرا وارد کنید...",
   invite: {
     title: "سامانه را به دوستان خود معرفی کنید.",
-    gift: "هدیه",
+    gift: "قاب خاطره ها",
     get: "دریافت کنید.",
     phone: "شماره را وارد نمایید.",
     invite: "دعوت کن!",
     got_it: "متوجه شدم",
-    get_gift: "دریافت هدیه",
+    get_gift: "دریافت قاب خاطره ها",
     success: "پیام دعوت شما با موفقیت ارسال شد.",
     wrong_number: "لطفا شماره صحیح وارد نمایید.",
   },
@@ -1175,6 +1175,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      QR_NAME_EDIT_GIFT:"ویرایش کیوار کد قاب خاطره ها",
+      QR_GIFT:"کیوار کد قاب خاطره ها",
       QR_CARD_VISIT_PRO:"گارت ویزیت پرو",
       QR_NAME_EDIT_PRO:"ویرایش کارت ویزیت پرو",
       QR_LINK_EDIT_pro: "ویرایش کیوار کلیک یار سئو",

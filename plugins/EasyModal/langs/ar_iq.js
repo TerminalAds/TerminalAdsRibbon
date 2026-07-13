@@ -1169,6 +1169,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_GIFT": "تعديل باركود الهدية",
+     "QR_GIFT": "باركود الهدية",
       QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
       QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
       "QR_NAME_EDIT_PRO": "تعديل رمز الاستجابة السريعة للرابط برو",

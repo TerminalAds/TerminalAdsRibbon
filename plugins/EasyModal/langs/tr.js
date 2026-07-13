@@ -1172,6 +1172,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_GIFT": "Hediye QR Kodunu Düzenle",
+     "QR_GIFT": "Hediye QR Kodu",
       QR_CARD_VISIT_PRO:"Pro Bağlantı QR Kodunu",
       "QR_NAME_EDIT_PRO": "Pro Bağlantı QR Kodunu Düzenle",
       "QR_LINK_EDIT_PRO": "SEO Tıklama Asistanı QR'ını Düzenle",

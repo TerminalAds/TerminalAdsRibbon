@@ -1176,6 +1176,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_GIFT": "تعديل كيو آر كود الهدية",
+      "QR_GIFT": "كيو آر كود الهدية",
       QR_CARD_VISIT_PRO: " رمز الاستجابة السريعة للرابط برو",
       "QR_NAME_EDIT_PRO": "تعديل رمز الاستجابة السريعة للرابط برو",
        "QR_LINK_EDIT_PRO": "تعديل كيوآر مساعد كليك للسيو",

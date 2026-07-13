@@ -1195,6 +1195,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_GIFT": "Modifier le code QR du cadeau",
+      "QR_GIFT": "Code QR du cadeau",
       QR_CARD_VISIT_PRO:"le code QR du lien Pro",
       "QR_NAME_EDIT_PRO": "Modifier le code QR du lien Pro",
       "QR_LINK_EDIT_PRO": "Modifier le QR de l'Assistant de clic SEO",

@@ -1174,6 +1174,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
+      "QR_NAME_EDIT_GIFT": "Редактировать QR-код подарка",
+  "QR_GIFT": "QR-код подарка",
       QR_CARD_VISIT_PRO:"QR-код ссылки Pro",
       "QR_NAME_EDIT_PRO": "Изменить QR-код ссылки Pro",
        "QR_LINK_EDIT_PRO": "Редактировать QR-код SEO Click Assistant",

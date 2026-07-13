@@ -1187,10 +1187,12 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-            QR_CARD_VISIT_PRO:"Pro-Visitenkarte",
+       "QR_NAME_EDIT_GIFT": "Geschenk-QR-Code bearbeiten",
+       "QR_GIFT": "Geschenk-QR-Code",
+      QR_CARD_VISIT_PRO:"Pro-Visitenkarte",
       "QR_NAME_EDIT_PRO": "Edit Pro Pro-Visitenkarte",
       "QR_LINK_EDIT_PRO": "SEO Klick-Assistent QR bearbeiten",
-  "QR_LINK_PRO": "SEO Klick-Assistent QR",
+      "QR_LINK_PRO": "SEO Klick-Assistent QR",
       DIGI: "Suivi des prix Digikala",
       QR_PDF: "Galerie PDF",
       QR_NAME_EDIT_PDF: "Modifier la galerie PDF",
