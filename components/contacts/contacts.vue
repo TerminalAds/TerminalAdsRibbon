@@ -166,7 +166,7 @@
       flat
     >
       <v-img
-        aspect-ratio="1"
+        :aspect-ratio="1"
         class="rounded-lg"
         contain
         src="/media/img/noPhoneTags.jpg"

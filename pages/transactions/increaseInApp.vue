@@ -18,7 +18,7 @@
 
       <v-responsive
         :style="getCardBg"
-        aspect-ratio="1.545"
+        :aspect-ratio="1.545"
         class="rounded-xl mb-4 card-wrapper"
         max-width="450"
         width="100%"
