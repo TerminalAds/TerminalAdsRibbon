@@ -1,15 +1,33 @@
 <template>
   <v-card-text class="pt-4">
-    <v-card-title class="px-0 pt-0">
+          <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">  
+          <v-card-title class="px-0 pt-0">
       موجودی قابل برداشت:
       <span class="text--primary mx-2">{{ persianNum(currency(Math.floor(balance))) }}</span> ریال
-    </v-card-title>
+          </v-card-title>
+      
+        <v-row class="mt-1" justify="start" dense dir="ltr">
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 25" :color="activePercentage === 25 ? 'primary' : ''" @click="setPercentage(25)">25%</v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 50" :color="activePercentage === 50 ? 'primary' : ''" @click="setPercentage(50)">50%</v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 75" :color="activePercentage === 75 ? 'primary' : ''" @click="setPercentage(75)">75%</v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 100" color="primary" @click="setPercentage(100)">کل موجودی</v-chip>
+          </v-col>
+        </v-row>
+      </v-col>
+
     <v-divider class="mb-4" />
 
     <v-row class="pa-2" justify="center" no-gutters>
       <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
         <!-- فیلد مبلغ -->
-        <price-input v-model="inputBalance" label="مبلغ برای هر نفر" to-char />
+        <price-input v-model="inputBalance" :max="Math.floor(balance / (targetUsers.length || 1))" :max-length="balance.toString().length"  label="مبلغ برای هر نفر" to-char />
       </v-col>
 
       <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
@@ -67,6 +85,7 @@
         </div>
       </v-col>
 
+
       <v-col v-if="totalAmount > 0" class="pa-2 text-center" cols="12">
         <div :class="{'red--text': !hasEnoughBalance, 'success--text': hasEnoughBalance}">
           جمع کل پرداختی: {{ persianNum(currency(totalAmount)) }} ریال
@@ -120,6 +139,7 @@ export default {
       loading: false,
       isValidPhone: false, 
       phoneError: "",
+      activePercentage: null,
     }
   },
   watch:{
@@ -129,6 +149,21 @@ export default {
         if (englishVal !== newVal) {
           this.currentPhone = englishVal;
         }
+      }
+    },
+     targetUsers() {
+      if (this.activePercentage) {
+        this.calculateActivePercentageAmount();
+      }
+    },
+    inputBalance(newVal) {
+      if (!this.activePercentage) return;
+      
+      const usersCount = this.targetUsers.length > 0 ? this.targetUsers.length : 1;      
+      const expectedAmount = Math.floor((this.balance / usersCount) * this.activePercentage / 100);
+      
+      if (Number(newVal) !== expectedAmount) {
+        this.activePercentage = null;
       }
     }
   },
@@ -148,7 +183,22 @@ export default {
     }
   },
   methods: {
-     toEnglishDigits(str) {
+    calculateActivePercentageAmount() {
+      if (!this.activePercentage || this.balance <= 0) return;
+      const usersCount = this.targetUsers.length > 0 ? this.targetUsers.length : 1;      
+      const maxPerPerson = this.balance / usersCount;      
+      this.inputBalance = Math.floor((maxPerPerson * this.activePercentage) / 100);
+    },
+    setPercentage(percent) {
+      if (this.activePercentage === percent) {
+        this.activePercentage = null;
+        return;
+      }
+      
+      this.activePercentage = percent;
+      this.calculateActivePercentageAmount();
+    },
+    toEnglishDigits(str) {
       if (!str) return str;
       const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
       const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];

@@ -27,7 +27,8 @@ export default {
     error: [Object, Array],
     label: String,
     maxLength: Number,
-    toChar: Boolean
+    toChar: Boolean,
+    max: [String, Number] 
   },
 
   data() {
@@ -47,6 +48,12 @@ export default {
 
   watch: {
     value: function (val) {
+      // بررسی سقف مبلغ (اگر max پاس داده شده بود)
+      if (this.max !== undefined && val > parseInt(this.max)) {
+        this.$emit('input', parseInt(this.max));
+        return;
+      }
+
       if (val?.toString()?.length > (this.maxLength ?? 10)) {
         let fix = "";
         for (let i = 0; i < (this.maxLength ?? 10); i++) {
@@ -55,7 +62,9 @@ export default {
         this.$emit('input', this.convertToRealPrice(fix))
         return;
       }
+      
       this.input = this.convertToHumanReadablePrice(this.value);
+      
       if ((this.value + "").length > 10) {
         let fixPrice = this.convertToRealPrice((this.value + "").substring(0, 10));
         this.$emit('input', fixPrice)
@@ -84,7 +93,15 @@ export default {
     },
 
     handleInput(e) {
-      this.$emit('input', this.convertToRealPrice(e))
+      let realPrice = this.convertToRealPrice(e);
+      
+      // اگر مقدار از max بیشتر شد، آن را روی max تنظیم کن
+      if (this.max !== undefined && realPrice > parseInt(this.max)) {
+        realPrice = parseInt(this.max);
+        this.input = this.convertToHumanReadablePrice(realPrice);
+      }
+
+      this.$emit('input', realPrice)
     },
 
     isNumberKey: function (evt) {

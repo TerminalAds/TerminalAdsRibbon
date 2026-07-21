@@ -5,13 +5,27 @@
       <span class="text--primary mx-2">{{ persianNum(currency(Math.floor(balance))) }}</span>
       <span class="small-font">{{ i18n.t('WALLET.Currency') }}</span>
     </v-card-title>
+        <v-row class="mt-1" justify="center" dense dir="ltr">
+          <v-col cols="auto">
+            <v-chip class="chipPersnctage" small :outlined="activePercentage !== 25" :color="activePercentage === 25 ? 'primary' : ''" @click="setPercentage(25)">25%</v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 50" :color="activePercentage === 50 ? 'primary' : ''" @click="setPercentage(50)">50%</v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 75" :color="activePercentage === 75 ? 'primary' : ''" @click="setPercentage(75)">75%</v-chip>
+          </v-col>
+          <v-col cols="auto">
+            <v-chip small :outlined="activePercentage !== 100" :color="activePercentage === 100 ? 'primary' : ''" @click="setPercentage(100)">کل موجودی</v-chip>
+          </v-col>
+        </v-row>
 
     <v-card-text>
       <v-divider/>
       <span class="red--text">{{ i18n.t('WALLET.withdrawFee') }}</span>
       <v-row class="pa-2" justify="center" no-gutters>
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <price-input v-model="inputBalance" :label="i18n.t('WALLET.Amount')" to-char/>
+          <price-input v-model="inputBalance"  :max="Math.floor(balance)" :max-length="Math.floor(balance).toString().length" :label="i18n.t('WALLET.Amount')"  :error-messages="amountErrors"/>
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
@@ -57,7 +71,7 @@
 
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
           <v-divider/>
-          <v-btn :disabled="!inputBalance || !selectedAccount" :loading="loading" block color="success" depressed
+          <v-btn :disabled="!inputBalance || !selectedAccount"  :loading="loading" block color="success" depressed
                  @click="addWithdraw">
             <v-icon left>mdi-plus</v-icon>
             {{ i18n.t('WALLET.submitWithdraw') }}
@@ -136,6 +150,7 @@ export default {
 
   data() {
     return {
+      activePercentage: null,
       accounts: [],
       addAccount: false,
       addLoading: false,
@@ -159,6 +174,17 @@ export default {
       selectedAccount: null
     }
   },
+  watch: {
+    inputBalance(newVal) {
+      if (!this.activePercentage) return;
+      
+      const expectedAmount = Math.floor((this.balance * this.activePercentage) / 100);
+      
+      if (Number(newVal) !== expectedAmount) {
+        this.activePercentage = null;
+      }
+    }
+  },
 
   mounted() {
     this.fetch()
@@ -167,6 +193,16 @@ export default {
 
   computed: {
     ...mapGetters('ribbon', ['new_wallet']),
+         amountErrors() {
+      const amount = Math.floor(this.inputBalance);
+      if (amount > this.balance) {
+        return ['موجودی کیف پول شما کافی نمی‌باشد.'];
+      }
+      if (amount > 0 && amount + 50000 > this.balance) {
+        return ['با کسر ۵۰,۰۰۰ ریال کارمزد، مبلغ درخواستی بیشتر از موجودی است.'];
+      }
+      return [];
+    },
     balance() {
       return this.new_wallet.balance
     },
@@ -201,6 +237,19 @@ export default {
 
   methods: {
     ...mapActions('ribbon', ['toggleWithdrawDialog']),
+    setPercentage(percent) {
+      if (this.balance <= 0) {
+        this.inputBalance = 0;
+        return;
+      }      
+      if (this.activePercentage === percent) {
+        this.activePercentage = null;
+        return;
+      }
+
+      this.activePercentage = percent;
+      this.inputBalance = Math.floor((this.balance * percent) / 100);
+    },
     fetch() {
       this.loading = true
 
