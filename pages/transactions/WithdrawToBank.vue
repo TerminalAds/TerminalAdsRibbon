@@ -25,7 +25,7 @@
       <span class="red--text">{{ i18n.t('WALLET.withdrawFee') }}</span>
       <v-row class="pa-2" justify="center" no-gutters>
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
-          <price-input v-model="inputBalance"  :max="Math.floor(balance)" :max-length="Math.floor(balance).toString().length" :label="i18n.t('WALLET.Amount')"  :error-messages="amountErrors"/>
+          <price-input v-model="inputBalance" toChar :max="Math.floor(balance)" :max-length="Math.floor(balance).toString().length" :label="i18n.t('WALLET.Amount')"  :error-messages="amountErrors"/>
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">

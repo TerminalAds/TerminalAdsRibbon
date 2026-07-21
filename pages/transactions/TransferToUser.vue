@@ -27,7 +27,7 @@
     <v-row class="pa-2" justify="center" no-gutters>
       <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
         <!-- فیلد مبلغ -->
-        <price-input v-model="inputBalance" :max="Math.floor(balance / (targetUsers.length || 1))" :max-length="balance.toString().length"  label="مبلغ برای هر نفر" to-char />
+        <price-input v-model="inputBalance" toChar :max="Math.floor(balance / (targetUsers.length || 1))" :max-length="balance.toString().length"  label="مبلغ برای هر نفر" to-char />
       </v-col>
 
       <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
