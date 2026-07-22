@@ -36,7 +36,7 @@
 
             <template v-slot:append-item>
               <div class="mx-4">
-                <v-btn depressed @click="addAccount = true">
+                <v-btn depressed @click.prevent="addAccount = true">
                   <v-icon color="success" left>mdi-plus</v-icon>
                   {{ i18n.t('WALLET.addAccount') }}
                 </v-btn>
@@ -72,7 +72,7 @@
         <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
           <v-divider/>
           <v-btn :disabled="!inputBalance || !selectedAccount"  :loading="loading" block color="success" depressed
-                 @click="addWithdraw">
+                 @click.prevent="addWithdraw">
             <v-icon left>mdi-plus</v-icon>
             {{ i18n.t('WALLET.submitWithdraw') }}
           </v-btn>
@@ -125,7 +125,7 @@
           <v-col class="pa-2" cols="12" lg="8" md="9" sm="10">
             <v-divider/>
             <v-btn :disabled="canAddAcc" :loading="addLoading" block color="success" depressed
-                   @click="addToAccountList">
+                   @click.prevent="addToAccountList">
               <v-icon left>mdi-plus</v-icon>
               {{ i18n.t('WALLET.addAccount') }}
             </v-btn>
@@ -291,11 +291,10 @@ export default {
           this.toggleWithdrawDialog(false);
         })
         .catch(({response}) => {
-          if (!!response.data.message)
-            this.$toast.error(response.data.message)
+          if (!!response?.data?.message)
+            this.$toast.error(response?.data?.message)
           else
-            this.$toast.error('خطا در ارسال درخواست برداشت از کیف پول!')
-          console.error('error to withdraw: ', response)
+            this.$toast.error('خطا در ارسال درخواست برداشت از کیف پول!');
         })
         .finally(() => this.loading = false);
     },

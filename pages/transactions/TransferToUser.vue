@@ -46,14 +46,14 @@
               }"
               class="vuetify-like-phone-input"
               @validate="onPhoneValidate"
-              @keyup.enter.native="addPhone"
+              @keyup.enter.native.prevent="addPhone"
             ></vue-tel-input>
           </div>
           
           <v-btn
             height="42"
             min-width="42"
-            @click="addPhone"
+            @click.prevent="addPhone"
             class="btn-get-code rounded-lg ms-2"
             :disabled="!isValidPhone"
           >
@@ -92,7 +92,7 @@
         </div>
         
         <div v-if="!hasEnoughBalance" class="red--text text-caption mt-2 font-weight-bold">
-          مجموع مبالغ پرداختی از موجودی موجودی کیف پول شما بیشتر است.
+          مجموع مبالغ پرداختی از موجودی کیف پول شما بیشتر است.
         </div>
       </v-col> 
       <v-col class="pa-1" cols="12" lg="8" md="9" sm="10">
@@ -112,7 +112,7 @@
           :disabled="!isValidForm"
           :loading="loading"
           block color="success" depressed
-          @click="submitTransfer"
+          @click.prevent="submitTransfer"
         >
           <v-icon left>mdi-send</v-icon>
           انتقال وجه
@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import PriceInput from "../pickers/priceInput"
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
@@ -183,6 +183,7 @@ export default {
     }
   },
   methods: {
+        ...mapActions('ribbon', ['toggleWithdrawDialog']),
     calculateActivePercentageAmount() {
       if (!this.activePercentage || this.balance <= 0) return;
       const usersCount = this.targetUsers.length > 0 ? this.targetUsers.length : 1;      
@@ -249,9 +250,10 @@ export default {
         this.$toast.success('انتقال با موفقیت انجام شد');
         this.targetUsers = [];
         this.inputBalance = 0;
+        this.toggleWithdrawDialog(false);
       })
       .catch(error => {
-        if (error.response && (error.response.status === 422 || error.response.status === 400)) {
+        if (error?.response && (error?.response?.status === 422 || error?.response?.status === 400)) {
              this.$toast.error('شما امکان انتقال وجه به کیف پول این شماره را ندارید.');
           } else {
             // this.$toast.error('خطایی در انجام تراکنش رخ داد.');

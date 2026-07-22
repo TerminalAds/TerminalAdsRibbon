@@ -31,14 +31,14 @@ export default {
     Vue.prototype.$instanceAxios = options.axios;
     Vue.prototype.$DashboardAxios = axios.create({
       baseURL: ir(options.core_url),
-      timeout: 15000,
+      timeout: 60000,
       headers: {
         common: options.headers,
       },
     });
     Vue.prototype.$payamakAxios = rootAxios.create({
       baseURL: Vue.prototype.$payamakApi,
-      timeout: 15000,
+      timeout: 60000,
       headers: options.headers,
     });
 
