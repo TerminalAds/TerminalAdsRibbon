@@ -254,7 +254,7 @@ export default {
         if (error.response && (error.response.status === 422 || error.response.status === 400)) {
              this.$toast.error('شما امکان انتقال وجه به کیف پول این شماره را ندارید.');
           } else {
-             this.$toast.error('خطایی در انجام تراکنش رخ داد.');
+            // this.$toast.error('خطایی در انجام تراکنش رخ داد.');
           }
         // const msg = error.response?.data?.message;
         // if (msg) {
