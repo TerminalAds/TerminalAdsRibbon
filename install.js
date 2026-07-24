@@ -53,7 +53,9 @@ export default {
       methods: {
         ...mapActions("ribbon", ["setWallet"]),
         changeLanguage(lang) {
-          options.onChangeLanguage(lang);
+           if (typeof options.onChangeLanguage === 'function') {
+            options.onChangeLanguage(lang);
+          }
           i18n.locale = lang;
           setLanguageCookie(lang);
         },
