@@ -3,7 +3,7 @@
     v-model="input"
     :error-messages="error !== undefined ? error : []"
     :label="label ?? i18n.t('WALLET.Amount') + ' (' + i18n.t('WALLET.Currency') + ')'"
-    :maxlength="maxLength ? maxLength + ( maxLength / 3 ) : 13"
+    :maxlength="maxLength ? parseInt(maxLength) + Math.floor((parseInt(maxLength) - 1) / 3) : 13"
     :messages="priceString"
     autofocus
     class="centered-input"
@@ -20,7 +20,7 @@ import Num2persian from 'num2persian';
 import i18n from '../../plugins/EasyModal/i18n';
 
 export default {
-  name: "priceInput",
+  name: 'priceInput',
 
   props: {
     value: [String, Number],
@@ -28,22 +28,22 @@ export default {
     label: String,
     maxLength: Number,
     toChar: Boolean,
-    max: [String, Number] 
+    max: [String, Number],
   },
 
   data() {
     return {
       input: this.value,
-      i18n
-    }
+      i18n,
+    };
   },
 
   created: function () {
-    this.$emit('input', this.convertToRealPrice(this.value + ""))
+    this.$emit('input', this.convertToRealPrice(this.value + ''));
   },
 
   mounted() {
-    this.input = this.convertToHumanReadablePrice(this.value + "");
+    this.input = this.convertToHumanReadablePrice(this.value + '');
   },
 
   watch: {
@@ -55,19 +55,19 @@ export default {
       }
 
       if (val?.toString()?.length > (this.maxLength ?? 10)) {
-        let fix = "";
+        let fix = '';
         for (let i = 0; i < (this.maxLength ?? 10); i++) {
-          fix = fix + "9";
+          fix = fix + '9';
         }
-        this.$emit('input', this.convertToRealPrice(fix))
+        this.$emit('input', this.convertToRealPrice(fix));
         return;
       }
-      
+
       this.input = this.convertToHumanReadablePrice(this.value);
-      
-      if ((this.value + "").length > 10) {
-        let fixPrice = this.convertToRealPrice((this.value + "").substring(0, 10));
-        this.$emit('input', fixPrice)
+
+      if ((this.value + '').length > 10) {
+        let fixPrice = this.convertToRealPrice((this.value + '').substring(0, 10));
+        this.$emit('input', fixPrice);
         this.input = this.convertToHumanReadablePrice(fixPrice);
       }
     },
@@ -76,50 +76,54 @@ export default {
   computed: {
     priceString: function () {
       return !!this.input
-        ? (this.toChar
-            ? Num2persian(this.value)
-            : this.persianNum(this.currency(this.value))) + " " + this.i18n.t('WALLET.Currency')
+        ? (this.toChar ? Num2persian(this.value) : this.persianNum(this.currency(this.value))) +
+            ' ' +
+            this.i18n.t('WALLET.Currency')
         : '';
-    }
+    },
   },
 
   methods: {
     convertToHumanReadablePrice(input) {
-      return (this.english(input?.toString()))?.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+      return this.english(input?.toString())?.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
     },
 
     convertToRealPrice(input) {
-      return parseInt(this.english(input ? (input?.toString())?.replace(/,/g, '') : '0'))
+      return parseInt(this.english(input ? input?.toString()?.replace(/,/g, '') : '0'));
     },
 
     handleInput(e) {
       let realPrice = this.convertToRealPrice(e);
-      
+
       // اگر مقدار از max بیشتر شد، آن را روی max تنظیم کن
       if (this.max !== undefined && realPrice > parseInt(this.max)) {
         realPrice = parseInt(this.max);
         this.input = this.convertToHumanReadablePrice(realPrice);
       }
 
-      this.$emit('input', realPrice)
+      this.$emit('input', realPrice);
     },
 
     isNumberKey: function (evt) {
-      let persianChars = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹']
-      evt = (evt) ? evt : window.event;
-      let charCode = (evt.which) ? evt.which : evt.keyCode;
-      if (((charCode > 31 && (charCode < 48 || charCode > 57)) && (persianChars.indexOf(evt.key) === -1))) {
+      let persianChars = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+      evt = evt ? evt : window.event;
+      let charCode = evt.which ? evt.which : evt.keyCode;
+      if (
+        charCode > 31 &&
+        (charCode < 48 || charCode > 57) &&
+        persianChars.indexOf(evt.key) === -1
+      ) {
         evt.preventDefault();
       } else {
         return true;
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
 .centered-input >>> input {
-  text-align: center
+  text-align: center;
 }
 </style>
