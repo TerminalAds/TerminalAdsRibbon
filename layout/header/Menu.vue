@@ -93,9 +93,9 @@
             target="_blank"
           >
             <span class="menu-text">{{
-              "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
-                ? i18n.t("MENUS." + menu?.name)
-                : menu?.name
+              "MENUS." + menu.name !== i18n.t("MENUS." + menu.name)
+                ? i18n.t("MENUS." + menu.name)
+                : menu.name
             }}</span>
           </a>
 
@@ -107,9 +107,9 @@
             @click.native="closeMenuOnClick()"
           >
             <span class="menu-text">{{
-              "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
-                ? i18n.t("MENUS." + menu?.name)
-                : menu?.name
+              "MENUS." + menu.name !== i18n.t("MENUS." + menu.name)
+                ? i18n.t("MENUS." + menu.name)
+                : menu.name
             }}</span>
           </router-link>
 
@@ -123,9 +123,9 @@
                 v-on="on"
               >
                 {{
-                  "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
-                    ? i18n.t("MENUS." + menu?.name)
-                    : menu?.name
+                  "MENUS." + menu.name !== i18n.t("MENUS." + menu.name)
+                    ? i18n.t("MENUS." + menu.name)
+                    : menu.name
                 }}
               </v-btn>
             </template>
@@ -133,9 +133,9 @@
             <v-card flat>
               <h3 class="px-2 pt-3 font-size-h6">
                 {{
-                  "MENUS." + menu?.name !== i18n.t("MENUS." + menu?.name)
-                    ? i18n.t("MENUS." + menu?.name)
-                    : menu?.name
+                  "MENUS." + menu.name !== i18n.t("MENUS." + menu.name)
+                    ? i18n.t("MENUS." + menu.name)
+                    : menu.name
                 }}
               </h3>
               <v-list>
