@@ -2,7 +2,7 @@
   <v-text-field
     v-model="input"
     :error-messages="error !== undefined ? error : []"
-    :label="label ?? i18n.t('WALLET.Amount') + ' (' + i18n.t('WALLET.Currency') + ')'"
+    :label="label != null ? label : i18n.t('WALLET.Amount') + ' (' + i18n.t('WALLET.Currency') + ')'"
     :maxlength="maxLength ? parseInt(maxLength) + Math.floor((parseInt(maxLength) - 1) / 3) : 13"
     :messages="priceString"
     autofocus
@@ -47,17 +47,17 @@ export default {
   },
 
   watch: {
-    value: function (val) {
-      // بررسی سقف مبلغ (اگر max پاس داده شده بود)
-      if (this.max !== undefined && val > parseInt(this.max)) {
-        this.$emit('input', parseInt(this.max));
+      value(val) {
+      if (this.max !== undefined && Number(val) > parseInt(this.max, 10)) {
+        this.$emit('input', parseInt(this.max, 10));
         return;
       }
 
-      if (val?.toString()?.length > (this.maxLength ?? 10)) {
-        let fix = '';
-        for (let i = 0; i < (this.maxLength ?? 10); i++) {
-          fix = fix + '9';
+      var maxLen = this.maxLength != null ? this.maxLength : 10;
+      if (val != null && val.toString().length > maxLen) {
+        var fix = '';
+        for (var i = 0; i < maxLen; i++) {
+          fix += '9';
         }
         this.$emit('input', this.convertToRealPrice(fix));
         return;
@@ -65,8 +65,8 @@ export default {
 
       this.input = this.convertToHumanReadablePrice(this.value);
 
-      if ((this.value + '').length > 10) {
-        let fixPrice = this.convertToRealPrice((this.value + '').substring(0, 10));
+      if (String(this.value).length > 10) {
+        var fixPrice = this.convertToRealPrice(String(this.value).substring(0, 10));
         this.$emit('input', fixPrice);
         this.input = this.convertToHumanReadablePrice(fixPrice);
       }
