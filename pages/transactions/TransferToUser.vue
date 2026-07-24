@@ -253,17 +253,13 @@ export default {
         this.toggleWithdrawDialog(false);
       })
       .catch(error => {
-        if (error?.response && (error?.response?.status === 422 || error?.response?.status === 400)) {
-             this.$toast.error('شما امکان انتقال وجه به کیف پول این شماره را ندارید.');
-          } else {
-            // this.$toast.error('خطایی در انجام تراکنش رخ داد.');
-          }
-        // const msg = error.response?.data?.message;
-        // if (msg) {
-        //   this.$toast.error(msg); 
-        // } else {
-        //   this.$toast.error('شما امکان انتقال وجه به کیف پول این شماره را ندارید.');
-        // }
+        if (error?.response && error?.response?.data && error?.response?.data?.message) {
+            this.$toast.error(error.response.data.message);
+        } else if (error.response && (error.response.status === 422 || error.response.status === 400)) {
+            this.$toast.error('شما امکان انتقال وجه به کیف پول این شماره را ندارید.');
+        } else {
+            this.$toast.error('خطایی در ارتباط با سرور رخ داد.');
+        }
       })
       .finally(() => {
         this.loading = false;
