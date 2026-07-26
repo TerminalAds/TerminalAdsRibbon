@@ -48,7 +48,14 @@
           >
             <slot name="tab" v-bind:tab="tab">
               <v-icon right>mdi-{{ tab.icon }}</v-icon>
-              <span class="font-weight-bold">{{ tab.text }}</span>
+                <div v-if="!!tab.subText && tab.subText.trim()"
+                  class="d-flex flex-column"
+                  style="line-height: 1.2; white-space: normal; text-align: right;"
+                >
+                  <span class="font-weight-bold">{{ tab.text }}</span>
+                  <span class="caption">{{ tab.subText }}</span>
+                </div>
+              <span v-else class="font-weight-bold">{{ tab.text }}</span>
             </slot>
             <slot name="helpinfo" v-bind:tab="tab"></slot>
           </div>
