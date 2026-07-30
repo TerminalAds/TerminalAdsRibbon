@@ -1,4 +1,14 @@
 export const locale = {
+  LISTS: {
+  NoData: "暂无数据",
+  NoDataFound: "未找到数据",
+  NoDataFoundFor: "未找到 {a} 的数据",
+  NoPhoneNumber: "未找到号码",
+  NoPostalCode: "未找到邮政编码",
+  AddANumber: "尚未添加任何号码。",
+  City: "城市",
+  AddedBefore: "已添加过",
+},
   dashboard_origin: "仪表板",
   menu: "菜单",
   get_menu_again: "重新获取菜单",

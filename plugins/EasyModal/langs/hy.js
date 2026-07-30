@@ -1,4 +1,14 @@
 export const locale = {
+  LISTS: {
+  NoData: "Տվյալներ չկան",
+  NoDataFound: "Տվյալներ չեն գտնվել",
+  NoDataFoundFor: "{a}-ի համար տվյալներ չեն գտնվել",
+  NoPhoneNumber: "Համար չի գտնվել",
+  NoPostalCode: "Փոստային ինդեքս չի գտնվել",
+  AddANumber: "Ոչ մի համար չի ավելացվել։",
+  City: "Քաղաք",
+  AddedBefore: "Արդեն ավելացված է",
+},
   dashboard_origin: "Վահանակ",
   menu: "Մենյու",
   get_menu_again: "Կրկին ստանալ մենյուն",

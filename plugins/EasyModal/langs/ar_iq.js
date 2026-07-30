@@ -1,4 +1,14 @@
 export const locale = {
+  LISTS: {
+  NoData: "ماكو بيانات",
+  NoDataFound: "ما تم العثور على بيانات",
+  NoDataFoundFor: "ما تم العثور على بيانات لـ {a}",
+  NoPhoneNumber: "ما تم العثور على رقم",
+  NoPostalCode: "ما تم العثور على رمز بريدي",
+  AddANumber: "ما تم إضافة أي رقم.",
+  City: "المدينة",
+  AddedBefore: "مضاف من قبل",
+},
   dashboard_origin: "لوحة التحكم",
   menu: "القائمة",
   get_menu_again: "جيب القائمة مرة ثانية",

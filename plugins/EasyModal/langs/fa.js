@@ -1,4 +1,14 @@
 export const locale = {
+    LISTS: {
+    NoData: "داده ای وجود ندارد",
+    NoDataFound: "داده ای پیدا نشد",
+    NoDataFoundFor: "داده ای برای {a} پیدا نشد",
+    NoPhoneNumber: "شماره ای پیدا نشد",
+    NoPostalCode: "کد پستی ای پیدا نشد",
+    AddANumber: "هیچ شماره‌ای اضافه نشده است.",
+    City: "شهر",
+    AddedBefore: "قبلا اضافه شده است",
+  },
   dashboard_origin: "داشبورد",
   menu: "منو",
   get_menu_again: "دریافت مجدد منو",

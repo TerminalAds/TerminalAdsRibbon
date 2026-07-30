@@ -1,4 +1,14 @@
 export const locale = {
+  LISTS: {
+  NoData: "沒有資料",
+  NoDataFound: "找不到資料",
+  NoDataFoundFor: "找不到 {a} 的資料",
+  NoPhoneNumber: "找不到號碼",
+  NoPostalCode: "找不到郵遞區號",
+  AddANumber: "尚未新增任何號碼。",
+  City: "城市",
+  AddedBefore: "已新增過",
+},
   dashboard_origin: "儀表板",
   menu: "選單",
   get_menu_again: "重新獲取選單",

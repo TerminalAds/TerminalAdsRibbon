@@ -1,4 +1,14 @@
 export const locale = {
+  LISTS: {
+  NoData: "Veri yok",
+  NoDataFound: "Veri bulunamadı",
+  NoDataFoundFor: "{a} için veri bulunamadı",
+  NoPhoneNumber: "Numara bulunamadı",
+  NoPostalCode: "Posta kodu bulunamadı",
+  AddANumber: "Hiç numara eklenmedi.",
+  City: "Şehir",
+  AddedBefore: "Daha önce eklendi",
+},
   dashboard_origin: "Gösterge Paneli",
   menu: "Menü",
   get_menu_again: "Menüyü Yeniden Al",

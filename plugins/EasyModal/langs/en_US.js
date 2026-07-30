@@ -1,4 +1,14 @@
 export const locale = {
+  LISTS: {
+  NoData: "No data available",
+  NoDataFound: "No data found",
+  NoDataFoundFor: "No data found for {a}",
+  NoPhoneNumber: "No number found",
+  NoPostalCode: "No ZIP code found",
+  AddANumber: "No number has been added.",
+  City: "City",
+  AddedBefore: "Already added",
+},
   dashboard_origin: "Dashboard",
   menu: "Menu",
   get_menu_again: "Retrieve Menu Again",
