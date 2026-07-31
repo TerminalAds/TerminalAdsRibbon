@@ -47,7 +47,7 @@
             "
           >
             <slot name="tab" v-bind:tab="tab">
-              <v-icon right>mdi-{{ tab.icon }}</v-icon>
+              <v-icon right :color="tab.color">mdi-{{ tab.icon }}</v-icon>
                 <div v-if="!!tab.subText && tab.subText.trim()"
                   class="d-flex flex-column"
                   style="line-height: 1.2; white-space: normal; text-align: right;"
@@ -90,7 +90,7 @@ export default {
     tabItems: {
       type: [Array, Object],
       default: function () {
-        return [{ text: "", icon: "" }];
+        return [{ text: "", icon: "",color:null }];
       },
     },
     windowItems: [Array, Object],
