@@ -213,6 +213,8 @@ import {
 } from "../../../assets/js/PhoneFunctions";
 import ContactsNumberEdit from "./contactsNumberEdit.vue";
 import readXlsxFile from "read-excel-file";
+import i18n from "../../../plugins/EasyModal/i18n.js";
+
 
 export default {
   name: "contactsNumberView",
@@ -227,6 +229,7 @@ export default {
 
   data() {
     return {
+      i18n,
       expandedSearch: false,
       singlePhone: "",
       bulk: [],

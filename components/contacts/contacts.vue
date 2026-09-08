@@ -280,6 +280,10 @@
             <v-tab-item>
               <list-award-game v-if="tabs === 4" />
             </v-tab-item>
+            <v-tab-item>
+              <list-discount v-if="tabs === 5" />
+            </v-tab-item>
+
           </template>
         </template>
       </custom-tabs>
@@ -299,6 +303,7 @@ import ContactsNumberView from "./fragments/contactsNumberView.vue";
 import ContactImportFromExcel from "./fragments/contactImportFromExcel.vue";
 import i18n from "../../plugins/EasyModal/i18n";
 import listAwardGame from "../awardGame/listAwardGame.vue";
+import listDiscount from "../awardGame/listDiscount.vue";
 
 export default {
   name: "contacts",
@@ -312,6 +317,7 @@ export default {
     ContactsMenu,
     CustomTabs,
     listAwardGame,
+    listDiscount
   },
 
   data() {
@@ -384,6 +390,7 @@ export default {
           icon: "file-excel",
         },
         { text: "لیست جوایز", icon: "gift" },
+        {text:"لیست کد تخفیف",icon:"discount"}
       ];
 
       return this.hasPhonebookPermission("add") ? [...arr, ...s_arr] : arr;

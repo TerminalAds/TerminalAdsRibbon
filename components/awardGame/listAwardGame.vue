@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import manageButtons from "@/view/content/button.vue";
+import manageButton from "@/view/content/button.vue";
 import AddAwardManualDialog from "./AddAwardManualDialog.vue";
 import AddAwardGame from "./addawardgame.vue";
 import AwardHistoryDialog from "./AwardHistoryDialog.vue";
@@ -127,7 +127,7 @@ import AwardHistoryDialog from "./AwardHistoryDialog.vue";
 export default {
   name: "ListAwards",
   components: {
-    manageButtons,
+    manageButton,
     AddAwardManualDialog,
     AddAwardGame,
     AwardHistoryDialog,
