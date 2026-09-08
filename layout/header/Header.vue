@@ -22,7 +22,7 @@
         class="d-flex align-items-center justify-content-between"
         v-bind:class="{ 'container-fluid': widthFluid, container: !widthFluid }"
       >
-        <KTDropdownLanguage />
+        <KTDropdownLanguage v-if="shouldShowLanguageDropdown"/>
 
         <v-btn
           v-if="asideEnabled"
@@ -121,6 +121,14 @@ export default {
 
   computed: {
     ...mapGetters(["layoutConfig", "getClasses"]),
+    shouldShowLanguageDropdown() {
+      const hostname = window.location.hostname;
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return true;
+      }
+      const allowedDomainPattern = /^(core-qr|core|core-)\.terminalads\.(com|ir)$/i;
+      return allowedDomainPattern.test(hostname);
+    },
     asideEnabled() {
       return !!this.layoutConfig("aside.self.display");
     },

@@ -22,6 +22,7 @@
             margin-right: 8px;
             margin-left: 8px;
           "
+          v-if="shouldShowLanguageDropdown"
         />
         <v-btn
           class="white--text rounded-lg"
@@ -82,6 +83,15 @@ export default {
 
   computed: {
     ...mapGetters(["layoutConfig", "getClasses"]),
+        shouldShowLanguageDropdown() {
+      const hostname = window.location.hostname;
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return true;
+      }
+      const allowedDomainPattern = /^(core-qr|core|core-)\.terminalads\.(com|ir)$/i;
+      return allowedDomainPattern.test(hostname);
+    },
+
 
     /**
      * Get header logo
