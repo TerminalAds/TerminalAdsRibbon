@@ -390,7 +390,7 @@ export default {
           icon: "file-excel",
         },
         { text: "لیست جوایز", icon: "gift" },
-        {text:"لیست کد تخفیف",icon:"discount"}
+        {text:"لیست کد تخفیف",icon:"ticket-percent"}
       ];
 
       return this.hasPhonebookPermission("add") ? [...arr, ...s_arr] : arr;

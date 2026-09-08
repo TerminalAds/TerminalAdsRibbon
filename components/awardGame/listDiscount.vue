@@ -1,14 +1,6 @@
 <template>
   <v-card flat class="pa-4">
-    <!-- ==================== حالت لیست ==================== -->
-    <div v-if="viewMode === 'list'">
-
-      <infoUSer-dialog
-        v-model="historyDialog"
-        :award-id="selectedAwardId"
-        v-if="historyDialog"
-      />
-
+    <div >
       <v-card-title class="pa-0 mb-6 d-flex align-center w-100">
       </v-card-title>
 
@@ -30,15 +22,14 @@
                 label="تعداد در صفحه"
               />
             </v-col>
-            <v-col class="pa-2" cols="12" lg="4" md="5" sm="6">
-              <v-text-field
-                v-model="props.search"
-                append-icon="mdi-magnify"
-                clearable
+            <v-col class="pa-2" cols="12" lg="3" md="4" sm="6">
+              <v-select
+                v-model="props.status"
+                :items="statusList"
                 dense
                 hide-details
-                label="جستجو ..."
                 outlined
+                label="وضعیت کد تخفیف"
               />
             </v-col>
           </v-row>
@@ -63,8 +54,8 @@
 
 
         <template v-slot:discount_status="{ item }">
-          <v-chip :color="item.enable ? 'success' : 'error'" small dark>
-            {{ item.discount_status==='used' ? "استفاده شده" : "قابل استفاده" }}
+          <v-chip :color="getstatusColor(item.discount_status)" small dark>
+            {{ getstatusText(item.discount_status) }}
           </v-chip>
         </template>
 
@@ -87,34 +78,12 @@ export default {
   },
 
   data: () => ({
-    viewMode: "list",
     selectedItem: null,
     loading: false,
     historyDialog: false,
     selectedAwardId: null,
-
     tableData: { data: [], current_page: 1, per_page: 10, total: 0 },
-
-
-    //  "id": 4,
-    //     "qr_id": 488174,
-    //     "user_id": 13,
-    //     "customer_club_setting_id": 3,
-    //     "phone": "09309494643",
-    //     "discount_code": "gcewrggfwfer",
-    //     "discount_status": "used",
-    //     "sms_sent_at": "2026-09-08T09:48:27.000000Z",
-    //     "created_at": "2026-09-08T09:48:27.000000Z",
-    //     "updated_at": "2026-09-08T09:48:27.000000Z",
-    //     "user": {
-    //       "id": 13,
-    //       "name": "هما",
-    //       "lastName": "خواجه",
-    //       "username": null,
-    //       "phone": "989216554670",
-    //       "price_id": null,
-    //       "tag": null
-    //     }
+    statusList: [{ text:'همه',value:'null'},{ text:'قابل استفاده',value:'unused'},{ text:'استفاده شده',value:'used'},],
     headers: [
       {
         text: "ردیف",
@@ -146,7 +115,7 @@ export default {
     tableParams: {
       page: 1,
       length: 10,
-      search: "",
+      status: null,
     },
   }),
 
@@ -176,83 +145,54 @@ export default {
       this.historyDialog = true;
     },
     async smsLogs() {
+        const params = { ...this.tableParams };
+      if(params.status===null)
+      delete params.status;
       try {
         this.loading = true;
         const res = await this.requestApiGetPayamak(`club-settings/sms-logs`, {
-          params: this.tableParams,
+          params: params,
         });
         if (res.data.status) {
           this.tableData = res.data.data;
         }
       } catch (err) {
         console.error(err);
-        this.$toast.error("خطا در بارگذاری جوایز");
+        this.$toast.error("خطا در بارگذاری کدتخفیف");
       } finally {
         this.loading = false;
       }
     },
 
-    onTableChange({ page, length, search }) {
-      this.tableParams = { page, length, search };
+    onTableChange({ page, length, status }) {
+      this.tableParams = { page, length, status };
       this.smsLogs();
     },
 
-    startAdd() {
-      this.viewMode = "add";
-      this.selectedItem = null;
-    },
 
-    editAction(item) {
-      this.selectedItem = { ...item };
-      this.viewMode = "edit";
-    },
 
-    deleteAction(item) {
-      this.$modal.yesNo(`آیا جایزه «${item.award}» حذف شود؟`).then(async () => {
-        this.loading = true;
-        try {
-          const res = await this.requestApiDeletePayamak(
-            `game/award/${item.id}`,
-          );
-          if (res.data?.status) {
-            this.$toast.success("جایزه با موفقیت حذف شد.");
-            this.smsLogs();
-          }
-        } catch (e) {
-          this.$toast.error("خطا در حذف");
-        } finally {
-          this.loading = false;
-        }
-      });
-    },
-
-    getAwardTypeColor(type) {
+    getstatusColor(type) {
       switch (type) {
-        case "discount":
-          return "rgb(255, 141, 11)";
-        case "text":
-          return "rgba(0, 255, 196, 1)";
-        case "url":
-          return "rgba(5, 255, 0, 1)";
-        default:
+        case "used":
           return "rgba(255, 0, 142, 1)";
+        case "unused":
+          return "rgba(0, 255, 196, 1)";
+        default:
+          return "rgba(0, 255, 196, 1)";
       }
     },
-    getAwardTypeText(type) {
+    getstatusText(type) {
       switch (type) {
-        case "discount":
-          return "تخفیف";
-        case "text":
-          return "متن";
-        case "url":
-          return "لینک";
+        case "used":
+          return "استفاده شده";
+        case "unused":
+          return "قابل استفاده";
         default:
-          return type;
+          return "قابل استفاده";
       }
     },
 
     backToList() {
-      this.viewMode = "list";
       this.selectedItem = null;
       this.smsLogs();
     },
