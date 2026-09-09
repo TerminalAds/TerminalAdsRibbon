@@ -1184,7 +1184,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-          SERVER_DOWN: "جاري التحديث",
+    QR_NAME_EDIT_TEXT: "تعديل نص رمز QR",
+    SERVER_DOWN: "جاري التحديث",
     CREATE_MEMORIES_MODEL: "إنشاء نموذج إطار الذكريات",
     CREATE_CARD_VISIT_PRO_MODEL: "إنشاء نموذج بطاقة العمل الاحترافية",
     CREATE_PRODUCT_PRO_MODEL: "إنشاء نموذج تعريف المنتج الاحترافي",

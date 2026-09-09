@@ -1182,7 +1182,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-       SERVER_DOWN: "Güncelleniyor",
+    QR_NAME_EDIT_TEXT: "QR metnini düzenle",
+    SERVER_DOWN: "Güncelleniyor",
     CREATE_MEMORIES_MODEL: "Anı Çerçevesi Şablonu Oluştur",
     CREATE_CARD_VISIT_PRO_MODEL: "Kartvizit Pro Şablonu Oluştur",
     CREATE_PRODUCT_PRO_MODEL: "Ürün Tanıtım Pro Şablonu Oluştur",

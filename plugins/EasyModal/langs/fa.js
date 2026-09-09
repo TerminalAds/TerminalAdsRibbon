@@ -1185,7 +1185,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-      SERVER_DOWN: "در حال به روزرسانی",
+    QR_NAME_EDIT_TEXT:"ویرایش کیوآر متن",
+    SERVER_DOWN: "در حال به روزرسانی",
     CREATE_MEMORIES_MODEL: "ساخت مدل قاب خاطره",
     CREATE_CARD_VISIT_PRO_MODEL: "ساخت مدل کارت ویزیت پرو",
     CREATE_PRODUCT_PRO_MODEL: "ساخت مدل معرفی محصول پرو",

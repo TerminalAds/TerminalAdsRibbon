@@ -1205,7 +1205,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-       SERVER_DOWN: "Mise à jour en cours",
+    QR_NAME_EDIT_TEXT: "Modifier le texte du QR",   
+    SERVER_DOWN: "Mise à jour en cours",
     CREATE_MEMORIES_MODEL: "Créer le modèle cadre de souvenirs",
     CREATE_CARD_VISIT_PRO_MODEL: "Créer le modèle carte de visite pro",
     CREATE_PRODUCT_PRO_MODEL: "Créer le modèle présentation produit pro",

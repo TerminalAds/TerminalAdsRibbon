@@ -1193,7 +1193,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-       SERVER_DOWN: "Թարմացվում է",
+    QR_NAME_EDIT_TEXT: "Խմբագրել QR տեքստը",
+    SERVER_DOWN: "Թարմացվում է",
     CREATE_MEMORIES_MODEL: "Ստեղծել հուշերի շրջանակի մոդել",
     CREATE_CARD_VISIT_PRO_MODEL: "Ստեղծել այցեքարտ Pro մոդել",
     CREATE_PRODUCT_PRO_MODEL: "Ստեղծել ապրանքի ներկայացման Pro մոդել",

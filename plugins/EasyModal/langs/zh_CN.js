@@ -1174,7 +1174,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-       SERVER_DOWN: "系统更新中",
+    QR_NAME_EDIT_TEXT: "编辑二维码文本",
+    SERVER_DOWN: "系统更新中",
     CREATE_MEMORIES_MODEL: "创建回忆相框模型",
     CREATE_CARD_VISIT_PRO_MODEL: "创建专业名片模型",
     CREATE_PRODUCT_PRO_MODEL: "创建专业产品介绍模型",

@@ -1183,7 +1183,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-       SERVER_DOWN: "System Updating",
+    QR_NAME_EDIT_TEXT: "Edit QR text",
+    SERVER_DOWN: "System Updating",
     CREATE_MEMORIES_MODEL: "Create Memories Frame Model",
     CREATE_CARD_VISIT_PRO_MODEL: "Create Business Card Pro Model",
     CREATE_PRODUCT_PRO_MODEL: "Create Product Intro Pro Model",

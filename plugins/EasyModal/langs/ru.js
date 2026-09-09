@@ -1184,7 +1184,8 @@ export const locale = {
 
   ROUTE: {
     TITLES: {
-        SERVER_DOWN: "Обновление системы",
+    QR_NAME_EDIT_TEXT: "Редактировать текст QR",
+    SERVER_DOWN: "Обновление системы",
     CREATE_MEMORIES_MODEL: "Создать шаблон рамки воспоминаний",
     CREATE_CARD_VISIT_PRO_MODEL: "Создать шаблон визитки Pro",
     CREATE_PRODUCT_PRO_MODEL: "Создать шаблон презентации товара Pro",
