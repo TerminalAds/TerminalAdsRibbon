@@ -24,7 +24,7 @@
             </v-col>
             <v-col class="pa-2" cols="12" lg="3" md="4" sm="6">
               <v-select
-                v-model="props.status"
+                v-model="props.discount_status"
                 :items="statusList"
                 dense
                 hide-details
@@ -40,10 +40,12 @@
             item.index + 1 + (tableData.current_page - 1) * tableData.per_page
           }}
         </template>
-        <template v-slot:username="{ item }">
-            {{    `${item.user.name}/ ${item.user.lastName}` }}
+        <template v-slot:customer_full_name="{ item }">
+            {{ item.customer_full_name ||"-" }}
         </template>
-
+        <template v-slot:qr_title="{ item }">
+          {{ item.qr_title || "-" }}
+        </template>
         <template v-slot:updated_at="{ item }">
             {{     jalalian(item.updated_at) }}
         </template>
@@ -92,9 +94,9 @@ export default {
         align: "center",
         width: "80px",
       },
-      { text: "شناسه کیوآر", value: "qr_id", align: "center" },//عوض یشه
+      { text: "نام باشگاه", value: "qr_title", align: "center" },//عوض یشه
       { text: "شماره مصرف کننده", value: "phone", align: "center" },
-      { text: "نام/نام خانوادگی مصرف کننده", value: "username", align: "center" },
+      { text: "نام/نام خانوادگی مصرف کننده", value: "customer_full_name", align: "center" },
       { text: "کد تخفیف", value: "discount_code", align: "center" },
       { text: "وضعیت کد تخفیف", value: "discount_status", align: "center" },
       { text: "زمان ارسال پیام", value: "sms_sent_at", align: "center" },
@@ -115,7 +117,7 @@ export default {
     tableParams: {
       page: 1,
       length: 10,
-      status: null,
+      discount_status: null,
     },
   }),
 
@@ -146,8 +148,8 @@ export default {
     },
     async smsLogs() {
         const params = { ...this.tableParams };
-      if(params.status===null)
-      delete params.status;
+      if(params.discount_status===null)
+      delete params.discount_status;
       try {
         this.loading = true;
         const res = await this.requestApiGetPayamak(`club-settings/sms-logs`, {
@@ -164,8 +166,8 @@ export default {
       }
     },
 
-    onTableChange({ page, length, status }) {
-      this.tableParams = { page, length, status };
+    onTableChange({ page, length, discount_status }) {
+      this.tableParams = { page, length, discount_status };
       this.smsLogs();
     },
 
@@ -178,7 +180,7 @@ export default {
         case "unused":
           return "rgba(0, 255, 196, 1)";
         default:
-          return "rgba(0, 255, 196, 1)";
+          return "#FFF700";
       }
     },
     getstatusText(type) {
@@ -188,7 +190,7 @@ export default {
         case "unused":
           return "قابل استفاده";
         default:
-          return "قابل استفاده";
+          return type||"";
       }
     },
 
