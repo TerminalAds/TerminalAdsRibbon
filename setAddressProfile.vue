@@ -4,10 +4,10 @@
     :cons="popupConfig"
     :loading="loading"
     max-width="550"
-    :hide-close="!setedAddress"
+    :hide-close="!setedAddress && !isUser75"
     @close="closePopup"
     :hide-confirm="!setedAddress"
-    :persistent="!setedAddress"
+    :persistent="!setedAddress && !isUser75"
   >
     <v-form v-if="!setedAddress" ref="addressForm" v-model="valid" lazy-validation class="pa-6">
       <v-text-field
@@ -135,6 +135,27 @@ export default {
     };
   },
   computed: {
+     isUser75() {
+      try {
+        const userInfo = localStorage.getItem("userInfo");
+        if (!userInfo) return false;
+        const parsedUser = JSON.parse(userInfo);
+        return parsedUser && Number(parsedUser.id) === 75;
+      } catch (e) {
+        return false;
+      }
+    },
+        shouldShowAddressPopup() {
+      try {
+        const userInfo = localStorage.getItem("userInfo");
+        if (!userInfo) return false; 
+        
+        const parsedUser = JSON.parse(userInfo);
+        return parsedUser && Number(parsedUser.id) !== 13;
+      } catch (e) {
+        return false;
+      }
+    },
     dialog: {
       get() { return this.value; },
       set(val) { this.$emit("input", val); },
