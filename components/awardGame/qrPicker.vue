@@ -253,6 +253,22 @@ export default {
           name: "متن",
           icon: "text",
         },
+        {
+          value: "qreitaa",
+          name:"ایتا",
+          icon:"eitaa",
+        }, 
+        {
+          value: "qrrobika",
+          name:"روبیکا",
+          icon:"robika",
+        }, 
+        {
+          value: "qrbale",
+          name:"بله",
+          icon:"bale",
+        },
+
       ];
       return qrTypes.find((t) => t.value.toLowerCase() === type.toLowerCase());
     },
