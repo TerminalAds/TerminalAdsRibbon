@@ -26,7 +26,7 @@
       </div>
 
       <!-- چیپ‌های دسته‌بندی -->
-      <div class="category-filter-row d-flex align-center mb-4 mx-auto pb-2" style="max-width: 100%;">
+      <div class="category-filter-row d-flex align-center mb-0 mx-auto pb-2" style="max-width: 100%;">
         <button
           v-for="cat in qrCategories"
           :key="cat.id"
@@ -176,7 +176,7 @@
             <div class="text-center py-4">
               <v-icon size="48" color="grey lighten-1" class="mb-2">mdi-magnify-close</v-icon>
               <h4 class="grey--text text--darken-2 mb-1">موردی پیدا نشد!</h4>
-              <p class="grey--text text-caption mb-4">آیا کیوآر خاصی مد نظر شماست؟</p>
+              <p class="grey--text mb-4">آیا کیوآر خاصی مد نظر شماست؟</p>
               
               <v-divider class="my-3"></v-divider>
               
