@@ -1,9 +1,10 @@
 <template>
   <v-row class="no-gutters">
-    <v-col class="pa-4 mb-12" cols="12">
-      <find-menu-page/>
+    <v-col class="pa-4 pb-0 mb-2" cols="12">
+      <find-menu-page class="mb-2"  v-if="showFindMenu"/>
+      <SmartSearchBanner @show-all="handleShowAllFeatures" v-else />
+      <!-- <QrPricingWidget class="w-50"/> -->
     </v-col>
-
     <v-col v-if="dashboardIntro && $vuetify.breakpoint.mdAndDown" class="pa-4" cols="12">
       <div class="h_iframe-aparat_embed_frame">
         <!--        <span style="display: block;padding-top: 57%"></span>-->
@@ -81,6 +82,8 @@ import TicketInfo from "./components/list/ticketInfo";
 import UserProfile from "./components/list/userProfile";
 import FollowTerminalAds from "./components/mixed/followTerminalAds";
 import FindMenuPage from "./components/list/findMenuPage.vue";
+import SmartSearchBanner from "./components/list/SmartSearchBanner.vue";
+// import QrPricingWidget from "./components/list/QrPricingWidget.vue";
 
 export default {
   name: "Dashboard",
@@ -95,10 +98,31 @@ export default {
     News,
     DashboardBanners,
     UserTransactions,
+    SmartSearchBanner,
+    // QrPricingWidget
   },
 
   computed: {
     ...mapGetters('ribbon', ['dashboardIntro']),
+    showFindMenu() {
+    if (typeof window === 'undefined') return true;
+
+    const hostname = window.location.hostname;
+    const excludedDomains = [
+      'core-qr.terminalads.com',
+      'core-qr.terminalads.ir',
+      'localhost'
+    ];
+    return !excludedDomains.includes(hostname);
+  },
+  },
+  methods:{
+        handleShowAllFeatures() {
+      // window.location.href = "https://core-qr.terminalads.ir/#/qr/cate/share";
+      
+      window.open("https://core-qr.terminalads.ir/#/qr/cate/share", "_blank");
+    },
+
   }
 };
 </script>

@@ -1421,4 +1421,9 @@ export const locale = {
   ticket: {
     text: "ثبت تیکت",
   },
+    LANGUAGE:{
+    Persian:'فارسی',
+    English:'انگلیسی',
+  },
+
 };
