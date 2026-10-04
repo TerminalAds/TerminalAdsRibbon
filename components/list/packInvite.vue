@@ -7,7 +7,7 @@
       >
         <!--        <span style="display: block;padding-top: 57%"></span>-->
         <iframe
-          :src="dashboardIntro.src"
+          src="@/assets/img/invite.png"
           allowFullScreen="true"
           mozallowfullscreen="true"
           webkitallowfullscreen="true"
