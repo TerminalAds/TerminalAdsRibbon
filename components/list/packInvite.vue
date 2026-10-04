@@ -7,7 +7,7 @@
       >
         <!--        <span style="display: block;padding-top: 57%"></span>-->
         <iframe
-          src="@/assets/img/invite.png"
+          :src="dashboardIntro.src"
           allowFullScreen="true"
           mozallowfullscreen="true"
           webkitallowfullscreen="true"
@@ -65,7 +65,7 @@
           <img
             alt=""
             class="img-fluid"
-            src="https://cdn.terminalads.com/4676a06d00a58fe9678d80fe1f8bd776.jpg"
+            src="@/assets/img/invite.png"
             style="max-height: 120px; object-fit: contain; width: 150px"
           />
         </div>
