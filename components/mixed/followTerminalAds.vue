@@ -34,7 +34,7 @@
         <!-- موشک -->
         <div class="rocket-box">
           <img
-            src="https://cdn3d.iconscout.com/3d/premium/thumb/social-media-marketing-landing-5571796-4665631.png"
+            src="../../assets/img/social-media-marketing-landing.png"
             alt="Social Media"
             class="rocket-img"
           />
