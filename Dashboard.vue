@@ -3,7 +3,6 @@
     <v-col class="pa-4 pb-0 mb-2" cols="12">
       <find-menu-page class="mb-2"  v-if="showFindMenu"/>
       <SmartSearchBanner @show-all="handleShowAllFeatures" v-else />
-      <!-- <QrPricingWidget class="w-50"/> -->
     </v-col>
     <v-col v-if="dashboardIntro && $vuetify.breakpoint.mdAndDown" class="pa-4" cols="12">
       <div class="h_iframe-aparat_embed_frame">
@@ -58,6 +57,7 @@
     </v-col>
 
     <v-col cols="12" order="4">
+      
       <dashboard-banners/>
     </v-col>
 
@@ -65,8 +65,9 @@
       <news/>
     </v-col>
 
-    <v-col class="px-2 pr-sm-0" cols="12" md="6" order="6">
-      <advances/>
+    <v-col class="px-2 py-2 pl-sm-2" cols="12" md="6" order="6">
+      <advances v-if="showFindMenu"/>
+      <QrPricingWidget v-else/>
     </v-col>
   </v-row>
 </template>
@@ -83,7 +84,7 @@ import UserProfile from "./components/list/userProfile";
 import FollowTerminalAds from "./components/mixed/followTerminalAds";
 import FindMenuPage from "./components/list/findMenuPage.vue";
 import SmartSearchBanner from "./components/list/SmartSearchBanner.vue";
-// import QrPricingWidget from "./components/list/QrPricingWidget.vue";
+import QrPricingWidget from "./components/list/QrPricingWidget.vue";
 
 export default {
   name: "Dashboard",
@@ -99,7 +100,7 @@ export default {
     DashboardBanners,
     UserTransactions,
     SmartSearchBanner,
-    // QrPricingWidget
+    QrPricingWidget
   },
 
   computed: {
