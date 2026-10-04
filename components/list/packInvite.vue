@@ -65,7 +65,7 @@
           <img
             alt=""
             class="img-fluid"
-            src="@/assets/img/invite.png"
+          src="../../assets/img/invite.png" 
             style="max-height: 120px; object-fit: contain; width: 150px"
           />
         </div>
