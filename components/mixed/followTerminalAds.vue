@@ -107,7 +107,7 @@ export default {
 
 <style scoped>
 .modern-social-card {
-  border-radius: 12px;
+  border-radius: 9px;
   background: #ffffff;
   box-shadow: 0 0 20px 0 rgba(82, 63, 105, 0.05);
   overflow: hidden;
