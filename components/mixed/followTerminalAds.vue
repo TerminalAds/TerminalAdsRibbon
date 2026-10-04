@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="card-body px-3 pb-3 d-flex flex-column align-items-center justify-content-center">
+    <div class="card-body pt-0 px-3 pb-3 d-flex flex-column align-items-center justify-content-center">
       
       <!-- عکس (پشتیبان / موشک) -->
       <div class="rocket-box">

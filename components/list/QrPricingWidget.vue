@@ -24,7 +24,7 @@
 
         <div class="title-section">
           <div class="widget-title">تعرفه کیوآر</div>
-          <div class="widget-subtitle">پلن متناسب با کسب‌وکارتان را انتخاب کنید</div>
+          <div class="widget-subtitle">پنل متناسب با کسب‌وکارتان را انتخاب کنید</div>
         </div>
       </div>
 
@@ -138,7 +138,7 @@
         </v-col>
 
         <v-col cols="6" class="text-left">
-          <div v-if="activePriceItem.discount" class="text-decoration-line-through grey--text text-caption" style="line-height: 1;">
+          <div v-if="activePriceItem.discount" class="text-decoration-line-through grey--text text-caption" style="line-height: 1.5;">
             {{ persian(formatPrice(activePriceItem.price).num) }} {{ formatPrice(activePriceItem.price).text }}
           </div>
           <div class="d-flex align-baseline justify-end" style="gap: 4px;">
@@ -405,12 +405,12 @@ export default {
 }
 
 .plan-badge {
-  font-size: 0.78rem !important;
+  font-size: 1.1rem !important;
   border-radius: 8px !important;
 }
 
 .price-value {
-  font-size: 1.55rem;
+  font-size: 2.55rem;
   line-height: 1;
   font-family: inherit;
 }
