@@ -182,4 +182,22 @@ export default {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
+.modern-social-card {
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: 0 0 20px 0 rgba(82, 63, 105, 0.05);
+  overflow: hidden;
+  transform: none !important;
+  perspective: none !important;
+}
+
+.modern-social-card:hover {
+  transform: none !important;
+}
+.no-flip-card,
+.no-flip-card:hover {
+  transform: none !important;
+  perspective: none !important;
+  transition: none !important; 
+}
 </style>

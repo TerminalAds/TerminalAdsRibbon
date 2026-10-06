@@ -145,7 +145,7 @@
             <span class="font-weight-black price-value" :style="{ color: activeCardStyle.color }">
               {{ persian(formatPrice(activePriceItem.discount ? computedDiscount(activePriceItem) : activePriceItem.price).num) }}
             </span>
-            <span class="price-currency">
+            <span class="price-value" :style="{ color: activeCardStyle.color }">
               {{ formatPrice(activePriceItem.discount ? computedDiscount(activePriceItem) : activePriceItem.price).text }}
             </span>
           </div>
@@ -250,22 +250,37 @@ export default {
       if (!item || !item.discount) return item.price;
       return Math.round(item.price - (item.price * item.discount) / 100);
     },
-        formatPrice(amount) {
-      if (!amount) return { num: 0, text: "رایگان" };
-      
-      // تبدیل ریال به تومان
-      const toman = amount / 10; 
+  formatPrice(amount) {
+      if (!amount) return { num: "رایگان", text: "" };
 
-      if (toman >= 1000000 && toman % 100000 === 0) {
-        const num = toman / 1000000;
+      const toman = Math.round(amount / 10);
+
+      if (toman >= 1000000) {
+        const millions = Math.floor(toman / 1000000);
+        const thousands = Math.round((toman % 1000000) / 1000);
+
+        if (thousands > 0) {
+          return {
+            num: `${this.persian(millions)} میلیون و ${this.persian(thousands)} هزار`,
+            text: "تومان"
+          };
+        }
         return {
-          num: Number.isInteger(num) ? num : num.toFixed(1),
-          text: "میلیون تومان"
+          num: `${this.persian(millions)} میلیون`,
+          text: "تومان"
         };
-      } else if (toman >= 1000 && toman % 1000 === 0) {
-        return { num: toman / 1000, text: "هزار تومان" };
+      } else if (toman >= 1000) {
+        const thousands = Math.round(toman / 1000);
+        return {
+          num: `${this.persian(thousands)} هزار`,
+          text: "تومان"
+        };
       }
-      return { num: toman.toLocaleString(), text: "تومان" };
+
+      return {
+        num: this.persian(toman.toLocaleString()),
+        text: "تومان"
+      };
     },
 
     getCardStyle(item) {
@@ -410,7 +425,7 @@ export default {
 }
 
 .price-value {
-  font-size: 2.55rem;
+  font-size: 1.55rem;
   line-height: 1;
   font-family: inherit;
 }

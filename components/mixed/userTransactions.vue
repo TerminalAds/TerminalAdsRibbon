@@ -1,5 +1,5 @@
 <template>
-  <div class="card card-custom card-stretch fill-height">
+  <div class="card card-custom card-stretch fill-height no-flip-card">
     <div class="card-body d-flex flex-column px-5">
       <div>
         <h4>{{ i18n.t("last_transaction") }}</h4>
