@@ -298,30 +298,37 @@ export default {
         })
         .finally(() => this.loading = false);
     },
-    addToAccountList() {
-      this.addLoading = true
+      addToAccountList() {
+        const inputName = `${this.obj.ownerName || ''} ${this.obj.ownerLastName || ''}`.trim();
+        const userName = `${this.user?.name || ''} ${this.user?.lastName || ''}`.trim();
 
-      if (this.obj.ownerName !== this.user.name || this.obj.ownerLastName !== this.user.lastName) {
-        return this.$toast.error('حساب وارد شده به نام کاربر نیست!!')
-      }
+        if (inputName !== userName) {
+          this.$toast.error('نام و نام خانوادگی صاحب حساب با اطلاعات کاربری شما همخوانی ندارد.');
+          return;
+        }
 
-      this.$DashboardAxios.post('/api/account', this.obj)
-        .then(({data}) => {
-          this.selectedAccount = data.data.id
-          this.obj = {
-            bankName: '',
-            ownerName: '',
-            ownerLastName: '',
-            accountNumber: '',
-            cardNumber: '',
-            sheba: '',
-          }
-          this.addAccount = false
-          this.fetch()
-        })
-        .catch(({response}) => console.error('error in add account: ', response))
-        .finally(() => this.addLoading = false);
-    },
+        this.addLoading = true;
+
+        this.$DashboardAxios.post('/api/account', this.obj)
+          .then(({ data }) => {
+            this.selectedAccount = data.data.id;
+            this.obj = {
+              bankName: '',
+              ownerName: '',
+              ownerLastName: '',
+              accountNumber: '',
+              cardNumber: '',
+              sheba: '',
+            };
+            this.addAccount = false;
+            this.fetch();
+          })
+          .catch(({ response }) => console.error('error in add account: ', response))
+          .finally(() => {
+            this.addLoading = false;
+          });
+      },
+
     deleteAccount(id) {
       if (this.$modal.yesNo('حذف حساب از لیست ؟')) {
         this.loading = true
