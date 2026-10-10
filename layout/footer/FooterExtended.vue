@@ -87,7 +87,7 @@
                 <div class="d-flex align-items-center order-lg-1 order-2">
                     <img
                             alt="Logo"
-                            src="media/logos/logo-letter-1.png"
+                            src="media/logos/logo-letter-1.webp"
                             class="logo-sticky max-h-35px"
                     />
                     <span class="text-muted font-weight-bold mx-2">2020©</span>

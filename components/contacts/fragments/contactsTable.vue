@@ -226,7 +226,7 @@
 
       <template v-slot:image="{ item }">
         <img
-          :src="item.avatar || '/media/users/blank.png'"
+          :src="item.avatar || '/media/users/blank.webp'"
           alt=""
           class="pa-1 overflow-hidden rounded-pill"
           style="object-fit: cover; width: 44px; height: 44px"

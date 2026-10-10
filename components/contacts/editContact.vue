@@ -43,7 +43,7 @@
       <v-card-text>
         <v-list-item>
           <v-list-item-avatar size="156">
-            <v-img contain src="/media/users/blank.png" />
+            <v-img contain src="/media/users/blank.webp" />
           </v-list-item-avatar>
 
           <v-list-item-content>

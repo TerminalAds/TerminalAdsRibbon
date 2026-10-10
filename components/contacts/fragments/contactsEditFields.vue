@@ -10,7 +10,7 @@
                    x-small @click="computedAvatar = null">
               <v-icon>mdi-close</v-icon>
             </v-btn>
-            <img id="avatar" :src="!!computedValue.avatar ? computedValue.avatar : '/media/users/blank.png'"
+            <img id="avatar" :src="!!computedValue.avatar ? computedValue.avatar : '/media/users/blank.webp'"
                  alt="user_profile" style="object-fit: cover">
             <v-btn absolute class="avatar-float-btn" depressed fab height="46" width="46" @click="handelUpload">
               <v-icon>mdi-pencil-outline</v-icon>

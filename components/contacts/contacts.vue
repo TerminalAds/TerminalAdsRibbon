@@ -228,7 +228,7 @@
                 contain
                 max-height="150"
                 max-width="150"
-                src="media/empty/add-number-2.png"
+                src="media/empty/add-number-2.webp"
               />
 
               <p class="mt-2 text-center">
