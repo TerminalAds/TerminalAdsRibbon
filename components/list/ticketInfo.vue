@@ -1,5 +1,5 @@
 <template>
-  <v-row class="fill-height" no-gutters>
+  <v-row class="fill-height no-flip-card" no-gutters>
     <v-col
       v-if="dashboardIntro && $vuetify.breakpoint.lgAndUp"
       class="pa-2"
@@ -9,7 +9,7 @@
     </v-col>
 
     <v-col v-else class="pa-2" cols="12" lg="12" md="6">
-      <div class="card card-custom card-body fill-height pt-4 px-6">
+      <div class="card card-custom card-body fill-height pt-4 px-6 no-flip-card">
         <v-row no-gutters>
           <v-col cols="7">
             <h6
@@ -35,7 +35,7 @@
           <v-col cols="5">
             <img
               alt=""
-              src="../../assets/img/customer-service.png"
+              src="../../assets/img/customer-service.webp"
               style="width: 100%; object-fit: contain"
             />
           </v-col>
@@ -47,7 +47,7 @@
       <a
         :href="DConfigs.dashboardConfig.announcement.url"
         :style="`background-image: url(${DConfigs.dashboardConfig.announcement.img})`"
-        class="card card-custom cursor-pointer"
+        class="card card-custom cursor-pointer no-flip-card"
       >
         <div class="card-body pe-1">
           <div
@@ -65,7 +65,7 @@
       <a
         :href="DConfigs.dashboardConfig.numbers.url"
         :style="`background-image: url(${DConfigs.dashboardConfig.numbers.img})`"
-        class="card ribbon card-custom"
+        class="card ribbon card-custom no-flip-card"
       >
         <div class="card-body pe-1">
           <div
@@ -132,5 +132,11 @@ export default {
   min-height: 165px;
   background-size: 50%;
   background-color: rgb(245, 245, 245);
+}
+.no-flip-card:hover,
+.card-custom.no-flip-card:hover {
+  transform: none !important;
+  -webkit-transform: none !important;
+  box-shadow: 0 0 30px 0 rgba(82, 63, 105, 0.05) !important;
 }
 </style>

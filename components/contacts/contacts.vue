@@ -169,7 +169,7 @@
         :aspect-ratio="1"
         class="rounded-lg"
         contain
-        src="/media/img/noPhoneTags.jpg"
+        src="/media/img/noPhoneTags.webp"
         width="160"
       />
       <v-card-title>

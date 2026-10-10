@@ -170,7 +170,7 @@ keywords: [
     name: "بله",
     nameKey: "categories.bale",
     route: "qr.bale",
-    image: "/media/socialnetwork/icon/bale.png",
+    image: "/media/socialnetwork/icon/bale.webp",
     colors: ["#4CD6AE", "#3D9196", "#324A7D"],
     fadedcolors: ["#4CD6AE33", "#3D919633", "#324A7D33"],
     status: "deactive",
@@ -181,7 +181,7 @@ keywords: [
     name: "روبیکا",
     nameKey: "categories.robika",
     route: "qr.robika",
-    image: "/media/socialnetwork/icon/robika.png",
+    image: "/media/socialnetwork/icon/robika.webp",
     colors: ["#7c25c7", "#E45153", "#F4AA32"],
     fadedcolors: ["#7c25c733", "#E4515333", "#F4AA3233"],
     keywords: ["روبیکا", "پیام رسان روبیکا", "شبکه اجتماعی", "robika", "روبینو", "پیج روبیکا", "کانال روبیکا", "گروه", "چت", "درآمدزایی"]
@@ -191,7 +191,7 @@ keywords: [
     name: "ایتا",
     nameKey: "categories.eitaa",
     route: "qr.eitaa",
-    image: "/media/socialnetwork/icon/eitaa.png",
+    image: "/media/socialnetwork/icon/eitaa.webp",
     colors: ["#B84C24", "#fa8945", "#F05E28"],
     fadedcolors: ["#B84C2433", "#fa894533", "#F05E2833"],
     keywords: ["ایتا", "پیام رسان ایتا", "شبکه اجتماعی ایرانی", "eitaa", "کانال ایتا", "گروه ایتا", "ita", "چت ایتا", "فروشگاه ایتا"]

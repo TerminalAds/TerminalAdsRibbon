@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: `url('media/bg/bg-10.jpg')`}"
+  <div :style="{backgroundImage: `url('media/bg/bg-10.webp')`}"
        class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg fill-height"
        style="min-height: 180px; background-position: center">
 

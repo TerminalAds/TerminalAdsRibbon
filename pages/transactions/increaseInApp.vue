@@ -296,7 +296,7 @@ export default {
       return this.banksInfo.findPrefix(this.data.PAN?.replace(/ /g, "") ?? "");
     },
     getCardBg() {
-      return `background: url(${require("../../assets/img/line_pattern.png")}) ${
+      return `background: url(${require("../../assets/img/line_pattern.webp")}) ${
         !!this.banksPrefix ? this.banksPrefix.color : "blue"
       };`;
     },

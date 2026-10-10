@@ -1,6 +1,6 @@
 <template>
-  <div class="card-custom card-stretch fill-height">
-    <div class="card card-body d-flex flex-column py-4 mt-0 fill-height">
+  <div class="card-custom card-stretch fill-height no-flip-card">
+    <div class="card card-body d-flex flex-column py-4 mt-0 fill-height no-flip-card">
       <div class="d-flex align-items-center">
         <div
           class="symbol user-avatar symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center"
@@ -120,7 +120,7 @@ export default {
     userImage() {
       return this.core?.user?.length > 0 && this.core?.user[0].image
         ? this.$coreApi3 + "/storage/" + this.core?.user[0].image
-        : require("../../assets/img/user_avatar.jpeg");
+        : require("../../assets/img/user_avatar.webp");
     },
   },
 };
@@ -135,4 +135,11 @@ export default {
 .symbol.user-avatar:hover {
   transform: scale(1.1);
 }
+.no-flip-card:hover,
+.card-custom.no-flip-card:hover, .card.no-flip-card:hover {
+  transform: none !important;
+  -webkit-transform: none !important;
+  box-shadow: 0 0 30px 0 rgba(82, 63, 105, 0.05) !important;
+}
+
 </style>

@@ -90,7 +90,7 @@
           <img
             alt=""
             class="img-fluid float-left"
-            src="../../assets/img/cash-wallet.png"
+            src="../../assets/img/cash-wallet.webp"
             style="width: 120px"
           />
         </div>

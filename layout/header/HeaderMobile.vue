@@ -6,7 +6,7 @@
     elevate-on-scroll
     fixed
     flat
-    src="media/bg/bg-10.jpg"
+    src="media/bg/bg-10.webp"
   >
     <walletButton style="flex-basis: 100%" />
 

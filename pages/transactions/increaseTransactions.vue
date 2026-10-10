@@ -238,9 +238,9 @@ export default {
       max: 500_000_000,
       error: "",
       gateObj: {
-        zarinpal: { img: "media/gateways/zarinpal.png", name: "زرین پال" },
+        zarinpal: { img: "media/gateways/zarinpal.webp", name: "زرین پال" },
         bazar: { img: "media/gateways/directPay.svg", name: "پرداخت آزاد" },
-        sep: { img: "media/gateways/sep.png", name: "سپ" },
+        sep: { img: "media/gateways/sep.webp", name: "سپ" },
 
       },
       showInApp: false,
@@ -391,20 +391,20 @@ export default {
       switch (gatewayDriver) {
         case "zarinpal":
         case "zarinpal2":
-          return "media/gateways/zarinpal.png";
+          return "media/gateways/zarinpal.webp";
         case "bazar":
           return "media/gateways/directPay.svg";
         case "parsian":
-          return "media/gateways/parsian.png";
+          return "media/gateways/parsian.webp";
         case "mellat":
-          return "media/gateways/mellat.png";
+          return "media/gateways/mellat.webp";
         case "sep":
-          return "media/gateways/sep.png";
+          return "media/gateways/sep.webp";
         case "top":
-          return require("../../assets/img/gateways/inAppPayment.png");
+          return require("../../assets/img/gateways/inAppPayment.webp");
         case "behpardakht":
         case "behpardakhtPublic":
-          return require("../../assets/img/gateways/behpardakht.png");
+          return require("../../assets/img/gateways/behpardakht.webp");
       }
       return false;
     },

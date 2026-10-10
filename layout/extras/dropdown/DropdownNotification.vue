@@ -4,7 +4,7 @@
       class="rounded"
       contain
       max-width="350"
-      src="../../../assets/img/communication/bg-1.jpg"
+      src="../../../assets/img/communication/bg-1.webp"
     >
       <template v-slot:default>
         <div class="d-flex flex-column fill-height">

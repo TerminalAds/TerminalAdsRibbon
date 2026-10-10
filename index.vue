@@ -471,7 +471,7 @@ export default {
 }
 
 .v-navigation-drawer {
-  background-image: url("/media/bg/bg-menu.jpg");
+  background-image: url("/media/bg/bg-menu.webp");
   background-size: 256px 100%;
   background-repeat: no-repeat;
 }

@@ -57,7 +57,7 @@ export default {
     userImage() {
       return this.user?.image
         ? this.$coreApi3 + "/storage/" + this.user.image
-        : require("../../../assets/img/user_avatar.jpeg");
+        : require("../../../assets/img/user_avatar.webp");
     },
     userName() {
       return this.user?.name || i18n.t("user");

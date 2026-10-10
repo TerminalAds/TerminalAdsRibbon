@@ -1,7 +1,7 @@
 <template>
   <v-row class="no-gutters">
     <v-col class="pa-4 pb-0 mb-2" cols="12">
-      <find-menu-page class="mb-2"  v-if="showFindMenu"/>
+      <find-menu-page class="mb-2 no-flip-card"  v-if="showFindMenu"/>
       <SmartSearchBanner @show-all="handleShowAllFeatures" v-else />
     </v-col>
     <v-col v-if="dashboardIntro && $vuetify.breakpoint.mdAndDown" class="pa-4" cols="12">
@@ -13,32 +13,32 @@
     </v-col>
 
     <v-col class="px-2 pl-lg-0" cols="12" lg="4" order="3" order-md="0">
-      <v-row class="fill-height" no-gutters>
+      <v-row class="fill-height no-flip-card" no-gutters>
         <v-col class="pa-2" cols="12">
-          <user-transactions/>
+          <user-transactions class="no-flip-card"/>
         </v-col>
 
         <v-col v-if="$vuetify.breakpoint.lgAndUp" class="pa-2" cols="12">
-          <follow-terminal-ads/>
+          <follow-terminal-ads class="no-flip-card"/>
         </v-col>
       </v-row>
     </v-col>
 
     <v-col v-if="$vuetify.breakpoint.mdAndDown" class="py-2 px-4" cols="12" order="1">
-      <follow-terminal-ads/>
+      <follow-terminal-ads class="no-flip-card"/>
     </v-col>
 
     <v-col class="px-2 pr-lg-0" cols="12" lg="8" order="0" order-md="1">
-      <pack-invite/>
+      <pack-invite class="no-flip-card"/>
 
       <!--    visible when greater than 1264px     -->
       <v-row v-if="$vuetify.breakpoint.lgAndUp" no-gutters>
         <v-col cols="12" lg="6">
-          <ticket-info/>
+          <ticket-info class="no-flip-card"/>
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="6">
-          <user-profile/>
+          <user-profile class="no-flip-card"/>
         </v-col>
       </v-row>
     </v-col>
@@ -47,27 +47,27 @@
     <v-col v-if="$vuetify.breakpoint.mdAndDown" class="px-2" cols="12" order="2">
       <v-row no-gutters>
         <v-col cols="12" lg="6" order="1" order-md="0">
-          <ticket-info/>
+          <ticket-info class="no-flip-card"/>
         </v-col>
 
         <v-col class="pa-2" cols="12" lg="6" order="0" order-md="1">
-          <user-profile/>
+          <user-profile class="no-flip-card"/>
         </v-col>
       </v-row>
     </v-col>
 
     <v-col cols="12" order="4">
       
-      <dashboard-banners/>
+      <dashboard-banners class="no-flip-card"/>
     </v-col>
 
     <v-col class="px-4 py-2 pl-sm-2" cols="12" md="6" order="5">
-      <news/>
+      <news class="no-flip-card"/>
     </v-col>
 
     <v-col class="px-2 py-2 pl-sm-2" cols="12" md="6" order="6">
-      <advances v-if="showFindMenu"/>
-      <QrPricingWidget v-else/>
+      <advances v-if="showFindMenu" class="no-flip-card"/>
+      <QrPricingWidget v-else class="no-flip-card"/>
     </v-col>
   </v-row>
 </template>
@@ -148,5 +148,11 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+}
+.no-flip-card:hover,
+.card-custom.no-flip-card:hover {
+  transform: none !important;
+  -webkit-transform: none !important;
+  box-shadow: 0 0 30px 0 rgba(82, 63, 105, 0.05) !important;
 }
 </style>

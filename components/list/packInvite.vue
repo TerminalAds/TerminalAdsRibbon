@@ -41,7 +41,7 @@
           </div>
           <img
             alt="Invite Friends"
-            src="../../assets/img/invite.png"
+            src="../../assets/img/invite.webp"
             style="width: 110px; height: auto; object-fit: contain;"
           />
         </div>
@@ -87,7 +87,7 @@
           <v-img
             class="rounded"
             contain
-            :src="`${$robotCoreApi}/inviteFriends.jpeg`"
+            :src="`${$robotCoreApi}/inviteFriends.webp`"
             width="100%"
           >
             <template v-slot:placeholder>

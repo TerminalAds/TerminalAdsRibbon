@@ -3,7 +3,7 @@
     <div
             class="footer kt-grid__item bgi-position-center-center bgi-size-cover bgi-no-cover"
             id="kt_footer"
-            style="background-image: url('media/bg/bg-2.jpg');"
+            style="background-image: url('media/bg/bg-2.webp');"
     >
         <!--begin::Container-->
         <div class="container py-lg-18 py-8">

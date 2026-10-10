@@ -208,7 +208,7 @@ export default {
 }
 
 .header {
-  background-image: url("/media/bg/bg-10.jpg");
+  background-image: url("/media/bg/bg-10.webp");
   background-position: top;
   background-size: cover;
   width: 100%;

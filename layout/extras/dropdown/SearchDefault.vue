@@ -81,25 +81,25 @@ export default {
           type: 0
         },
         {
-          img: process.env.BASE_URL + "media/users/300_12.jpg",
+          img: process.env.BASE_URL + "media/users/300_12.webp",
           text: "Jimmy Curry",
           desc: "Software Developer",
           type: 1
         },
         {
-          img: process.env.BASE_URL + "media/users/300_13.jpg",
+          img: process.env.BASE_URL + "media/users/300_13.webp",
           text: "Milena Gibson",
           desc: "UI Designer",
           type: 1
         },
         {
-          img: process.env.BASE_URL + "media/users/300_14.jpg",
+          img: process.env.BASE_URL + "media/users/300_14.webp",
           text: "Stefan JohnStefan",
           desc: "Marketing Manager",
           type: 1
         },
         {
-          img: process.env.BASE_URL + "media/users/300_15.jpg",
+          img: process.env.BASE_URL + "media/users/300_15.webp",
           text: "Anna Strong",
           desc: "Software Developer",
           type: 1

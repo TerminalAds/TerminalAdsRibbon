@@ -18,7 +18,7 @@
       <!-- عکس (پشتیبان / موشک) -->
       <div class="rocket-box">
         <img
-          src="../../assets/img/social-media-marketing-landing.png"
+          src="../../assets/img/social-media-marketing-landing.webp"
           alt="Social Media"
           class="rocket-img"
         />
@@ -199,5 +199,11 @@ export default {
   transform: none !important;
   perspective: none !important;
   transition: none !important; 
+}
+.no-flip-card:hover,
+.card-custom.no-flip-card:hover {
+  transform: none !important;
+  -webkit-transform: none !important;
+  box-shadow: 0 0 30px 0 rgba(82, 63, 105, 0.05) !important;
 }
 </style>

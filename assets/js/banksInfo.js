@@ -3,56 +3,56 @@ const banks = [
     "text": "اقتصاد نوین",
     "value": "eghtesad novin",
     "prefix": ["627412"],
-    "icon": require('../../assets/img/banks/eghtesad-novin.png'),
+    "icon": require('../../assets/img/banks/eghtesad-novin.webp'),
     "color": "blue"
   },
   {
     "text": "انصار",
     "value": "ansar",
     "prefix": ["627381"],
-    "icon": require('../../assets/img/banks/ansar.png'),
+    "icon": require('../../assets/img/banks/ansar.webp'),
     "color": "blue"
   },
   {
     "text": "ایران زمین",
     "value": "iran-zamin",
     "prefix": ["505785"],
-    "icon": require('../../assets/img/banks/iran-zamin.png'),
+    "icon": require('../../assets/img/banks/iran-zamin.webp'),
     "color": "blue"
   },
   {
     "text": "پارسیان",
     "value": "parsian",
     "prefix": ["622106", "639194", "627884"],
-    "icon": require('../../assets/img/banks/parsian.png'),
+    "icon": require('../../assets/img/banks/parsian.webp'),
     "color": "blue"
   },
   {
     "text": "پاسارگاد",
     "value": "pasargad",
     "prefix": ["639347", "502229"],
-    "icon": require('../../assets/img/banks/pasargad.png'),
+    "icon": require('../../assets/img/banks/pasargad.webp'),
     "color": "#2d2a2d"
   },
   {
     "text": "تات",
     "value": "tat",
     "prefix": ["636214"],
-    "icon": require('../../assets/img/banks/tat.png'),
+    "icon": require('../../assets/img/banks/tat.webp'),
     "color": "blue"
   },
   {
     "text": "تجارت",
     "value": "tejarat",
     "prefix": ["627353"],
-    "icon": require('../../assets/img/banks/tejarat.png'),
+    "icon": require('../../assets/img/banks/tejarat.webp'),
     "color": "blue"
   },
   {
     "text": "توسعه تعاون",
     "value": "tosee-taavon",
     "prefix": ["502908"],
-    "icon": require('../../assets/img/banks/taavon.png'),
+    "icon": require('../../assets/img/banks/taavon.webp'),
     "color": "blue"
   },
   {
@@ -66,140 +66,140 @@ const banks = [
     "text": "حکمت ایرانیان",
     "value": "hekmat-iraniyan",
     "prefix": ["636949"],
-    "icon": require('../../assets/img/banks/hekmat.png'),
+    "icon": require('../../assets/img/banks/hekmat.webp'),
     "color": "blue"
   },
   {
     "text": "دی",
     "value": "dey",
     "prefix": ["502938"],
-    "icon": require('../../assets/img/banks/dey.png'),
+    "icon": require('../../assets/img/banks/dey.webp'),
     "color": "blue"
   },
   {
     "text": "رفاه کارگران",
     "value": "refah-kargar",
     "prefix": ["589463"],
-    "icon": require('../../assets/img/banks/refah.png'),
+    "icon": require('../../assets/img/banks/refah.webp'),
     "color": "blue"
   },
   {
     "text": "سامان",
     "value": "saman",
     "prefix": ["621986"],
-    "icon": require('../../assets/img/banks/saman.png'),
+    "icon": require('../../assets/img/banks/saman.webp'),
     "color": "#025afb"
   },
   {
     "text": "سپه",
     "value": "sepah",
     "prefix": ["589210"],
-    "icon": require('../../assets/img/banks/sepah.png'),
+    "icon": require('../../assets/img/banks/sepah.webp'),
     "color": "blue"
   },
   {
     "text": "سرمایه",
     "value": "sarmayeh",
     "prefix": ["639607"],
-    "icon": require('../../assets/img/banks/sarmayeh.png'),
+    "icon": require('../../assets/img/banks/sarmayeh.webp'),
     "color": "blue"
   },
   {
     "text": "سینا",
     "value": "sina",
     "prefix": ["639346"],
-    "icon": require('../../assets/img/banks/sina.png'),
+    "icon": require('../../assets/img/banks/sina.webp'),
     "color": "blue"
   },
   {
     "text": "شهر",
     "value": "shahr",
     "prefix": ["502806"],
-    "icon": require('../../assets/img/banks/shahr.png'),
+    "icon": require('../../assets/img/banks/shahr.webp'),
     "color": "blue"
   },
   {
     "text": "صادرات ایران",
     "value": "saderat-iran",
     "prefix": ["603769"],
-    "icon": require('../../assets/img/banks/saderat.png'),
+    "icon": require('../../assets/img/banks/saderat.webp'),
     "color": "blue"
   },
   {
     "text": "صنعت و معدن",
     "value": "sanat-madan",
     "prefix": ["627961"],
-    "icon": require('../../assets/img/banks/sanat-madan.png'),
+    "icon": require('../../assets/img/banks/sanat-madan.webp'),
     "color": "blue"
   },
   {
     "text": "قرض الحسنه مهر ایران",
     "value": "ghorze-alhasane-mehr-iran",
     "prefix": ["606373"],
-    "icon": require('../../assets/img/banks/mehre-iran.png'),
+    "icon": require('../../assets/img/banks/mehre-iran.webp'),
     "color": "blue"
   },
   {
     "text": "قوامین",
     "value": "ghavamin",
     "prefix": ["639599"],
-    "icon": require('../../assets/img/banks/ghavamin.png'),
+    "icon": require('../../assets/img/banks/ghavamin.webp'),
     "color": "blue"
   },
   {
     "text": "کارآفرین",
     "value": "karaafarin",
     "prefix": ["627488", "502910"],
-    "icon": require('../../assets/img/banks/karafarin.png'),
+    "icon": require('../../assets/img/banks/karafarin.webp'),
     "color": "blue"
   },
   {
     "text": "کشاورزی",
     "value": "keshavarzi",
     "prefix": ["603770", "639217"],
-    "icon": require('../../assets/img/banks/keshavarzi.png'),
+    "icon": require('../../assets/img/banks/keshavarzi.webp'),
     "color": "blue"
   },
   {
     "text": "گردشگری",
     "value": "gardeshgari",
     "prefix": ["505416"],
-    "icon": require('../../assets/img/banks/gardeshgari.png'),
+    "icon": require('../../assets/img/banks/gardeshgari.webp'),
     "color": "blue"
   },
   {
     "text": "مرکزی",
     "value": "markazi",
     "prefix": ["636795"],
-    "icon": require('../../assets/img/banks/markazi.png'),
+    "icon": require('../../assets/img/banks/markazi.webp'),
     "color": "blue"
   },
   {
     "text": "مسکن",
     "value": "maskan",
     "prefix": ["628023"],
-    "icon": require('../../assets/img/banks/maskan.png'),
+    "icon": require('../../assets/img/banks/maskan.webp'),
     "color": "blue"
   },
   {
     "text": "ملت",
     "value": "melat",
     "prefix": ["610433", "991975"],
-    "icon": require('../../assets/img/banks/mellat.png'),
+    "icon": require('../../assets/img/banks/mellat.webp'),
     "color": "#e63630"
   },
   {
     "text": "ملی",
     "value": "melli-iran",
     "prefix": ["603799"],
-    "icon": require('../../assets/img/banks/melli.png'),
+    "icon": require('../../assets/img/banks/melli.webp'),
     "color": "#d9b072"
   },
   {
     "text": "مهر اقتصاد",
     "value": "mehr-eghtesad",
     "prefix": ["639370"],
-    "icon": require('../../assets/img/banks/mehre-eghtesad.png'),
+    "icon": require('../../assets/img/banks/mehre-eghtesad.webp'),
     "color": "blue"
   },
   {
@@ -220,7 +220,7 @@ const banks = [
     "text": "موسسه اعتباری کوثر",
     "value": "etebari-kosar",
     "prefix": ["505801"],
-    "icon": require('../../assets/img/banks/kosar.png'),
+    "icon": require('../../assets/img/banks/kosar.webp'),
     "color": "blue"
   }
 ]
