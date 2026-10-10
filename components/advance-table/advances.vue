@@ -16,16 +16,16 @@ export default {
   data: () => ({
     list: [
       {
-        src: "https://cdn.terminalads.com/mobile-marketing-concept-illustration_114360-1497.jpg",
+        src: "https://cdn.terminalads.com/mobile-marketing-concept-illustration_114360-1497.webp",
       },
       {
-        src: "https://cdn.terminalads.com/tiny-people-marketing-manager-with-megaphone-push-advertising-push-advertising-traditional-marketing-strategy-interruption-marketing-concept-illustration_335657-2571.jpg",
+        src: "https://cdn.terminalads.com/tiny-people-marketing-manager-with-megaphone-push-advertising-push-advertising-traditional-marketing-strategy-interruption-marketing-concept-illustration_335657-2571.webp",
       },
       {
-        src: "https://cdn.terminalads.com/remarketing-manager-specialist-put-targeted-ads-remarketing-strategy-digital-marketing-tool-visitors-generation-methodology-concept-pinkish-coral-bluevector-isolated-illustration_335657-2284.jpg",
+        src: "https://cdn.terminalads.com/remarketing-manager-specialist-put-targeted-ads-remarketing-strategy-digital-marketing-tool-visitors-generation-methodology-concept-pinkish-coral-bluevector-isolated-illustration_335657-2284.webp",
       },
       {
-        src: "https://cdn.terminalads.com/social-strategy-concept-illustration_114360-724_2.jpg",
+        src: "https://cdn.terminalads.com/social-strategy-concept-illustration_114360-724_2.webp",
       },
     ],
   }),
