@@ -1,6 +1,6 @@
 <template>
   <div :style="{backgroundImage: `url('media/bg/bg-10.webp')`}"
-       class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg fill-height"
+       class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg fill-height no-flip-card"
        style="min-height: 180px; background-position: center">
 
     <div class="card-body d-flex flex-column">
@@ -76,5 +76,11 @@ export default {
 </script>
 
 <style scoped>
+.no-flip-card:hover,
+.card-custom.no-flip-card:hover {
+  transform: none !important;
+  -webkit-transform: none !important;
+  box-shadow: 0 0 30px 0 rgba(82, 63, 105, 0.05) !important;
+}
 
 </style>

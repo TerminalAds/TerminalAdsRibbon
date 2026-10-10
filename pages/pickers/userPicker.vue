@@ -1,86 +1,259 @@
 <template>
-  <div :style="{backgroundImage: `url('media/bg/bg-10.webp')`}"
-       class="bgi-no-repeat bgi-no-repeat bgi-size-cover rounded-lg fill-height no-flip-card"
-       style="min-height: 180px; background-position: center">
+  <div>
+    <v-slide-x-transition mode="out-in">
+      <v-tooltip v-if="isButton && (!value || !value.length)" key="button" bottom>
+        <template v-slot:activator="{on , attr}">
+          <div class="w-fit" v-bind="attr" @click="dialog = true" v-on="on">
+            <slot name="button">
+              <v-btn fab small v-bind="$attrs">
+                <v-icon>mdi-crosshairs</v-icon>
+              </v-btn>
+            </slot>
+          </div>
+        </template>
 
-    <div class="card-body d-flex flex-column">
-      <span class="text-white font-weight-bolder font-size-h6">{{ i18n.t('package.title') }}</span>
+        <span>{{ i18n.t('USER_PICKER.SELECT_USER') }}</span>
+      </v-tooltip>
 
-      <span v-if="pack && pack.title && pack.expire" class="text-white font-weight-bolder mt-3"
-            style="font-size: 8pt" v-text="packTitle"/>
-      <span v-else class="text-white font-weight-bolder mt-3"
-            style="font-size: 8pt">{{ i18n.t('package.no') }}</span>
-
-      <div class="mt-12">
-        <b-progress v-b-tooltip.hover="progressTitle" :animated="true" :max="pack.expire" :striped="true"
-                    :value="expire === '∞' ? this.pack.expire : expire" :variant="packVariant" height="18px"
-                    show-value/>
+      <div v-else @click="dialog = true">
+        <slot name="input">
+          <v-text-field key="field" ref="input" :error-messages="errors" :value="displayValue"
+                        append-icon="mdi-crosshairs" class="cursor-pointer rounded-lg"
+                        clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.SELECT_USERS')"
+                        outlined readonly @click:clear="clearFilter"/>
+        </slot>
       </div>
-    </div>
+    </v-slide-x-transition>
+
+    <custom-popup v-model="dialog" :cons="cons" max-width="800px">
+      <v-card :loading="loading" class="transparent pa-4" flat>
+        <vue-table v-model="tempSelection" :data="userInfo" :headers="headers" :loading.sync="loading"
+                   item-key="id" show-select @change="onPagination">
+         <template v-slot:filters="{perPage, props}">
+            <v-row no-gutters>
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-select v-model="props.length" :items="perPage" dense hide-details outlined/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.search" append-icon="mdi-magnify" 
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.SEARCH')"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.name" append-icon="mdi-magnify"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.NAME')"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.lastName" append-icon="mdi-magnify"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.LASTNAME')"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
+              </v-col>
+
+              <v-col class="pa-2" cols="12" md="4" sm="6">
+                <v-text-field v-model="localFilters.id" append-icon="mdi-magnify" type="number"
+                              clear-icon="mdi-close-circle-outline" clearable dense hide-details :label="i18n.t('USER_PICKER.ID')"
+                              outlined
+                              @click:append="applySearch(props)"
+                              @keyup.enter="applySearch(props)"
+                              @click:clear="applySearch(props)"/>
+              </v-col>
+            </v-row>
+          </template>
+
+          <template v-slot:type="{item}">
+            <span>{{ item.type === 'regular' ? i18n.t('USER_PICKER.PERSON') : i18n.t('USER_PICKER.COMPANY') }}</span>
+          </template>
+        </vue-table>
+      </v-card>
+    </custom-popup>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import CustomPopup from "../../plugins/popup/customPopup.vue";
+import VueTable from "../../plugins/vueTable/index.vue";
 import i18n from "../../plugins/EasyModal/i18n";
-
 export default {
-  name: "userPack",
-  data(){
-    return{i18n}
+  name: "userPicker",
+
+  components: {CustomPopup, VueTable},
+
+  props: {
+    value: Array,
+    errors: [Array, String],
+    returnKey: {
+      type: [String, Boolean],
+      default: 'id'
+    },
+    isButton: Boolean
   },
+
+  data() {
+    return {
+       localFilters: {
+        search: null,
+        name: null,
+        lastName: null,
+        id: null
+      },
+      dialog: false,
+      cons: {
+        title: i18n.t('USER_PICKER.SELECT_USERS'),
+        buttons: [
+          {type: 'submit', handler: this.confirm}
+        ]
+      },
+      tableProps: {
+        page: 1,
+        length: 10,
+        search:"",
+        id: "",
+        name: "",
+        lastName: "",
+
+      },
+      loading: false,
+      userInfo: {},
+      headers: [
+        {value: 'id', text: i18n.t('USER_PICKER.ID'), sortable: false, align: 'center'},
+        {value: 'name', text: i18n.t('USER_PICKER.NAME'), sortable: false, align: 'center'},
+        {value: 'lastName', text: i18n.t('USER_PICKER.LASTNAME'), sortable: false, align: 'center'},
+        {value: 'username', text: i18n.t('USER_PICKER.USERNAME'), sortable: false, align: 'center'},
+        {value: 'phone', text: i18n.t('USER_PICKER.PHONE'), sortable: false, align: 'center'},
+        {value: 'type', text: i18n.t('USER_PICKER.TYPE'), sortable: false, align: 'center'},
+      ],
+      tempSelection: [],
+      i18n
+    }
+  },
+
+  created() {
+    this.getUserInfo()
+  },
+
   computed: {
-    ...mapGetters("ribbon", ["core"]),
-    pack() {
-      return this.core?.pack?.length > 0 && this.core?.pack[0]
-    },
-    diff() {
-      let expireDate = this.pack.expired_at;
-
-      let moment = require('moment-jalaali');
-      let now = moment().format('YYYY-MM-DD HH:mm:ss')
-      let diff = moment(expireDate).diff(now, 'days')
-      return diff >= 0 ? diff : 0
-    },
-    expire() {
-      let expire_date = this.pack.expired_at
-
-      if (!expire_date) {
-        return "∞"
-      }
-      return this.diff
-    },
-    packTitle() {
-      return this.pack?.title && this.pack.title?.length > 0
-          ? this.pack.title + ' ' + this.pack.expire + i18n.t('package.day')
-          : ''
-    },
-    progressTitle() {
-      if (this.expire === '∞') {
-        return i18n.t('package.no_limit')
-      } else {
-        let moment = require('moment-jalaali');
-        let ex = moment().to(this.pack.expired_at)
-        return ex.indexOf('پیش') >= 0 ? i18n.t('package.expired') + ex : i18n.t('package.expiration') + ex + i18n.t('package.other')
+    computedValue: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
       }
     },
-    packVariant() {
-      if (this.expire === '∞')
-        return 'primary'
-      else {
-        return (this.pack.expire * 20 / 100) < this.diff ? 'primary' : 'danger'
+    displayValue() {
+      return this.value?.map(item => typeof item === 'object' && Object.hasOwn(item, 'id')
+        ? item.id
+        : item)
+        .join(', ')
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      if (!!val) {
+        this.getUserInfo()
       }
     }
+  },
+
+  methods: {
+    applySearch(props) {
+      this.tableProps.search = this.localFilters.search;
+      this.tableProps.name = this.localFilters.name;
+      this.tableProps.lastName = this.localFilters.lastName;
+      this.tableProps.id = this.localFilters.id;
+      
+      this.$nextTick(() => {
+        this.reloadTable(this.tableProps);
+      });
+    },
+
+    clearFilter() {
+      this.localFilters = { search: null, name: null, lastName: null, id: null };
+      
+      this.tableProps.search = null;
+      this.tableProps.name = null;
+      this.tableProps.lastName = null;
+      this.tableProps.id = null;
+
+      this.$nextTick(() => {
+        this.$emit('input', [])
+        this.reloadTable(this.tableProps)
+        setTimeout(() => {
+          this.$emit('confirm')
+        }, 100)
+      })
+    },
+    getUserInfo(params = this.tableProps) {
+      this.loading = true
+
+      this.$DashboardAxios('/api/admin/users', {
+        params
+      })
+        .then(({data}) => {
+          window.scrollTo({behavior: "smooth", top: 0, left: 0})
+
+          this.userInfo = data;
+
+          this.tempSelection = this.value?.map(item => typeof item === 'object' && Object.hasOwn(item, 'id')
+            ? item
+            : ({id: item}))
+        })
+        .finally(() => this.loading = false)
+    },
+    confirm() {
+      this.computedValue = !!this.returnKey
+        ? this.tempSelection?.map(item => item.id)
+        : this.tempSelection
+
+      this.$nextTick(() => {
+        this.$emit('confirm')
+      })
+      this.dialog = false
+    },
+    clearFilter() {
+      this.$nextTick(() => {
+        this.$emit('input', [])
+        this.reloadTable()
+        setTimeout(() => {
+          this.$emit('confirm')
+        }, 100)
+      })
+    },
+    onPagination(e) {
+      this.tableProps = e
+      this.$nextTick(() => {
+        this.getUserInfo()
+      })
+    },
+    reloadTable(params) {
+      this.getUserInfo(params)
+    },
+    edit(data) {
+      this.$router.push({name: 'admin.user.edit', params: {id: data.id}})
+    },
+    information(data) {
+      this.$router.push({name: 'admin.users.information', params: {id: data.id}})
+    },
   }
 }
 </script>
 
 <style scoped>
-.no-flip-card:hover,
-.card-custom.no-flip-card:hover {
-  transform: none !important;
-  -webkit-transform: none !important;
-  box-shadow: 0 0 30px 0 rgba(82, 63, 105, 0.05) !important;
+.w-fit {
+  width: fit-content;
 }
-
 </style>
