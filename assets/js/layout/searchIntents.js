@@ -499,7 +499,7 @@ keywords: [
           nameKey: "categories.bankcard",
           value: "bankcard",
           route: "qr.bankcards",
-          name: "کیف کارت بانکی",
+          name: "کیوکارت",
           icon: "mdi-credit-card-outline", 
           colors: ["#1A237E", "#303F9F", "#E8EAF6"],
           fadedcolors: ["#00020D33", "#242D6C33", "#B1BDFE33"],
