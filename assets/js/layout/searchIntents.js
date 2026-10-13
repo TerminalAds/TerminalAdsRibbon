@@ -493,7 +493,18 @@ keywords: [
     colors: ["#8A151B", "#E3242B", "#99592A"],
     fadedcolors: ["#8A151B33", "#E3242B33", "#99592A33"],
     keywords: ["هدیه", "گیفت", "کادو", "جایزه", "تبریک", "کارت هدیه", "عیدی", "gift", "تولد", "سالگرد", "سوپرایز", "سورپرایز", "یادگاری", "ولنتاین", "مراسم", "کارت پستال"]
-  }
+  },
+    {
+          categories: ["personal", "media"],
+          nameKey: "categories.bankcard",
+          value: "bankcard",
+          route: "qr.bankcards",
+          name: "کیف کارت بانکی",
+          icon: "mdi-credit-card-outline", 
+          colors: ["#1A237E", "#303F9F", "#E8EAF6"],
+          fadedcolors: ["#00020D33", "#242D6C33", "#B1BDFE33"],
+         keywords: ["پرداخت", "pay", "نقد", "بانک شهر", "صادرات", "ملت", "ملی", "bank", "card", "واریز", "کارت به کارت", "شماره کارت", "شماره حساب", "واریز", "پول", "کارت بانکی"]
+        },
 ];
 
 export const stopWords = [
