@@ -125,7 +125,7 @@
     <!-- کارت قیمت و ویژگی‌ها -->
     <div v-else>
       <v-row dense align="center" class="mb-2">
-        <v-col cols="6">
+        <v-col cols="5">
           <v-chip
             :color="activeCardStyle.bg"
             :text-color="activeCardStyle.color"
@@ -137,20 +137,46 @@
           </v-chip>
         </v-col>
 
-        <v-col cols="6" class="text-left">
-          <div v-if="activePriceItem.discount" class="text-decoration-line-through grey--text text-caption" style="line-height: 1.5;">
+        <v-col cols="7" class="text-left">
+          <div v-if="activePriceItem.discount" class="text-decoration-line-through grey--text text-caption" style="line-height: 1.4;">
             {{ persian(formatPrice(activePriceItem.price).num) }} {{ formatPrice(activePriceItem.price).text }}
           </div>
           <div class="d-flex align-baseline justify-end" style="gap: 4px;">
             <span class="font-weight-black price-value" :style="{ color: activeCardStyle.color }">
-              {{ persian(formatPrice(activePriceItem.discount ? computedDiscount(activePriceItem) : activePriceItem.price).num) }}
+              {{ persian(formatPrice(basePrice).num) }}
             </span>
             <span class="price-value" :style="{ color: activeCardStyle.color }">
-              {{ formatPrice(activePriceItem.discount ? computedDiscount(activePriceItem) : activePriceItem.price).text }}
+              {{ formatPrice(basePrice).text }}
             </span>
           </div>
         </v-col>
       </v-row>
+
+      <!-- اطلاعیه مالیات بر ارزش افزوده و مبلغ نهایی -->
+      <v-alert
+        v-if="basePrice > 0"
+        dense
+        text
+        color="info"
+        class="rounded-lg py-2 px-3 mb-3 vat-notice-box"
+      >
+        <div class="d-flex align-center justify-space-between text-caption mb-1">
+          <span class="d-flex align-center grey--text text--darken-2">
+            <v-icon x-small color="info" class="ml-1">mdi-information-outline</v-icon>
+            مالیات بر ارزش افزوده (۱۰٪):
+          </span>
+          <span class="font-weight-medium">
+            {{ persian(formatPrice(taxAmount).num) }} {{ formatPrice(taxAmount).text }}
+          </span>
+        </div>
+        <v-divider class="my-1 border-dotted" />
+        <div class="d-flex align-center justify-space-between text-caption font-weight-bold">
+          <span class="primary--text">مبلغ نهایی قابل کسر از حساب:</span>
+          <span class="primary--text font-weight-black" style="font-size: 0.95rem;">
+            {{ persian(formatPrice(totalPayable).num) }} {{ formatPrice(totalPayable).text }}
+          </span>
+        </div>
+      </v-alert>
 
       <!-- لیست ویژگی‌ها -->
       <div class="features-box pa-3">
@@ -204,6 +230,18 @@ export default {
     activePriceItem() {
       return this.prices[this.selectedPriceIndex] || {};
     },
+    basePrice() {
+      if (!this.activePriceItem || !this.activePriceItem.price) return 0;
+      return this.activePriceItem.discount
+        ? this.computedDiscount(this.activePriceItem)
+        : this.activePriceItem.price;
+    },
+    taxAmount() {
+      return Math.round(this.basePrice * 0.1);
+    },
+    totalPayable() {
+      return this.basePrice + this.taxAmount;
+    },
     activeCardStyle() {
       if (!this.prices.length) {
         return { tag: "عادی", color: "#7367f0", bg: "#f3f2ff", icon: "mdi-tag" };
@@ -250,7 +288,7 @@ export default {
       if (!item || !item.discount) return item.price;
       return Math.round(item.price - (item.price * item.discount) / 100);
     },
-  formatPrice(amount) {
+    formatPrice(amount) {
       if (!amount) return { num: "رایگان", text: "" };
 
       const toman = Math.round(amount / 10);
@@ -282,7 +320,6 @@ export default {
         text: "تومان"
       };
     },
-
     getCardStyle(item) {
       const index = this.prices.findIndex(p => p.id === item.id);
       const totalLength = this.prices.length;
@@ -357,8 +394,7 @@ export default {
   background-color: #ffffff;
   border: 1px solid rgba(226, 232, 240, 0.8) !important;
   box-shadow: 0 4px 20px rgba(34, 41, 47, 0.05) !important;
-    border-radius: 8px !important;
-
+  border-radius: 8px !important;
 }
 
 .avatar-badge {
@@ -430,10 +466,14 @@ export default {
   font-family: inherit;
 }
 
-.price-currency {
-  font-size: 0.82rem;
-  color: #64748b;
-  font-weight: 500;
+.vat-notice-box {
+  background-color: #f8fafc !important;
+  border: 1px dashed #cbd5e1 !important;
+}
+
+.border-dotted {
+  border-style: dashed !important;
+  border-color: #e2e8f0 !important;
 }
 
 .features-box {
