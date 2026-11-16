@@ -210,33 +210,33 @@
             <v-divider v-if="!loading || !loadPhones" class="mt-0 mb-1" />
             <v-progress-linear v-else indeterminate />
 
-           <template>
+            <template>
               <contacts-table
-                v-if="data && data.data && data.data.length > 0"  
-              v-model="selectedRows"
-              :data="data"
-              :loading.sync="loadPhones"
-              :phone-tag="tagList[selectedTag]"
-              :table-props.sync="tableProps"
-              @reload="reloadTable"
-            />
-            <!--                            @select="selectRow"/>-->
-
-            <template v-else>
-              <v-img
-                class="mt-3 mx-auto"
-                contain
-                max-height="150"
-                max-width="150"
-                src="media/empty/add-number-2.webp"
+                v-if="data && data.data && data.data.length > 0"
+                v-model="selectedRows"
+                :data="data"
+                :loading.sync="loadPhones"
+                :phone-tag="tagList[selectedTag]"
+                :table-props.sync="tableProps"
+                @reload="reloadTable"
               />
+              <!--                            @select="selectRow"/>-->
 
-              <p class="mt-2 text-center">
-                <span class="font-weight-bold">{{
-                  i18n.t("LISTS.AddANumber")
-                }}</span>
-              </p>
-            </template>
+              <template v-else>
+                <v-img
+                  class="mt-3 mx-auto"
+                  contain
+                  max-height="150"
+                  max-width="150"
+                  src="media/empty/add-number-2.webp"
+                />
+
+                <p class="mt-2 text-center">
+                  <span class="font-weight-bold">{{
+                    i18n.t("LISTS.AddANumber")
+                  }}</span>
+                </p>
+              </template>
             </template>
           </v-tab-item>
 
@@ -283,7 +283,6 @@
             <v-tab-item>
               <list-discount v-if="tabs === 5" />
             </v-tab-item>
-
           </template>
         </template>
       </custom-tabs>
@@ -317,7 +316,7 @@ export default {
     ContactsMenu,
     CustomTabs,
     listAwardGame,
-    listDiscount
+    listDiscount,
   },
 
   data() {
@@ -390,7 +389,7 @@ export default {
           icon: "file-excel",
         },
         { text: "لیست جوایز", icon: "gift" },
-        {text:"لیست کد تخفیف",icon:"ticket-percent"}
+        { text: "لیست کد تخفیف", icon: "ticket-percent" },
       ];
 
       return this.hasPhonebookPermission("add") ? [...arr, ...s_arr] : arr;

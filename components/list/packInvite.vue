@@ -1,6 +1,13 @@
 <template>
   <v-row no-gutters>
-    <v-col class="pa-2" cols="12" order="1" order-md="0" sm="6">
+    <v-col
+      v-if="!inviteOnly"
+      class="pa-2"
+      cols="12"
+      order="1"
+      order-md="0"
+      sm="6"
+    >
       <div
         v-if="dashboardIntro && $vuetify.breakpoint.lgAndUp"
         class="h_iframe-aparat_embed_frame"
@@ -17,21 +24,33 @@
       <user-pack v-else />
     </v-col>
 
-    <v-col class="pa-2" cols="12" order="0" order-md="1" sm="6">
-            <v-card
+    <v-col
+      class="pa-2"
+      cols="12"
+      order="0"
+      order-md="1"
+      :sm="inviteOnly ? 12 : 6"
+    >
+      <v-card
         class="overflow-hidden pa-4 h-100 w-100"
-        color="#f4f6fa" 
+        color="#f4f6fa"
         flat
-        style="border-radius: 9px; box-shadow: 0 4px 15px rgba(0,0,0,0.03) !important;"
+        style="
+          border-radius: 9px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+        "
       >
         <div class="d-flex justify-space-between align-center mb-4">
           <div class="text-right flex-grow-1 pr-2">
-            <h4 class="font-weight-bold" style="font-size: 13px; line-height: 1.8; color: #1e1e1e;">
+            <h4
+              class="font-weight-bold"
+              style="font-size: 13px; line-height: 1.8; color: #1e1e1e"
+            >
               {{ i18n.t("invite.title") }}
               <br />
               <span
                 class="cursor-pointer"
-                style="color: #8c52ff;"
+                style="color: #8c52ff"
                 @click.stop="giftDialog = true"
               >
                 {{ i18n.t("invite.gift") }}
@@ -42,26 +61,30 @@
           <img
             alt="Invite Friends"
             src="../../assets/img/invite.webp"
-            style="width: 110px; height: auto; object-fit: contain;"
+            style="width: 110px; height: auto; object-fit: contain"
           />
         </div>
 
         <div class="d-flex align-stretch w-100">
-          <input
+          <v-text-field
+            outlined
+            dense
+            clearable
+            hide-details
             id="invite.input"
             v-model="phoneNumber"
             v-intersect="onIntersect"
             :disabled="loading"
             :maxlength="11"
-            class="modern-input-compact flex-grow-1"
+            class="flex-grow-1"
             :placeholder="i18n.t('invite.phone')"
             @keydown.enter="invite"
           />
-          
+
           <v-btn
             :loading="loading"
             class="modern-btn-compact white--text font-weight-bold mr-2"
-            color="#8c52ff" 
+            color="#8c52ff"
             depressed
             height="46"
             @click="invite"
@@ -70,8 +93,6 @@
           </v-btn>
         </div>
       </v-card>
-
-
     </v-col>
 
     <custom-popup
@@ -134,6 +155,8 @@ import i18n from "../../plugins/EasyModal/i18n";
 export default {
   name: "packInvite",
 
+  props: { inviteOnly: { type: Boolean, default: false } },
+
   components: { UserPack, CustomPopup },
 
   data: () => ({
@@ -155,7 +178,7 @@ export default {
   methods: {
     invite() {
       if (
-        this.phoneNumber === "" ||
+        !this.phoneNumber ||
         this.phoneNumber.length <= 10 ||
         !this.phoneNumber.startsWith("09")
       ) {
@@ -234,7 +257,7 @@ input.form-control[type="number"] {
   font-size: 14px;
   text-align: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* سایه بسیار محو و نرم */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* سایه بسیار محو و نرم */
   outline: none;
 }
 
@@ -247,7 +270,7 @@ input.form-control[type="number"] {
   border-radius: 12px !important;
   font-size: 15px !important;
   letter-spacing: 0;
-  box-shadow: 0 4px 12px rgba(138, 83, 253, 0.25) !important; 
+  box-shadow: 0 4px 12px rgba(138, 83, 253, 0.25) !important;
 }
 
 input.modern-input::-webkit-outer-spin-button,
@@ -267,7 +290,7 @@ input.modern-input[type="number"] {
   font-size: 14px; /* فونت استاندارد ویجت */
   text-align: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
   outline: none;
   color: #333;
 }
@@ -304,7 +327,7 @@ input.modern-input[type="number"] {
   font-size: 13px;
   text-align: right;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
   outline: none;
   color: #333;
   min-width: 0; /* برای جلوگیری از بیرون زدن در موبایل */
@@ -335,5 +358,4 @@ input.modern-input-compact::-webkit-inner-spin-button {
 input.modern-input-compact[type="number"] {
   -moz-appearance: textfield;
 }
-
 </style>
