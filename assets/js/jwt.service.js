@@ -7,8 +7,6 @@ export const getToken = () => {
   return window.localStorage.getItem(ID_TOKEN_KEY);
 };
 
-
-
 export const saveToken = (token) => {
   window.localStorage.setItem(ID_TOKEN_KEY, token);
 };
@@ -21,6 +19,7 @@ export const destroyToken = (origin, hash) => {
   window.localStorage.removeItem(ID_TOKEN_KEY);
   localStorage.removeItem("reloaded");
   window.localStorage.removeItem("userInfo");
+  window.localStorage.removeItem("user_info");
 
   if (url.searchParams.has("lang")) {
     setLanguageCookie(url.searchParams.get("lang"));
@@ -39,9 +38,9 @@ export const destroyToken = (origin, hash) => {
         `${loginUrl}?call_back_origin=${origin}&call_back_hash=${hash}`,
       )
     : window.location.origin === "https://core.terminalads.com" ||
-      window.location.origin === "https://core.terminalads.ir"
-    ? window.location.reload()
-    : window.location.replace(loginUrl);
+        window.location.origin === "https://core.terminalads.ir"
+      ? window.location.reload()
+      : window.location.replace(loginUrl);
 };
 
 export default { getToken, saveToken, destroyToken };
